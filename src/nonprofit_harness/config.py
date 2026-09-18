@@ -54,6 +54,12 @@ class HarnessConfig:
 
     redact_inputs: bool = False
 
+    #: Citation checking costs nothing, so it is on. Cross-checking spends model
+    #: calls, so it is off until a deployment asks for it.
+    verify_claims: bool = True
+    verify_passes: int = 0
+    verify_models: list[str] = field(default_factory=list)
+
     google_client_id: str | None = None
     jwt_secret: str | None = None
     jwt_ttl_seconds: int = 60 * 60 * 12
@@ -75,6 +81,9 @@ class HarnessConfig:
             max_tokens=_env_int("HARNESS_MAX_TOKENS", 200_000),
             max_calls=_env_int("HARNESS_MAX_CALLS", 50),
             redact_inputs=_env_bool("HARNESS_REDACT_INPUTS", False),
+            verify_claims=_env_bool("HARNESS_VERIFY_CLAIMS", True),
+            verify_passes=_env_int("HARNESS_VERIFY_PASSES", 0) or 0,
+            verify_models=_env_list("HARNESS_VERIFY_MODELS"),
             google_client_id=os.getenv("HARNESS_GOOGLE_CLIENT_ID"),
             jwt_secret=os.getenv("HARNESS_JWT_SECRET"),
             jwt_ttl_seconds=_env_int("HARNESS_JWT_TTL_SECONDS", 60 * 60 * 12) or 60 * 60 * 12,
@@ -96,6 +105,21 @@ class HarnessConfig:
             problems.append("HARNESS_STORAGE is gcp but HARNESS_DOCUMENTS_BUCKET is unset")
         if self.max_cost_usd is None and self.max_tokens is None and self.max_calls is None:
             problems.append("No budget ceiling is set, so a run can consume without limit")
+        if self.verify_passes > 0 and not self.verify_claims:
+            problems.append(
+                "HARNESS_VERIFY_PASSES is set but HARNESS_VERIFY_CLAIMS is off, "
+                "so no verification runs at all"
+            )
+        if self.verify_passes > 1 and len(self.verify_models) < 2:
+            problems.append(
+                "Cross-checking runs several passes on one model. Set HARNESS_VERIFY_MODELS "
+                "to two or more models, or agreement between passes means little"
+            )
+        if self.verify_passes > 0 and self.verify_passes % 2 == 0:
+            problems.append(
+                f"HARNESS_VERIFY_PASSES={self.verify_passes} is even, so a tie is possible "
+                "and ties resolve as inconclusive. An odd number is usually wanted"
+            )
         return problems
 
 

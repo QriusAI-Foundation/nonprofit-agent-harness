@@ -20,6 +20,9 @@ things a nonprofit has to assume:
 - **Someone is accountable for every output.** A generated training handout, funder
   summary, or beneficiary-facing message cannot be published because a model produced
   it. Review is the default here, not an add-on.
+- **A claim has to be traceable to a source.** An invented statistic in a funder report
+  is the failure that costs an organisation its credibility. The harness checks cited
+  quotes against the source document, for free, before a reviewer sees them.
 - **The budget is fixed and small.** Grant money does not stretch because a retry loop
   misbehaved. Every run carries a hard ceiling.
 - **There is no platform team.** It has to run with no cloud account before it runs
@@ -83,6 +86,7 @@ offline in a test and on Cloud Run in production without changing.
 | Piece | What it does |
 |---|---|
 | **Review gate** | Artifacts land in `pending_review`. Nothing is released until a person approves it, and every decision records who made it — including automatic ones. |
+| **Claim verification** | Cited quotes are checked against the source. Free and offline. An optional cross-check has several models re-derive the claim from its evidence alone. |
 | **Budget ceilings** | Hard per-run limits on cost, tokens, and calls. Token and call limits work before you configure any pricing. |
 | **Readiness scoring** | A scoring engine for AI-readiness instruments: per-question direction, excluded options, weighted dimensions, geometric-mean aggregation, tier bands. |
 | **Documents** | PDF, DOCX, and text in, plain text out. Agents never see bytes. |
@@ -115,6 +119,58 @@ POST /v1/webhooks/{source}
 ```
 
 Interactive docs at `/docs`.
+
+## Verifying what an artifact claims
+
+Attach claims to an artifact and the harness checks them before anyone reviews it:
+
+```python
+from nonprofit_harness import Citation, Claim
+
+self.artifact(
+    "brief", text,
+    claims=[
+        Claim(
+            statement="The programme reached twelve villages.",
+            citations=[Citation(text="reached twelve villages", locator="p.3")],
+        )
+    ],
+)
+```
+
+**Layer one costs nothing.** Every quoted span must actually appear in one of the run's
+own input documents. No model call, no network, no spend. This is what catches an
+invented citation, and it runs by default.
+
+Matching accepts an exact quote, or a close one — models do introduce small edits while
+quoting. It does *not* accept a changed number. `"reached ninety villages"` shares two
+words in three with `"reached twelve villages"`, so plain word-overlap would wave it
+through, and a swapped figure is precisely the fabrication that does damage. Any
+quantity in the quote that is missing from the source rejects the match.
+
+**Layer two costs model calls and is opt-in.** Several reviewers re-derive the claim
+from its evidence alone and have to agree:
+
+```bash
+export HARNESS_VERIFY_PASSES=3
+export HARNESS_VERIFY_MODELS=model-a,model-b,model-c
+```
+
+Use *different* models rather than the same one several times. Reviewers that share an
+architecture tend to share its blind spots, which makes their agreement much weaker
+evidence than it looks. A reviewer that cannot decide abstains rather than guessing.
+
+Results reach the person doing the review, not a silent filter:
+
+```json
+{ "ok": false, "summary": "3 claim(s), 2 verified, 1 citation not found" }
+```
+
+A failed claim never discards work and never fails the run. It flags the artifact so a
+reviewer knows where to look. One consequence worth knowing: an agent that sets
+`requires_review = False` still cannot auto-release an artifact whose claims failed.
+Opting out of review says the output is routine; a citation that does not resolve is
+evidence that it is not.
 
 ## Readiness scoring
 
@@ -157,6 +213,9 @@ Everything is environment variables. Defaults are offline, free, and reviewed.
 | `HARNESS_MAX_TOKENS` | `200000` | Per-run token ceiling |
 | `HARNESS_MAX_CALLS` | `50` | Per-run model-call ceiling |
 | `HARNESS_REDACT_INPUTS` | `false` | Mask identifiers before sending text |
+| `HARNESS_VERIFY_CLAIMS` | `true` | Check cited quotes against the source (free) |
+| `HARNESS_VERIFY_PASSES` | `0` | Cross-check passes per claim (costs model calls) |
+| `HARNESS_VERIFY_MODELS` | empty | Comma-separated models to rotate across passes |
 | `HARNESS_AUTH_REQUIRED` | `false` | Require a session token |
 | `HARNESS_GOOGLE_CLIENT_ID` | unset | For Google Sign-In |
 | `HARNESS_JWT_SECRET` | unset | Session signing secret |

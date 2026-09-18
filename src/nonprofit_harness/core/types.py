@@ -6,6 +6,9 @@ from datetime import UTC, datetime
 from enum import StrEnum
 from typing import Any
 
+from nonprofit_harness.core.usage import Usage
+from nonprofit_harness.verification.types import Claim, VerificationReport
+
 
 def _now() -> datetime:
     return datetime.now(UTC)
@@ -64,27 +67,17 @@ class Artifact:
     id: str = field(default_factory=lambda: _new_id("art"))
     status: ArtifactStatus = ArtifactStatus.DRAFT
     review: Review | None = None
+    claims: list[Claim] = field(default_factory=list)
+    verification: VerificationReport | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
     @property
     def is_released(self) -> bool:
         return self.status == ArtifactStatus.APPROVED
 
-
-@dataclass(slots=True)
-class Usage:
-    input_tokens: int = 0
-    output_tokens: int = 0
-    cost_usd: float = 0.0
-    calls: int = 0
-
-    def add(self, other: Usage) -> Usage:
-        return Usage(
-            input_tokens=self.input_tokens + other.input_tokens,
-            output_tokens=self.output_tokens + other.output_tokens,
-            cost_usd=round(self.cost_usd + other.cost_usd, 8),
-            calls=self.calls + other.calls,
-        )
+    @property
+    def failed_verification(self) -> bool:
+        return self.verification is not None and not self.verification.ok
 
 
 @dataclass(slots=True)
@@ -122,6 +115,10 @@ class Run:
     @property
     def released(self) -> list[Artifact]:
         return [a for a in self.artifacts if a.is_released]
+
+    @property
+    def unverified(self) -> list[Artifact]:
+        return [a for a in self.artifacts if a.failed_verification]
 
 
 __all__ = [

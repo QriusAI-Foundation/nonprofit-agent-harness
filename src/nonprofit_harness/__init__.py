@@ -19,6 +19,14 @@ from nonprofit_harness.core.types import (
     RunStatus,
     Usage,
 )
+from nonprofit_harness.verification import (
+    Citation,
+    Claim,
+    GroundingVerifier,
+    Outcome,
+    Verdict,
+    VerificationReport,
+)
 
 __version__ = "0.1.0"
 
@@ -30,15 +38,21 @@ __all__ = [
     "Artifact",
     "ArtifactStatus",
     "BudgetExceeded",
+    "Citation",
+    "Claim",
     "Document",
+    "GroundingVerifier",
     "HarnessError",
     "NotFound",
+    "Outcome",
     "Review",
     "ReviewRequired",
     "Run",
     "RunContext",
     "RunStatus",
     "Usage",
+    "VerificationReport",
+    "Verdict",
     "__version__",
     "registry",
 ]

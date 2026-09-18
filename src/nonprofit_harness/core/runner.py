@@ -13,6 +13,8 @@ from nonprofit_harness.guardrails.redaction import Redactor
 from nonprofit_harness.providers.base import ModelProvider
 from nonprofit_harness.review.gate import ReviewGate
 from nonprofit_harness.storage.base import Stores
+from nonprofit_harness.verification import GroundingVerifier
+from nonprofit_harness.verification.types import Claim, Outcome, Verdict, VerificationReport
 
 logger = logging.getLogger("nonprofit_harness.runner")
 
@@ -97,12 +99,41 @@ class AgentRunner:
 
         run.artifacts = list(result.artifacts)
         run.summary = result.summary
-        run.usage = guard.spent
         run.metadata.update(result.metadata)
+
+        # Before usage is banked, so cross-checking shows up in the run's own cost.
+        self._verify_claims(run, provider)
+        run.usage = guard.spent
 
         if agent.requires_review:
             return self.gate.submit(run)
         return self.gate.auto_release(run, reason=f"{agent.name} declares requires_review=False")
+
+    def _verify_claims(self, run: Run, provider: BudgetedProvider) -> None:
+        if not self.config.verify_claims:
+            return
+        claimed = [artifact for artifact in run.artifacts if artifact.claims]
+        if not claimed:
+            return
+
+        sources = _sources_for(run)
+        verifier = GroundingVerifier(
+            provider=provider if self.config.verify_passes > 0 else None,
+            passes=self.config.verify_passes,
+            models=self.config.verify_models,
+        )
+
+        for position, artifact in enumerate(claimed):
+            try:
+                artifact.verification = verifier.verify_all(artifact.claims, sources)
+            except BudgetExceeded as exc:
+                # The agent's work is already done and already paid for. Throwing the
+                # run away because the checking ran out of budget would destroy more
+                # than it protects, so what is left goes to a person instead.
+                for remaining in claimed[position:]:
+                    remaining.verification = _stopped_short(remaining.claims, str(exc))
+                logger.warning("Verification stopped at the budget ceiling on run %s", run.id)
+                return
 
     def _fail(self, run: Run, guard: BudgetGuard, message: str) -> Run:
         run.status = RunStatus.FAILED
@@ -129,6 +160,30 @@ class AgentRunner:
                 replace(document, text=text, metadata={**document.metadata, "redacted": counts})
             )
         return prepared
+
+
+def _sources_for(run: Run) -> dict[str, str]:
+    """The documents a claim in this run is allowed to cite: its own inputs, nothing else."""
+    sources: dict[str, str] = {}
+    for document in run.inputs:
+        key = document.name or document.id
+        if key in sources:
+            key = f"{key} ({document.id})"
+        sources[key] = document.text
+    return sources
+
+
+def _stopped_short(claims: list[Claim], detail: str) -> VerificationReport:
+    return VerificationReport(
+        verdicts=[
+            Verdict(
+                claim_id=claim.id,
+                outcome=Outcome.INCONCLUSIVE,
+                reason=f"verification stopped before this claim: {detail}",
+            )
+            for claim in claims
+        ]
+    )
 
 
 __all__ = ["AgentRunner"]

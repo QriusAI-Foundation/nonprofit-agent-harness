@@ -5,7 +5,7 @@ import time
 from typing import Any
 
 from nonprofit_harness.core.errors import ProviderError
-from nonprofit_harness.core.types import Usage
+from nonprofit_harness.core.usage import Usage
 from nonprofit_harness.providers.base import ModelResponse, PriceBook
 
 _MAX_RETRIES = 5

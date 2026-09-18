@@ -38,13 +38,24 @@ class ReviewGate:
         return self._runs.save(run)
 
     def auto_release(self, run: Run, *, reason: str = "agent opted out of review") -> Run:
+        """Release without a reviewer, except where the harness found a problem.
+
+        An artifact whose claims failed verification is sent to a person even when
+        the agent opted out. Opting out of review is a statement that the output is
+        routine; a citation that does not resolve is evidence that it is not. The
+        rule lives here rather than in the runner so no caller can route around it.
+        """
         for artifact in run.artifacts:
-            if artifact.status in (ArtifactStatus.DRAFT, ArtifactStatus.PENDING_REVIEW):
-                artifact.status = ArtifactStatus.APPROVED
-                artifact.review = Review(
-                    decision=ReviewDecision.APPROVE, reviewer=AUTO_REVIEWER, note=reason
-                )
-        run.status = RunStatus.COMPLETED
+            if artifact.status not in (ArtifactStatus.DRAFT, ArtifactStatus.PENDING_REVIEW):
+                continue
+            if artifact.failed_verification:
+                artifact.status = ArtifactStatus.PENDING_REVIEW
+                continue
+            artifact.status = ArtifactStatus.APPROVED
+            artifact.review = Review(
+                decision=ReviewDecision.APPROVE, reviewer=AUTO_REVIEWER, note=reason
+            )
+        run.status = self._settle_status(run)
         return self._runs.save(run)
 
     def approve(self, run_id: str, artifact_id: str, *, reviewer: str, note: str = "") -> Run:

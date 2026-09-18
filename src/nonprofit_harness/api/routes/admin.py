@@ -30,6 +30,11 @@ def effective_config(
             "max_calls": config.max_calls,
         },
         "redact_inputs": config.redact_inputs,
+        "verification": {
+            "claims_checked": config.verify_claims,
+            "cross_check_passes": config.verify_passes,
+            "cross_check_models": config.verify_models,
+        },
         "auth_required": config.auth_required,
         "google_client_id_set": bool(config.google_client_id),
         "jwt_secret_set": bool(config.jwt_secret),

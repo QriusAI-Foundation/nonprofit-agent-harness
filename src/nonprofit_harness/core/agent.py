@@ -7,6 +7,7 @@ from typing import Any, ClassVar
 
 from nonprofit_harness.core.types import AgentResult, Artifact, Document
 from nonprofit_harness.providers.base import ModelProvider
+from nonprofit_harness.verification.types import Claim
 
 
 @dataclass(slots=True)
@@ -59,8 +60,28 @@ class Agent(ABC):
     def run(self, ctx: RunContext) -> AgentResult:
         """Do the work and return the artifacts produced."""
 
-    def artifact(self, kind: str, content: str, *, title: str = "", **metadata: Any) -> Artifact:
-        return Artifact(kind=kind, content=content, title=title, metadata=metadata)
+    def artifact(
+        self,
+        kind: str,
+        content: str,
+        *,
+        title: str = "",
+        claims: list[Claim] | None = None,
+        **metadata: Any,
+    ) -> Artifact:
+        """Build an artifact.
+
+        Attaching `claims` opts this artifact into verification: the harness checks
+        that each cited span really appears in the run's inputs before a reviewer
+        ever sees it.
+        """
+        return Artifact(
+            kind=kind,
+            content=content,
+            title=title,
+            claims=list(claims or []),
+            metadata=metadata,
+        )
 
     def describe(self) -> dict[str, Any]:
         return {

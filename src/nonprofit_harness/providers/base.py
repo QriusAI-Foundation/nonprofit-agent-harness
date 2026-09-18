@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Protocol, runtime_checkable
 
-from nonprofit_harness.core.types import Usage
+from nonprofit_harness.core.usage import Usage
 
 
 @dataclass(frozen=True, slots=True)

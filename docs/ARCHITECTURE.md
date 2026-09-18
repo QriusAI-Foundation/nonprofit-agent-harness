@@ -79,6 +79,43 @@ caller that forgot about review finds out at the boundary.
 Automatic releases still write a `Review` record, with `system:auto-release` as the
 reviewer. An audit can always answer who released a given artifact.
 
+## Verification
+
+Two layers, split by what they cost.
+
+**Citation checking** is deterministic, offline, and free. Each cited span is matched
+against the run's own input documents: an exact match after normalising whitespace and
+case, or failing that a sliding-window token overlap.
+
+The window matters. Comparing a span against the document's whole vocabulary passes
+almost anything, because in a long report every individual word appears somewhere. The
+comparison is therefore against the best-matching *passage*.
+
+Overlap alone is still not enough. A quote that changes a figure keeps most of its
+words, so `"reached ninety villages"` scores two out of three against `"reached twelve
+villages"`. Any quantity present in the quote but absent from the matched passage
+rejects the match outright, because a changed number is a different statement rather
+than an approximate quote.
+
+**Cross-checking** costs model calls and is off unless configured. Several reviewers
+re-derive the claim from its evidence alone and must reach a quorum. Two details carry
+most of its value:
+
+- Passes rotate across *different* models. Reviewers sharing an architecture share its
+  blind spots, so agreement between them is weaker evidence than it appears.
+- A reviewer that cannot decide abstains, and an empty reply counts as an abstention.
+  Unanimous abstention is inconclusive, never a pass.
+
+Verification calls go through the run's budgeted provider, so checking is charged to
+the run that caused it. If the ceiling is hit mid-check, the remaining claims are marked
+inconclusive and the artifact goes to a person. Discarding finished, already-paid-for
+work because the checking ran out of budget would destroy more than it protects.
+
+A failed claim is routed, not punished: the run does not fail and nothing is deleted.
+The one hard consequence is that `ReviewGate.auto_release` refuses to release an
+artifact whose claims failed, even when the agent set `requires_review = False`. That
+rule lives in the gate rather than the runner so no caller can route around it.
+
 ## Readiness scoring
 
 Three decisions carry the method:

@@ -13,6 +13,7 @@ from nonprofit_harness.core.types import (
     RunStatus,
     Usage,
 )
+from nonprofit_harness.verification.types import Citation, Claim, VerificationReport
 
 
 def run_to_dict(run: Run) -> dict[str, Any]:
@@ -54,6 +55,21 @@ def artifact_to_dict(artifact: Artifact) -> dict[str, Any]:
         "content": artifact.content,
         "status": str(artifact.status),
         "metadata": artifact.metadata,
+        "claims": [
+            {
+                "id": claim.id,
+                "statement": claim.statement,
+                "choices": claim.choices,
+                "expected": claim.expected,
+                "metadata": claim.metadata,
+                "citations": [
+                    {"text": c.text, "document": c.document, "locator": c.locator}
+                    for c in claim.citations
+                ],
+            }
+            for claim in artifact.claims
+        ],
+        "verification": artifact.verification.to_dict() if artifact.verification else None,
         "review": (
             {
                 "decision": str(artifact.review.decision),
@@ -102,6 +118,7 @@ def run_from_dict(data: dict[str, Any]) -> Run:
 
 def artifact_from_dict(data: dict[str, Any]) -> Artifact:
     review_data = data.get("review")
+    verification_data = data.get("verification")
     return Artifact(
         kind=data["kind"],
         content=data.get("content", ""),
@@ -109,6 +126,27 @@ def artifact_from_dict(data: dict[str, Any]) -> Artifact:
         id=data["id"],
         status=ArtifactStatus(data.get("status", "draft")),
         metadata=data.get("metadata", {}) or {},
+        claims=[
+            Claim(
+                statement=c["statement"],
+                id=c["id"],
+                choices=c.get("choices"),
+                expected=c.get("expected"),
+                metadata=c.get("metadata", {}) or {},
+                citations=[
+                    Citation(
+                        text=cit["text"],
+                        document=cit.get("document", ""),
+                        locator=cit.get("locator", ""),
+                    )
+                    for cit in c.get("citations", [])
+                ],
+            )
+            for c in data.get("claims", [])
+        ],
+        verification=(
+            VerificationReport.from_dict(verification_data) if verification_data else None
+        ),
         review=(
             Review(
                 decision=ReviewDecision(review_data["decision"]),

@@ -23,6 +23,14 @@ HTTP surface. The agent itself belongs to whoever is using this.
    table of model rates; they go stale and end up in someone's grant report.
 6. **The bundled readiness instrument is a demo.** Do not present it as a validated
    index, and do not add a real organisation's calibrated instrument to this repo.
+7. **Citation checking must stay free.** `GroundingVerifier` with `passes=0` makes no
+   model call. Do not add one to the default path.
+8. **A missing quantity rejects a fuzzy citation match.** See `is_quantity` in
+   `verification/grounding.py`. Loosening this re-admits the swapped-number
+   fabrication the check exists to catch; `test_a_swapped_number_is_not_an_approximate_quote`
+   fails if you do.
+9. **Verification reports to a human, it does not judge.** A failed claim flags an
+   artifact for review. It must never fail the run, delete work, or auto-reject.
 
 ## Layout
 
@@ -32,6 +40,7 @@ src/nonprofit_harness/
   providers/   model seam: echo (offline default), google
   guardrails/  budget ceilings, redaction
   review/      the approval gate
+  verification/ citation grounding + optional cross-model checking
   readiness/   scoring engine + instrument schema
   storage/     protocols, in-memory, GCP
   auth/        Google ID token verification, session tokens

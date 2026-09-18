@@ -56,6 +56,19 @@ class ReviewOut(BaseModel):
     at: datetime
 
 
+class CitationOut(BaseModel):
+    text: str
+    document: str = ""
+    locator: str = ""
+
+
+class ClaimOut(BaseModel):
+    id: str
+    statement: str
+    citations: list[CitationOut]
+    expected: str | None = None
+
+
 class ArtifactOut(BaseModel):
     id: str
     kind: str
@@ -64,6 +77,10 @@ class ArtifactOut(BaseModel):
     status: str
     metadata: dict[str, Any]
     review: ReviewOut | None = None
+    claims: list[ClaimOut] = Field(default_factory=list)
+    verification: dict[str, Any] | None = Field(
+        default=None, description="Grounding verdicts, when the artifact made claims"
+    )
 
     @classmethod
     def of(cls, artifact: Artifact) -> ArtifactOut:
@@ -74,6 +91,21 @@ class ArtifactOut(BaseModel):
             content=artifact.content,
             status=str(artifact.status),
             metadata=artifact.metadata,
+            claims=[
+                ClaimOut(
+                    id=claim.id,
+                    statement=claim.statement,
+                    expected=claim.expected,
+                    citations=[
+                        CitationOut(text=c.text, document=c.document, locator=c.locator)
+                        for c in claim.citations
+                    ],
+                )
+                for claim in artifact.claims
+            ],
+            verification=(
+                artifact.verification.to_dict() if artifact.verification else None
+            ),
             review=(
                 ReviewOut(
                     decision=str(artifact.review.decision),
@@ -97,6 +129,7 @@ class RunOut(BaseModel):
     usage: UsageOut
     artifacts: list[ArtifactOut]
     pending_review: int
+    failed_verification: int
     created_at: datetime
     updated_at: datetime
 
@@ -117,6 +150,7 @@ class RunOut(BaseModel):
             ),
             artifacts=[ArtifactOut.of(a) for a in run.artifacts],
             pending_review=len(run.pending_review),
+            failed_verification=len(run.unverified),
             created_at=run.created_at,
             updated_at=run.updated_at,
         )
@@ -147,6 +181,8 @@ __all__ = [
     "AgentOut",
     "ArtifactOut",
     "BlobOut",
+    "CitationOut",
+    "ClaimOut",
     "DocumentIn",
     "ErrorOut",
     "GoogleSignIn",
