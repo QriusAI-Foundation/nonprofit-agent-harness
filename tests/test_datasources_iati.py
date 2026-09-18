@@ -7,6 +7,31 @@ from nonprofit_harness.datasources.iati import IatiActivity, IatiClient
 
 # Shaped like a Datastore SOLR response. Fields repeat in IATI, so several arrive as
 # lists, which is the part worth exercising.
+#
+# REAL_WORLD below is copied from the shape of an actual live response. It matters
+# because real published data is messier than an idealised fixture: narratives are
+# often absent, codes repeat across vocabularies, and dates arrive as full timestamps.
+# A fixture that is tidier than reality is how tests pass while the code does not work.
+REAL_WORLD = {
+    "response": {
+        "numFound": 1,
+        "docs": [
+            {
+                "iati_identifier": "XM-DAC-41130-2019ProgB-2-EG05",
+                "title_narrative": ["2019 Programme Budget - Gaza - Education"],
+                "description_narrative": ["2019 Programme Budget - Gaza - Education"],
+                "reporting_org_ref": "XM-DAC-41130",
+                "reporting_org_narrative": ["UNRWA"],
+                "recipient_country_code": ["PS"],
+                # no recipient_country_narrative, no sector_narrative
+                "sector_code": ["11220", "11220"],
+                "activity_status_code": "4",
+                "activity_date_iso_date": ["2019-01-01T00:00:00Z", "2019-12-31T00:00:00Z"],
+            }
+        ],
+    }
+}
+
 RESPONSE = {
     "response": {
         "numFound": 1,
@@ -100,6 +125,64 @@ def test_codes_are_used_when_names_are_absent():
     assert activity.sectors == ("11320", "11220")
 
 
+def test_real_published_data_parses():
+    """Against the shape of an actual live response, not an idealised one."""
+    activity = IatiActivity.from_record(REAL_WORLD["response"]["docs"][0])
+
+    assert activity.iati_identifier == "XM-DAC-41130-2019ProgB-2-EG05"
+    assert activity.reporting_org == "UNRWA"
+    # Narratives absent, so bare codes rather than "Name (code)".
+    assert activity.recipient_countries == ("PS",)
+
+
+def test_a_code_repeated_across_vocabularies_appears_once():
+    activity = IatiActivity.from_record(REAL_WORLD["response"]["docs"][0])
+
+    assert activity.sectors == ("11220",)
+
+
+def test_dates_are_labelled_with_their_type_and_deduplicated():
+    """A real activity repeats each day once per date type, so eight entries collapse to four."""
+    activity = IatiActivity.from_record(
+        {
+            "iati_identifier": "XX-1",
+            "activity_date_iso_date": [
+                "2019-01-01T00:00:00Z",
+                "2019-12-31T00:00:00Z",
+                "2019-01-01T00:00:00Z",
+                "2019-12-31T00:00:00Z",
+            ],
+            "activity_date_type": ["1", "3", "2", "4"],
+        }
+    )
+
+    assert activity.dates == (
+        "planned start 2019-01-01",
+        "planned end 2019-12-31",
+        "actual start 2019-01-01",
+        "actual end 2019-12-31",
+    )
+
+
+def test_unlabelled_dates_fall_back_to_deduplicated_days():
+    activity = IatiActivity.from_record(
+        {
+            "iati_identifier": "XX-1",
+            "activity_date_iso_date": ["2019-01-01T00:00:00Z", "2019-01-01T00:00:00Z"],
+        }
+    )
+
+    assert activity.dates == ("2019-01-01",)
+
+
+def test_timestamps_are_shown_as_dates():
+    """IATI returns 2019-01-01T00:00:00Z, which is noise in a document a person reads."""
+    text = IatiActivity.from_record(REAL_WORLD["response"]["docs"][0]).to_text()
+
+    assert "Activity dates: 2019-01-01, 2019-12-31" in text
+    assert "T00:00:00Z" not in text
+
+
 # --- conversion to harness input ---------------------------------------------------
 
 
@@ -156,10 +239,47 @@ def test_searching_sends_the_key_and_returns_activities(client):
     call = client._client.calls[0]
     assert call["headers"]["Ocp-Apim-Subscription-Key"] == "test-key"
     assert call["url"].endswith("/activity/select")
-    assert call["params"]["q"] == "education"
+
+
+def test_a_bare_term_is_expanded_across_text_fields(client):
+    """The live Datastore returns HTTP 400 for an unqualified query, so it must not send one."""
+    client.search_activities("education")
+
+    q = client._client.calls[0]["params"]["q"]
+    assert q == "(title_narrative:(education) OR description_narrative:(education))"
+    assert not q.startswith("education")
+
+
+def test_explicit_solr_syntax_is_passed_through_untouched(client):
+    client.search_activities("title_narrative:education AND sector_code:11320")
+
+    assert (
+        client._client.calls[0]["params"]["q"]
+        == "title_narrative:education AND sector_code:11320"
+    )
+
+
+def test_the_match_all_query_is_left_alone(client):
+    client.search_activities()
+
+    assert client._client.calls[0]["params"]["q"] == "*:*"
+
+
+def test_an_empty_query_becomes_match_all(client):
+    client.search_activities("   ")
+
+    assert client._client.calls[0]["params"]["q"] == "*:*"
+
+
+def test_the_searched_text_fields_are_configurable():
+    narrow = IatiClient(api_key="k", client=FakeHttp(), text_fields=["title_narrative"])
+    narrow.search_activities("education")
+
+    assert narrow._client.calls[0]["params"]["q"] == "(title_narrative:(education))"
 
 
 def test_named_filters_become_a_solr_query(client):
+    """The reporting_org form here is the one confirmed working against the live API."""
     client.search_activities(reporting_org="XM-DAC-41114", country="KE", sector="11320")
 
     q = client._client.calls[0]["params"]["q"]

@@ -28,6 +28,22 @@ BASE_URL = "https://api.iatistandard.org/datastore"
 KEY_HEADER = "Ocp-Apim-Subscription-Key"
 KEY_ENV = "IATI_API_KEY"
 
+#: Where a plain search term is looked for. The Datastore's SOLR core declares no
+#: default search field, so a bare term is rejected with "no field name specified in
+#: query and no default specified" rather than treated as a full-text search. Every
+#: query therefore has to name its fields.
+TEXT_FIELDS = ("title_narrative", "description_narrative")
+
+#: IATI's ActivityDateType codelist, which has these four values and is stable.
+#: An activity reports its dates against them, so the raw date list arrives with each
+#: value repeated and nothing to say which is which.
+ACTIVITY_DATE_TYPES = {
+    "1": "planned start",
+    "2": "actual start",
+    "3": "planned end",
+    "4": "actual end",
+}
+
 #: Requested explicitly rather than taking every field, because an activity document
 #: can be very large and the free tier's weekly call budget is better spent on more
 #: activities than on more fields per activity.
@@ -118,7 +134,9 @@ class IatiActivity:
             ),
             sectors=_pair(record.get("sector_narrative"), record.get("sector_code")),
             status=_one(record.get("activity_status_code")),
-            dates=_many(record.get("activity_date_iso_date")),
+            dates=_dates(
+                record.get("activity_date_iso_date"), record.get("activity_date_type")
+            ),
             raw=record,
         )
 
@@ -140,11 +158,13 @@ class IatiClient:
         timeout: float = 20.0,
         client: Any = None,
         cache: MutableMapping[str, Any] | None = None,
+        text_fields: Iterable[str] = TEXT_FIELDS,
     ) -> None:
         self.api_key = api_key or os.getenv(KEY_ENV)
         self.base_url = base_url.rstrip("/")
         self.key_header = key_header
         self.timeout = timeout
+        self.text_fields = tuple(text_fields)
         self._client = client
         self._cache = cache
 
@@ -160,12 +180,15 @@ class IatiClient:
     ) -> list[IatiActivity]:
         """Search published activities.
 
-        `query` is passed through to SOLR. The named arguments are conveniences that
-        add the usual filters, so callers do not have to know the field names.
+        A plain term such as "education" is expanded across `text_fields`, because the
+        Datastore rejects an unqualified query. A term containing a colon is treated as
+        SOLR syntax and passed through untouched, so any query you can write by hand
+        still works.
         """
         if rows < 1:
             raise InvalidRequest("rows must be at least 1")
 
+        query = _expand_free_text(query, self.text_fields)
         filters = []
         if reporting_org:
             filters.append(f"reporting_org_ref:{_escape(reporting_org)}")
@@ -250,13 +273,65 @@ def _join(value: Any, separator: str = "\n\n") -> str:
 
 
 def _pair(names: Any, codes: Any) -> tuple[str, ...]:
-    """Render a code list as "Name (code)" where a name is available."""
+    """Render a code list as "Name (code)", falling back to bare codes.
+
+    Narratives are frequently absent in real published data, so the bare-code path is
+    the common one rather than the exception. Codes repeat too, because an activity
+    can report the same sector against several vocabularies, so the result is
+    deduplicated. Resolving codes to readable names needs IATI's codelists, which is
+    a separate call this client does not yet make.
+    """
     name_list, code_list = _many(names), _many(codes)
     if not name_list:
-        return code_list
+        return _dedupe(code_list)
     if len(name_list) != len(code_list):
-        return name_list
-    return tuple(f"{n} ({c})" for n, c in zip(name_list, code_list, strict=True))
+        return _dedupe(name_list)
+    return _dedupe(tuple(f"{n} ({c})" for n, c in zip(name_list, code_list, strict=True)))
+
+
+def _dedupe(values: tuple[str, ...]) -> tuple[str, ...]:
+    return tuple(dict.fromkeys(values))
+
+
+def _as_day(value: str) -> str:
+    """Trim an ISO timestamp to its date. IATI returns "2019-01-01T00:00:00Z"."""
+    return value.split("T", 1)[0]
+
+
+def _dates(values: Any, types: Any) -> tuple[str, ...]:
+    """Label each date with what it means, and drop the repeats.
+
+    An activity reports a date per ActivityDateType, so the raw list arrives with the
+    same day several times over. Unlabelled and undeduplicated, a real activity renders
+    as eight dates that say nothing.
+    """
+    days = tuple(_as_day(value) for value in _many(values))
+    kinds = _many(types)
+    if not days:
+        return ()
+    if len(kinds) != len(days):
+        return _dedupe(days)
+    return _dedupe(
+        tuple(
+            f"{ACTIVITY_DATE_TYPES.get(kind, kind)} {day}"
+            for kind, day in zip(kinds, days, strict=True)
+        )
+    )
+
+
+def _expand_free_text(query: str, fields: tuple[str, ...]) -> str:
+    """Turn a bare search term into a field-qualified SOLR query.
+
+    Confirmed against the live API: `q=education` returns HTTP 400, while
+    `q=title_narrative:education` succeeds. Anything already carrying a colon is
+    assumed to be deliberate SOLR syntax and is left alone.
+    """
+    stripped = query.strip()
+    if not stripped:
+        return "*:*"
+    if stripped == "*:*" or ":" in stripped or not fields:
+        return stripped
+    return "(" + " OR ".join(f"{name}:({stripped})" for name in fields) + ")"
 
 
 def _escape(value: str) -> str:
@@ -269,6 +344,7 @@ __all__ = [
     "DEFAULT_FIELDS",
     "KEY_ENV",
     "KEY_HEADER",
+    "TEXT_FIELDS",
     "IatiActivity",
     "IatiClient",
 ]

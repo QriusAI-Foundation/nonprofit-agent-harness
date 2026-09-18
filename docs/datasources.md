@@ -72,6 +72,13 @@ client.activity("XM-DAC-41114-PROJECT-1")                   # one, by identifier
 The named arguments build the SOLR query for you, so you do not need to know the
 field names. `query` is passed through if you do.
 
+**A bare term is expanded, because the Datastore rejects an unqualified query.** Its
+SOLR core declares no default search field, so `q=education` returns HTTP 400 with
+"no field name specified in query and no default specified". `search_activities("education")`
+therefore sends `(title_narrative:(education) OR description_narrative:(education))`.
+Anything you write containing a colon is treated as deliberate SOLR syntax and passed
+through untouched. Change which fields a plain term searches with `text_fields=`.
+
 ### What you get back
 
 ```python
@@ -87,6 +94,22 @@ activity.raw                 # the untouched record, for anything not flattened
 
 IATI fields repeat, so the API returns some of them as lists and some as single
 values. The parser handles both, and missing fields become empty rather than raising.
+
+### What real published data looks like
+
+Worth knowing before you build on this, because live records are messier than the
+standard suggests:
+
+- **Narratives are often missing.** Many publishers send `sector_code` and
+  `recipient_country_code` with no matching narrative, so you get `11220` and `PS`
+  rather than readable names. Resolving those needs IATI's separate codelists, which
+  this client does not yet call. Until it does, expect codes.
+- **Codes repeat.** An activity can report the same sector against several
+  vocabularies, so the raw list contains duplicates. They are deduplicated.
+- **Dates arrive as timestamps, several times over.** An activity reports a date per
+  ActivityDateType, so `activity_date_iso_date` can hold the same day four times.
+  Dates are trimmed to days, labelled with their type, and deduplicated, turning eight
+  meaningless entries into `planned start 2019-01-01, actual end 2019-12-31`.
 
 ### Why `to_text()` reads the way it does
 
@@ -113,6 +136,13 @@ than waiting for a release:
 ```python
 IatiClient(base_url="https://...", key_header="X-Custom-Key")
 ```
+
+### Known limitation: codes are not resolved to names
+
+Sector, country, and activity-status codes are passed through as published. IATI
+offers a Codelist API that maps them to readable names, and wiring it in is the next
+improvement to this adapter. Doing it well means caching the codelists locally rather
+than spending the weekly call budget on them.
 
 ## Sources not yet written
 

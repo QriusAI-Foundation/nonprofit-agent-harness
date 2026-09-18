@@ -18,6 +18,15 @@ Pin an exact version if you depend on them.
   stored as a repository secret.
 - Changelog, citation metadata, issue and pull request templates, and Dependabot.
 
+### Fixed
+
+- A plain search term is expanded across text fields. The IATI Datastore declares no
+  default search field, so an unqualified query was rejected with HTTP 400. Found by
+  running against the live API rather than fixtures.
+- Repeated sector and country codes are deduplicated, and activity dates are trimmed
+  to days, labelled with their type, and deduplicated. A real activity was rendering
+  as eight identical-looking dates.
+
 ## [0.1.0]
 
 First release.
