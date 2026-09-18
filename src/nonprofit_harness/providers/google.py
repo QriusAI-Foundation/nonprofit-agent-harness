@@ -1,39 +1,15 @@
 from __future__ import annotations
 
 import os
-import re
 import time
 from typing import Any
 
 from nonprofit_harness.core.errors import ProviderError
 from nonprofit_harness.core.usage import Usage
-from nonprofit_harness.providers.base import ModelResponse, PriceBook
+from nonprofit_harness.providers.base import ModelResponse, PriceBook, scrub_secrets
 
 _MAX_RETRIES = 5
 _INITIAL_BACKOFF_SECONDS = 5.0
-
-#: On the API-key path the SDK builds request URLs carrying `?key=...`, and an error
-#: can quote the URL it failed on. That text reaches logs and, through the API's error
-#: handler, an HTTP response body. Vertex AI is unaffected because it authenticates
-#: with a service account and there is no key in the URL at all.
-_KEY_IN_URL = re.compile(r"([?&](?:key|api_key|apikey)=)[^&\s\"'>]+", re.IGNORECASE)
-
-#: Shorter than this and a blind replace would mangle unrelated text.
-_MIN_SECRET_LENGTH = 8
-
-
-def scrub_secrets(text: str, secret: str | None = None) -> str:
-    """Remove credentials from text before it is logged or returned.
-
-    Two passes, because either alone leaves a gap. The pattern catches a key embedded
-    in any URL, including one this process never held. The literal replacement catches
-    the configured key wherever it appears, including outside a URL.
-    """
-    cleaned = _KEY_IN_URL.sub(r"\1[redacted]", text)
-    if secret and len(secret) >= _MIN_SECRET_LENGTH:
-        cleaned = cleaned.replace(secret, "[redacted]")
-    return cleaned
-
 
 class GoogleProvider:
     """Gemini access, through either Vertex AI or the Gemini API.

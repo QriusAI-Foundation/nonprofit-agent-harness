@@ -9,8 +9,11 @@ Run `harness check` to print what is actually in force, along with any warnings.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `HARNESS_PROVIDER` | `echo` | `echo` for the offline provider, `google` for Gemini |
+| `HARNESS_PROVIDER` | `echo` | Which adapter to use. See the table below |
 | `HARNESS_MODEL` | provider default | Model name to use |
+| `OPENAI_API_KEY` | unset | For any OpenAI-compatible server |
+| `OPENAI_BASE_URL` | vendor default | Point the same adapter at another server |
+| `ANTHROPIC_API_KEY` | unset | For Claude models |
 | `GOOGLE_API_KEY` | unset | Gemini API key. Leave unset to use Vertex AI instead |
 | `GOOGLE_CLOUD_PROJECT` | unset | Vertex AI project |
 | `GOOGLE_CLOUD_LOCATION` | `us-central1` | Vertex AI region |
@@ -18,8 +21,47 @@ Run `harness check` to print what is actually in force, along with any warnings.
 `echo` makes no network call and returns deterministic text. It exists so that tests,
 continuous integration, and a first local run cost nothing.
 
-On Vertex AI there is no API key at all. Authentication uses the service account, which
-means there is no long-lived credential to leak. Prefer it for anything deployed.
+### Which providers exist
+
+| `HARNESS_PROVIDER` | Goes to | Needs |
+|---|---|---|
+| `echo` | Offline, deterministic | nothing |
+| `openai` | api.openai.com | `OPENAI_API_KEY`, `HARNESS_MODEL` |
+| `groq`, `together`, `openrouter` | that vendor's endpoint | `OPENAI_API_KEY`, `HARNESS_MODEL` |
+| `ollama`, `local` | localhost:11434 | `HARNESS_MODEL` |
+| `vllm` | localhost:8000 | `HARNESS_MODEL` |
+| `anthropic`, `claude` | api.anthropic.com | `ANTHROPIC_API_KEY` |
+| `google`, `gemini`, `vertex` | Vertex AI or the Gemini API | the `adk` extra |
+
+Everything except Google and Anthropic is one adapter speaking the OpenAI chat API, so
+any server implementing it works by setting `OPENAI_BASE_URL`, whether or not it has a
+named alias here.
+
+No provider needs an extra except Google. The others speak HTTP directly using the
+`httpx` the harness already depends on, so a plain install reaches all of them.
+
+### Two differences worth knowing
+
+**Structured output is not equally strict.** OpenAI-compatible servers get
+`response_format` with your JSON schema, which most enforce. Anthropic has no
+equivalent, so the schema is requested in the system prompt and the reply is not
+guaranteed to match. Validate what comes back rather than assuming, otherwise an agent
+works on one provider and fails on another for reasons that look random.
+
+**Vertex AI has no API key at all.** It authenticates with the service account, so
+there is no long-lived credential to leak. Prefer it for anything deployed on GCP.
+
+### Keeping data on your own hardware
+
+Beneficiary data that must not leave the building can go to a local model:
+
+```bash
+export HARNESS_PROVIDER=ollama
+export HARNESS_MODEL=llama3.1
+```
+
+Nothing else changes. Agents, review, budget ceilings, and verification all behave the
+same, because the model layer is the only thing that moved.
 
 ## Storage
 

@@ -1,9 +1,35 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from typing import Any, Protocol, runtime_checkable
 
 from nonprofit_harness.core.usage import Usage
+
+#: Some providers put the key in the request URL, and an error can quote the URL it
+#: failed on. That text reaches logs and, through the API's error handler, a response
+#: body. Providers sending the key in a header are not immune either, since an error
+#: can still echo the credential back.
+_KEY_IN_URL = re.compile(r"([?&](?:key|api_key|apikey|access_token)=)[^&\s\"'>]+", re.IGNORECASE)
+
+#: Shorter than this and a blind replace would mangle unrelated text.
+_MIN_SECRET_LENGTH = 8
+
+
+def scrub_secrets(text: str, secret: str | None = None) -> str:
+    """Remove credentials from text before it is logged or returned.
+
+    Two passes, because either alone leaves a gap. The pattern catches a key embedded
+    in any URL, including one this process never held. The literal replacement catches
+    the configured key wherever it appears, including outside a URL.
+
+    Every provider must run its error text through this. It lives here rather than in
+    one provider so that writing a new adapter does not mean rediscovering the problem.
+    """
+    cleaned = _KEY_IN_URL.sub(r"\1[redacted]", text)
+    if secret and len(secret) >= _MIN_SECRET_LENGTH:
+        cleaned = cleaned.replace(secret, "[redacted]")
+    return cleaned
 
 
 @dataclass(frozen=True, slots=True)
@@ -76,4 +102,4 @@ class ModelProvider(Protocol):
     ) -> ModelResponse: ...
 
 
-__all__ = ["ModelProvider", "ModelRate", "ModelResponse", "PriceBook"]
+__all__ = ["ModelProvider", "ModelRate", "ModelResponse", "PriceBook", "scrub_secrets"]

@@ -4,7 +4,8 @@ An open agent harness for the nonprofit sector. You write the agent. It gives yo
 everything around the agent.
 
 Built on [Google's Agent Development Kit](https://github.com/google/adk-python), and
-usable without it. The model layer is one swappable interface.
+genuinely usable without it: OpenAI, Anthropic, Groq, Together, OpenRouter, vLLM and
+local models through Ollama all work out of the box, with no extra install.
 
 [![PyPI](https://img.shields.io/pypi/v/nonprofit-agent-harness.svg)](https://pypi.org/project/nonprofit-agent-harness/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
@@ -128,13 +129,30 @@ library code, and your agents live in your own project.
 Continuous integration installs the package with no extras and runs the example on
 every commit, so the offline promise stays true rather than being an aspiration.
 
-Point it at Gemini when you are ready:
+Point it at a real model when you are ready. Any of these work, and no provider needs
+an extra install except Google:
 
 ```bash
-export HARNESS_PROVIDER=google
-export GOOGLE_API_KEY=...          # or use Vertex AI with GOOGLE_CLOUD_PROJECT
-harness run examples.summarizer:SummarizerAgent report.pdf
+# OpenAI, or Groq, Together, OpenRouter with the same adapter
+HARNESS_PROVIDER=openai  HARNESS_MODEL=gpt-4o-mini  OPENAI_API_KEY=...
+
+# Claude
+HARNESS_PROVIDER=anthropic  ANTHROPIC_API_KEY=...
+
+# A local model. Nothing leaves the machine.
+HARNESS_PROVIDER=ollama  HARNESS_MODEL=llama3.1
+
+# Vertex AI, which uses the service account and so has no API key at all
+HARNESS_PROVIDER=google  GOOGLE_CLOUD_PROJECT=...
 ```
+
+Everything except Google and Anthropic is one adapter speaking the OpenAI chat API, so
+any server implementing it works by setting `OPENAI_BASE_URL`, named alias or not. That
+matters for two situations this sector actually hits: donated credits on whichever
+platform offered them, and data that is not allowed to leave your own hardware.
+
+Switching provider changes nothing else. Agents, review, budget ceilings and
+verification behave identically, because the model layer is the only thing that moved.
 
 ## Writing an agent
 
@@ -349,7 +367,7 @@ Everything is environment variables. Defaults are offline, free, and reviewed. S
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `HARNESS_PROVIDER` | `echo` | `echo` (offline) or `google` |
+| `HARNESS_PROVIDER` | `echo` | `echo`, `openai`, `anthropic`, `groq`, `ollama`, `google`, and more |
 | `HARNESS_MODEL` | provider default | Model name |
 | `HARNESS_STORAGE` | `memory` | `memory` or `gcp` |
 | `HARNESS_MAX_COST_USD` | unset | Per-run cost ceiling |
@@ -409,8 +427,8 @@ in-process, and although an abandoned run is now failed at startup rather than
 stranded, high volumes want a real queue. IATI codes are not resolved to readable
 names.
 
-**Not started.** Provider adapters beyond Gemini. Sector-specific primitives such as
-logframes and outcome indicators. Resolving IATI codes to readable names.
+**Not started.** Resolving IATI codes to readable names. Disaggregation from IATI. An
+evaluation harness. Logframe and theory of change structures.
 
 ## Contributing
 

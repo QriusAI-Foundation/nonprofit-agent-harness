@@ -11,6 +11,20 @@ Pin an exact version if you depend on them.
 
 ### Added
 
+- **Providers beyond Google.** OpenAI, Anthropic, Groq, Together, OpenRouter, vLLM, and
+  local models through Ollama. The README claimed the harness was usable without Google
+  while Google was the only real adapter, which was not true of a nonprofit holding
+  donated credits elsewhere or required to keep data on its own hardware.
+
+  Written against `httpx`, which the harness already depends on, so none of them adds
+  anything to an install. Everything except Google and Anthropic is one adapter
+  speaking the OpenAI chat API, so any server implementing it works through
+  `OPENAI_BASE_URL` whether or not it has a named alias.
+
+  Two differences are documented rather than smoothed over: structured output is
+  enforced by OpenAI-compatible servers and only requested of Anthropic, and a
+  self-hosted alias never falls back to a public endpoint.
+
 - **Results and indicators.** The sector's own model of whether a programme worked,
   structured to match the IATI Standard's `result` element rather than invented, plus
   the deterministic arithmetic over it: achievement against target, progress from
