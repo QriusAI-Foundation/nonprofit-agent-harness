@@ -207,6 +207,32 @@ class IatiClient:
         records = (payload.get("response") or {}).get("docs") or []
         return [IatiActivity.from_record(r) for r in records]
 
+    def indicators(self, iati_identifier: str):
+        """Fetch one activity's indicators, rebuilt into the results model.
+
+        Returns an `IatiResults`, which carries what could be reconstructed and what
+        could not. Read its `warnings` before reporting any number from it: the
+        Datastore's flattening loses the link between results and their indicators, and
+        sometimes the direction of an indicator too.
+        """
+        from nonprofit_harness.datasources.iati_results import (
+            RESULT_FIELDS,
+            IatiResults,
+            results_from_record,
+        )
+
+        payload = self._get(
+            "activity/select",
+            {
+                "q": f"iati_identifier:{_escape(iati_identifier)}",
+                "rows": "1",
+                "fl": ",".join(RESULT_FIELDS),
+                "wt": "json",
+            },
+        )
+        records = (payload.get("response") or {}).get("docs") or []
+        return results_from_record(records[0]) if records else IatiResults()
+
     def activity(self, iati_identifier: str) -> IatiActivity | None:
         """Fetch one activity by its IATI identifier."""
         found = self.search_activities(

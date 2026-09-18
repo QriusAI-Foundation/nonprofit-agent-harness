@@ -6,5 +6,16 @@ citing them is verified against the same text the agent was given.
 """
 
 from nonprofit_harness.datasources.iati import IatiActivity, IatiClient
+from nonprofit_harness.datasources.iati_results import (
+    RESULT_FIELDS,
+    IatiResults,
+    results_from_record,
+)
 
-__all__ = ["IatiActivity", "IatiClient"]
+__all__ = [
+    "RESULT_FIELDS",
+    "IatiActivity",
+    "IatiClient",
+    "IatiResults",
+    "results_from_record",
+]

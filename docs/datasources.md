@@ -137,6 +137,16 @@ than waiting for a release:
 IatiClient(base_url="https://...", key_header="X-Custom-Key")
 ```
 
+### Indicators and results
+
+```python
+parsed = client.indicators("XM-DAC-41114-PROJECT-1")
+```
+
+Returns an `IatiResults` carrying reconstructed indicators, the activity's result
+titles, and warnings. See [results.md](results.md) for what is recoverable from the
+Datastore's flattening and what deliberately is not.
+
 ### Known limitation: codes are not resolved to names
 
 Sector, country, and activity-status codes are passed through as published. IATI

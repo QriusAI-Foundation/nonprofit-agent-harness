@@ -23,6 +23,14 @@ Pin an exact version if you depend on them.
   rather than with where it started. Aggregation, so percentages are not summed and a
   publisher's own not-aggregatable flag is honoured. Totals refuse rather than
   filtering quietly, because a total that dropped half its inputs looks complete.
+- **Indicators can be read from IATI** through `IatiClient.indicators()`, rebuilt into
+  that model. The Datastore flattens a nested activity into parallel arrays, and IATI's
+  guidance is explicit that the flattening is lossy. Confirmed live: a real activity
+  returns 16 result titles against 301 indicator rows with nothing relating them, while
+  other activities happen to return matching lengths and make the association look
+  recoverable. Indicators are therefore reconstructed and results are reported
+  unattached, alongside warnings for any field dropped for length mismatch and for
+  indicators whose direction was not published.
 
 ## [0.1.1]
 

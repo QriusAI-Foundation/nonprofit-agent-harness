@@ -123,10 +123,44 @@ utilisation(spent=75_000, budget=100_000, delivered=500, currency="USD")
 Unit cost is omitted rather than reported as infinity when nothing was delivered, since
 "infinite cost per beneficiary" is not a finding anyone can act on.
 
+## Reading indicators from IATI
+
+```python
+from nonprofit_harness.datasources import IatiClient
+
+parsed = client.indicators("US-EIN-521257057-WRI-23-27")
+parsed.indicators      # rebuilt, ready for achievement()
+parsed.result_titles   # published, but deliberately unattached
+parsed.warnings        # read these before reporting any number
+```
+
+**Read the warnings.** The Datastore flattens a nested activity into parallel arrays,
+and IATI's guidance is explicit that this is lossy: you cannot tell which element of
+one list belongs to which element of another.
+
+That is not theoretical. A real activity returns `result_title_narrative` with 16
+entries and `result_indicator_*` with 301. Sixteen results, 301 indicator rows, nothing
+relating them. Other activities happen to return matching lengths, which makes the
+association look recoverable when it is only coincidence.
+
+So indicators are reconstructed, because their fields are internally consistent, and
+results are reported without being attached to them. Since the arithmetic operates on
+indicators, almost nothing analytical is lost.
+
+Two other warnings to watch for:
+
+- **A field was dropped for length mismatch.** Sparse optional fields come back
+  compacted rather than padded, so using them positionally would attach a comment or a
+  value to the wrong indicator.
+- **Direction is unknown.** Where `ascending` is not published, it is assumed upward
+  and says so. Check any indicator where a lower number is better, because that
+  assumption reverses its result.
+
 ## Not yet built
 
-- Reading results straight out of the IATI adapter. The Datastore exposes result and
-  indicator fields; wiring them into this model is the next step.
+- Disaggregation from IATI. Dimensions are published, but a measurement carrying two of
+  them expands the flattened rows in a way this parser does not yet model, and guessing
+  would attach slices to the wrong indicator.
 - Theory of change and logframe structures. Widely used, but mostly narrative rather
   than computable, so there is less here that code can check.
 - SROI. The methodology is contested enough that shipping one interpretation as though
