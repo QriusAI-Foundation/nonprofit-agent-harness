@@ -57,6 +57,9 @@ DEFAULT_FIELDS = (
     "recipient_country_narrative",
     "sector_code",
     "sector_narrative",
+    # Requested so a code is only resolved against the DAC list when it is a DAC code.
+    # Without it, a publisher's own sector numbering would be given someone else's name.
+    "sector_vocabulary",
     "activity_status_code",
     "activity_date_iso_date",
     "activity_date_type",
@@ -75,6 +78,9 @@ class IatiActivity:
     recipient_countries: tuple[str, ...] = ()
     sectors: tuple[str, ...] = ()
     status: str = ""
+    #: The status as words. Kept separate so `status` stays the raw code for anyone
+    #: matching on it.
+    status_label: str = ""
     dates: tuple[str, ...] = ()
     raw: dict[str, Any] = field(default_factory=dict)
 
@@ -97,7 +103,7 @@ class IatiActivity:
         if self.sectors:
             lines.append(f"Sectors: {', '.join(self.sectors)}")
         if self.status:
-            lines.append(f"Activity status: {self.status}")
+            lines.append(f"Activity status: {self.status_label or self.status}")
         if self.dates:
             lines.append(f"Activity dates: {', '.join(self.dates)}")
         if self.description:
@@ -120,9 +126,24 @@ class IatiActivity:
 
     @classmethod
     def from_record(cls, record: dict[str, Any]) -> IatiActivity:
+        """Flatten one record, filling in readable names where the publisher gave none.
+
+        A narrative published alongside a code always wins: it is what the organisation
+        itself chose to call the thing. The bundled codelists are a fallback for the
+        common case of a code with no narrative, which would otherwise reach an agent as
+        a bare number.
+        """
+        from nonprofit_harness.datasources.codelists import bundled
+
         identifier = _one(record.get("iati_identifier"))
         if not identifier:
             raise DataSourceError("IATI record has no iati_identifier")
+
+        codes = bundled()
+        country_codes = _many(record.get("recipient_country_code"))
+        sector_codes = _many(record.get("sector_code"))
+        status = _one(record.get("activity_status_code"))
+
         return cls(
             iati_identifier=identifier,
             title=_one(record.get("title_narrative")),
@@ -130,10 +151,19 @@ class IatiActivity:
             reporting_org=_one(record.get("reporting_org_narrative")),
             reporting_org_ref=_one(record.get("reporting_org_ref")),
             recipient_countries=_pair(
-                record.get("recipient_country_narrative"), record.get("recipient_country_code")
+                record.get("recipient_country_narrative"),
+                record.get("recipient_country_code"),
+                fallback=codes.labels("Country", country_codes),
             ),
-            sectors=_pair(record.get("sector_narrative"), record.get("sector_code")),
-            status=_one(record.get("activity_status_code")),
+            sectors=_pair(
+                record.get("sector_narrative"),
+                record.get("sector_code"),
+                fallback=codes.sector_labels(
+                    sector_codes, _many(record.get("sector_vocabulary"))
+                ),
+            ),
+            status=status,
+            status_label=codes.label("ActivityStatus", status) if status else "",
             dates=_dates(
                 record.get("activity_date_iso_date"), record.get("activity_date_type")
             ),
@@ -298,18 +328,17 @@ def _join(value: Any, separator: str = "\n\n") -> str:
     return separator.join(_many(value))
 
 
-def _pair(names: Any, codes: Any) -> tuple[str, ...]:
-    """Render a code list as "Name (code)", falling back to bare codes.
+def _pair(names: Any, codes: Any, *, fallback: tuple[str, ...] = ()) -> tuple[str, ...]:
+    """Render a code list as "Name (code)", preferring the publisher's own wording.
 
-    Narratives are frequently absent in real published data, so the bare-code path is
-    the common one rather than the exception. Codes repeat too, because an activity
-    can report the same sector against several vocabularies, so the result is
-    deduplicated. Resolving codes to readable names needs IATI's codelists, which is
-    a separate call this client does not yet make.
+    Narratives are frequently absent in real published data, which is why `fallback`
+    exists: names resolved from the bundled codelists. Codes repeat too, because an
+    activity can report the same sector against several vocabularies, so the result is
+    deduplicated either way.
     """
     name_list, code_list = _many(names), _many(codes)
     if not name_list:
-        return _dedupe(code_list)
+        return _dedupe(fallback or code_list)
     if len(name_list) != len(code_list):
         return _dedupe(name_list)
     return _dedupe(tuple(f"{n} ({c})" for n, c in zip(name_list, code_list, strict=True)))

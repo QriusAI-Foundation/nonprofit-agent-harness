@@ -308,6 +308,19 @@ not have its claims checked against a known set of sources.
 
 The free IATI tier allows 100 calls a week, so pass a cache.
 
+Codes arrive resolved, because `Sectors: 11220` is precise and useless:
+
+```
+Recipient countries: Palestine, State of (PS)
+Sectors: Primary education (11220)
+Activity status: Closed (4)
+```
+
+The lists are bundled, so that costs no network, no key, and none of the call budget.
+A publisher's own narrative always wins over the codelist, and a sector reported
+against a publisher's own numbering is left as a bare code rather than given a DAC name
+that would be real and wrong.
+
 Published indicators come back as the results model above, ready to compute on:
 
 ```python
@@ -478,8 +491,7 @@ deployment open to the public needs quota and rate limiting on top. Runs still e
 in-process, and although a stranded run is now failed at startup, high volumes want a
 real queue.
 
-**Not started.** Resolving IATI codes to readable names, so output still says
-`Sectors: 11220`. Disaggregation from IATI, because a measurement carrying two
+**Not started.** Disaggregation from IATI, because a measurement carrying two
 dimensions expands the flattened rows in a way the parser does not yet model. An
 evaluation harness. Logframe and theory of change structures, which are mostly
 narrative and so offer little for code to check.

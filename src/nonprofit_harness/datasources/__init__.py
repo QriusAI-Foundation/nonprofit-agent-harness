@@ -5,6 +5,8 @@ harness applies unchanged: an agent consumes them like any other input, and a cl
 citing them is verified against the same text the agent was given.
 """
 
+from nonprofit_harness.datasources.codelists import Codelists
+from nonprofit_harness.datasources.codelists import bundled as codelists
 from nonprofit_harness.datasources.iati import IatiActivity, IatiClient
 from nonprofit_harness.datasources.iati_results import (
     RESULT_FIELDS,
@@ -14,8 +16,10 @@ from nonprofit_harness.datasources.iati_results import (
 
 __all__ = [
     "RESULT_FIELDS",
+    "Codelists",
     "IatiActivity",
     "IatiClient",
     "IatiResults",
+    "codelists",
     "results_from_record",
 ]

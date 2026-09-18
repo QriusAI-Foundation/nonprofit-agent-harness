@@ -117,12 +117,13 @@ def test_missing_fields_do_not_break_parsing():
     assert activity.recipient_countries == ()
 
 
-def test_codes_are_used_when_names_are_absent():
+def test_a_code_outside_the_codelist_is_still_passed_through():
+    """Better a bare code than a wrong name, and better than dropping it entirely."""
     activity = IatiActivity.from_record(
-        {"iati_identifier": "XX-1", "sector_code": ["11320", "11220"]}
+        {"iati_identifier": "XX-1", "sector_code": ["99998", "99999"]}
     )
 
-    assert activity.sectors == ("11320", "11220")
+    assert activity.sectors == ("99998", "99999")
 
 
 def test_real_published_data_parses():
@@ -131,14 +132,14 @@ def test_real_published_data_parses():
 
     assert activity.iati_identifier == "XM-DAC-41130-2019ProgB-2-EG05"
     assert activity.reporting_org == "UNRWA"
-    # Narratives absent, so bare codes rather than "Name (code)".
-    assert activity.recipient_countries == ("PS",)
+    # No narrative published, so the name comes from the bundled codelist.
+    assert activity.recipient_countries == ("Palestine, State of (PS)",)
 
 
 def test_a_code_repeated_across_vocabularies_appears_once():
     activity = IatiActivity.from_record(REAL_WORLD["response"]["docs"][0])
 
-    assert activity.sectors == ("11220",)
+    assert activity.sectors == ("Primary education (11220)",)
 
 
 def test_dates_are_labelled_with_their_type_and_deduplicated():

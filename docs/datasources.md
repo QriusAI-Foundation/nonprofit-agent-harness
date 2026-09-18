@@ -147,12 +147,54 @@ Returns an `IatiResults` carrying reconstructed indicators, the activity's resul
 titles, and warnings. See [results.md](results.md) for what is recoverable from the
 Datastore's flattening and what deliberately is not.
 
-### Known limitation: codes are not resolved to names
+### Codes become readable
 
-Sector, country, and activity-status codes are passed through as published. IATI
-offers a Codelist API that maps them to readable names, and wiring it in is the next
-improvement to this adapter. Doing it well means caching the codelists locally rather
-than spending the weekly call budget on them.
+Published data is full of codes. Without resolution an activity reaches an agent
+saying `Sectors: 11220` and `Recipient countries: PS`, which is precise and useless.
+
+```
+Recipient countries: Palestine, State of (PS)
+Sectors: Primary education (11220)
+Activity status: Closed (4)
+```
+
+The lists are **bundled, not fetched**, so this needs no network, no key, and none of
+the weekly call budget. Sector, Country, ActivityStatus, Region and OrganisationType
+ship with the package, 631 entries in about 22KB.
+
+Three rules govern how a name is chosen:
+
+- **The publisher's own narrative always wins.** It is what the organisation chose to
+  call the thing. Codelists are a fallback for the common case of a code with no
+  narrative at all.
+- **The code is kept alongside the name**, as `Name (code)`, because the code is what
+  anyone cross-referencing the published data will search for.
+- **An unresolved code is passed through bare.** Better a number than a wrong name, and
+  better than dropping it.
+
+### A code only means something inside its vocabulary
+
+IATI lets a publisher report sectors against their own numbering rather than the OECD
+DAC list. Their code `11220` means whatever they say it means, so resolving it against
+the DAC list would attach a real and wrong name to it.
+
+So `sector_vocabulary` is requested alongside the codes, and a sector is only resolved
+where the vocabulary is the DAC one or is absent, which the standard treats as the
+default. Where vocabularies are published but cannot be matched to their codes, nothing
+is resolved.
+
+### Keeping them current
+
+Bundled data goes stale. The generated file records its source and the date it was
+taken, and `bundled().fetched` exposes that at runtime.
+
+```bash
+python scripts/refresh_codelists.py
+```
+
+Refetches from [Code for IATI](https://codelists.codeforiati.org/) and rewrites the
+bundled file. Only the code and name are kept; the upstream Sector list is 120KB,
+almost all of it descriptions nothing here reads.
 
 ## Sources not yet written
 
