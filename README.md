@@ -94,6 +94,11 @@ nothing to run.
 **The budget is fixed and small.** Grant money does not stretch because a retry loop
 misbehaved. Every run carries a hard ceiling on cost, tokens, and calls.
 
+**Nobody chose their model provider.** Credits arrive donated, from whichever platform
+offered them, and some data is not allowed to leave the building at all. Eight
+providers work out of the box, including local models, and switching is one
+environment variable.
+
 **There is no platform team.** It has to run with no cloud account before it runs with
 one. A fresh clone works offline, for free, in one command.
 
@@ -192,12 +197,15 @@ See [docs/writing-an-agent.md](docs/writing-an-agent.md) for the full guide.
 | **Budget ceilings** | Hard per-run limits on cost, tokens, and calls. Token and call limits work before you configure any pricing. |
 | **Readiness scoring** | A scoring engine for AI-readiness instruments: per-question direction, excluded options, weighted dimensions, geometric-mean aggregation, tier bands. |
 | **Documents** | PDF, DOCX, and text in, plain text out. Agents never see bytes. |
-| **Sector data** | An IATI adapter that turns published activity data into harness input. |
+| **Sector data** | An IATI adapter that turns published activity data, and published indicators, into harness input. |
 | **Results and indicators** | The sector's own arithmetic: achievement against target, progress from baseline, disaggregation, budget utilisation. Deterministic, no model calls. |
+| **Providers** | OpenAI, Anthropic, Groq, Together, OpenRouter, vLLM, Ollama, and Gemini. Only Gemini needs an extra install. |
 | **Storage** | In-memory by default. Firestore and Cloud Storage behind the same interface. |
 | **Auth** | Google Sign-In verification plus the harness's own session tokens. Off by default. |
 | **Redaction** | Optional masking of direct identifiers before text reaches a model. |
-| **HTTP API** | FastAPI surface for runs, uploads, the review queue, readiness, and webhooks. |
+| **Credential hygiene** | Every provider's error text is scrubbed of API keys before it is raised, logged, or returned. |
+| **Run recovery** | A run stranded by a stopped process is failed at startup, so a poller gets an answer instead of waiting forever. |
+| **HTTP API and CLI** | FastAPI surface for runs, uploads, review, readiness and webhooks, plus a `harness` command. |
 
 ## Verifying what an artifact claims
 
@@ -298,8 +306,24 @@ Fetching happens on the caller's side, never inside the agent. An agent that cou
 fetch its own data would reach past its inputs, could not be tested offline, and could
 not have its claims checked against a known set of sources.
 
-The free IATI tier allows 100 calls a week, so pass a cache. See
-[docs/datasources.md](docs/datasources.md).
+The free IATI tier allows 100 calls a week, so pass a cache.
+
+Published indicators come back as the results model above, ready to compute on:
+
+```python
+parsed = client.indicators("US-EIN-521257057-WRI-23-27")
+parsed.indicators      # rebuilt, ready for achievement()
+parsed.warnings        # read these before reporting any number
+```
+
+**Read the warnings.** The Datastore flattens a nested activity into parallel arrays,
+and IATI's own guidance says you cannot tell which element of one list belongs to which
+element of another. Confirmed live: one real activity returns 16 result titles against
+301 indicator rows, with nothing relating them. Indicators are therefore reconstructed,
+because their fields are internally consistent, and results are reported without being
+attached to them. Guessing the grouping would put indicators under the wrong result.
+
+See [docs/datasources.md](docs/datasources.md).
 
 ## Readiness scoring
 
@@ -348,17 +372,35 @@ HARNESS_AGENTS=examples.summarizer:SummarizerAgent uvicorn nonprofit_harness.mai
 GET  /healthz
 GET  /v1/agents
 POST /v1/uploads
-POST /v1/runs
-GET  /v1/runs/{id}
-GET  /v1/review/queue
+POST /v1/runs                                              create a run
+GET  /v1/runs                                              list them
+GET  /v1/runs/{run_id}
+GET  /v1/review/queue                                      what is waiting on a person
 POST /v1/review/{run_id}/artifacts/{artifact_id}/approve
 POST /v1/review/{run_id}/artifacts/{artifact_id}/reject
-GET  /v1/review/{run_id}/released
+POST /v1/review/{run_id}/approve-all
+GET  /v1/review/{run_id}/released                          409 while anything is pending
+GET  /v1/readiness/instrument
 POST /v1/readiness/score
+POST /v1/auth/google                                       exchange a Google credential
+GET  /v1/auth/me
+GET  /v1/admin/config                                      settings in force, plus warnings
+GET  /v1/admin/orgs
 POST /v1/webhooks/{source}
 ```
 
 Interactive docs at `/docs`.
+
+## The command line
+
+```bash
+harness check                                        # settings in force, and any warnings
+harness run mypackage.agents:BriefAgent report.pdf   # run an agent over files
+harness score answers.json                           # score readiness answers
+```
+
+`harness run` adds the working directory to the import path, so an agent in your own
+project works without installing it. Pass `--option key=value` to reach `ctx.options`.
 
 ## Configuration
 
@@ -377,12 +419,21 @@ Everything is environment variables. Defaults are offline, free, and reviewed. S
 | `HARNESS_VERIFY_PASSES` | `0` | Cross-check passes per claim (costs model calls) |
 | `HARNESS_VERIFY_MODELS` | empty | Comma-separated models to rotate across passes |
 | `HARNESS_REDACT_INPUTS` | `false` | Mask identifiers before sending text |
+| `HARNESS_RUN_TIMEOUT_SECONDS` | `3600` | How long before a stranded run is treated as abandoned |
 | `HARNESS_AUTH_REQUIRED` | `false` | Require a session token |
-| `HARNESS_ADMIN_EMAILS` | empty | Comma-separated allowlist |
+| `HARNESS_GOOGLE_CLIENT_ID` | unset | For Google Sign-In |
+| `HARNESS_JWT_SECRET` | unset | Session signing secret, 32 bytes or more |
+| `HARNESS_ADMIN_EMAILS` | empty | Comma-separated allowlist, exact match |
+| `HARNESS_CORS_ORIGINS` | empty | Comma-separated browser origins |
 | `HARNESS_AGENTS` | empty | Comma-separated `module:ClassName` to register |
 
+Provider keys use each vendor's usual name: `OPENAI_API_KEY`, `OPENAI_BASE_URL`,
+`ANTHROPIC_API_KEY`, `GOOGLE_API_KEY` or `GOOGLE_CLOUD_PROJECT`. Data sources use
+`IATI_API_KEY`.
+
 Ceilings accept `none`, `unlimited`, or `off` to switch off. `0` means zero, not
-"unset". Run `harness check` to print what is actually in force.
+"unset". Run `harness check` to print what is actually in force, along with the
+problems that would bite in production.
 
 ## Deploying
 
@@ -418,17 +469,20 @@ uvx agent-starter-pack create my-agent -a github.com/QriusAI-Foundation/nonprofi
 Honest about where this is:
 
 **Works and is tested.** The agent contract, review gate, claim verification, budget
-ceilings, readiness engine, document extraction, in-memory and GCP storage, auth, the
-HTTP API, and the CLI. 119 tests, all offline, running on Python 3.11 through 3.13.
+ceilings, the results and indicator arithmetic, the readiness engine, the IATI data
+source, eight model providers, document extraction, in-memory and GCP storage, auth,
+the HTTP API, and the CLI. **253 tests**, all offline, on Python 3.11 through 3.13.
 
 **Known gaps.** Per-run ceilings bound a single run rather than a total, so a
 deployment open to the public needs quota and rate limiting on top. Runs still execute
-in-process, and although an abandoned run is now failed at startup rather than
-stranded, high volumes want a real queue. IATI codes are not resolved to readable
-names.
+in-process, and although a stranded run is now failed at startup, high volumes want a
+real queue.
 
-**Not started.** Resolving IATI codes to readable names. Disaggregation from IATI. An
-evaluation harness. Logframe and theory of change structures.
+**Not started.** Resolving IATI codes to readable names, so output still says
+`Sectors: 11220`. Disaggregation from IATI, because a measurement carrying two
+dimensions expands the flattened rows in a way the parser does not yet model. An
+evaluation harness. Logframe and theory of change structures, which are mostly
+narrative and so offer little for code to check.
 
 ## Contributing
 
