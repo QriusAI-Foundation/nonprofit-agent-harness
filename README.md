@@ -158,6 +158,7 @@ See [docs/writing-an-agent.md](docs/writing-an-agent.md) for the full guide.
 | **Readiness scoring** | A scoring engine for AI-readiness instruments: per-question direction, excluded options, weighted dimensions, geometric-mean aggregation, tier bands. |
 | **Documents** | PDF, DOCX, and text in, plain text out. Agents never see bytes. |
 | **Sector data** | An IATI adapter that turns published activity data into harness input. |
+| **Results and indicators** | The sector's own arithmetic: achievement against target, progress from baseline, disaggregation, budget utilisation. Deterministic, no model calls. |
 | **Storage** | In-memory by default. Firestore and Cloud Storage behind the same interface. |
 | **Auth** | Google Sign-In verification plus the harness's own session tokens. Off by default. |
 | **Redaction** | Optional masking of direct identifiers before text reaches a model. |
@@ -214,6 +215,33 @@ reviewer knows where to look. One consequence worth knowing: an agent that sets
 `requires_review = False` still cannot auto-release an artifact whose claims failed.
 Opting out of review says the output is routine. A citation that does not resolve is
 evidence that it is not.
+
+## Did the programme work
+
+The sector's own arithmetic, written down once. Deterministic, and free to run.
+
+```python
+from nonprofit_harness.results import Baseline, Indicator, achievement
+
+got = achievement(indicator)
+got.explain()   # "Enrolment: 50.0% (70 from a baseline of 60 towards 80)"
+```
+
+Three things this refuses to get wrong, each of which produces a confident and
+incorrect number if you do the obvious thing:
+
+- **Direction.** Forty disease cases against a target of fifty is a success, not an
+  80% shortfall. The IATI `ascending` flag says which way is good, and it is honoured.
+- **Baselines.** Enrolment moving 60 to 70 against a target of 80 is 50% of the
+  intended change, not 87.5%. Measuring from zero credits a programme with what was
+  already true before it started.
+- **What may be added.** Percentages do not sum, ordinal codes are labels, and
+  publishers can mark their own data as not aggregatable. Totals refuse rather than
+  filtering quietly, because a total that dropped half its inputs looks complete.
+
+Nothing returns a bare number. Every figure carries how it was reached, and anything
+that cannot be calculated says why instead of guessing. See
+[docs/results.md](docs/results.md).
 
 ## Reading the sector's own data
 
@@ -343,6 +371,7 @@ uvx agent-starter-pack create my-agent -a github.com/QriusAI-Foundation/nonprofi
 |---|---|
 | [docs/writing-an-agent.md](docs/writing-an-agent.md) | The agent contract in depth, options, claims, testing |
 | [docs/datasources.md](docs/datasources.md) | Reading the sector's open data, starting with IATI |
+| [docs/results.md](docs/results.md) | Results, indicators, and the arithmetic that gets them wrong |
 | [docs/configuration.md](docs/configuration.md) | Every setting, what it does, what it costs |
 | [docs/deployment.md](docs/deployment.md) | Cloud Run and Terraform, start to finish |
 | [docs/security.md](docs/security.md) | Threat model, what is and is not protected |

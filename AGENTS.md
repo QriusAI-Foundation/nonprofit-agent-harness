@@ -31,6 +31,13 @@ HTTP surface. The agent itself belongs to whoever is using this.
    fails if you do.
 9. **Verification reports to a human, it does not judge.** A failed claim flags an
    artifact for review. It must never fail the run, delete work, or auto-reject.
+10. **Results arithmetic honours direction, baselines, and measure.** See
+    `results/analysis.py`. An indicator with `ascending=False` improves downward;
+    progress is measured from the baseline, not from zero; only `Measure.UNIT` values
+    may be summed, and `aggregatable=False` is the publisher's decision, not a hint.
+    Each has a test named after the failure it prevents.
+11. **A calculation that cannot be made says so.** Return a `NotCalculable` reason
+    rather than zero, `None` alone, or a guess. A missing actual is not zero.
 
 ## Layout
 
@@ -42,6 +49,8 @@ src/nonprofit_harness/
   review/      the approval gate
   verification/ citation grounding + optional cross-model checking
   readiness/   scoring engine + instrument schema
+  results/     IATI-shaped results model + deterministic M&E arithmetic
+  datasources/ adapters for the sector's open data
   storage/     protocols, in-memory, GCP
   auth/        Google ID token verification, session tokens
   api/         FastAPI app, routes, schemas

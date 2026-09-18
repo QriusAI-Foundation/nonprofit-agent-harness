@@ -9,6 +9,21 @@ Pin an exact version if you depend on them.
 
 ## [Unreleased]
 
+### Added
+
+- **Results and indicators.** The sector's own model of whether a programme worked,
+  structured to match the IATI Standard's `result` element rather than invented, plus
+  the deterministic arithmetic over it: achievement against target, progress from
+  baseline, disaggregation and coverage, budget utilisation and unit cost. No model
+  calls.
+
+  Three things it refuses to get wrong, each of which otherwise produces a confident
+  and incorrect number. Direction, so that beating a descending target is not scored
+  as a shortfall. Baselines, so a programme is credited with the distance it moved
+  rather than with where it started. Aggregation, so percentages are not summed and a
+  publisher's own not-aggregatable flag is honoured. Totals refuse rather than
+  filtering quietly, because a total that dropped half its inputs looks complete.
+
 ## [0.1.1]
 
 ### Security
