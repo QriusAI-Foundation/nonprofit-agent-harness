@@ -43,7 +43,7 @@ no knowledge of budgets, and no way to release its own output. That is deliberat
 | Inbound events | webhook registry | none | your form or CRM vendor |
 
 Every seam is a protocol with an in-process default, so the whole system runs on a
-laptop with nothing configured. That is not a demo mode — it is the same code path.
+laptop with nothing configured. That is not a demo mode. It is the same code path.
 
 ## Run lifecycle
 

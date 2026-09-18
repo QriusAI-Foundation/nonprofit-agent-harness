@@ -10,8 +10,8 @@ from typing import Any, Literal
 class Citation:
     """A span of source text an agent says supports a claim.
 
-    `locator` is free text for wherever the span came from — a page number, a
-    section heading, a row id. The harness never parses it; it exists so a human
+    `locator` is free text for wherever the span came from: a page number, a
+    section heading, a row id. The harness never parses it. It exists so a human
     reviewer can find the passage without searching for it.
     """
 
