@@ -6,11 +6,13 @@ everything around the agent.
 Built on [Google's Agent Development Kit](https://github.com/google/adk-python), and
 usable without it. The model layer is one swappable interface.
 
+[![PyPI](https://img.shields.io/pypi/v/nonprofit-agent-harness.svg)](https://pypi.org/project/nonprofit-agent-harness/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/)
 
 > **Status: alpha.** Everything described below works and is covered by tests. The
-> interfaces will still change. Pin a commit if you depend on it.
+> interfaces will still change while the version stays below 1.0, so pin an exact
+> version if you depend on them.
 
 ---
 
@@ -85,6 +87,16 @@ on purpose.
 No cloud account, no API key, no spend:
 
 ```bash
+pip install nonprofit-agent-harness
+harness check
+```
+
+That prints the settings in force. Nothing is configured yet, and it still runs,
+because the default provider is offline and deterministic.
+
+To work on the harness itself, or to run the bundled examples:
+
+```bash
 git clone https://github.com/QriusAI-Foundation/nonprofit-agent-harness
 cd nonprofit-agent-harness
 python3 -m venv .venv && source .venv/bin/activate
@@ -93,9 +105,11 @@ pip install -e ".[dev,documents]"
 harness run examples.summarizer:SummarizerAgent path/to/report.pdf
 ```
 
-That runs against a built-in offline provider that returns deterministic text, so the
-whole path works before you connect a real model. Continuous integration runs this
-exact flow on every commit, so the promise stays true.
+The examples are not packaged, deliberately. They are reference material rather than
+library code, and your agents live in your own project.
+
+Continuous integration installs the package with no extras and runs the example on
+every commit, so the offline promise stays true rather than being an aspiration.
 
 Point it at Gemini when you are ready:
 
@@ -343,12 +357,14 @@ Honest about where this is:
 ceilings, readiness engine, document extraction, in-memory and GCP storage, auth, the
 HTTP API, and the CLI. 119 tests, all offline, running on Python 3.11 through 3.13.
 
-**Known gaps, tracked in issues.** Per-run ceilings bound a single run rather than a
-total, so a deployment open to the public needs quota and rate limiting on top. Runs
-execute in-process, so an instance restart can strand a run. Firestore queries need a
-composite index before the GCP backend is used in anger.
+**Known gaps.** Per-run ceilings bound a single run rather than a total, so a
+deployment open to the public needs quota and rate limiting on top. Runs still execute
+in-process, and although an abandoned run is now failed at startup rather than
+stranded, high volumes want a real queue. IATI codes are not resolved to readable
+names.
 
-**Not started.** Published package on PyPI. Provider adapters beyond Gemini.
+**Not started.** Provider adapters beyond Gemini. Sector-specific primitives such as
+logframes and outcome indicators. Resolving IATI codes to readable names.
 
 ## Contributing
 

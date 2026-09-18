@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import logging
+from contextlib import asynccontextmanager
 from typing import Any
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from nonprofit_harness import __version__
 from nonprofit_harness.api.deps import AppContext
 from nonprofit_harness.api.routes import admin, auth, readiness, review, runs, webhooks
 from nonprofit_harness.auth import SessionTokens
@@ -65,13 +67,25 @@ def create_app(
         else None,
     )
 
+    @asynccontextmanager
+    async def lifespan(_: FastAPI):
+        # A recycled instance leaves its in-flight runs marked running forever, so the
+        # replacement resolves them. Failures here must not stop the app booting: a
+        # reachable service with stale records beats no service at all.
+        try:
+            ctx.runner.reap_abandoned()
+        except Exception:  # noqa: BLE001 - startup must not depend on storage health
+            logger.exception("Could not reap abandoned runs at startup")
+        yield
+
     app = FastAPI(
         title="Nonprofit Agent Harness",
-        version="0.1.0",
+        version=__version__,
         description=(
             "Run agents with a human review gate, a per-run budget ceiling, "
             "and readiness scoring."
         ),
+        lifespan=lifespan,
     )
     app.state.ctx = ctx
 

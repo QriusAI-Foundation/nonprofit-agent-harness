@@ -9,27 +9,36 @@ Pin an exact version if you depend on them.
 
 ## [Unreleased]
 
-### Added
+### Security
 
-- **IATI data source.** Reads activity data published to the International Aid
-  Transparency Initiative standard and turns it into harness input. Fetching stays on
-  the caller's side, so agents still receive documents and nothing else.
-- Release workflow publishing to PyPI through trusted publishing, so no API token is
-  stored as a repository secret.
-- Changelog, citation metadata, issue and pull request templates, and Dependabot.
+- **Credentials are stripped from provider error text.** On the API-key path the SDK
+  builds request URLs containing `?key=...`, and an error could quote the URL it failed
+  on. That text reached logs and, through the API's error handler, an HTTP response
+  body. Both a key embedded in any URL and the configured key itself are now redacted.
+  Vertex AI deployments were never affected, because they authenticate with a service
+  account and no key appears in a URL.
 
 ### Fixed
 
-- A plain search term is expanded across text fields. The IATI Datastore declares no
-  default search field, so an unqualified query was rejected with HTTP 400. Found by
-  running against the live API rather than fixtures.
-- Repeated sector and country codes are deduplicated, and activity dates are trimmed
-  to days, labelled with their type, and deduplicated. A real activity was rendering
-  as eight identical-looking dates.
+- **Firestore composite indexes are defined in Terraform**, and a missing one now
+  raises a `StorageError` that keeps the link Firestore supplies to create it. Listing
+  runs filters on one field and orders by another, which needs a composite index that
+  Firestore does not create on its own. The in-memory backend has no such rule, so this
+  only appeared on a real deployment.
+- **Runs abandoned by a stopped process are failed at startup.** Runs execute in the
+  web process, so a recycled instance left a record in `running` that nothing would
+  ever update and a poller would wait on forever. The threshold is
+  `HARNESS_RUN_TIMEOUT_SECONDS`, defaulting to an hour, and must exceed the longest run
+  you expect so a run in progress elsewhere is not reaped.
+
+### Changed
+
+- The quickstart leads with `pip install nonprofit-agent-harness` now that the package
+  is published.
 
 ## [0.1.0]
 
-First release.
+First release, published to PyPI as `nonprofit-agent-harness`.
 
 ### Added
 
@@ -51,6 +60,12 @@ First release.
 - **Storage.** In-memory by default, with Firestore and Cloud Storage behind the same
   interface.
 - **Documents.** PDF, DOCX, and text extraction.
+- **IATI data source.** Reads activity data published to the International Aid
+  Transparency Initiative standard and turns it into harness input. Fetching stays on
+  the caller's side, so agents still receive documents and nothing else. Verified
+  against the live API: a plain search term is expanded across text fields, because
+  the Datastore declares no default search field and rejects an unqualified query.
+  Repeated codes are deduplicated and dates are labelled with their type.
 - **Guardrails.** Optional masking of direct identifiers before text reaches a model.
 - **Auth.** Google Sign-In verification and harness-issued session tokens, off by
   default.

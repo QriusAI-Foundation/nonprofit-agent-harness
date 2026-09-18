@@ -32,6 +32,67 @@ resource "google_storage_bucket" "documents" {
   }
 }
 
+# Filtering on one field and ordering by another needs a composite index, which
+# Firestore will not create on its own. Without these, listing runs fails at runtime
+# with FAILED_PRECONDITION on the first real deployment.
+resource "google_firestore_index" "runs_by_org" {
+  project    = var.project_id
+  collection = "harness_runs"
+
+  fields {
+    field_path = "org_id"
+    order      = "ASCENDING"
+  }
+  fields {
+    field_path = "created_at"
+    order      = "DESCENDING"
+  }
+  fields {
+    field_path = "__name__"
+    order      = "DESCENDING"
+  }
+}
+
+resource "google_firestore_index" "runs_by_org_and_status" {
+  project    = var.project_id
+  collection = "harness_runs"
+
+  fields {
+    field_path = "org_id"
+    order      = "ASCENDING"
+  }
+  fields {
+    field_path = "status"
+    order      = "ASCENDING"
+  }
+  fields {
+    field_path = "created_at"
+    order      = "DESCENDING"
+  }
+  fields {
+    field_path = "__name__"
+    order      = "DESCENDING"
+  }
+}
+
+resource "google_firestore_index" "blobs_by_org" {
+  project    = var.project_id
+  collection = "harness_blobs"
+
+  fields {
+    field_path = "org_id"
+    order      = "ASCENDING"
+  }
+  fields {
+    field_path = "created_at"
+    order      = "DESCENDING"
+  }
+  fields {
+    field_path = "__name__"
+    order      = "DESCENDING"
+  }
+}
+
 resource "google_service_account" "harness" {
   account_id   = "${var.service_name}-sa"
   display_name = "Nonprofit Agent Harness"

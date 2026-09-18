@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, replace
+from datetime import UTC, datetime, timedelta
 
 from nonprofit_harness.config import HarnessConfig
 from nonprofit_harness.core.agent import Agent, RunContext
@@ -134,6 +135,43 @@ class AgentRunner:
                     remaining.verification = _stopped_short(remaining.claims, str(exc))
                 logger.warning("Verification stopped at the budget ceiling on run %s", run.id)
                 return
+
+    def reap_abandoned(self, *, older_than_seconds: int | None = None) -> list[Run]:
+        """Fail runs left in `running` by a process that is no longer there.
+
+        Runs execute in the web process, so an instance being recycled mid-run leaves a
+        record nobody will ever update again. A poller would wait on it forever.
+
+        Intended to be called at startup, which is exactly when a replacement instance
+        exists and the dead one's runs need resolving. The threshold has to exceed the
+        longest run you expect, because a run genuinely in progress on another instance
+        looks identical from here.
+        """
+        cutoff = datetime.now(UTC) - timedelta(
+            seconds=older_than_seconds
+            if older_than_seconds is not None
+            else self.config.run_timeout_seconds
+        )
+
+        reaped: list[Run] = []
+        for run in self.stores.runs.list(status=RunStatus.RUNNING, limit=500):
+            updated = run.updated_at
+            if updated.tzinfo is None:
+                updated = updated.replace(tzinfo=UTC)
+            if updated >= cutoff:
+                continue
+            stranded_for = int((datetime.now(UTC) - updated).total_seconds())
+            run.status = RunStatus.FAILED
+            run.error = (
+                "Abandoned. The process running it stopped before it finished, and it "
+                f"was still marked running after {stranded_for}s."
+            )
+            self.stores.runs.save(run)
+            reaped.append(run)
+
+        if reaped:
+            logger.warning("Failed %d abandoned run(s) on startup", len(reaped))
+        return reaped
 
     def _fail(self, run: Run, guard: BudgetGuard, message: str) -> Run:
         run.status = RunStatus.FAILED

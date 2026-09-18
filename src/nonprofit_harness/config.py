@@ -54,6 +54,11 @@ class HarnessConfig:
 
     redact_inputs: bool = False
 
+    #: How long a run may sit in `running` before a restart treats it as abandoned.
+    #: Generous by default: a run still in progress on another instance must not be
+    #: reaped, so this needs to exceed the longest run you expect.
+    run_timeout_seconds: int = 3600
+
     #: Citation checking costs nothing, so it is on. Cross-checking spends model
     #: calls, so it is off until a deployment asks for it.
     verify_claims: bool = True
@@ -81,6 +86,7 @@ class HarnessConfig:
             max_tokens=_env_int("HARNESS_MAX_TOKENS", 200_000),
             max_calls=_env_int("HARNESS_MAX_CALLS", 50),
             redact_inputs=_env_bool("HARNESS_REDACT_INPUTS", False),
+            run_timeout_seconds=_env_int("HARNESS_RUN_TIMEOUT_SECONDS", 3600) or 3600,
             verify_claims=_env_bool("HARNESS_VERIFY_CLAIMS", True),
             verify_passes=_env_int("HARNESS_VERIFY_PASSES", 0) or 0,
             verify_models=_env_list("HARNESS_VERIFY_MODELS"),

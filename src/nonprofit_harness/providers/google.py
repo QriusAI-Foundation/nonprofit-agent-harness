@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 import time
 from typing import Any
 
@@ -10,6 +11,28 @@ from nonprofit_harness.providers.base import ModelResponse, PriceBook
 
 _MAX_RETRIES = 5
 _INITIAL_BACKOFF_SECONDS = 5.0
+
+#: On the API-key path the SDK builds request URLs carrying `?key=...`, and an error
+#: can quote the URL it failed on. That text reaches logs and, through the API's error
+#: handler, an HTTP response body. Vertex AI is unaffected because it authenticates
+#: with a service account and there is no key in the URL at all.
+_KEY_IN_URL = re.compile(r"([?&](?:key|api_key|apikey)=)[^&\s\"'>]+", re.IGNORECASE)
+
+#: Shorter than this and a blind replace would mangle unrelated text.
+_MIN_SECRET_LENGTH = 8
+
+
+def scrub_secrets(text: str, secret: str | None = None) -> str:
+    """Remove credentials from text before it is logged or returned.
+
+    Two passes, because either alone leaves a gap. The pattern catches a key embedded
+    in any URL, including one this process never held. The literal replacement catches
+    the configured key wherever it appears, including outside a URL.
+    """
+    cleaned = _KEY_IN_URL.sub(r"\1[redacted]", text)
+    if secret and len(secret) >= _MIN_SECRET_LENGTH:
+        cleaned = cleaned.replace(secret, "[redacted]")
+    return cleaned
 
 
 class GoogleProvider:
@@ -38,6 +61,8 @@ class GoogleProvider:
     ) -> None:
         self.default_model = model
         self.prices = prices or PriceBook()
+        # Kept so error text can be scrubbed of it, not so it can be read back.
+        self._api_key = api_key or os.getenv("GOOGLE_API_KEY")
         self._client = client
         if client is None:
             self._client = _build_client(
@@ -102,7 +127,7 @@ class GoogleProvider:
                 # 429 is a per-minute quota ceiling, which waiting actually clears.
                 # Anything else will fail again just as fast, so surface it now.
                 if exc.code != 429 or attempt == _MAX_RETRIES:
-                    raise ProviderError(str(exc)) from exc
+                    raise ProviderError(scrub_secrets(str(exc), self._api_key)) from None
                 time.sleep(delay)
                 delay *= 2
         raise ProviderError("Exhausted retries without a response")
@@ -133,4 +158,4 @@ def _build_client(
     return genai.Client(api_key=key)
 
 
-__all__ = ["GoogleProvider"]
+__all__ = ["GoogleProvider", "scrub_secrets"]

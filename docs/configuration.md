@@ -83,6 +83,7 @@ configuration implies otherwise.
 | Variable | Default | Meaning |
 |---|---|---|
 | `HARNESS_REDACT_INPUTS` | `false` | Mask direct identifiers before text reaches a model |
+| `HARNESS_RUN_TIMEOUT_SECONDS` | `3600` | How long a run may sit in `running` before a restart treats it as abandoned |
 
 Redaction is a pattern matcher for emails, phone numbers, and similar identifiers. It
 reduces exposure. It is not anonymisation and it is not a lawful basis for processing

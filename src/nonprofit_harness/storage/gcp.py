@@ -3,7 +3,7 @@ from __future__ import annotations
 import uuid
 from typing import Any
 
-from nonprofit_harness.core.errors import NotFound
+from nonprofit_harness.core.errors import NotFound, StorageError
 from nonprofit_harness.core.types import Run, RunStatus
 from nonprofit_harness.storage.base import Org, StoredBlob, Stores, User
 from nonprofit_harness.storage.serde import run_from_dict, run_to_dict
@@ -40,7 +40,30 @@ class FirestoreRunStore:
         if status:
             query = query.where("status", "==", str(status))
         query = query.order_by("created_at", direction="DESCENDING").limit(limit)
-        return [run_from_dict(doc.to_dict()) for doc in query.stream()]
+
+        try:
+            return [run_from_dict(doc.to_dict()) for doc in query.stream()]
+        except Exception as exc:  # noqa: BLE001 - narrowed immediately below
+            raise _index_hint(exc) from exc
+
+
+def _index_hint(exc: Exception) -> Exception:
+    """Turn Firestore's missing-index error into something actionable.
+
+    Filtering on a field and ordering by a different one needs a composite index, which
+    Firestore does not create on its own. The in-memory backend has no such rule, so
+    this surfaces on a real deployment and never in a test. Firestore's own message
+    carries a link that creates the index, so the useful thing is to keep that message
+    rather than replace it.
+    """
+    detail = str(exc)
+    if "FAILED_PRECONDITION" not in detail and "requires an index" not in detail:
+        return exc
+    return StorageError(
+        "Firestore needs a composite index for this query. Either open the link in the "
+        "message below, or apply the index definitions in deployment/terraform. "
+        f"Original error: {detail}"
+    )
 
 
 class GcsBlobStore:

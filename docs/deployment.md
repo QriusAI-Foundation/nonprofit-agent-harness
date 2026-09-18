@@ -101,15 +101,17 @@ URL.
 
 ## Known gaps to plan around
 
-**Firestore composite index.** Listing runs filters on organisation and status, then
-orders by creation time. Firestore requires a composite index for that combination and
-returns `FAILED_PRECONDITION` with a link to create it. The in-memory backend does not,
-so this only appears on a real deployment. Follow the link in the error once, or create
-the index ahead of time.
-
 **Runs execute in-process.** A run is started with FastAPI background tasks. If the
-instance is recycled mid-run, nothing marks that run failed and it stays in `running`.
-For low volumes this is tolerable. For anything larger, move execution to a queue.
+instance is recycled mid-run, the replacement fails that run at startup once it has sat
+in `running` longer than `HARNESS_RUN_TIMEOUT_SECONDS`, so a poller gets an answer
+instead of waiting forever. Set that threshold above the longest run you expect: a run
+genuinely in progress on another instance is indistinguishable from an abandoned one.
+For high volumes, move execution to a queue.
+
+**Firestore indexes are created by Terraform.** Listing runs filters on one field and
+orders by another, which needs a composite index. The definitions are in `main.tf`. If
+you provision Firestore by hand instead, the first listing raises a `StorageError`
+carrying the link Firestore supplies to create the index.
 
 **Per-run ceilings are not a total.** See [security.md](security.md).
 

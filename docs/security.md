@@ -86,9 +86,11 @@ to it.
 If you do use `GOOGLE_API_KEY`, keep it in Secret Manager or an equivalent, never in a
 committed file. `.env` is gitignored.
 
-Be aware that provider errors can carry request detail, and on the API key path a
-request URL can contain the key. Anything that logs or returns a raw provider error can
-therefore surface it. Scrub provider error text before logging it in your own code.
+The harness strips credentials from provider error text before raising, because on the
+API key path the SDK builds request URLs containing `?key=...` and an error can quote
+the URL it failed on. Both a key embedded in any URL and the configured key itself are
+redacted. If you write your own provider, do the same: `scrub_secrets` in
+`providers/google.py` is the reference.
 
 ## Deployment checklist
 

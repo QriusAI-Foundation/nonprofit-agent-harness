@@ -65,6 +65,13 @@ class ProviderError(HarnessError):
     code = "provider_error"
 
 
+class StorageError(HarnessError):
+    """The storage backend refused a request, for a reason the deployer can fix."""
+
+    status_code = 500
+    code = "storage_error"
+
+
 class DataSourceError(HarnessError):
     """An external dataset could not be read: missing key, rate limit, bad response."""
 
@@ -82,5 +89,6 @@ __all__ = [
     "NotFound",
     "ProviderError",
     "ReviewRequired",
+    "StorageError",
     "Unauthorized",
 ]
