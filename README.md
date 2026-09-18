@@ -39,6 +39,23 @@ This is what we think AI capacity building has to mean eventually. Training help
 Tools help. But a sector that can only use what it is given stays dependent on
 whoever gives it. A sector with its own building blocks does not.
 
+## This is not a design sketch
+
+The Foundation runs the **Curriculum Agent** for nonprofits: an organisation uploads
+its own training material, an agent restructures it into something teachable, and a
+person reviews every change before anything is released. You can see it at
+[qriusai.org/harness](https://qriusai.org/harness).
+
+The harness in this repository is that system's machinery, rewritten for public use
+rather than invented for it. The review gate exists because real output had to be
+signed off by a real person. The budget ceilings exist because the bill was real. The
+citation checking exists because a generated fact reaching a funder report is a
+specific thing to be afraid of, not a hypothetical.
+
+What is here is the scaffolding, not the agents. The Curriculum Agent and the
+Foundation's other work stay in its own repositories. This is the part worth giving
+away.
+
 ## What we looked for, and did not find
 
 Before writing this we searched for one already. Two angles: open-source agent
