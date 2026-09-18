@@ -1,0 +1,85 @@
+{
+  "id": "example-readiness",
+  "name": "Example Readiness Instrument",
+  "version": "1.0",
+  "description": "A six-question demonstration instrument. It exists to exercise the scoring engine and the API. It is not a validated readiness index and should not be reported as one. Replace it with your own.",
+  "dimensions": ["Data & Systems", "People & Skills"],
+  "tiers": [
+    { "name": "Low", "min_score": 0.0, "max_score": 0.33 },
+    { "name": "Medium", "min_score": 0.330001, "max_score": 0.66 },
+    { "name": "High", "min_score": 0.660001, "max_score": 1.0 }
+  ],
+  "questions": [
+    {
+      "id": "d1",
+      "dimension": "Data & Systems",
+      "type": "single_choice",
+      "text": "How is your programme data currently stored?",
+      "options": [
+        { "value": "paper_only", "score": 0.0 },
+        { "value": "spreadsheets", "score": 0.4 },
+        { "value": "shared_database", "score": 0.8 },
+        { "value": "integrated_system", "score": 1.0 },
+        { "value": "dont_know", "score": 0.0, "excluded": true }
+      ]
+    },
+    {
+      "id": "d2",
+      "dimension": "Data & Systems",
+      "type": "single_choice",
+      "text": "Do you have a written data protection policy?",
+      "options": [
+        { "value": "no", "score": 0.0 },
+        { "value": "drafted", "score": 0.5 },
+        { "value": "adopted", "score": 1.0 },
+        { "value": "dont_know", "score": 0.0, "excluded": true }
+      ]
+    },
+    {
+      "id": "d3",
+      "dimension": "Data & Systems",
+      "type": "scale",
+      "text": "How reliable is your internet connectivity, from 1 to 5?",
+      "scale_min": 1,
+      "scale_max": 5
+    },
+    {
+      "id": "p1",
+      "dimension": "People & Skills",
+      "type": "multi_select",
+      "text": "Which of these does anyone on your team already do?",
+      "options": [
+        { "value": "writes_reports", "score": 1.0 },
+        { "value": "manages_spreadsheets", "score": 1.0 },
+        { "value": "builds_dashboards", "score": 1.0 },
+        { "value": "none_of_these", "score": 0.0, "excluded": true }
+      ]
+    },
+    {
+      "id": "p2",
+      "dimension": "People & Skills",
+      "type": "single_choice",
+      "text": "Has anyone on the team used an AI tool in their work?",
+      "options": [
+        { "value": "never", "score": 0.0 },
+        { "value": "tried_once", "score": 0.35 },
+        { "value": "occasionally", "score": 0.7 },
+        { "value": "regularly", "score": 1.0 },
+        { "value": "dont_know", "score": 0.0, "excluded": true }
+      ]
+    },
+    {
+      "id": "p3",
+      "dimension": "People & Skills",
+      "type": "single_choice",
+      "text": "Is there budget or time set aside for staff training?",
+      "weight": 0.5,
+      "options": [
+        { "value": "none", "score": 0.0 },
+        { "value": "ad_hoc", "score": 0.5 },
+        { "value": "planned_annually", "score": 1.0 },
+        { "value": "dont_know", "score": 0.0, "excluded": true }
+      ]
+    }
+  ]
+}
