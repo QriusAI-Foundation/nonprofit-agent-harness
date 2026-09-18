@@ -65,9 +65,17 @@ class ProviderError(HarnessError):
     code = "provider_error"
 
 
+class DataSourceError(HarnessError):
+    """An external dataset could not be read: missing key, rate limit, bad response."""
+
+    status_code = 502
+    code = "datasource_error"
+
+
 __all__ = [
     "AgentFailed",
     "BudgetExceeded",
+    "DataSourceError",
     "Forbidden",
     "HarnessError",
     "InvalidRequest",

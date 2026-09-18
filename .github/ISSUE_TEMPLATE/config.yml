@@ -1,0 +1,10 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/QriusAI-Foundation/nonprofit-agent-harness/blob/main/SECURITY.md
+    about: Please report security problems privately by email, not as a public issue.
+  - name: A comparable project we should know about
+    url: https://github.com/QriusAI-Foundation/nonprofit-agent-harness/issues/new
+    about: >-
+      The README says we found no comparable harness for this sector. If you know of
+      one, please tell us. We would rather link to it than duplicate it.

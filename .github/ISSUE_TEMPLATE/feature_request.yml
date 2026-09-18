@@ -1,0 +1,43 @@
+name: Feature request
+description: Something the harness should do and does not
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: >-
+        What are you trying to do, and what stops you? Concrete situations from real
+        nonprofit work are the most useful thing you can give us.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you have in mind
+      description: Optional. A rough shape is fine.
+
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Which part does this belong to
+      options:
+        - The harness itself (runs, review, budgets, verification)
+        - A provider or storage adapter
+        - Readiness scoring
+        - Documentation
+        - Not sure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      description: >-
+        This project is deliberately a harness and not an agent framework. Orchestration
+        languages, agent graphs, and retrieval layers are out of scope by design, and
+        belong inside your own `run` method.
+      options:
+        - label: I have read the non-goals in docs/ARCHITECTURE.md

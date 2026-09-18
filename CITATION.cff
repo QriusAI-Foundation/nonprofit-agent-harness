@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+title: QriusAI Nonprofit Agent Harness
+message: If you use this software, please cite it as below.
+type: software
+authors:
+  - family-names: Mohanty
+    given-names: Sanmaya
+    affiliation: QriusAI Foundation
+  - name: QriusAI Foundation
+    website: "https://qriusai.org/"
+repository-code: "https://github.com/QriusAI-Foundation/nonprofit-agent-harness"
+url: "https://qriusai.org/"
+abstract: >-
+  An open agent harness for the nonprofit sector. It provides the machinery around an
+  agent rather than the agent itself: a human review gate, verification that cited
+  claims appear in their sources, per-run budget ceilings, an AI-readiness scoring
+  engine, document extraction, pluggable model providers and storage, and an HTTP API.
+  Built on Google's Agent Development Kit and usable without it.
+keywords:
+  - agents
+  - nonprofit
+  - large language models
+  - human in the loop
+  - AI readiness
+license: Apache-2.0
+version: 0.1.0

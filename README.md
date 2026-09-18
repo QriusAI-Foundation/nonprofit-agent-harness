@@ -143,6 +143,7 @@ See [docs/writing-an-agent.md](docs/writing-an-agent.md) for the full guide.
 | **Budget ceilings** | Hard per-run limits on cost, tokens, and calls. Token and call limits work before you configure any pricing. |
 | **Readiness scoring** | A scoring engine for AI-readiness instruments: per-question direction, excluded options, weighted dimensions, geometric-mean aggregation, tier bands. |
 | **Documents** | PDF, DOCX, and text in, plain text out. Agents never see bytes. |
+| **Sector data** | An IATI adapter that turns published activity data into harness input. |
 | **Storage** | In-memory by default. Firestore and Cloud Storage behind the same interface. |
 | **Auth** | Google Sign-In verification plus the harness's own session tokens. Off by default. |
 | **Redaction** | Optional masking of direct identifiers before text reaches a model. |
@@ -199,6 +200,29 @@ reviewer knows where to look. One consequence worth knowing: an agent that sets
 `requires_review = False` still cannot auto-release an artifact whose claims failed.
 Opting out of review says the output is routine. A citation that does not resolve is
 evidence that it is not.
+
+## Reading the sector's own data
+
+Funders and implementing organisations publish activity data to the
+[IATI standard](https://iatistandard.org/). The harness reads it and turns it into
+ordinary harness input:
+
+```python
+from nonprofit_harness.datasources import IatiClient
+
+client = IatiClient(cache={})                                  # IATI_API_KEY, free
+activities = client.search_activities(reporting_org="XM-DAC-41114", rows=5)
+
+run = runner.start("my-agent", org_id="org_1",
+                   inputs=[a.to_document() for a in activities])
+```
+
+Fetching happens on the caller's side, never inside the agent. An agent that could
+fetch its own data would reach past its inputs, could not be tested offline, and could
+not have its claims checked against a known set of sources.
+
+The free IATI tier allows 100 calls a week, so pass a cache. See
+[docs/datasources.md](docs/datasources.md).
 
 ## Readiness scoring
 
@@ -304,6 +328,7 @@ uvx agent-starter-pack create my-agent -a github.com/QriusAI-Foundation/nonprofi
 | Document | What it covers |
 |---|---|
 | [docs/writing-an-agent.md](docs/writing-an-agent.md) | The agent contract in depth, options, claims, testing |
+| [docs/datasources.md](docs/datasources.md) | Reading the sector's open data, starting with IATI |
 | [docs/configuration.md](docs/configuration.md) | Every setting, what it does, what it costs |
 | [docs/deployment.md](docs/deployment.md) | Cloud Run and Terraform, start to finish |
 | [docs/security.md](docs/security.md) | Threat model, what is and is not protected |
