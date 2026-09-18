@@ -9,6 +9,8 @@ Pin an exact version if you depend on them.
 
 ## [Unreleased]
 
+## [0.1.1]
+
 ### Security
 
 - **Credentials are stripped from provider error text.** On the API-key path the SDK
@@ -35,6 +37,8 @@ Pin an exact version if you depend on them.
 
 - The quickstart leads with `pip install nonprofit-agent-harness` now that the package
   is published.
+- `__version__` is read from installed metadata rather than hardcoded, so it cannot
+  drift from the packaged version at release time.
 
 ## [0.1.0]
 
@@ -80,5 +84,6 @@ First release, published to PyPI as `nonprofit-agent-harness`.
 - Runs execute in-process, so an instance restart can leave a run in `running`.
 - Firestore listing needs a composite index before the GCP backend is used in anger.
 
-[Unreleased]: https://github.com/QriusAI-Foundation/nonprofit-agent-harness/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/QriusAI-Foundation/nonprofit-agent-harness/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/QriusAI-Foundation/nonprofit-agent-harness/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/QriusAI-Foundation/nonprofit-agent-harness/releases/tag/v0.1.0

@@ -28,7 +28,22 @@ from nonprofit_harness.verification import (
     VerificationReport,
 )
 
-__version__ = "0.1.0"
+
+def _detect_version() -> str:
+    """Read the version from installed metadata rather than repeating it here.
+
+    Hardcoding it means a release has to remember to change two files, and the one
+    that gets forgotten is this one, which then reports a version the package is not.
+    """
+    from importlib.metadata import PackageNotFoundError, version
+
+    try:
+        return version("nonprofit-agent-harness")
+    except PackageNotFoundError:  # a source tree that was never installed
+        return "0.0.0+unknown"
+
+
+__version__ = _detect_version()
 
 __all__ = [
     "Agent",

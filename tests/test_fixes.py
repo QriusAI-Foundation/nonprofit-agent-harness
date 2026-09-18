@@ -16,6 +16,22 @@ from nonprofit_harness.core.types import Run, RunStatus
 from nonprofit_harness.providers.google import scrub_secrets
 from nonprofit_harness.storage.gcp import _index_hint
 
+# --- version drift ------------------------------------------------------------------
+
+
+def test_the_reported_version_matches_the_packaged_one():
+    """Caught during the 0.1.1 bump: __version__ was hardcoded and had been missed."""
+    import tomllib
+    from pathlib import Path
+
+    from nonprofit_harness import __version__
+
+    pyproject = Path(__file__).parent.parent / "pyproject.toml"
+    packaged = tomllib.loads(pyproject.read_text())["project"]["version"]
+
+    assert __version__ == packaged
+
+
 # --- the key leak -------------------------------------------------------------------
 
 SECRET = "AIzaSyD-1234567890abcdefghijklmnop"
