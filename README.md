@@ -491,10 +491,10 @@ deployment open to the public needs quota and rate limiting on top. Runs still e
 in-process, and although a stranded run is now failed at startup, high volumes want a
 real queue.
 
-**Not started.** Disaggregation from IATI, because a measurement carrying two
-dimensions expands the flattened rows in a way the parser does not yet model. An
-evaluation harness. Logframe and theory of change structures, which are mostly
-narrative and so offer little for code to check.
+**Not started.** Reading an activity's published XML, which is what would make IATI
+disaggregated values and result grouping recoverable at all. An evaluation harness.
+Logframe and theory of change structures, which are mostly narrative and so offer
+little for code to check.
 
 ## Contributing
 

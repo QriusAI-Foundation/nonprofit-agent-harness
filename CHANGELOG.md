@@ -11,6 +11,24 @@ Pin an exact version if you depend on them.
 
 ### Added
 
+- **Which disaggregations a programme reports by**, through `dimensions_used` and
+  `disaggregated` on an `IatiResults`. You get that an activity breaks its figures down
+  by sex and age, and not which number belongs to which slice.
+
+  That distinction is forced by the data. Checked against three publishers reporting
+  genuine breakdowns: 26 values against 52 dimensions, 8 against 28, 16 against 21. The
+  count per measurement varies inside one activity, so nothing says which dimension
+  belongs to which number, and the clean 2:1 case is the dangerous one because zipping
+  would look correct there and mis-assign everywhere else.
+
+  A heavily disaggregated activity may therefore yield no values at all: one real
+  activity has 7 indicator rows against 26 reported actuals, which are dropped rather
+  than misattributed, with a warning saying so. Placeholder dimensions are ignored,
+  because one real publisher ships every one of them as the literal string `TBD`.
+
+  `disaggregated` being false is itself a finding. A programme reporting only totals
+  cannot say who it reached.
+
 - **IATI codes resolve to readable names.** An activity reached an agent saying
   `Sectors: 11220` and `Recipient countries: PS`, which is precise and useless. Sector,
   Country, ActivityStatus, Region and OrganisationType now read as words, with the code

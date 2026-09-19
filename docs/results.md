@@ -147,7 +147,7 @@ So indicators are reconstructed, because their fields are internally consistent,
 results are reported without being attached to them. Since the arithmetic operates on
 indicators, almost nothing analytical is lost.
 
-Two other warnings to watch for:
+Three other warnings to watch for:
 
 - **A field was dropped for length mismatch.** Sparse optional fields come back
   compacted rather than padded, so using them positionally would attach a comment or a
@@ -155,12 +155,53 @@ Two other warnings to watch for:
 - **Direction is unknown.** Where `ascending` is not published, it is assumed upward
   and says so. Check any indicator where a lower number is better, because that
   assumption reverses its result.
+- **The activity disaggregates.** See below.
+
+### Disaggregation is reported, never attached
+
+```python
+parsed.disaggregated      # True
+parsed.dimensions_used    # {"sex": ("female", "male"), "age": ("under 18", "18+")}
+```
+
+You get *which* breakdowns a programme reports by, and not which number belongs to
+which slice. That distinction is forced by the data.
+
+Checked against three publishers reporting genuine sex and age breakdowns: 26 values
+against 52 dimensions, 8 against 28, and 16 against 21. The number of dimensions per
+measurement varies inside a single activity, so a flat array of 21 dimensions and 16
+values says nothing about which belong together. The clean 2:1 case is the dangerous
+one, because zipping would look correct there and mis-assign everywhere else.
+
+**A heavily disaggregated activity may yield no values at all.** One real activity has
+7 indicator rows and 26 reported actuals, because each indicator carries several
+disaggregated measurements per period. Those 26 cannot be matched to the 7, so they are
+dropped and the warning says so. Titles and structure survive; the numbers do not.
+
+Knowing the breakdown exists is still worth having. That a programme reports by sex and
+age is real information, and `disaggregated` being false is a finding too: a programme
+reporting only totals cannot say who it reached.
+
+Full fidelity needs the activity's published XML, which preserves the nesting the
+Datastore flattens away. That is the path to attached slices, and it is not built.
+
+### Using disaggregation you hold yourself
+
+None of this limits the model. If your own system knows which slice a number belongs
+to, build `Measurement`s with their dimensions and the arithmetic works:
+
+```python
+dimension_totals(measurements, "sex")   # {"female": 60, "male": 40}
+coverage(measurements, "sex")           # 1.0
+```
+
+The limitation is IATI's flattening, not the harness.
 
 ## Not yet built
 
-- Disaggregation from IATI. Dimensions are published, but a measurement carrying two of
-  them expands the flattened rows in a way this parser does not yet model, and guessing
-  would attach slices to the wrong indicator.
+- Reading an activity's published XML, which preserves the nesting the Datastore
+  flattens away. That is what would make disaggregated values, and results grouped
+  under their indicators, actually recoverable.
 - Theory of change and logframe structures. Widely used, but mostly narrative rather
   than computable, so there is less here that code can check.
 - SROI. The methodology is contested enough that shipping one interpretation as though

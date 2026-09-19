@@ -51,6 +51,20 @@ RESULT_FIELDS = (
     "result_indicator_period_period_end_iso_date",
     "result_indicator_period_target_value",
     "result_indicator_period_actual_value",
+    # Read to report *which* disaggregations a programme uses. The values cannot be
+    # attached to the numbers they belong to; see `_dimensions_used`.
+    "result_indicator_period_actual_dimension_name",
+    "result_indicator_period_actual_dimension_value",
+    "result_indicator_period_target_dimension_name",
+    "result_indicator_period_target_dimension_value",
+)
+
+_ACTUAL_DIM = "result_indicator_period_actual_dimension_"
+_TARGET_DIM = "result_indicator_period_target_dimension_"
+
+DIMENSION_FIELDS = (
+    (f"{_ACTUAL_DIM}name", f"{_ACTUAL_DIM}value"),
+    (f"{_TARGET_DIM}name", f"{_TARGET_DIM}value"),
 )
 
 
@@ -61,12 +75,25 @@ class IatiResults:
     indicators: list[Indicator] = field(default_factory=list)
     #: Present on the activity but deliberately unattached. See the module docstring.
     result_titles: tuple[str, ...] = ()
+    #: Which disaggregations the programme reports by, such as
+    #: `{"sex": ("female", "male"), "age": ("under 18", "18+")}`.
+    #: Which slice belongs to which number is not recoverable; see `_dimensions_used`.
+    dimensions_used: dict[str, tuple[str, ...]] = field(default_factory=dict)
     rows: int = 0
     warnings: list[str] = field(default_factory=list)
 
     @property
     def ok(self) -> bool:
         return bool(self.indicators) and not self.warnings
+
+    @property
+    def disaggregated(self) -> bool:
+        """Whether this programme reports any breakdown at all.
+
+        Its absence is a finding in itself. A programme reporting only totals cannot
+        say who it reached.
+        """
+        return bool(self.dimensions_used)
 
 
 def results_from_record(record: dict[str, Any]) -> IatiResults:
@@ -97,6 +124,18 @@ def results_from_record(record: dict[str, Any]) -> IatiResults:
                 f"{key} has {len(value)} entries against {rows} indicator rows, "
                 "so it was left out rather than misaligned"
             )
+
+    # Computed before the indicator rows are checked, because which breakdowns a
+    # programme reports by does not depend on whether its indicators reconstruct. An
+    # activity with unalignable rows still discloses that it reports by sex.
+    parsed.dimensions_used = _dimensions_used(record)
+    if parsed.dimensions_used:
+        named = ", ".join(sorted(parsed.dimensions_used))
+        parsed.warnings.append(
+            f"this activity disaggregates by {named}, but which slice belongs to which "
+            "number is not recoverable from the Datastore, so no disaggregated values "
+            "were attached"
+        )
 
     titles = aligned.get(f"{PREFIX}title_narrative")
     if not titles:
@@ -148,6 +187,49 @@ def results_from_record(record: dict[str, Any]) -> IatiResults:
 
     parsed.indicators = list(grouped.values())
     return parsed
+
+
+def _dimensions_used(record: dict[str, Any]) -> dict[str, tuple[str, ...]]:
+    """Which disaggregations appear, without claiming which number each belongs to.
+
+    Dimension names and values pair with each other positionally, and that pairing is
+    safe because they are siblings written together. What is not safe is pairing either
+    of them with a measurement.
+
+    Confirmed against live data from three publishers reporting genuine sex and age
+    breakdowns: 26 values against 52 dimensions, 8 against 28, and 16 against 21. The
+    number of dimensions per measurement varies within a single activity, so a flat
+    array of 21 dimensions and 16 values says nothing about which belong together. The
+    2:1 case is the dangerous one, because zipping would look correct there and
+    mis-assign everywhere else.
+
+    Reporting the dimensions alone is still worth something. That a programme breaks its
+    figures down by sex and age is real information, and so is the fact that it does not.
+    """
+    found: dict[str, set[str]] = {}
+    for name_field, value_field in DIMENSION_FIELDS:
+        names = _many(record.get(name_field))
+        values = _many(record.get(value_field))
+        if not names or len(names) != len(values):
+            continue
+        for name, value in zip(names, values, strict=True):
+            label = str(name).strip()
+            slice_name = str(value).strip()
+            # Publishers do ship placeholders. A dimension named TBD with a value of
+            # TBD is not a breakdown, and reporting it as one would be worse than
+            # reporting nothing.
+            if not label or not slice_name or label.upper() == "TBD":
+                continue
+            found.setdefault(label.lower(), set()).add(slice_name)
+    return {name: tuple(sorted(values)) for name, values in sorted(found.items())}
+
+
+def _many(value: Any) -> tuple[str, ...]:
+    if value is None:
+        return ()
+    if isinstance(value, list | tuple):
+        return tuple(str(v) for v in value if v not in (None, ""))
+    return (str(value),) if str(value) else ()
 
 
 def _period(cell: dict[str, Any]) -> Period | None:

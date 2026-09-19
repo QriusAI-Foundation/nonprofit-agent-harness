@@ -173,3 +173,110 @@ def test_indicators_sharing_a_title_but_differing_in_reference_stay_separate():
     }
 
     assert len(results_from_record(record).indicators) == 2
+
+
+# --- disaggregation -----------------------------------------------------------------
+
+# Shaped like live data from publishers reporting genuine sex and age breakdowns. The
+# counts are what make this untrustworthy: two dimensions per measurement here, but a
+# different number in the next activity, so a flat array cannot be paired with values.
+DISAGGREGATED = {
+    "result_indicator_title_narrative": ["Reach", "Reach"],
+    "result_indicator_measure": ["1", "1"],
+    "result_indicator_period_actual_value": ["87", "88"],
+    "result_indicator_period_period_end_iso_date": ["2026-12-31", "2026-12-31"],
+    "result_indicator_period_actual_dimension_name": ["sex", "age", "sex", "age"],
+    "result_indicator_period_actual_dimension_value": [
+        "female", "under 18", "male", "18+",
+    ],
+}
+
+
+def test_the_disaggregations_a_programme_uses_are_reported():
+    parsed = results_from_record(DISAGGREGATED)
+
+    assert parsed.dimensions_used == {
+        "age": ("18+", "under 18"),
+        "sex": ("female", "male"),
+    }
+    assert parsed.disaggregated
+
+
+def test_slices_are_never_attached_to_numbers():
+    """Live data: 26 values against 52 dimensions, 8 against 28, 16 against 21.
+
+    The count per measurement varies inside one activity, so nothing says which
+    dimension belongs to which number.
+    """
+    parsed = results_from_record(DISAGGREGATED)
+
+    for indicator in parsed.indicators:
+        for period in indicator.periods:
+            assert all(not m.dimensions for m in period.actuals)
+
+
+def test_the_warning_names_what_was_found_and_why_it_is_unattached():
+    parsed = results_from_record(DISAGGREGATED)
+
+    warning = next(w for w in parsed.warnings if "disaggregates by" in w)
+    assert "age, sex" in warning
+    assert "not recoverable" in warning
+
+
+def test_placeholder_dimensions_are_not_reported_as_a_breakdown():
+    """One real publisher ships every dimension as the literal string TBD."""
+    parsed = results_from_record(
+        {
+            "result_indicator_title_narrative": ["X"],
+            "result_indicator_period_actual_dimension_name": ["TBD", "TBD"],
+            "result_indicator_period_actual_dimension_value": ["TBD", "TBD"],
+        }
+    )
+
+    assert parsed.dimensions_used == {}
+    assert not parsed.disaggregated
+
+
+def test_dimension_names_are_normalised_across_publishers():
+    """Publishers write Gender, gender and Sex. Casing should not split a breakdown."""
+    parsed = results_from_record(
+        {
+            "result_indicator_title_narrative": ["X"],
+            "result_indicator_period_actual_dimension_name": ["Gender", "gender"],
+            "result_indicator_period_actual_dimension_value": ["Female", "male"],
+        }
+    )
+
+    assert set(parsed.dimensions_used) == {"gender"}
+
+
+def test_target_dimensions_count_too():
+    parsed = results_from_record(
+        {
+            "result_indicator_title_narrative": ["X"],
+            "result_indicator_period_target_dimension_name": ["region"],
+            "result_indicator_period_target_dimension_value": ["North"],
+        }
+    )
+
+    assert parsed.dimensions_used == {"region": ("North",)}
+
+
+def test_unpairable_dimension_arrays_are_ignored():
+    parsed = results_from_record(
+        {
+            "result_indicator_title_narrative": ["X"],
+            "result_indicator_period_actual_dimension_name": ["sex", "age"],
+            "result_indicator_period_actual_dimension_value": ["female"],
+        }
+    )
+
+    assert parsed.dimensions_used == {}
+
+
+def test_no_disaggregation_is_itself_reported():
+    """A programme reporting only totals cannot say who it reached."""
+    parsed = results_from_record(ALIGNED)
+
+    assert not parsed.disaggregated
+    assert not any("disaggregates by" in w for w in parsed.warnings)
