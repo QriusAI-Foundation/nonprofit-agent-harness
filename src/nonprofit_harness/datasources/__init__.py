@@ -13,6 +13,11 @@ from nonprofit_harness.datasources.iati_results import (
     IatiResults,
     results_from_record,
 )
+from nonprofit_harness.datasources.iati_xml import (
+    XmlActivity,
+    parse_activities,
+    results_from_xml,
+)
 
 __all__ = [
     "RESULT_FIELDS",
@@ -20,6 +25,9 @@ __all__ = [
     "IatiActivity",
     "IatiClient",
     "IatiResults",
+    "XmlActivity",
     "codelists",
+    "parse_activities",
     "results_from_record",
+    "results_from_xml",
 ]

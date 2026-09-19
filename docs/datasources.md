@@ -101,9 +101,8 @@ Worth knowing before you build on this, because live records are messier than th
 standard suggests:
 
 - **Narratives are often missing.** Many publishers send `sector_code` and
-  `recipient_country_code` with no matching narrative, so you get `11220` and `PS`
-  rather than readable names. Resolving those needs IATI's separate codelists, which
-  this client does not yet call. Until it does, expect codes.
+  `recipient_country_code` with no matching narrative. The bundled codelists fill those
+  in, so you get `Primary education (11220)` rather than `11220`. See below.
 - **Codes repeat.** An activity can report the same sector against several
   vocabularies, so the raw list contains duplicates. They are deduplicated.
 - **Dates arrive as timestamps, several times over.** An activity reports a date per
@@ -139,13 +138,17 @@ IatiClient(base_url="https://...", key_header="X-Custom-Key")
 
 ### Indicators and results
 
+Two paths, and they are not equivalent.
+
 ```python
-parsed = client.indicators("XM-DAC-41114-PROJECT-1")
+results = client.results("XM-DAC-41114-PROJECT-1")     # XML, full fidelity
+parsed  = client.indicators("XM-DAC-41114-PROJECT-1")  # flattened, lossy
 ```
 
-Returns an `IatiResults` carrying reconstructed indicators, the activity's result
-titles, and warnings. See [results.md](results.md) for what is recoverable from the
-Datastore's flattening and what deliberately is not.
+`results()` reads the activity's published XML, which keeps results grouped with their
+indicators and every disaggregated slice attached to its number. `indicators()` reads
+the flattened rows, which lose both and say so in `parsed.warnings`. Both cost one
+call, so prefer the XML. See [results.md](results.md).
 
 ### Codes become readable
 

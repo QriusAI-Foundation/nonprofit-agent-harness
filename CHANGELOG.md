@@ -11,6 +11,23 @@ Pin an exact version if you depend on them.
 
 ### Added
 
+- **Results read from an activity's published XML**, through `IatiClient.results()` and
+  `results_from_xml()`. This recovers everything the flattened path has to refuse.
+
+  The XML keeps the nesting: results hold their own indicators, and every measurement
+  keeps the slice it describes. On the same activity where the flattened rows yield no
+  values at all, the XML gives `{'female': 2965.0, 'male': 2049.0}` and
+  `{'18+': 2692.0, 'under 18': 2322.0}`, with all seven results correctly grouped. Both
+  paths cost one call, so prefer the XML; searching still goes through the flattened
+  collection, because you cannot search XML you have not fetched.
+
+  Parsed with the standard library, so no new dependency. External entities are not
+  resolved and DTD entities are not expanded, and a size ceiling covers the rest, since
+  the input is someone else's file.
+
+  Where `ascending` is absent the indicator records that its direction was assumed
+  rather than published, so a caller can tell the difference.
+
 - **Which disaggregations a programme reports by**, through `dimensions_used` and
   `disaggregated` on an `IatiResults`. You get that an activity breaks its figures down
   by sex and age, and not which number belongs to which slice.

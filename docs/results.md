@@ -123,16 +123,46 @@ utilisation(spent=75_000, budget=100_000, delivered=500, currency="USD")
 Unit cost is omitted rather than reported as infinity when nothing was delivered, since
 "infinite cost per beneficiary" is not a finding anyone can act on.
 
-## Reading indicators from IATI
+## Reading results from IATI
+
+There are two paths, and they are not equivalent. **Prefer the XML one.**
 
 ```python
 from nonprofit_harness.datasources import IatiClient
 
+client = IatiClient(cache={})
+results = client.results("NL-KVK-41236410-6970")   # XML: full fidelity
+```
+
+The XML keeps the nesting. Results hold their own indicators, and every measurement
+keeps the slice it describes:
+
+```python
+period = results[0].indicators[0].periods[0]
+dimension_totals(period.actuals, "gender")   # {'female': 2965.0, 'male': 2049.0}
+dimension_totals(period.actuals, "age")      # {'18+': 2692.0, 'under 18': 2322.0}
+```
+
+That is the same activity for which the flattened path below can recover no values at
+all. One call either way, so there is rarely a reason to choose the lossy one.
+
+Parsing uses the standard library, so it adds no dependency. External entities are not
+resolved and DTD entities are not expanded, which are the two attacks XML parsing
+usually invites, and a size ceiling covers the rest, since the input is someone else's
+file.
+
+### The flattened path, and why it still exists
+
+```python
 parsed = client.indicators("US-EIN-521257057-WRI-23-27")
 parsed.indicators      # rebuilt, ready for achievement()
 parsed.result_titles   # published, but deliberately unattached
 parsed.warnings        # read these before reporting any number
 ```
+
+You cannot search XML you have not fetched, so searching still goes through the
+flattened collection. Use it to find activities, then read the ones you care about as
+XML.
 
 **Read the warnings.** The Datastore flattens a nested activity into parallel arrays,
 and IATI's guidance is explicit that this is lossy: you cannot tell which element of
@@ -182,8 +212,8 @@ Knowing the breakdown exists is still worth having. That a programme reports by 
 age is real information, and `disaggregated` being false is a finding too: a programme
 reporting only totals cannot say who it reached.
 
-Full fidelity needs the activity's published XML, which preserves the nesting the
-Datastore flattens away. That is the path to attached slices, and it is not built.
+All of which is why `client.results()` exists. The published XML keeps every slice
+attached to its number, so none of the above applies there.
 
 ### Using disaggregation you hold yourself
 
@@ -199,9 +229,6 @@ The limitation is IATI's flattening, not the harness.
 
 ## Not yet built
 
-- Reading an activity's published XML, which preserves the nesting the Datastore
-  flattens away. That is what would make disaggregated values, and results grouped
-  under their indicators, actually recoverable.
 - Theory of change and logframe structures. Widely used, but mostly narrative rather
   than computable, so there is less here that code can check.
 - SROI. The methodology is contested enough that shipping one interpretation as though

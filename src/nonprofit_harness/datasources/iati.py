@@ -237,6 +237,24 @@ class IatiClient:
         records = (payload.get("response") or {}).get("docs") or []
         return [IatiActivity.from_record(r) for r in records]
 
+    def activity_xml(self, iati_identifier: str) -> str:
+        """The activity's published XML, with its nesting intact."""
+        return self._get_text(
+            "activity/iati",
+            {"q": f"iati_identifier:{_escape(iati_identifier)}", "rows": "1"},
+        )
+
+    def results(self, iati_identifier: str):
+        """Results for one activity, read from its XML.
+
+        Prefer this over `indicators()`. The XML keeps which indicator belongs to which
+        result, and which disaggregated slice belongs to which number, both of which the
+        Datastore's flattened rows lose. It costs the same one call.
+        """
+        from nonprofit_harness.datasources.iati_xml import results_from_xml
+
+        return results_from_xml(self.activity_xml(iati_identifier))
+
     def indicators(self, iati_identifier: str):
         """Fetch one activity's indicators, rebuilt into the results model.
 
@@ -270,16 +288,13 @@ class IatiClient:
         )
         return found[0] if found else None
 
-    def _get(self, path: str, params: dict[str, str]) -> dict[str, Any]:
+    def _request(self, path: str, params: dict[str, str]) -> Any:
+        """One call, with the key check and the error shape every caller needs."""
         if not self.api_key:
             raise DataSourceError(
                 f"IATI needs an API key. Set {KEY_ENV}, or pass api_key. "
                 "Register free at https://developer.iatistandard.org"
             )
-
-        cache_key = f"{path}?{sorted(params.items())}"
-        if self._cache is not None and cache_key in self._cache:
-            return self._cache[cache_key]
 
         client = self._client or self._build_client()
         response = client.get(
@@ -289,7 +304,7 @@ class IatiClient:
         )
 
         status = getattr(response, "status_code", 200)
-        if status == 401 or status == 403:
+        if status in (401, 403):
             raise DataSourceError("IATI rejected the API key")
         if status == 429:
             raise DataSourceError(
@@ -298,11 +313,29 @@ class IatiClient:
             )
         if status >= 400:
             raise DataSourceError(f"IATI returned HTTP {status}")
+        return response
 
-        payload = response.json()
+    def _cached(self, key: str, produce) -> Any:
+        if self._cache is not None and key in self._cache:
+            return self._cache[key]
+        value = produce()
         if self._cache is not None:
-            self._cache[cache_key] = payload
-        return payload
+            self._cache[key] = value
+        return value
+
+    def _get_text(self, path: str, params: dict[str, str]) -> str:
+        """Fetch a document as text. Cached separately, since the body is not JSON."""
+        query = {**params, "wt": "xml"}
+        return self._cached(
+            f"text:{path}?{sorted(query.items())}",
+            lambda: getattr(self._request(path, query), "text", ""),
+        )
+
+    def _get(self, path: str, params: dict[str, str]) -> dict[str, Any]:
+        return self._cached(
+            f"{path}?{sorted(params.items())}",
+            lambda: self._request(path, params).json(),
+        )
 
     def _build_client(self) -> Any:
         import httpx

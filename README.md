@@ -321,22 +321,23 @@ A publisher's own narrative always wins over the codelist, and a sector reported
 against a publisher's own numbering is left as a bare code rather than given a DAC name
 that would be real and wrong.
 
-Published indicators come back as the results model above, ready to compute on:
+Published results come back as the results model above, ready to compute on:
 
 ```python
-parsed = client.indicators("US-EIN-521257057-WRI-23-27")
-parsed.indicators      # rebuilt, ready for achievement()
-parsed.warnings        # read these before reporting any number
+results = client.results("NL-KVK-41236410-6970")
+period = results[0].indicators[0].periods[0]
+
+dimension_totals(period.actuals, "gender")   # {'female': 2965.0, 'male': 2049.0}
+dimension_totals(period.actuals, "age")      # {'18+': 2692.0, 'under 18': 2322.0}
 ```
 
-**Read the warnings.** The Datastore flattens a nested activity into parallel arrays,
-and IATI's own guidance says you cannot tell which element of one list belongs to which
-element of another. Confirmed live: one real activity returns 16 result titles against
-301 indicator rows, with nothing relating them. Indicators are therefore reconstructed,
-because their fields are internally consistent, and results are reported without being
-attached to them. Guessing the grouping would put indicators under the wrong result.
+That reads the activity's published XML, which keeps the nesting. There is also a
+search path over the Datastore's flattened rows, which is how you find activities in
+the first place, but it loses which indicator belongs to which result and which slice
+belongs to which number, and says so in its warnings. One call either way, so prefer
+the XML.
 
-See [docs/datasources.md](docs/datasources.md).
+See [docs/datasources.md](docs/datasources.md) and [docs/results.md](docs/results.md).
 
 ## Readiness scoring
 
