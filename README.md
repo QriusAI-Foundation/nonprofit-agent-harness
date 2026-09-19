@@ -7,7 +7,7 @@ Built on [Google's Agent Development Kit](https://github.com/google/adk-python),
 genuinely usable without it: OpenAI, Anthropic, Groq, Together, OpenRouter, vLLM and
 local models through Ollama all work out of the box, with no extra install.
 
-[![PyPI](https://img.shields.io/pypi/v/nonprofit-agent-harness.svg)](https://pypi.org/project/nonprofit-agent-harness/)
+[![PyPI](https://img.shields.io/pypi/v/nonprofit-agent-harness?cacheSeconds=1800)](https://pypi.org/project/nonprofit-agent-harness/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/)
 
