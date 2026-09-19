@@ -9,6 +9,11 @@ Pin an exact version if you depend on them.
 
 ## [Unreleased]
 
+## [0.3.0]
+
+Everything the IATI thread was blocked on. Results now come back grouped under their
+own indicators, with disaggregated values attached and codes that read as words.
+
 ### Added
 
 - **Results read from an activity's published XML**, through `IatiClient.results()` and
@@ -179,7 +184,8 @@ First release, published to PyPI as `nonprofit-agent-harness`.
 - Runs execute in-process, so an instance restart can leave a run in `running`.
 - Firestore listing needs a composite index before the GCP backend is used in anger.
 
-[Unreleased]: https://github.com/QriusAI-Foundation/nonprofit-agent-harness/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/QriusAI-Foundation/nonprofit-agent-harness/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/QriusAI-Foundation/nonprofit-agent-harness/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/QriusAI-Foundation/nonprofit-agent-harness/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/QriusAI-Foundation/nonprofit-agent-harness/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/QriusAI-Foundation/nonprofit-agent-harness/releases/tag/v0.1.0

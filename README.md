@@ -197,7 +197,7 @@ See [docs/writing-an-agent.md](docs/writing-an-agent.md) for the full guide.
 | **Budget ceilings** | Hard per-run limits on cost, tokens, and calls. Token and call limits work before you configure any pricing. |
 | **Readiness scoring** | A scoring engine for AI-readiness instruments: per-question direction, excluded options, weighted dimensions, geometric-mean aggregation, tier bands. |
 | **Documents** | PDF, DOCX, and text in, plain text out. Agents never see bytes. |
-| **Sector data** | An IATI adapter that turns published activity data, and published indicators, into harness input. |
+| **Sector data** | An IATI adapter: search activities, read their published XML into full results, and resolve codes to readable names from bundled codelists. |
 | **Results and indicators** | The sector's own arithmetic: achievement against target, progress from baseline, disaggregation, budget utilisation. Deterministic, no model calls. |
 | **Providers** | OpenAI, Anthropic, Groq, Together, OpenRouter, vLLM, Ollama, and Gemini. Only Gemini needs an extra install. |
 | **Storage** | In-memory by default. Firestore and Cloud Storage behind the same interface. |
@@ -485,7 +485,7 @@ Honest about where this is:
 **Works and is tested.** The agent contract, review gate, claim verification, budget
 ceilings, the results and indicator arithmetic, the readiness engine, the IATI data
 source, eight model providers, document extraction, in-memory and GCP storage, auth,
-the HTTP API, and the CLI. **253 tests**, all offline, on Python 3.11 through 3.13.
+the HTTP API, and the CLI. **303 tests**, all offline, on Python 3.11 through 3.13.
 
 **Known gaps.** Per-run ceilings bound a single run rather than a total, so a
 deployment open to the public needs quota and rate limiting on top. Runs still execute

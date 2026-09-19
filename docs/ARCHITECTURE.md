@@ -116,6 +116,37 @@ The one hard consequence is that `ReviewGate.auto_release` refuses to release an
 artifact whose claims failed, even when the agent set `requires_review = False`. That
 rule lives in the gate rather than the runner so no caller can route around it.
 
+## Data sources
+
+A data source turns someone else's published data into `Document`s and results. Once it
+does, everything else applies unchanged: an agent consumes those documents as it would
+an uploaded PDF, and a claim citing them is verified against the same text.
+
+Fetching runs on the **caller's** side, never inside an agent. An agent that could fetch
+its own data would reach past its inputs, could not be tested offline, and could not
+have its claims checked against a known set of sources.
+
+The IATI adapter has two paths into the same results model, and the difference is worth
+understanding because it is a property of the data rather than of the code.
+
+**The Datastore flattens** a nested activity into parallel arrays, and IATI's own
+guidance says you cannot tell which element of one list belongs to which element of
+another. Live evidence: one activity returns 16 result titles against 301 indicator
+rows; another returns 26 values against 52 dimensions, while a third returns 16 against
+21. So results are reported without being attached to indicators, disaggregation is
+reported without being attached to numbers, and fields whose length disagrees are
+dropped and named. The danger is that some activities return matching lengths by
+coincidence, which makes a wrong implementation look correct in testing.
+
+**The published XML keeps the nesting**, so `client.results()` recovers all of it. Both
+cost one call. Searching still goes through the flattened collection, because you cannot
+search XML you have not fetched.
+
+Codelists are bundled rather than fetched, so resolving a code costs no network, no key
+and none of the weekly quota. A code is only resolved inside its own vocabulary: a
+publisher's own sector numbering is left bare rather than given an OECD DAC name that
+would be real and wrong.
+
 ## Readiness scoring
 
 Three decisions carry the method:

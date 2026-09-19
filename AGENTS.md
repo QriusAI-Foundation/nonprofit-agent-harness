@@ -38,6 +38,16 @@ HTTP surface. The agent itself belongs to whoever is using this.
     Each has a test named after the failure it prevents.
 11. **A calculation that cannot be made says so.** Return a `NotCalculable` reason
     rather than zero, `None` alone, or a guess. A missing actual is not zero.
+12. **Never pair IATI's flattened arrays across different lengths.** The Datastore
+    loses which element of one list belongs to which element of another. Some
+    activities return matching lengths by coincidence, so a wrong implementation looks
+    correct in testing and mis-assigns in production. Read `datasources/iati_results.py`
+    before touching it, and prefer `iati_xml.py`, where the nesting survives.
+13. **A code is only meaningful inside its vocabulary.** See `codelists.py`. Resolving
+    a publisher's own sector numbering against the DAC list attaches a real and wrong
+    name to it.
+14. **Codelists stay bundled.** Fetching them at runtime would put a network call, a
+    key and a quota in the path of reading a code.
 
 ## Layout
 
@@ -50,7 +60,7 @@ src/nonprofit_harness/
   verification/ citation grounding + optional cross-model checking
   readiness/   scoring engine + instrument schema
   results/     IATI-shaped results model + deterministic M&E arithmetic
-  datasources/ adapters for the sector's open data
+  datasources/ IATI: search (flattened, lossy), XML (full), bundled codelists
   storage/     protocols, in-memory, GCP
   auth/        Google ID token verification, session tokens
   api/         FastAPI app, routes, schemas
