@@ -1,0 +1,136 @@
+{
+  "run_id": "run_291b385ac1ee4a80",
+  "date": "2026-10-17",
+  "agent": "results-narrative",
+  "agent_version": "0.1.0",
+  "source": "wbtf-rwanda-chw",
+  "source_sha256": "8245385462a7d49fc5ebcdb6f5d92bd2fd5aeff5622a521d073013e7149946b8",
+  "model": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 21.1,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 2096,
+    "output_tokens": 3537,
+    "cost_usd": 0.039562
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "12 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "The reporting period runs from 1 July 2023 to 31 December 2025.",
+      "quote": "Period 2023-07-01 to 2025-12-31: target 26, actual 0",
+      "locator": "Number of exchange visits or peer to peer learning events conducted by CHW cooperative members",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Each indicator has a baseline of 0 in 2023.",
+      "quote": "Baseline: 0 in 2023",
+      "locator": "Number of exchange visits or peer to peer learning events conducted by CHW cooperative members",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Beneficiaries of project interventions: target 16,000, actual 0, achievement 0.0%, from a baseline of 0.",
+      "quote": "Number of beneficiaries of project interventions (disaggregated by gender and location): 0.0% (0 from a baseline of 0 towards 16000)",
+      "locator": "Number of beneficiaries of project interventions (disaggregated by gender and location)",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The beneficiaries indicator is an outcome-level PDO indicator.",
+      "quote": "Result (outcome): PDO Indicator",
+      "locator": "Number of beneficiaries of project interventions (disaggregated by gender and location)",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Supported CHW cooperatives with satisfactory operational performance: target 80 percent, actual 0, achievement 0.0%.",
+      "quote": "Proportion of supported CHW cooperatives that have achieved a satisfactory operational performance during the previous fiscal year: 0.0% (0 from a baseline of 0 towards 80)",
+      "locator": "Proportion of supported CHW cooperatives that have achieved a satisfactory operational performance during the previous fiscal year",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Members and leaders demonstrating improved knowledge in cooperative management: target 75 percent, actual 0, achievement 0.0%.",
+      "quote": "Percentage of CHW cooperative members and leaders demonstrating improved knowledge in cooperative management (operational, financial, managerial and compliance): 0.0% (0 from a baseline of 0 towards 75)",
+      "locator": "Percentage of CHW cooperative members and leaders demonstrating improved knowledge in cooperative management",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Supported cooperatives reporting improved financial performance (positive net profit): target 75 percent, actual 0, achievement 0.0%.",
+      "quote": "Proportion of supported CHW cooperatives that have reported improved financial performance (positive net profit) during the previous fiscal year: 0.0% (0 from a baseline of 0 towards 75)",
+      "locator": "Proportion of supported CHW cooperatives that have reported improved financial performance (positive net profit) during the previous fiscal year",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Exchange visits or peer-to-peer learning events: target 26, actual 0, achievement 0.0%.",
+      "quote": "Number of exchange visits or peer to peer learning events conducted by CHW cooperative members: 0.0% (0 from a baseline of 0 towards 26)",
+      "locator": "Number of exchange visits or peer to peer learning events conducted by CHW cooperative members",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Income-generating activity proposals developed, submitted, financed and implemented: target 160, actual 0, achievement 0.0%.",
+      "quote": "Number of income-generating activity proposals developed, submitted, financed and implemented by beneficiary cooperatives (by location): 0.0% (0 from a baseline of 0 towards 160)",
+      "locator": "Number of income-generating activity proposals developed, submitted, financed and implemented by beneficiary cooperatives (by location)",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Cooperative members and leaders trained on cooperative management: target 4,000, actual 0, achievement 0.0%.",
+      "quote": "Number of CHW cooperative members and leaders trained on cooperative management, including the development of business plan, financial management and market linkages (by gender and location): 0.0% (0 from a baseline of 0 towards 4000)",
+      "locator": "Number of CHW cooperative members and leaders trained on cooperative management",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Members reporting satisfaction with cooperative management and performance: target 75 percent, actual 0, achievement 0.0%.",
+      "quote": "Percentage of CHW cooperative members reporting satisfaction with cooperative management and performance (by gender and location): 0.0% (0 from a baseline of 0 towards 75)",
+      "locator": "Percentage of CHW cooperative members reporting satisfaction with cooperative management and performance (by gender and location)",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Benefiting cooperatives receiving a clean report or unqualified opinion on financial management: target 75 percent, actual 0, achievement 0.0%.",
+      "quote": "Proportion of benefiting cooperative that have received a clean report or unqualified opinion on financial management during the past fiscal year: 0.0% (0 from a baseline of 0 towards 75)",
+      "locator": "Proportion of benefiting cooperative that have received a clean report or unqualified opinion on financial management during the past fiscal year",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "e395e88"
+}

@@ -1,0 +1,82 @@
+{
+  "run_id": "run_4f64ae8cb6324458",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "pathfinder-chbc-trainers",
+  "source_sha256": "6c23212037340d36e0c47fb1096efccd35269368dc196b8913b8f6cd30ccaec8",
+  "model": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 21.5,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 331649,
+    "output_tokens": 2268,
+    "cost_usd": 0.685978
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "6 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "The guide aims to give CHWs the knowledge and skills to provide home-based care to people living with HIV/AIDS in their communities.",
+      "quote": "This curriculum aims to provide CHWs with the knowledge and skills necessary to provide CHBC to PLWHA in their communities.",
+      "locator": "Notes to the Trainer: Introduction to the Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The guide has core units, a practicum, and advanced units meant for use after the core areas are covered.",
+      "quote": "The Trainer\u2019s Guide is divided into 13 core units, a practicum, and 5 advanced units that contain additional information that CHWs might find useful after they have covered the core areas.",
+      "locator": "Notes to the Trainer: Introduction to the Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Home-based care does not replace hospital care.",
+      "quote": "CHBC is not a replacement for hospital care.",
+      "locator": "Notes to the Trainer",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Training groups should be limited to 15-20 participants so there is a good trainer ratio and time for skills practice.",
+      "quote": "CHBC trainings should be limited to 15-20 participants to ensure a good trainer-participant ratio and adequate time for skills practice.",
+      "locator": "Notes to the Trainer: Training and Supervision of Community Health Workers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "CHW selection must avoid favouritism and patronage.",
+      "quote": "Care should be taken to avoid favoritism or patronage (e.g., getting the job because you are related to or friends with the project manager).",
+      "locator": "Notes to the Trainer: CHW Selection Process",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Clients can refuse to take part in the practicum, and refusing must not affect the care they already receive.",
+      "quote": "Clients should understand that they can refuse to participate in the practicum and that it will not affect the care that they are already receiving.",
+      "locator": "Notes to the Trainer: More About the CHBC Practicum, Evaluation, and Certification",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "e395e88"
+}

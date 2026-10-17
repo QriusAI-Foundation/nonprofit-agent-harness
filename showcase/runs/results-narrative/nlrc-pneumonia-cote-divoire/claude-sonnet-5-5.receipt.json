@@ -1,0 +1,334 @@
+{
+  "run_id": "run_52ba7b474eca483a",
+  "date": "2026-10-17",
+  "agent": "results-narrative",
+  "agent_version": "0.1.0",
+  "source": "nlrc-pneumonia-cote-divoire",
+  "source_sha256": "a9bb9eb72b382135ebd949fe79490170e2b49015f176b7b5b05f4ac51bcca681",
+  "model": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 29.4,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 6364,
+    "output_tokens": 5305,
+    "cost_usd": 0.065778
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "34 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "The achievement for people reached with health promotion is not calculable because there is no actual.",
+      "quote": "Achievement: People reached with health promotion and/or behaviour change communication activities.: not calculable (no actual)",
+      "locator": "Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The baseline for people reached with health promotion is 0 in 2016.",
+      "quote": "Baseline: 0 in 2016",
+      "locator": "Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The July to September 2019 target for people reached is 14187 and no actual is reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 14187, actual none reported",
+      "locator": "Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records an actual of 9031 people reached with no target stated.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 9031",
+      "locator": "Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records an actual of 13798 people reached with no target stated.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 13798",
+      "locator": "Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The 2019 target for volunteers trained and equipped is 127 and no actual is reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 127, actual none reported",
+      "locator": "Result (output): Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records an actual of 115 volunteers trained and equipped.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 115",
+      "locator": "Result (output): Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The achievement for volunteers trained and equipped is not calculable because there is no actual.",
+      "quote": "Achievement: Volunteers trained and equipped to perform community health services: not calculable (no actual)",
+      "locator": "Result (output): Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The 2019 target for health staff trained is 6 and no actual is reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 6, actual none reported",
+      "locator": "Result (output): Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "2018 entries record an actual of 20 health staff trained.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 20",
+      "locator": "Result (output): Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The achievement for health staff trained is not calculable because there is no actual.",
+      "quote": "Achievement: Health staff trained: not calculable (no actual)",
+      "locator": "Result (output): Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The 2019 target for households with children under 5 visited at least twice per month is 2539 and no actual is reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 2539, actual none reported",
+      "locator": "Result (output): Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records an actual of 2539 households visited.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 2539",
+      "locator": "Result (output): Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The achievement for households visited is not calculable because there is no actual.",
+      "quote": "Achievement: Households with children < 5 in the project communities that have been visited at least twice per month by RCRC volunteers: not calculable (no actual)",
+      "locator": "Result (output): Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The 2019 target for health centers supported is 4 and no actual is reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 4, actual none reported",
+      "locator": "Result (output): Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records an actual of 4 health centers supported.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 4",
+      "locator": "Result (output): Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The achievement for health centers supported is not calculable because there is no actual.",
+      "quote": "Achievement: Health centers supported: not calculable (no actual)",
+      "locator": "Result (output): Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The 2019 target for people identifying danger signs of illness is 80 and no actual is reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 80, actual none reported",
+      "locator": "Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The achievement for caretakers knowing that continued feeding and drinking of an ill child is crucial is not calculable because there is no target.",
+      "quote": "Achievement: Caretakers that know continued feeding and drinking of an ill child is crucial: not calculable (no target)",
+      "locator": "Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The baseline for latrines constructed or rehabilitated is 519 in 2017.",
+      "quote": "Baseline: 519 in 2017",
+      "locator": "Result (output): WASH - Sanitation",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The 2019 target for latrines is 1000 and no actual is reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 1000, actual none reported",
+      "locator": "Result (output): WASH - Sanitation",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records an actual of 1102 latrines.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 1102",
+      "locator": "Result (output): WASH - Sanitation",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The 2020 target for water points constructed or rehabilitated is 2 and no actual is reported.",
+      "quote": "Period 2020-01-01 to 2020-03-31: target 2, actual none reported",
+      "locator": "Result (outcome): WASH - Water",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records an actual of 2 water points.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 2",
+      "locator": "Result (outcome): WASH - Water",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The target for correct handwashing is 60 and no actual is reported.",
+      "quote": "Period 2020-01-01 to 2020-03-31: target 60, actual none reported",
+      "locator": "Result (output): WASH - Hygiene promotion",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The baseline for households with an improved cooking stove is 47 in 2016.",
+      "quote": "Baseline: 47 in 2016",
+      "locator": "Result (outcome): Health - Indoor air quality",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The 2019 target for improved cooking stoves is 1500 and no actual is reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 1500, actual none reported",
+      "locator": "Result (outcome): Health - Indoor air quality",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records an actual of 1203 households with an improved cooking stove.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 1203",
+      "locator": "Result (outcome): Health - Indoor air quality",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records 49 female volunteers.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 49",
+      "locator": "Result (outcome): Processes - HR",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The 2019 target for female volunteers is 55 and no actual is reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 55, actual none reported",
+      "locator": "Result (outcome): Processes - HR",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records 79 male volunteers.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 79",
+      "locator": "Result (outcome): Processes - HR",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The 2019 target for male volunteers is 72 and no actual is reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 72, actual none reported",
+      "locator": "Result (outcome): Processes - HR",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The resilience indicator for people reached has a baseline of 0 in 2017.",
+      "quote": "Baseline: 0 in 2017",
+      "locator": "Result (impact): Other - People reached",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The achievement for people who received direct services contributing to resilience is not calculable because there is no target.",
+      "quote": "Achievement: People who received direct services that contribute to their resilience: not calculable (no target)",
+      "locator": "Result (impact): Other - People reached",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "e395e88"
+}

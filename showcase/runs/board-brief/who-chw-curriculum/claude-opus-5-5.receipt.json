@@ -1,0 +1,82 @@
+{
+  "run_id": "run_0f0071b573ac42b0",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "who-chw-curriculum",
+  "source_sha256": "5273d03171b03a7fb71ba8fb07de8a5ab38bdab43a3bacd5c485cd5b982e342d",
+  "model": "claude-opus-5-5",
+  "model_reported": "claude-opus-5-5",
+  "effort": "medium",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 24.2,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 157878,
+    "output_tokens": 2081,
+    "cost_usd": 0.673132
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "6 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "The guide helps organisations plan, design and run CHW training programmes.",
+      "quote": "This guide was developed to assist in the conceptualization, design and implementation of CHW curricula",
+      "locator": "Executive summary",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Most volunteer or part-time CHWs cannot reasonably do all the core activities the guide describes.",
+      "quote": "Most volunteer CHWs, or those working only a few hours a week, cannot reasonably carry out all the universal practice activities expected of all CHWs in this framework.",
+      "locator": "1.2 Objective and target audience",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "There are 11 core practice modules plus one basic science module.",
+      "quote": "There are 11 modules oriented to practice activities, and one module relating to the common basic science knowledge required for practice.",
+      "locator": "3.1 Overview of the CHW curriculum guide",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Role-specific topics should be chosen based on local needs and on what CHWs do in that setting.",
+      "quote": "Content from the role-specific modules should therefore be selected based on the needs of the population and the scope of practice of CHWs in a given context.",
+      "locator": "3.1 Overview of the CHW curriculum guide",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "WHO says the guide should not be read as rigid or prescriptive.",
+      "quote": "This guide is designed to facilitate design and implementation of CHW curricula, and is not intended to be interpreted as rigid or prescriptive.",
+      "locator": "3.3 How to use the curriculum guide",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "CHWs should not be trained in tasks they lack the time or support to carry out.",
+      "quote": "In general, CHWs should not be trained in practice activities that they do not reasonably have the time or support to perform",
+      "locator": "4. Health policy and health system support for CHW integration in primary health care",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "e395e88"
+}

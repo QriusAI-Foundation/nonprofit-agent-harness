@@ -74,20 +74,28 @@ def ask_for_cited(
 
 
 def parse_json(text: str) -> dict[str, Any]:
-    """Read the JSON object out of a reply, tolerating a code fence around it.
+    """Read the reply's JSON object, tolerating a code fence or other text around it.
 
     The Anthropic adapter requests the schema rather than enforcing it, so a reply can
-    arrive fenced or with a sentence before it. Anything unreadable becomes an artifact
-    with no claims, which a reviewer sees as such, rather than a failed run.
+    arrive fenced, after a sentence, or even after an echo of the schema itself. The
+    first object holding a `text` key wins. Anything unreadable becomes an artifact with
+    no claims, which a reviewer sees as such, rather than a failed run.
     """
-    start, end = text.find("{"), text.rfind("}")
-    if start == -1 or end <= start:
-        return {}
-    try:
-        payload = json.loads(text[start : end + 1])
-    except json.JSONDecodeError:
-        return {}
-    return payload if isinstance(payload, dict) else {}
+    decoder = json.JSONDecoder()
+    first: dict[str, Any] = {}
+    position = text.find("{")
+    while position != -1:
+        try:
+            payload, end = decoder.raw_decode(text, position)
+        except json.JSONDecodeError:
+            position = text.find("{", position + 1)
+            continue
+        if isinstance(payload, dict):
+            if "text" in payload:
+                return payload
+            first = first or payload
+        position = text.find("{", end)
+    return {} if "properties" in first else first
 
 
 def with_claims_listed(text: str, claims: list[Claim]) -> str:
