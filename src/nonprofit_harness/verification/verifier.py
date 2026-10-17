@@ -8,6 +8,7 @@ from nonprofit_harness.providers.base import ModelProvider
 from nonprofit_harness.verification.grounding import SourceIndex
 from nonprofit_harness.verification.types import (
     Claim,
+    GroundingHit,
     Outcome,
     Verdict,
     VerificationReport,
@@ -39,11 +40,13 @@ class GroundingVerifier:
     1. **Citation check.** Every quoted span must really appear in a source document.
        This costs no model calls, runs offline, and is what catches an invented
        citation, which is both the most common failure and the most damaging one.
+       It establishes that a citation *resolved*, not that the claim is *supported*.
     2. **Independent re-derivation.** Optional, and it costs model calls. Several
        reviewers re-decide the claim from its evidence alone and have to agree.
+       This is the only layer that speaks to support.
 
     Leave `passes` at zero and you get layer one on its own, which is a real check
-    that any deployment can afford.
+    that any deployment can afford. Its verdicts say "support not checked".
     """
 
     provider: ModelProvider | None = None
@@ -74,39 +77,77 @@ class GroundingVerifier:
                 reason="the claim cites nothing",
             )
 
-        grounded = []
-        ungrounded = []
+        grounded: list[GroundingHit] = []
+        ungrounded: list[str] = []
+        uncertain: list[str] = []
+        refusals: list[str] = []
+        notes: list[str] = []
         for citation in claim.citations:
-            hit = index.find(citation.text, fuzzy_threshold=self.fuzzy_threshold)
-            if hit is None:
-                ungrounded.append(citation.text)
+            lookup = index.lookup(citation.text, fuzzy_threshold=self.fuzzy_threshold)
+            if lookup.resolved:
+                grounded.append(lookup.hit)  # type: ignore[arg-type]
+            elif lookup.hit is not None:
+                uncertain.append(citation.text)
+                notes.append(f"{lookup.hit.document}: {lookup.hit.note}")
             else:
-                grounded.append(hit)
+                ungrounded.append(citation.text)
+                if lookup.refused:
+                    refusals.append(lookup.refused)
 
-        missing = bool(ungrounded) if self.require_all_citations else not grounded
-        if missing:
+        total = len(claim.citations)
+        held = self._held(grounded, ungrounded, uncertain)
+        if held is not None:
+            if held == Outcome.CITATION_NOT_FOUND:
+                reason = f"{len(ungrounded)} of {total} citation(s) were not found in the source"
+                if refusals:
+                    refused = "; ".join(dict.fromkeys(refusals))
+                    reason += f"; the closest passage was refused: {refused}"
+            else:
+                reason = (
+                    f"{len(uncertain)} of {total} citation(s) resemble the source but differ in "
+                    f"ways the free check cannot judge, compare them by hand ({'; '.join(notes)})"
+                )
             return Verdict(
                 claim_id=claim.id,
-                outcome=Outcome.CITATION_NOT_FOUND,
-                reason=f"{len(ungrounded)} of {len(claim.citations)} citation(s) "
-                "were not found in the source",
+                outcome=held,
+                reason=reason,
                 grounded=grounded,
                 ungrounded=ungrounded,
+                uncertain=uncertain,
             )
 
         if self.passes <= 0:
             modes = {hit.mode for hit in grounded}
-            detail = "every citation quotes the source exactly"
+            detail = "citations resolved, every one quoted exactly"
             if "fuzzy" in modes:
-                detail = "citations resolve, some only approximately"
+                detail = "citations resolved, some only approximately"
             return Verdict(
                 claim_id=claim.id,
                 outcome=Outcome.VERIFIED,
-                reason=detail,
+                reason=f"{detail}; claim support not checked, the free check only finds quotes",
                 grounded=grounded,
+                ungrounded=ungrounded,
+                uncertain=uncertain,
             )
 
-        return self._cross_check(claim, grounded, ungrounded)
+        verdict = self._cross_check(claim, grounded, ungrounded)
+        # With require_all_citations off, a claim can pass on one citation while
+        # another only resembled the source. The reviewer still sees which.
+        verdict.uncertain = uncertain
+        return verdict
+
+    def _held(self, grounded: list, ungrounded: list, uncertain: list) -> Outcome | None:
+        """Why the citations keep this claim from a person's sign-off, if they do.
+
+        A missing citation outranks an uncertain one: it is the stronger signal.
+        """
+        if self.require_all_citations:
+            if ungrounded:
+                return Outcome.CITATION_NOT_FOUND
+            return Outcome.CITATION_UNCERTAIN if uncertain else None
+        if grounded:
+            return None
+        return Outcome.CITATION_UNCERTAIN if uncertain else Outcome.CITATION_NOT_FOUND
 
     def _cross_check(self, claim: Claim, grounded, ungrounded) -> Verdict:
         votes = [self._one_pass(claim, index) for index in range(self.passes)]
@@ -120,6 +161,7 @@ class GroundingVerifier:
                 grounded=grounded,
                 ungrounded=ungrounded,
                 votes=votes,
+                support_checked=True,
             )
 
         winner, count = tally.most_common(1)[0]
@@ -132,6 +174,7 @@ class GroundingVerifier:
                 grounded=grounded,
                 ungrounded=ungrounded,
                 votes=votes,
+                support_checked=True,
             )
 
         target = claim.expected if claim.expected is not None else SUPPORTED
@@ -143,15 +186,17 @@ class GroundingVerifier:
                 grounded=grounded,
                 ungrounded=ungrounded,
                 votes=votes,
+                support_checked=True,
             )
 
         return Verdict(
             claim_id=claim.id,
             outcome=Outcome.VERIFIED,
-            reason=f"{count} of {self.passes} reviewers agreed, citations resolve",
+            reason=f"citations resolved; claim supported by {count} of {self.passes} reviewers",
             grounded=grounded,
             ungrounded=ungrounded,
             votes=votes,
+            support_checked=True,
         )
 
     def _one_pass(self, claim: Claim, index: int) -> str:

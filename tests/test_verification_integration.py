@@ -53,6 +53,30 @@ class FabricatingAgent(Agent):
         )
 
 
+class ParaphrasingAgent(Agent):
+    name = "paraphrasing"
+    description = "Cites a quote with a word changed that no rule can judge."
+    requires_review = False
+
+    def run(self, ctx: RunContext) -> AgentResult:
+        return AgentResult(
+            artifacts=[
+                self.artifact(
+                    "brief",
+                    "The programme served twelve villages.",
+                    claims=[
+                        Claim(
+                            statement="The programme served twelve villages.",
+                            citations=[
+                                Citation(text="The literacy programme served twelve villages")
+                            ],
+                        )
+                    ],
+                )
+            ]
+        )
+
+
 class UnreviewedFabricatingAgent(FabricatingAgent):
     name = "fabricating-unreviewed"
     requires_review = False
@@ -75,6 +99,7 @@ def register(runner):
         FabricatingAgent(),
         UnreviewedFabricatingAgent(),
         UnreviewedCitingAgent(),
+        ParaphrasingAgent(),
     ):
         runner.registry.register(agent)
 
@@ -119,6 +144,17 @@ def test_a_clean_artifact_still_auto_releases(runner, inputs):
 
     assert run.status == RunStatus.COMPLETED
     assert run.artifacts[0].status == ArtifactStatus.APPROVED
+
+
+def test_an_uncertain_quote_goes_to_a_person_without_failing_the_run(runner, inputs):
+    run = runner.start("paraphrasing", org_id="org_1", inputs=inputs)
+    artifact = run.artifacts[0]
+
+    assert artifact.failed_verification
+    assert artifact.status == ArtifactStatus.PENDING_REVIEW
+    assert run.status == RunStatus.AWAITING_REVIEW
+    assert run.error == ""
+    assert "citation uncertain" in artifact.verification.summary()
 
 
 def test_a_reviewer_can_still_approve_a_flagged_artifact(runner, inputs):
@@ -183,3 +219,21 @@ def test_the_api_shows_a_reviewer_what_failed(client):
     assert artifact["verification"]["ok"] is False
     assert artifact["verification"]["verdicts"][0]["outcome"] == "citation_not_found"
     assert artifact["claims"][0]["citations"][0]["text"] == "reached ninety villages"
+
+
+def test_the_api_says_a_resolved_citation_is_not_a_supported_claim(client):
+    run = client.post(
+        "/v1/runs",
+        json={
+            "agent": "citing",
+            "inputs": [{"text": SOURCE, "name": "q3-report.txt"}],
+            "sync": True,
+        },
+    ).json()
+
+    verification = run["artifacts"][0]["verification"]
+    verdict = verification["verdicts"][0]
+    assert verdict["outcome"] == "verified"
+    assert verdict["support_checked"] is False
+    assert verdict["label"] == "resolved (support not checked)"
+    assert "support not checked" in verification["summary"]

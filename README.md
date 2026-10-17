@@ -229,11 +229,24 @@ self.artifact(
 own input documents. No model call, no network, no spend. This is what catches an
 invented citation, and it runs by default.
 
-Matching accepts an exact quote, or a close one, because models do introduce small
-edits while quoting. It does not accept a changed number. `"reached ninety villages"`
-shares two words in three with `"reached twelve villages"`, so plain word overlap would
-wave it through, and a swapped figure is precisely the fabrication that does damage.
-Any quantity in the quote that is missing from the source rejects the match.
+This check finds quotes. It does not decide whether the quote supports the claim. A
+verdict from layer one says the citation **resolved**, with "support not checked";
+only layer two can report a claim as **supported**.
+
+The matching rules are fixed and small:
+
+| Quote compared with the source | Result |
+|---|---|
+| Same words after case and whitespace are folded, on word boundaries (`"reached 5"` does not match `"reached 50"`) | exact |
+| A number, a negation (`not`, `never`, `without`, ...), or the order of content words differs | refused |
+| Only punctuation, an added or dropped article or `that`, or a swap such as `in`/`during`, at most 1 per 5 words and never more than 3 | approximate |
+| Most words line up in order, but some other word differs | flagged for a person |
+| A faithful quote that its surroundings change: `never` just before it, or a number cut from `5-10` or `5 million` | flagged for a person |
+
+`"reached ninety villages"` shares two words in three with `"reached twelve villages"`,
+so plain word overlap would wave it through, and a swapped figure is precisely the
+fabrication that does damage. A flagged quote holds the artifact for review like a
+missing one; it is never counted as resolved.
 
 **Layer two costs model calls and is opt-in.** Several reviewers re-derive the claim
 from its evidence alone and have to agree:
@@ -250,7 +263,7 @@ evidence than it looks. A reviewer that cannot decide abstains rather than guess
 Results reach the person doing the review, not a silent filter:
 
 ```json
-{ "ok": false, "summary": "3 claim(s), 2 verified, 1 citation not found" }
+{ "ok": false, "summary": "3 claim(s): 2 resolved (support not checked), 1 citation not found" }
 ```
 
 A failed claim never discards work and never fails the run. It flags the artifact so a
