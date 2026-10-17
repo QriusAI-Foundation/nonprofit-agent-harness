@@ -66,8 +66,20 @@ class RunStore(Protocol):
         ...
 
     def list(
-        self, *, org_id: str | None = None, status: RunStatus | None = None, limit: int = 50
-    ) -> list[Run]: ...
+        self,
+        *,
+        org_id: str | None = None,
+        status: RunStatus | None = None,
+        limit: int = 50,
+        after: str | None = None,
+    ) -> list[Run]:
+        """Newest first. `after` is the id of the last run of the previous page.
+
+        The cursor is a position, not a filter: it still works when the run it names
+        has since changed status, which is what lets the reaper page through runs
+        while it moves them out of `running`.
+        """
+        ...
 
 
 @runtime_checkable

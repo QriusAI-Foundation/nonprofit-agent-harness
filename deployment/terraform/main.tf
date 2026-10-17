@@ -75,6 +75,26 @@ resource "google_firestore_index" "runs_by_org_and_status" {
   }
 }
 
+# Recovery lists every org's running runs, a page at a time. Without this index the
+# periodic reaper fails on its first pass and stranded runs are never resolved.
+resource "google_firestore_index" "runs_by_status" {
+  project    = var.project_id
+  collection = "harness_runs"
+
+  fields {
+    field_path = "status"
+    order      = "ASCENDING"
+  }
+  fields {
+    field_path = "created_at"
+    order      = "DESCENDING"
+  }
+  fields {
+    field_path = "__name__"
+    order      = "DESCENDING"
+  }
+}
+
 resource "google_firestore_index" "blobs_by_org" {
   project    = var.project_id
   collection = "harness_blobs"

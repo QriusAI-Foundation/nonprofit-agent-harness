@@ -71,6 +71,11 @@ class HarnessConfig:
     #: Generous by default: a run still in progress on another instance must not be
     #: reaped, so this needs to exceed the longest run you expect.
     run_timeout_seconds: int = 3600
+    #: A worker renews its claim on a running run this often divided by three. When
+    #: the claim lapses, the process is gone and the reaper may resolve the run.
+    run_lease_seconds: int = 120
+    #: How often the API looks for runs whose worker has gone. 0 checks only at startup.
+    reap_interval_seconds: float = 300.0
 
     #: Citation checking costs nothing, so it is on. Cross-checking spends model
     #: calls, so it is off until a deployment asks for it.
@@ -109,6 +114,8 @@ class HarnessConfig:
             max_document_chars=_env_int("HARNESS_MAX_DOCUMENT_CHARS", 2_000_000),
             extract_timeout_seconds=_env_float("HARNESS_EXTRACT_TIMEOUT_SECONDS", 120.0),
             run_timeout_seconds=_env_int("HARNESS_RUN_TIMEOUT_SECONDS", 3600) or 3600,
+            run_lease_seconds=_env_int("HARNESS_RUN_LEASE_SECONDS", 120) or 120,
+            reap_interval_seconds=_env_float("HARNESS_REAP_INTERVAL_SECONDS", 300.0) or 0.0,
             verify_claims=_env_bool("HARNESS_VERIFY_CLAIMS", True),
             verify_passes=_env_int("HARNESS_VERIFY_PASSES", 0) or 0,
             verify_models=_env_list("HARNESS_VERIFY_MODELS"),

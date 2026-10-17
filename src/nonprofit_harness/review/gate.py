@@ -50,10 +50,7 @@ class ReviewGate:
         self._runs = runs
 
     def submit(self, run: Run) -> Run:
-        _take_custody(run)
-        for artifact in run.artifacts:
-            artifact.status = ArtifactStatus.PENDING_REVIEW
-        run.status = _settle_status(run)
+        hold_for_review(run)
         return self._runs.save(run)
 
     def auto_release(self, run: Run, *, reason: str = "agent opted out of review") -> Run:
@@ -64,13 +61,7 @@ class ReviewGate:
         routine; a citation that does not resolve is evidence that it is not. The
         rule lives here rather than in the runner so no caller can route around it.
         """
-        _take_custody(run)
-        for artifact in run.artifacts:
-            if artifact.failed_verification:
-                artifact.status = ArtifactStatus.PENDING_REVIEW
-                continue
-            _record(artifact, Review(ReviewDecision.APPROVE, AUTO_REVIEWER, note=reason))
-        run.status = _settle_status(run)
+        release_routine(run, reason=reason)
         return self._runs.save(run)
 
     def approve(self, run_id: str, artifact_id: str, *, reviewer: str, note: str = "") -> Run:
@@ -131,7 +122,31 @@ class ReviewGate:
         return run.released
 
 
-def _take_custody(run: Run) -> None:
+def hold_for_review(run: Run) -> None:
+    """Put every artifact of a new agent result in front of a person, without saving.
+
+    Separate from `ReviewGate.submit` so a caller that must write through
+    `RunStore.update` (the runner, landing finished work on a run that changed while
+    the agent ran) applies exactly the gate's rule rather than a copy of it.
+    """
+    take_custody(run)
+    for artifact in run.artifacts:
+        artifact.status = ArtifactStatus.PENDING_REVIEW
+    run.status = _settle_status(run)
+
+
+def release_routine(run: Run, *, reason: str) -> None:
+    """The in-place half of `ReviewGate.auto_release`; see that method for the rule."""
+    take_custody(run)
+    for artifact in run.artifacts:
+        if artifact.failed_verification:
+            artifact.status = ArtifactStatus.PENDING_REVIEW
+            continue
+        _record(artifact, Review(ReviewDecision.APPROVE, AUTO_REVIEWER, note=reason))
+    run.status = _settle_status(run)
+
+
+def take_custody(run: Run) -> None:
     """Discard any decision state that arrived with the agent's result.
 
     Reset rather than reject: an agent that sets a status is wrong about whose job
@@ -215,4 +230,11 @@ def _settle_status(run: Run) -> RunStatus:
     return RunStatus.COMPLETED
 
 
-__all__ = ["AUTO_REVIEWER", "SYSTEM_REVIEWER_PREFIX", "ReviewGate"]
+__all__ = [
+    "AUTO_REVIEWER",
+    "SYSTEM_REVIEWER_PREFIX",
+    "ReviewGate",
+    "hold_for_review",
+    "release_routine",
+    "take_custody",
+]

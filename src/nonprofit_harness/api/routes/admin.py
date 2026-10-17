@@ -33,6 +33,12 @@ def effective_config(
             "max_calls": config.max_calls,
         },
         "redact_inputs": config.redact_inputs,
+        "recovery": {
+            "interval_seconds": config.reap_interval_seconds,
+            "lease_seconds": config.run_lease_seconds,
+            "run_timeout_seconds": config.run_timeout_seconds,
+            **ctx.runner.recovery.as_dict(),
+        },
         "verification": {
             "claims_checked": config.verify_claims,
             "cross_check_passes": config.verify_passes,

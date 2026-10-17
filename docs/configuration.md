@@ -214,7 +214,9 @@ configuration implies otherwise.
 | Variable | Default | Meaning |
 |---|---|---|
 | `HARNESS_REDACT_INPUTS` | `false` | Mask direct identifiers before text reaches a model |
-| `HARNESS_RUN_TIMEOUT_SECONDS` | `3600` | How long a run may sit in `running` before a restart treats it as abandoned |
+| `HARNESS_RUN_TIMEOUT_SECONDS` | `3600` | The longest a run may take. After it, its lease is no longer renewed and recovery fails it |
+| `HARNESS_RUN_LEASE_SECONDS` | `120` | How long a worker's claim on a running run lasts without renewal. A lapsed lease means the worker is gone |
+| `HARNESS_REAP_INTERVAL_SECONDS` | `300` | How often the API looks for runs whose worker is gone. `0` or `off` checks only at startup |
 | `HARNESS_MAX_UPLOAD_BYTES` | `20971520` (20MB) | Largest file accepted, by upload or `harness run`. Refused with 413 as soon as the read passes it |
 | `HARNESS_MAX_PDF_PAGES` | `300` | Pages read from one PDF. Later pages are skipped and the document is marked `truncated_by: pages` |
 | `HARNESS_MAX_DOCX_EXPANDED_BYTES` | `52428800` (50MB) | Total unzipped size a DOCX may declare. Checked from the zip directory before any part is read; past it, refused with 413. This, not the character limit, bounds DOCX memory, because the parser reads each part whole |
