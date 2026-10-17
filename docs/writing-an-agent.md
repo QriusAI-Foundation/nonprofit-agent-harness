@@ -86,8 +86,12 @@ self.artifact(
 ```
 
 The harness then checks every cited span against this run's own inputs before a
-reviewer sees the artifact. That check costs nothing. See the verification section of
-the [README](../README.md) for what it does and does not accept.
+reviewer sees the artifact. That check costs nothing. It accepts a quote that matches on
+word boundaries, or one that differs only in punctuation, articles, or a few listed
+near-synonyms; it refuses one whose numbers, negations, or word order changed, and flags
+anything else for a person. A resolved citation means the quote is real, not that the
+claim follows from it. See the verification section of the [README](../README.md) for
+the full rules.
 
 `locator` is free text for a page or section reference. The harness never parses it. It
 exists so a reviewer can find the passage without searching for it.

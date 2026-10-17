@@ -6,6 +6,7 @@ failed claim is a pointer for a reviewer, not grounds for throwing work away.
 """
 
 from nonprofit_harness.verification.grounding import (
+    Lookup,
     SourceIndex,
     is_grounded,
     normalize,
@@ -34,6 +35,7 @@ __all__ = [
     "Claim",
     "GroundingHit",
     "GroundingVerifier",
+    "Lookup",
     "Outcome",
     "SourceIndex",
     "VerificationReport",

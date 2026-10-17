@@ -5,6 +5,7 @@ import pytest
 from nonprofit_harness.verification import (
     SUPPORTED,
     UNSUPPORTED,
+    UNSURE,
     Citation,
     Claim,
     GroundingVerifier,
@@ -12,6 +13,8 @@ from nonprofit_harness.verification import (
     SourceIndex,
     is_grounded,
 )
+from nonprofit_harness.verification.grounding import max_edits
+from nonprofit_harness.verification.verifier import VOTE_MAX_OUTPUT_TOKENS, parse_vote
 
 SOURCE = (
     "The literacy programme reached twelve villages during the third quarter. "
@@ -30,12 +33,14 @@ class ScriptedProvider:
     def __init__(self, replies: list[str]) -> None:
         self._replies = list(replies)
         self.models_used: list[str | None] = []
+        self.output_caps: list[int | None] = []
 
     def generate(self, prompt, *, system=None, model=None, **kwargs):
         from nonprofit_harness.core.types import Usage
         from nonprofit_harness.providers.base import ModelResponse
 
         self.models_used.append(model)
+        self.output_caps.append(kwargs.get("max_output_tokens"))
         text = self._replies.pop(0) if self._replies else ""
         return ModelResponse(text=text, model=model or self.default_model, usage=Usage(calls=1))
 
@@ -110,6 +115,184 @@ def test_the_matching_document_is_reported():
     assert index.find("thirty-four learners").document == "b.txt"
 
 
+# --- quotation integrity (audit F07) -----------------------------------------------
+#
+# Each test is named after the altered quotation it stops from showing as grounded.
+
+FIGURES = (
+    "Enrolment rose to 50 learners, and costs fell by 5.5% to 5,000 rupees. "
+    "The programme did not reach the northern villages. "
+    "The ministry funded the district office. "
+    "The clinic never reached its targets."
+)
+
+
+def lookup(span: str, source: str = FIGURES):
+    return SourceIndex({"report": source}).lookup(span)
+
+
+def test_5_cannot_match_50_by_containment():
+    assert not is_grounded("rose to 5", FIGURES)
+    assert not is_grounded("reached 5", "The programme reached 50 villages.")
+    assert is_grounded("rose to 50", FIGURES)
+
+
+def test_a_number_cannot_match_inside_a_decimal_a_thousand_or_a_percentage():
+    assert not is_grounded("fell by 5", FIGURES)
+    assert not is_grounded("by 5.5 to 5 rupees", FIGURES)
+    assert not is_grounded("costs fell by 5.5 to", FIGURES)
+    assert is_grounded("costs fell by 5.5% to 5,000 rupees", FIGURES)
+
+
+def test_a_changed_sign_or_currency_is_a_changed_number():
+    assert not is_grounded("It raised \u20ac5 million.", "It raised $5 million.")
+    assert not is_grounded("Temperatures reached 5 degrees", "Temperatures reached -5 degrees.")
+    assert not is_grounded("5 degrees", "Temperatures reached -5 degrees.")
+
+
+def test_a_number_cut_from_a_range_ratio_or_scale_is_flagged_for_a_human():
+    for quote, source in [
+        ("The score was 5.", "The score was 5-10."),
+        ("Cost was 5", "Cost was 5/10 points."),
+        ("The fund raised 5", "The fund raised 5 million dollars."),
+    ]:
+        result = lookup(quote, source)
+        assert result.hit is not None and result.hit.mode == "uncertain", quote
+        assert "continues" in result.hit.note
+
+
+def test_a_number_the_source_qualifies_is_flagged_for_a_human():
+    result = lookup("5 attended", "Fewer than 5 attended.")
+
+    assert result.hit is not None
+    assert result.hit.mode == "uncertain"
+
+
+def test_a_word_cannot_match_inside_its_negative_contraction():
+    source = "Staff can't reach the eastern district."
+
+    assert not is_grounded("Staff can reach the eastern district", source)
+
+
+def test_added_negation_cannot_pass():
+    result = lookup("The ministry did not fund the district office")
+
+    assert result.hit is None
+    assert not is_grounded("The clinic did not reach its targets", FIGURES)
+
+
+def test_removed_negation_cannot_pass():
+    result = lookup("The programme did reach the northern villages")
+
+    assert result.hit is None
+    assert "negation" in result.refused
+    assert not is_grounded("The clinic reached its targets", FIGURES)
+
+
+def test_a_contracted_negation_is_the_same_quote():
+    hit = SourceIndex({"report": FIGURES}).find("The programme didn't reach the northern villages")
+
+    assert hit is not None
+    assert hit.mode == "fuzzy"
+
+
+def test_a_changed_quantity_stays_rejected_with_its_reason():
+    result = lookup("Enrolment rose to 40 learners")
+
+    assert result.hit is None
+    assert "number" in result.refused
+
+
+def test_reversed_content_word_order_is_rejected():
+    result = lookup("The district office funded the ministry")
+
+    assert result.hit is None
+    assert "order" in result.refused
+
+
+def test_swapped_prepositions_are_rejected_as_reordering():
+    source = "Funds went from the state to the district office last year."
+
+    result = lookup("Funds went to the state from the district office last year", source)
+
+    assert result.hit is None
+    assert "order" in result.refused
+
+
+def test_case_and_whitespace_normalisation_still_match_exactly():
+    hit = SourceIndex({"report": FIGURES}).find("THE MINISTRY\n   funded  the District office")
+
+    assert hit is not None
+    assert hit.mode == "exact"
+
+
+def test_surrounding_quotation_marks_and_typographic_apostrophes_are_ignored():
+    assert SourceIndex({"report": SOURCE}).find('"reached twelve villages,"').mode == "exact"
+    assert is_grounded("Staff can\u2019t reach the district", "Staff can't reach the district.")
+
+
+def test_a_quote_with_only_punctuation_drift_still_matches_approximately():
+    hit = SourceIndex({"report": SOURCE}).find(
+        "Average attendance, was thirty four learners per session"
+    )
+
+    assert hit is not None
+    assert hit.mode == "fuzzy"
+    assert hit.score == 1.0
+    assert "punctuation" in hit.note
+
+
+def test_a_dropped_article_is_a_bounded_approximation():
+    hit = SourceIndex({"report": FIGURES}).find("The ministry funded district office")
+
+    assert hit is not None
+    assert hit.mode == "fuzzy"
+
+
+def test_approximate_edits_are_bounded():
+    assert max_edits(4) == 1
+    assert max_edits(10) == 2
+    assert max_edits(40) == 3
+    # Two harmless swaps in a five-word quote exceed its budget of one.
+    result = lookup("Two facilitators resigned during an August", SOURCE)
+
+    assert result.hit is not None
+    assert result.hit.mode == "uncertain"
+
+
+def test_a_quote_the_rules_cannot_decide_is_flagged_for_a_human_not_verified():
+    result = lookup("The ministry paid the district office")
+
+    assert result.hit is not None
+    assert result.hit.mode == "uncertain"
+    assert not result.resolved
+    assert not is_grounded("The ministry paid the district office", FIGURES)
+
+
+def test_a_verbatim_fragment_of_a_negated_sentence_is_flagged_for_a_human():
+    result = lookup("reached its targets")
+
+    assert result.hit is not None
+    assert result.hit.mode == "uncertain"
+    assert "never" in result.hit.note
+    for source in [
+        "We did not even reach the targets.",
+        "We failed to reach the targets.",
+    ]:
+        assert lookup("reach the targets", source).hit.mode == "uncertain", source
+
+
+def test_a_long_source_is_searched_in_reasonable_time():
+    import time
+
+    filler = "the programme reached villages and funding for staff in the district " * 4000
+    index = SourceIndex({"long": filler + SOURCE})
+    started = time.perf_counter()
+
+    assert index.find("Two facilitators resigned during August") is not None
+    assert time.perf_counter() - started < 5
+
+
 # --- verdicts without a model ------------------------------------------------------
 
 
@@ -124,6 +307,57 @@ def test_a_claim_with_real_citations_is_verified():
 
     assert verdict.outcome == Outcome.VERIFIED
     assert verdict.ok
+
+
+def test_without_a_cross_check_a_verdict_says_support_was_not_checked():
+    claim = Claim(
+        statement="The programme reached twelve villages.",
+        citations=[Citation(text="reached twelve villages")],
+    )
+
+    verdict = GroundingVerifier().verify(claim, {"report": SOURCE})
+
+    assert not verdict.support_checked
+    assert verdict.label == "resolved (support not checked)"
+    assert "support not checked" in verdict.reason
+
+
+def test_an_uncertain_citation_holds_the_claim_for_a_person():
+    claim = Claim(
+        statement="The ministry paid for the office.",
+        citations=[Citation(text="The ministry paid the district office")],
+    )
+
+    verdict = GroundingVerifier().verify(claim, {"report": FIGURES})
+
+    assert verdict.outcome == Outcome.CITATION_UNCERTAIN
+    assert not verdict.ok
+    assert verdict.uncertain == ["The ministry paid the district office"]
+    assert "compare them by hand" in verdict.reason
+
+
+def test_a_refused_citation_says_why_the_closest_passage_was_refused():
+    claim = Claim(
+        statement="The programme reached the north.",
+        citations=[Citation(text="The programme did reach the northern villages")],
+    )
+
+    verdict = GroundingVerifier().verify(claim, {"report": FIGURES})
+
+    assert verdict.outcome == Outcome.CITATION_NOT_FOUND
+    assert "negation" in verdict.reason
+
+
+def test_an_uncertain_citation_never_reaches_the_model():
+    provider = ScriptedProvider([SUPPORTED] * 3)
+    claim = Claim(
+        statement="Paid.", citations=[Citation(text="The ministry paid the district office")]
+    )
+
+    verdict = GroundingVerifier(provider=provider, passes=3).verify(claim, {"report": FIGURES})
+
+    assert verdict.outcome == Outcome.CITATION_UNCERTAIN
+    assert provider.models_used == []
 
 
 def test_a_claim_citing_nothing_is_flagged():
@@ -176,6 +410,21 @@ def test_requiring_only_one_citation_can_be_opted_into():
     assert verdict.outcome == Outcome.VERIFIED
 
 
+def test_an_uncertain_citation_stays_visible_when_one_citation_is_enough():
+    claim = Claim(
+        statement="Mixed claim.",
+        citations=[
+            Citation(text="reached twelve villages"),
+            Citation(text="the literacy programme served twelve villages"),
+        ],
+    )
+
+    verdict = GroundingVerifier(require_all_citations=False).verify(claim, {"report": SOURCE})
+
+    assert verdict.outcome == Outcome.VERIFIED
+    assert verdict.uncertain == ["the literacy programme served twelve villages"]
+
+
 def test_cross_checking_without_a_provider_is_refused_at_construction():
     with pytest.raises(ValueError, match="needs a provider"):
         GroundingVerifier(passes=3)
@@ -200,6 +449,8 @@ def test_agreeing_reviewers_verify_a_claim():
 
     assert verdict.outcome == Outcome.VERIFIED
     assert verdict.votes == [SUPPORTED] * 3
+    assert verdict.support_checked
+    assert verdict.label == "supported"
 
 
 def test_a_majority_is_enough():
@@ -244,6 +495,49 @@ def test_an_empty_reply_counts_as_an_abstention():
     # One real vote out of three does not reach a quorum of two.
     assert verdict.outcome == Outcome.INCONCLUSIVE
     assert verdict.votes == ["UNSURE", "UNSURE", SUPPORTED]
+
+
+def test_an_empty_reply_says_the_token_cap_is_the_likely_cause():
+    provider = ScriptedProvider(["", "", ""])
+
+    verdict = GroundingVerifier(provider=provider, passes=3).verify(
+        grounded_claim(), {"report": SOURCE}
+    )
+
+    assert verdict.outcome == Outcome.INCONCLUSIVE
+    assert verdict.votes == [UNSURE] * 3
+    assert f"{VOTE_MAX_OUTPUT_TOKENS}-token output cap" in verdict.reason
+
+
+def test_a_vote_after_reasoning_text_is_still_counted():
+    reasoning = (
+        "The evidence says the programme reached twelve villages. "
+        "That is what the statement says, so it is not UNSUPPORTED.\n\n**SUPPORTED**"
+    )
+    provider = ScriptedProvider([reasoning, "Answer: SUPPORTED", UNSUPPORTED])
+
+    verdict = GroundingVerifier(provider=provider, passes=3).verify(
+        grounded_claim(), {"report": SOURCE}
+    )
+
+    assert verdict.votes == [SUPPORTED, SUPPORTED, UNSUPPORTED]
+    assert verdict.outcome == Outcome.VERIFIED
+
+
+def test_a_denied_label_in_prose_is_not_a_vote_for_it():
+    assert parse_vote("On balance the claim is not SUPPORTED.", {SUPPORTED, UNSUPPORTED}) == UNSURE
+    assert parse_vote("This is a fair reading.", {"A", "B"}) == UNSURE
+    assert parse_vote("Reading the options.\nB", {"A", "B"}) == "B"
+
+
+def test_votes_ask_for_room_to_reason():
+    # Thinking shares the output ceiling on some models; 16 tokens left no text.
+    provider = ScriptedProvider([SUPPORTED] * 3)
+
+    GroundingVerifier(provider=provider, passes=3).verify(grounded_claim(), {"report": SOURCE})
+
+    assert provider.output_caps == [VOTE_MAX_OUTPUT_TOKENS] * 3
+    assert VOTE_MAX_OUTPUT_TOKENS >= 1024
 
 
 def test_unparseable_replies_do_not_become_votes():
@@ -308,7 +602,9 @@ def test_a_report_summarises_itself_for_a_reviewer():
 
     assert not report.ok
     assert len(report.verified) == 2
-    assert report.summary() == "3 claim(s), 2 verified, 1 citation not found"
+    assert report.summary() == (
+        "3 claim(s): 2 resolved (support not checked), 1 citation not found"
+    )
 
 
 def test_an_all_clear_report_says_so():
@@ -318,7 +614,32 @@ def test_an_all_clear_report_says_so():
     )
 
     assert report.ok
-    assert report.summary() == "1 claim(s), all verified"
+    assert report.summary() == "1 claim(s): 1 resolved (support not checked)"
+
+
+def test_the_report_distinguishes_resolved_from_supported():
+    claim = Claim(statement="ok", citations=[Citation(text="reached twelve villages")])
+    sources = {"report": SOURCE}
+
+    free = GroundingVerifier().verify_all([claim], sources)
+    checked = GroundingVerifier(provider=ScriptedProvider([SUPPORTED] * 3), passes=3).verify_all(
+        [claim], sources
+    )
+
+    assert free.summary() == "1 claim(s): 1 resolved (support not checked)"
+    assert checked.summary() == "1 claim(s): 1 supported"
+    assert free.to_dict()["verdicts"][0]["support_checked"] is False
+    assert checked.to_dict()["verdicts"][0]["support_checked"] is True
+
+
+def test_a_report_written_before_support_was_recorded_reads_as_not_checked():
+    from nonprofit_harness.verification.types import VerificationReport
+
+    old = {"verdicts": [{"claim_id": "c1", "outcome": "verified", "grounded": []}]}
+
+    report = VerificationReport.from_dict(old)
+
+    assert report.verdicts[0].label == "resolved (support not checked)"
 
 
 def test_a_report_round_trips_through_a_dict():
@@ -328,6 +649,10 @@ def test_a_report_round_trips_through_a_dict():
         [
             Claim(statement="ok", citations=[Citation(text="reached twelve villages")]),
             Claim(statement="bad", citations=[Citation(text="not in there at all")]),
+            Claim(
+                statement="unsure",
+                citations=[Citation(text="the literacy programme served twelve villages")],
+            ),
         ],
         {"report": SOURCE},
     )

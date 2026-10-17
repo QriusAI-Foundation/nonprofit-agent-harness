@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import uuid
+from collections import Counter
 from dataclasses import dataclass, field
 from enum import StrEnum
 from typing import Any, Literal
@@ -40,17 +41,31 @@ class Claim:
 
 @dataclass(frozen=True, slots=True)
 class GroundingHit:
-    """Where a citation was found, and how convincingly."""
+    """Where a citation was found, and how convincingly.
+
+    `mode` is "exact" for a verbatim quote, "fuzzy" for one inside the bounded
+    approximate rules in `grounding.py`, and "uncertain" for one a person has to
+    compare. `note` says what differs, for the reviewer.
+    """
 
     document: str
-    mode: Literal["exact", "fuzzy"]
+    mode: Literal["exact", "fuzzy", "uncertain"]
     score: float
+    note: str = ""
 
 
 class Outcome(StrEnum):
+    """How a claim fared.
+
+    VERIFIED means the citations resolved. Whether the source also supports the
+    statement is known only when `Verdict.support_checked` is true, which needs the
+    opt-in cross-check. A reviewer reads the two apart through `Verdict.label`.
+    """
+
     VERIFIED = "verified"
     UNCITED = "uncited"
     CITATION_NOT_FOUND = "citation_not_found"
+    CITATION_UNCERTAIN = "citation_uncertain"
     DISPUTED = "disputed"
     INCONCLUSIVE = "inconclusive"
 
@@ -63,20 +78,37 @@ class Verdict:
     grounded: list[GroundingHit] = field(default_factory=list)
     ungrounded: list[str] = field(default_factory=list)
     votes: list[str] = field(default_factory=list)
+    #: Citations that resemble the source but differ in ways the free check
+    #: cannot judge. They hold the claim back for a person, like a missing one.
+    uncertain: list[str] = field(default_factory=list)
+    #: True once reviewers re-derived the claim from its evidence. Without that, a
+    #: resolved citation says the quote is real, not that it backs the statement.
+    support_checked: bool = False
 
     @property
     def ok(self) -> bool:
         return self.outcome == Outcome.VERIFIED
 
+    @property
+    def label(self) -> str:
+        """The outcome in words that do not overstate what was checked."""
+        if self.outcome == Outcome.VERIFIED:
+            return "supported" if self.support_checked else "resolved (support not checked)"
+        return str(self.outcome).replace("_", " ")
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "claim_id": self.claim_id,
             "outcome": str(self.outcome),
+            "label": self.label,
+            "support_checked": self.support_checked,
             "reason": self.reason,
             "grounded": [
-                {"document": g.document, "mode": g.mode, "score": g.score} for g in self.grounded
+                {"document": g.document, "mode": g.mode, "score": g.score, "note": g.note}
+                for g in self.grounded
             ],
             "ungrounded": list(self.ungrounded),
+            "uncertain": list(self.uncertain),
             "votes": list(self.votes),
         }
 
@@ -98,17 +130,17 @@ class VerificationReport:
         return not self.failed
 
     def summary(self) -> str:
-        """One line a reviewer can read without opening anything."""
+        """One line a reviewer can read without opening anything.
+
+        Claims whose citations resolved but whose support nobody checked are counted
+        apart from supported ones, so "found in the source" is never read as "true".
+        """
         total = len(self.verdicts)
         if total == 0:
             return "no claims to verify"
-        if self.ok:
-            return f"{total} claim(s), all verified"
-        reasons: dict[str, int] = {}
-        for verdict in self.failed:
-            reasons[str(verdict.outcome)] = reasons.get(str(verdict.outcome), 0) + 1
-        detail = ", ".join(f"{count} {name.replace('_', ' ')}" for name, count in reasons.items())
-        return f"{total} claim(s), {len(self.verified)} verified, {detail}"
+        labels = Counter(verdict.label for verdict in self.verdicts)
+        detail = ", ".join(f"{count} {label}" for label, count in labels.items())
+        return f"{total} claim(s): {detail}"
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -128,11 +160,13 @@ class VerificationReport:
                     outcome=Outcome(v["outcome"]),
                     reason=v.get("reason", ""),
                     grounded=[
-                        GroundingHit(g["document"], g["mode"], g["score"])
+                        GroundingHit(g["document"], g["mode"], g["score"], g.get("note", ""))
                         for g in v.get("grounded", [])
                     ],
                     ungrounded=list(v.get("ungrounded", [])),
                     votes=list(v.get("votes", [])),
+                    uncertain=list(v.get("uncertain", [])),
+                    support_checked=bool(v.get("support_checked", False)),
                 )
                 for v in data.get("verdicts", [])
             ]
