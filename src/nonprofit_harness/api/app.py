@@ -100,9 +100,12 @@ def create_app(
 
     @app.exception_handler(HarnessError)
     async def harness_error_handler(_: Request, exc: HarnessError) -> JSONResponse:
-        return JSONResponse(
-            status_code=exc.status_code, content={"error": str(exc), "code": exc.code}
-        )
+        content: dict[str, Any] = {"error": str(exc), "code": exc.code}
+        # A review conflict names who decided first, so the caller can act on it.
+        details = getattr(exc, "details", None)
+        if details:
+            content["details"] = details
+        return JSONResponse(status_code=exc.status_code, content=content)
 
     @app.get("/healthz", tags=["meta"])
     def healthz() -> dict[str, Any]:

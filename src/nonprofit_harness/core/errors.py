@@ -55,6 +55,44 @@ class ReviewRequired(HarnessError):
     code = "review_required"
 
 
+class Conflict(HarnessError):
+    """A write lost a race with another write to the same record."""
+
+    status_code = 409
+    code = "conflict"
+
+
+class StaleRun(Conflict):
+    """A whole-run save was based on a copy that someone else has since changed.
+
+    Saving it anyway would silently undo their change, which is how two reviewers used
+    to erase each other's decisions.
+    """
+
+    code = "stale_run"
+
+    def __init__(self, run_id: str, expected: int, found: int) -> None:
+        super().__init__(
+            f"Run {run_id!r} changed since it was read (read version {expected}, "
+            f"stored version {found}). Read it again and retry."
+        )
+        self.details = {"run_id": run_id, "read_version": expected, "stored_version": found}
+
+
+class ReviewConflict(Conflict):
+    """A decision disagrees with one already recorded for the same artifact.
+
+    The recorded decision stands. The details say who made it, so the second reviewer
+    can talk to the first instead of retrying.
+    """
+
+    code = "review_conflict"
+
+    def __init__(self, message: str, **details: object) -> None:
+        super().__init__(message)
+        self.details = details
+
+
 class AgentFailed(HarnessError):
     status_code = 500
     code = "agent_failed"
@@ -82,13 +120,16 @@ class DataSourceError(HarnessError):
 __all__ = [
     "AgentFailed",
     "BudgetExceeded",
+    "Conflict",
     "DataSourceError",
     "Forbidden",
     "HarnessError",
     "InvalidRequest",
     "NotFound",
     "ProviderError",
+    "ReviewConflict",
     "ReviewRequired",
+    "StaleRun",
     "StorageError",
     "Unauthorized",
 ]
