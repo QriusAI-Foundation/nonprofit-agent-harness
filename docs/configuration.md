@@ -47,7 +47,9 @@ No provider needs an extra except Google. The others speak HTTP directly using t
 `response_format` with your JSON schema, which most enforce. Anthropic gets
 `output_config.format`, which the API enforces, after the adapter closes every object
 (`additionalProperties: false`) and drops constraints it does not support, such as
-`minLength` or `maximum`. Google and local servers vary. Validate what comes back rather
+`minLength` or `maximum`. A schema with a free-form map (`additionalProperties` given as
+a schema) cannot be expressed that way, so for it the adapter asks in the system prompt
+instead. Google and local servers vary. Validate what comes back rather
 than assuming, otherwise an agent works on one provider and fails on another for reasons
 that look random.
 

@@ -76,9 +76,10 @@ def ask_for_cited(
 def parse_json(text: str) -> dict[str, Any]:
     """Read the reply's JSON object, tolerating a code fence or other text around it.
 
-    The Anthropic adapter requests the schema rather than enforcing it, so a reply can
-    arrive fenced, after a sentence, or even after an echo of the schema itself. The
-    first object holding a `text` key wins. Anything unreadable becomes an artifact with
+    Not every provider enforces the schema: some only ask for it, and a reply can then
+    arrive fenced, after a sentence, or even after an echo of the schema itself (Haiku
+    5.5 did this before the Anthropic adapter used structured outputs). The first object
+    holding a `text` key wins. Anything unreadable becomes an artifact with
     no claims, which a reviewer sees as such, rather than a failed run.
     """
     decoder = json.JSONDecoder()

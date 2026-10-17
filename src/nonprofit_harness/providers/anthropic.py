@@ -11,6 +11,7 @@ default, so there is nothing to switch on.
 
 from __future__ import annotations
 
+import json
 import os
 from typing import Any
 
@@ -87,10 +88,20 @@ class AnthropicProvider:
         if self.effort:
             output_config["effort"] = self.effort
         if json_schema is not None:
-            # Enforced by the API rather than requested in the prompt. Asking in the
-            # prompt worked on the larger models, but Haiku 5.5 often replied with the
-            # schema itself instead of an answer.
-            output_config["format"] = {"type": "json_schema", "schema": strict_schema(json_schema)}
+            try:
+                # Enforced by the API rather than requested in the prompt. Asking in
+                # the prompt worked on the larger models, but Haiku 5.5 often replied
+                # with the schema itself instead of an answer.
+                strict = strict_schema(json_schema)
+                output_config["format"] = {"type": "json_schema", "schema": strict}
+            except NotStrict:
+                # A free-form map cannot be expressed, and closing it would force the
+                # model to return it empty. Asking is weaker but loses nothing.
+                schema_text = json.dumps(json_schema, separators=(",", ":"))
+                payload["system"] = (
+                    f"{system or ''}\n\nReply with JSON only, matching this schema. "
+                    f"No prose, no code fence.\n{schema_text}"
+                ).strip()
         if output_config:
             payload["output_config"] = output_config
 
@@ -156,15 +167,23 @@ _UNSUPPORTED_KEYWORDS = frozenset(
 )
 
 
+class NotStrict(ValueError):
+    """The schema holds something structured outputs cannot express."""
+
+
 def strict_schema(schema: Any) -> Any:
     """A copy of `schema` in the form structured outputs accepts.
 
     Every object must say `additionalProperties: false`, and some constraints are not
     supported at all. Only schema positions are rewritten: a property that happens to be
     named `maximum`, or an `enum` value that is an object, passes through untouched.
+    Raises `NotStrict` for a free-form map (`additionalProperties` given as a schema),
+    which closing would silently turn into an object that must stay empty.
     """
     if not isinstance(schema, dict):
         return schema
+    if isinstance(schema.get("additionalProperties"), dict):
+        raise NotStrict("additionalProperties as a schema (a free-form map)")
     cleaned: dict[str, Any] = {}
     for key, value in schema.items():
         if key in _UNSUPPORTED_KEYWORDS:
@@ -177,14 +196,18 @@ def strict_schema(schema: Any) -> Any:
             cleaned[key] = strict_schema(value)
         else:
             cleaned[key] = value
-    if cleaned.get("type") == "object" or "properties" in cleaned:
+    kind = cleaned.get("type")
+    is_object = kind == "object" or (isinstance(kind, list) and "object" in kind)
+    if is_object or "properties" in cleaned:
         cleaned["additionalProperties"] = False
     return cleaned
 
 
-_SCHEMA_MAPS = frozenset({"properties", "$defs", "definitions"})
+_SCHEMA_MAPS = frozenset(
+    {"properties", "$defs", "definitions", "patternProperties", "dependentSchemas"}
+)
 _SCHEMA_LISTS = frozenset({"anyOf", "allOf", "oneOf", "prefixItems"})
-_SCHEMA_VALUES = frozenset({"items", "not"})
+_SCHEMA_VALUES = frozenset({"items", "not", "if", "then", "else", "contains", "propertyNames"})
 
 
 def _refusal_category(body: dict[str, Any]) -> str | None:
@@ -202,5 +225,6 @@ __all__ = [
     "EFFORT_ENV",
     "KEY_ENV",
     "AnthropicProvider",
+    "NotStrict",
     "strict_schema",
 ]

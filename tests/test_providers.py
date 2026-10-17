@@ -227,6 +227,31 @@ def test_strict_schema_closes_objects_and_drops_unsupported_constraints():
     assert "additionalProperties" not in schema
 
 
+def test_a_nullable_object_is_closed_too():
+    from nonprofit_harness.providers.anthropic import strict_schema
+
+    strict = strict_schema({"type": ["object", "null"]})
+
+    assert strict["additionalProperties"] is False
+
+
+def test_a_free_form_map_is_asked_for_rather_than_closed_empty():
+    http = FakeHttp(FakeResponse(ANTHROPIC_BODY))
+    schema = {
+        "type": "object",
+        "properties": {"counts": {"type": "object", "additionalProperties": {"type": "integer"}}},
+    }
+
+    AnthropicProvider(api_key="sk-ant-test-value", client=http).generate(
+        "x", system="Be brief.", json_schema=schema
+    )
+
+    sent = http.calls[0]["json"]
+    assert "output_config" not in sent
+    assert sent["system"].startswith("Be brief.")
+    assert '"additionalProperties":{"type":"integer"}' in sent["system"]
+
+
 def test_effort_and_a_schema_share_one_output_config():
     http = FakeHttp(FakeResponse(ANTHROPIC_BODY))
 
