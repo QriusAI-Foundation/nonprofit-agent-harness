@@ -280,3 +280,30 @@ def test_no_disaggregation_is_itself_reported():
 
     assert not parsed.disaggregated
     assert not any("disaggregates by" in w for w in parsed.warnings)
+
+
+def test_parsing_preserves_an_unrecognised_measure_as_unknown():
+    """It used to read as a count, which let it into sums and percentages."""
+    record = {
+        "result_indicator_title_narrative": ["Mystery"],
+        "result_indicator_measure": ["9"],
+        "result_indicator_period_target_value": ["4"],
+        "result_indicator_period_actual_value": ["2"],
+    }
+
+    parsed = results_from_record(record)
+    indicator = parsed.indicators[0]
+
+    assert indicator.measure is Measure.UNKNOWN
+    assert indicator.metadata["measure_code"] == "9"
+    assert achievement(indicator).ratio is None
+    assert any("measure code(s) 9 are not recognised" in w for w in parsed.warnings)
+
+
+def test_a_missing_measure_is_unknown_rather_than_assumed_a_count():
+    record = {k: v for k, v in ALIGNED.items() if k != "result_indicator_measure"}
+
+    parsed = results_from_record(record)
+
+    assert {i.measure for i in parsed.indicators} == {Measure.UNKNOWN}
+    assert any("measure code(s) none" in w for w in parsed.warnings)

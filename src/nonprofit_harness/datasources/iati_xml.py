@@ -106,28 +106,42 @@ def _result(element: Any) -> Result:
 
 def _indicator(element: Any) -> Indicator:
     reference = element.find("reference")
+    # The standard requires @measure. An absent or unrecognised one stays UNKNOWN, since
+    # assuming a count would let labels and ranks into sums and percentages.
+    code = element.get("measure")
     return Indicator(
         title=_narrative(element.find("title")),
         description=_narrative(element.find("description")),
-        measure=Measure.from_code(element.get("measure", "1")),
+        measure=Measure.from_code(code),
         # Absent means unknown rather than false. Assuming upward matches the flattened
         # path, and is the assumption that reverses a descending indicator's result, so
         # it is recorded rather than hidden.
         ascending=_bool(element.get("ascending"), default=True),
         aggregatable=_bool(element.get("aggregation-status"), default=True),
-        baseline=_baseline(element.find("baseline")),
+        baseline=_baseline(element.findall("baseline")),
         periods=[_period(child) for child in element.findall("period")],
         reference=reference.get("code", "") if reference is not None else "",
         metadata={
             "source": "iati-xml",
             "direction_published": element.get("ascending") is not None,
+            "measure_code": code,
         },
     )
 
 
-def _baseline(element: Any) -> Baseline | None:
-    if element is None:
-        return None
+def _baseline(elements: list[Any]) -> Baseline | None:
+    """The overall baseline where one is published, else the first.
+
+    The standard allows a baseline per slice. Taking the first by position could hand a
+    women-only figure to an overall result; preferring the unscoped one avoids that, and
+    a scoped one that remains is refused by the arithmetic rather than applied.
+    """
+    baselines = [_one_baseline(element) for element in elements]
+    overall = [b for b in baselines if b.scope.is_total]
+    return next(iter(overall or baselines), None)
+
+
+def _one_baseline(element: Any) -> Baseline:
     year = element.get("year")
     return Baseline(
         value=_number(element.get("value")),
@@ -135,6 +149,7 @@ def _baseline(element: Any) -> Baseline | None:
         iso_date=_date(element.get("iso-date")),
         dimensions=_dimensions(element),
         comment=_narrative(element.find("comment")),
+        location=_location(element),
     )
 
 
@@ -149,13 +164,17 @@ def _period(element: Any) -> Period:
 
 
 def _measurement(element: Any) -> Measurement:
-    location = element.find("location")
     return Measurement(
         value=_number(element.get("value")),
         dimensions=_dimensions(element),
-        location=location.get("ref", "") if location is not None else "",
+        location=_location(element),
         comment=_narrative(element.find("comment")),
     )
+
+
+def _location(element: Any) -> str:
+    location = element.find("location")
+    return (location.get("ref") or "").strip() if location is not None else ""
 
 
 def _dimensions(element: Any) -> tuple[Dimension, ...]:

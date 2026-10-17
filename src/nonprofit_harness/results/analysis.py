@@ -9,6 +9,8 @@ is that each one has a way of being silently wrong:
   everything that was already true before it started.
 - Summing across indicators quietly adds percentages together, or adds disaggregated
   slices to the total they are part of.
+- Comparing figures for different populations, such as one district's actual against
+  the programme's target, or a women-only baseline against an overall result.
 
 Every function reports how it reached its answer rather than returning a bare number,
 because a figure in a funder report needs to be explicable.
@@ -24,9 +26,11 @@ from typing import Any
 from nonprofit_harness.results.model import (
     Dimension,
     Indicator,
+    Measure,
     Measurement,
     Period,
     Result,
+    _headline,
 )
 
 
@@ -44,6 +48,15 @@ class NotCalculable(StrEnum):
     NOT_NUMERIC = "not_numeric"
     TARGET_EQUALS_BASELINE = "target_equals_baseline"
     ZERO_TARGET = "zero_target"
+    #: Figures exist, but only for slices or locations, so there is no overall one.
+    NO_TOTAL = "no_total"
+    #: More than one overall figure, with different values.
+    CONFLICTING_TOTALS = "conflicting_totals"
+    #: The baseline describes a different population from the target and actual.
+    BASELINE_SCOPE_MISMATCH = "baseline_scope_mismatch"
+    NOMINAL_LABELS = "nominal_labels"
+    ORDINAL_SCALE = "ordinal_scale"
+    UNKNOWN_MEASURE = "unknown_measure"
 
 
 @dataclass(slots=True)
@@ -59,6 +72,8 @@ class Achievement:
     baseline: float | None = None
     period: str = ""
     ascending: bool = True
+    #: Why, in words, when `reason` alone does not say which figures were involved.
+    detail: str = ""
 
     @property
     def met(self) -> bool:
@@ -71,7 +86,9 @@ class Achievement:
     def explain(self) -> str:
         """A sentence a programme officer could put in front of a funder."""
         if self.ratio is None:
-            return f"{self.indicator}: not calculable ({(self.reason or '').replace('_', ' ')})"
+            why = (self.reason or "").replace("_", " ")
+            tail = f": {self.detail}" if self.detail else ""
+            return f"{self.indicator}: not calculable ({why}){tail}"
         direction = "lower is better" if not self.ascending else "higher is better"
         if self.basis is Basis.FROM_BASELINE:
             how = f"from a baseline of {_n(self.baseline)} towards {_n(self.target)}"
@@ -93,6 +110,7 @@ class Achievement:
             "actual": self.actual,
             "baseline": self.baseline,
             "period": self.period,
+            "detail": self.detail,
         }
 
 
@@ -111,22 +129,35 @@ def achievement(indicator: Indicator, period: Period | None = None) -> Achieveme
         indicator=indicator.title, period=label, ascending=indicator.ascending
     )
 
-    if not indicator.measure.is_numeric:
-        base.reason = NotCalculable.NOT_NUMERIC
+    refusal = _measure_refusal(indicator.measure)
+    if refusal is not None:
+        base.reason, base.detail = refusal
         return base
-    if window is None or window.target is None or window.target.value is None:
+    if window is None:
         base.reason = NotCalculable.NO_TARGET
         return base
-    if window.actual is None or window.actual.value is None:
-        base.target = window.target.value
-        base.reason = NotCalculable.NO_ACTUAL
+
+    target, reason, detail = _total(window.targets, "target", NotCalculable.NO_TARGET)
+    if target is None:
+        base.reason, base.detail = reason, detail
         return base
+    base.target = target
+    actual, reason, detail = _total(window.actuals, "actual", NotCalculable.NO_ACTUAL)
+    if actual is None:
+        base.reason, base.detail = reason, detail
+        return base
+    base.actual = actual
 
-    target = window.target.value
-    actual = window.actual.value
-    baseline = indicator.baseline.value if indicator.baseline else None
-
-    base.target, base.actual, base.baseline = target, actual, baseline
+    # Both are overall figures, so they describe the same population. The baseline is
+    # the one figure that can still describe another, and measuring progress from it
+    # would then compare two different groups of people.
+    stated = indicator.baseline
+    baseline = stated.value if stated else None
+    base.baseline = baseline
+    if stated is not None and baseline is not None and not stated.scope.is_total:
+        base.reason = NotCalculable.BASELINE_SCOPE_MISMATCH
+        base.detail = f"the baseline is for {stated.scope}, but the target and actual are overall"
+        return base
 
     if baseline is not None:
         span = target - baseline
@@ -158,6 +189,56 @@ def achievement(indicator: Indicator, period: Period | None = None) -> Achieveme
     return base
 
 
+def _measure_refusal(measure: Measure) -> tuple[NotCalculable, str] | None:
+    """Why this measure admits no achievement ratio, or None when it does."""
+    if measure.permits_ratio:
+        return None
+    return {
+        Measure.QUALITATIVE: (NotCalculable.NOT_NUMERIC, "qualitative indicators carry no value"),
+        Measure.NOMINAL: (
+            NotCalculable.NOMINAL_LABELS,
+            "nominal values are category labels, so a ratio of them means nothing",
+        ),
+        Measure.ORDINAL: (
+            NotCalculable.ORDINAL_SCALE,
+            "ordinal values are ranks with no fixed distance between them, so no "
+            "percentage of the way to target can be stated",
+        ),
+    }.get(
+        measure,
+        (
+            NotCalculable.UNKNOWN_MEASURE,
+            "the publisher's measure code is not recognised, so no arithmetic is assumed",
+        ),
+    )
+
+
+def _total(
+    measurements: list[Measurement], role: str, missing: NotCalculable
+) -> tuple[float | None, NotCalculable | None, str]:
+    """The overall figure for one role, or why there is not one.
+
+    Selection is by scope alone, so reordering the input never changes which
+    population is reported.
+    """
+    chosen = _headline(measurements)
+    if chosen is not None:
+        return chosen.value, None, ""
+    valued = [m for m in measurements if m.value is not None]
+    if not valued:
+        return None, missing, ""
+    totals = [m for m in valued if not m.is_disaggregated]
+    if totals:
+        values = ", ".join(_n(v) for v in sorted({m.value for m in totals}))  # type: ignore[type-var]
+        return None, NotCalculable.CONFLICTING_TOTALS, (
+            f"the {role} has more than one overall figure ({values})"
+        )
+    scopes = "; ".join(sorted({str(m.scope) for m in valued}))
+    return None, NotCalculable.NO_TOTAL, (
+        f"the {role} is reported only for {scopes}, with no overall figure"
+    )
+
+
 def achievements(result: Result) -> list[Achievement]:
     return [achievement(indicator) for indicator in result.indicators]
 
@@ -184,6 +265,12 @@ def total_actual(indicators: list[Indicator], *, period: Period | None = None) -
     refused: list[str] = []
 
     for indicator in indicators:
+        if indicator.measure is Measure.UNKNOWN:
+            refused.append(
+                f"{indicator.title}: measure is unknown, so its values are not assumed "
+                "to add up"
+            )
+            continue
         if not indicator.measure.is_summable:
             refused.append(f"{indicator.title}: {indicator.measure} values do not add up")
             continue
@@ -191,10 +278,13 @@ def total_actual(indicators: list[Indicator], *, period: Period | None = None) -
             refused.append(f"{indicator.title}: publisher marked it not aggregatable")
             continue
         window = period or indicator.latest_period
-        if window is None or window.actual is None or window.actual.value is None:
-            refused.append(f"{indicator.title}: no reported actual")
+        actual, _, detail = _total(
+            window.actuals if window else [], "actual", NotCalculable.NO_ACTUAL
+        )
+        if actual is None:
+            refused.append(f"{indicator.title}: {detail or 'no reported actual'}")
             continue
-        running += window.actual.value
+        running += actual
         counted += 1
 
     return Total(value=running if counted else None, counted=counted, refused=refused)
@@ -232,10 +322,8 @@ def coverage(measurements: list[Measurement], by: str) -> float | None:
     slices overlap, or one of them is itself a total. Either is worth seeing before a
     breakdown goes into a report.
     """
-    headline = next(
-        (m.value for m in measurements if not m.is_disaggregated and m.value is not None),
-        None,
-    )
+    total = _headline(measurements)
+    headline = total.value if total is not None else None
     if headline is None or headline == 0:
         return None
     sliced = sum(dimension_totals(measurements, by).values())

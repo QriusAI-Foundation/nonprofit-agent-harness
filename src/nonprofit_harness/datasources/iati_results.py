@@ -163,7 +163,9 @@ def results_from_record(record: dict[str, Any]) -> IatiResults:
         identity = (
             str(cell.get("title_narrative", "")),
             str(cell.get("description_narrative", "")),
-            str(cell.get("measure", "1")),
+            # Absent stays absent: Measure.from_code keeps it UNKNOWN rather than
+            # assuming a count. See the warning added below.
+            str(cell.get("measure") or ""),
             str(cell.get("reference_code", "")),
         )
 
@@ -177,7 +179,7 @@ def results_from_record(record: dict[str, Any]) -> IatiResults:
                 aggregatable=_bool(cell.get("aggregation_status"), default=True),
                 reference=identity[3],
                 baseline=_baseline(cell),
-                metadata={"source": "iati"},
+                metadata={"source": "iati", "measure_code": identity[2]},
             )
             grouped[identity] = indicator
 
@@ -186,6 +188,18 @@ def results_from_record(record: dict[str, Any]) -> IatiResults:
             indicator.periods.append(period)
 
     parsed.indicators = list(grouped.values())
+    unknown = sorted(
+        {
+            indicator.metadata["measure_code"] or "none"
+            for indicator in parsed.indicators
+            if indicator.measure is Measure.UNKNOWN
+        }
+    )
+    if unknown:
+        parsed.warnings.append(
+            f"measure code(s) {', '.join(unknown)} are not recognised, so those "
+            "indicators are kept as UNKNOWN and no arithmetic is done on them"
+        )
     return parsed
 
 

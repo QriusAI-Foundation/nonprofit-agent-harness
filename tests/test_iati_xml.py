@@ -18,6 +18,7 @@ from nonprofit_harness.datasources.iati_xml import (
 )
 from nonprofit_harness.results import (
     Measure,
+    NotCalculable,
     ResultType,
     achievement,
     coverage,
@@ -275,3 +276,72 @@ def test_repeated_narratives_are_joined():
       </iati-activity></iati-activities>"""
 
     assert parse_activities(xml)[0].title == "English\n\nFrancais"
+
+
+# --- scope and measure (audit F09, F10, F11) ---------------------------------------
+
+
+def _one_indicator(body: str, measure: str = 'measure="1"'):
+    xml = f"""<iati-activities><iati-activity><iati-identifier>X</iati-identifier>
+      <result type="1"><indicator {measure}>
+        <title><narrative>Wells</narrative></title>{body}
+      </indicator></result></iati-activity></iati-activities>"""
+    return results_from_xml(xml)[0].indicators[0]
+
+
+def test_location_only_actuals_parse_as_slices_not_a_total():
+    indicator = _one_indicator(
+        """<period><period-end iso-date="2026-12-31"/><target value="100"/>
+           <actual value="30"><location ref="KE-01"/></actual>
+           <actual value="50"><location ref="KE-02"/></actual></period>"""
+    )
+
+    got = achievement(indicator)
+
+    assert indicator.periods[0].actual is None
+    assert got.reason is NotCalculable.NO_TOTAL
+    assert "location KE-01; location KE-02" in got.detail
+
+
+def test_the_overall_baseline_is_preferred_over_a_slice_published_first():
+    indicator = _one_indicator(
+        """<baseline value="60"><dimension name="sex" value="female"/></baseline>
+           <baseline value="50"/>
+           <period><target value="100"/><actual value="75"/></period>"""
+    )
+
+    assert indicator.baseline.value == 50
+    assert achievement(indicator).percent == 50.0
+
+
+def test_a_baseline_published_only_for_one_location_is_refused():
+    indicator = _one_indicator(
+        """<baseline value="60"><location ref="KE-01"/></baseline>
+           <period><target value="100"/><actual value="80"/></period>"""
+    )
+
+    got = achievement(indicator)
+
+    assert indicator.baseline.location == "KE-01"
+    assert got.reason is NotCalculable.BASELINE_SCOPE_MISMATCH
+
+
+@pytest.mark.parametrize("measure", ['measure="9"', ""])
+def test_parsing_preserves_an_unknown_measure(measure):
+    """Absent or unrecognised is kept as doubt, not resolved into a count."""
+    indicator = _one_indicator(
+        "<period><target value='4'/><actual value='2'/></period>", measure
+    )
+
+    assert indicator.measure is Measure.UNKNOWN
+    assert indicator.metadata["measure_code"] == ("9" if measure else None)
+    assert achievement(indicator).reason is NotCalculable.UNKNOWN_MEASURE
+
+
+def test_a_nominal_indicator_parses_and_is_not_scored():
+    indicator = _one_indicator(
+        "<period><target value='4'/><actual value='2'/></period>", 'measure="3"'
+    )
+
+    assert indicator.measure is Measure.NOMINAL
+    assert achievement(indicator).reason is NotCalculable.NOMINAL_LABELS
