@@ -82,10 +82,15 @@ def _run(args) -> int:
         documents.append(extract(path.read_bytes(), media_type=media_type, name=path.name))
 
     options = dict(item.split("=", 1) for item in args.option if "=" in item)
+    try:
+        provider = load_provider(config.provider)
+    except ValueError as exc:  # a malformed HARNESS_PRICES, said plainly
+        print(f"Could not configure provider {config.provider!r}: {exc}", file=sys.stderr)
+        return 2
     runner = AgentRunner(
         registry=registry,
         stores=load_stores(config.storage),
-        provider=load_provider(config.provider),
+        provider=provider,
         config=config,
     )
     run = runner.start(agent_class.name, org_id=args.org, inputs=documents, options=options)

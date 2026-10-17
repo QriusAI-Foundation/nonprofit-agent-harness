@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import os
 import re
 from dataclasses import dataclass, field
@@ -47,6 +48,17 @@ class ModelRate:
 
     input_per_1m: float
     output_per_1m: float
+
+    def __post_init__(self) -> None:
+        # NaN never compares greater than a ceiling and a negative rate subtracts
+        # spend, so either one would quietly switch the cost ceiling off.
+        for rate in (self.input_per_1m, self.output_per_1m):
+            if not math.isfinite(rate) or rate < 0:
+                raise ValueError(f"A model rate must be a finite number of 0 or more, not {rate}")
+
+    @property
+    def free(self) -> bool:
+        return self.input_per_1m == 0 and self.output_per_1m == 0
 
     def cost(self, input_tokens: int, output_tokens: int) -> float:
         return round(
@@ -140,8 +152,8 @@ class PriceBook:
                 book.set(model.strip(), float(input_rate), float(output_rate))
             except ValueError:
                 raise ValueError(
-                    f"{PRICES_ENV} entry {entry!r} is not model=input/output, "
-                    "for example my-model=0.30/2.50"
+                    f"{PRICES_ENV} entry {entry!r} is not model=input/output with finite "
+                    "rates of 0 or more, for example my-model=0.30/2.50"
                 ) from None
         return book
 

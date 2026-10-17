@@ -114,10 +114,13 @@ Every model call goes through three steps, in this order.
      remaining dollars buy, and a call whose estimated input alone costs more than is
      left is not sent;
    - a cost ceiling on a model with no price is refused here, before any money moves.
+     This needs the provider to expose its price book as `prices`, which the bundled
+     adapters do. A custom provider without one is checked after its first call.
 3. **Accounting, after the call.** The tokens and cost the provider reports are added
    to the run first and checked second. This is the accounting of record. A call that
    broke a ceiling is counted in full, and the run then stops. A call that failed but
-   was still billed, such as a refusal, is counted the same way.
+   was still billed, such as a refusal, is counted the same way. A call that failed
+   with no usage reported still counts as one call.
 
 ### What they cannot prevent
 
@@ -133,6 +136,12 @@ The ceilings narrow the overshoot. They do not remove it.
   states none), the harness sends a reserved limit only below 8,192 tokens. Above that,
   some APIs reject a limit larger than the model's own maximum, so the model's maximum
   applies and bounds the overshoot instead.
+- **A reservation holds nothing.** It is computed from what is already spent, so calls
+  an agent makes in parallel each see the whole remaining allowance, and the overshoot
+  grows with the number in flight.
+- **A cut-off check can fire on a complete answer.** An answer that uses exactly the
+  lowered output limit is treated as cut short and stops the run, even if the model
+  happened to finish there.
 - **The ceilings bound one run, not a total.** Many small runs can add up without any
   individual ceiling tripping. A deployment reachable by people you do not know needs
   quota and rate limiting on top. See [security.md](security.md).
@@ -174,6 +183,12 @@ by the model the response names. OpenAI, for example, answers `gpt-x` with a dat
 snapshot such as `gpt-x-2026-10-01`. When the answered name has no rate and the
 requested one does, the call is unpriced and the usage says so. The harness does not
 borrow the requested rate, because a fallback or a newer snapshot can cost more.
+Under a cost ceiling the pre-dispatch check sees only the requested name, so that first
+call is sent and billed, its usage is recorded, and then the run stops as unpriced.
+Price both names to avoid losing it.
+
+A rate must be a finite number of 0 or more. `nan`, `inf`, and negative rates are
+rejected, because each one would quietly switch the cost ceiling off.
 
 The offline `echo` provider is free and reports a known zero cost, so it runs under a
 cost ceiling with no prices set.

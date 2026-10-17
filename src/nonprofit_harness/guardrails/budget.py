@@ -165,7 +165,7 @@ class BudgetGuard:
                     "token", estimated_input_tokens, max(0, remaining), self.max_tokens
                 )
             cap = room if cap is None else min(cap, room)
-        if self.max_cost_usd is not None and rate is not None:
+        if self.max_cost_usd is not None and rate is not None and not rate.free:
             cap = self._reserve_dollars(estimated_input_tokens, rate, cap)
         return cap
 
@@ -241,12 +241,14 @@ class BudgetedProvider:
                 max_output_tokens=cap,
                 json_schema=json_schema,
             )
-        except ProviderError as exc:
-            # A refused or truncated call can still be billed. Banked before the error
-            # moves on, so the run's spend matches the invoice. If banking it breaks a
-            # ceiling, that error wins, with this one attached as its context.
-            if exc.usage is not None:
-                self.guard.record(exc.usage)
+        except Exception as exc:
+            # A refused, timed-out, or broken call can still be billed. Banked before the
+            # error moves on, so the run's spend matches the invoice. With no usage
+            # reported it still counts as a call, or an agent retrying a failing
+            # endpoint in a loop would never reach the call ceiling. If banking breaks
+            # a ceiling, that error wins, with this one attached as its context.
+            billed = exc.usage if isinstance(exc, ProviderError) else None
+            self.guard.record(billed if billed is not None else Usage(calls=1))
             raise
         self.guard.record(response.usage)
         if _cut_off_by_budget(stated, cap, response.usage):

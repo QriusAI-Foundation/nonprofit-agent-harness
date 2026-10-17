@@ -5,6 +5,7 @@ import os
 import pytest
 
 from nonprofit_harness import cli
+from nonprofit_harness.api.schemas import RunOut
 from nonprofit_harness.config import HarnessConfig
 from nonprofit_harness.core.errors import BudgetExceeded, ProviderError
 from nonprofit_harness.core.runner import AgentRunner
@@ -359,3 +360,65 @@ def test_an_answer_at_the_agents_own_limit_is_not_a_budget_cut():
     )
 
     assert response.text == "ok"
+
+
+def test_the_api_reports_an_unknown_cost_as_null_not_zero():
+    run = Run(agent="note", org_id="org_1")
+    run.usage = Usage(calls=1, cost_usd=0.5).add(PriceBook().usage("mystery-model", 1, 1))
+
+    usage = RunOut.of(run).usage
+
+    assert usage.cost_usd is None
+    assert usage.priced_cost_usd == 0.5
+    assert usage.unpriced_models == ["mystery-model"]
+
+
+@pytest.mark.parametrize("rates", ["nan/1", "1/inf", "-5/-5"])
+def test_a_rate_that_would_switch_the_ceiling_off_is_rejected(rates):
+    with pytest.raises(ValueError, match="finite rates of 0 or more"):
+        PriceBook.parse(f"model-x={rates}")
+    with pytest.raises(ValueError):
+        PriceBook().set("model-x", float("nan"), 1.0)
+
+
+def test_a_failed_call_with_no_usage_still_counts_toward_the_call_ceiling():
+    inner = MeteredFake(error=TimeoutError("read timed out"))
+    guard = BudgetGuard(max_calls=2)
+    provider = BudgetedProvider(inner, guard)
+
+    for _ in range(2):
+        with pytest.raises(TimeoutError):
+            provider.generate("x")
+    with pytest.raises(BudgetExceeded, match="call ceiling"):
+        provider.generate("x")
+
+    assert len(inner.sent) == 2
+
+
+def test_a_free_priced_model_runs_when_the_dollars_are_spent():
+    prices = PriceBook().set("fake-1", input_per_1m=0.0, output_per_1m=0.0)
+    inner = MeteredFake(Usage(calls=1), prices=prices)
+    guard = BudgetGuard(max_cost_usd=1.0, spent=Usage(cost_usd=1.0))
+
+    BudgetedProvider(inner, guard).generate("x")
+
+    assert len(inner.sent) == 1
+
+
+def test_an_old_stored_run_without_unpriced_fields_still_loads():
+    data = run_to_dict(Run(agent="note", org_id="org_1"))
+    del data["usage"]["unpriced_calls"], data["usage"]["unpriced_models"]
+
+    assert run_from_dict(data).usage.unpriced_calls == 0
+
+
+def test_the_cli_reports_malformed_prices_without_a_traceback(monkeypatch, tmp_path, capsys):
+    for key in [k for k in os.environ if k.startswith("HARNESS_")]:
+        monkeypatch.delenv(key)
+    monkeypatch.setenv("HARNESS_PROVIDER", "openai")
+    monkeypatch.setenv("HARNESS_PRICES", "gpt-x=nan/1")
+    brief = tmp_path / "brief.txt"
+    brief.write_text("x")
+
+    assert cli.main(["run", "examples.summarizer:SummarizerAgent", str(brief)]) == 2
+    assert "is not model=input/output" in capsys.readouterr().err
