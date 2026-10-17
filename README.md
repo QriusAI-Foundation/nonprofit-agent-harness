@@ -400,6 +400,7 @@ POST /v1/auth/google                                       exchange a Google cre
 GET  /v1/auth/me
 GET  /v1/admin/config                                      settings in force, plus warnings
 GET  /v1/admin/orgs
+PUT  /v1/admin/members/{email}                             assign a user to an org
 POST /v1/webhooks/{source}
 ```
 
@@ -438,6 +439,7 @@ Everything is environment variables. Defaults are offline, free, and reviewed. S
 | `HARNESS_GOOGLE_CLIENT_ID` | unset | For Google Sign-In |
 | `HARNESS_JWT_SECRET` | unset | Session signing secret, 32 bytes or more |
 | `HARNESS_ADMIN_EMAILS` | empty | Comma-separated allowlist, exact match |
+| `HARNESS_DEFAULT_ORG` | `org_default` | Org a first-time Google user joins; empty means enrolled users only |
 | `HARNESS_CORS_ORIGINS` | empty | Comma-separated browser origins |
 | `HARNESS_AGENTS` | empty | Comma-separated `module:ClassName` to register |
 

@@ -5,7 +5,10 @@ from typing import Any
 from fastapi import APIRouter, Depends
 
 from nonprofit_harness.api.deps import AppContext, get_ctx, require_admin
+from nonprofit_harness.api.schemas import MembershipIn
 from nonprofit_harness.auth import Principal
+from nonprofit_harness.core.errors import NotFound
+from nonprofit_harness.storage.base import Org, User
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
@@ -36,6 +39,7 @@ def effective_config(
             "cross_check_models": config.verify_models,
         },
         "auth_required": config.auth_required,
+        "default_org": config.default_org,
         "google_client_id_set": bool(config.google_client_id),
         "jwt_secret_set": bool(config.jwt_secret),
         "admin_count": len(config.admin_emails),
@@ -52,6 +56,33 @@ def list_orgs(
     return [
         {"id": o.id, "name": o.name, "created_at": o.created_at} for o in ctx.stores.orgs.list()
     ]
+
+
+@router.put("/members/{email}")
+def set_membership(
+    email: str,
+    body: MembershipIn,
+    ctx: AppContext = Depends(get_ctx),
+    _: Principal = Depends(require_admin),
+) -> dict[str, Any]:
+    """Put a user in an org. The only way membership changes after a first sign-in.
+
+    A session token carries the org it was issued with, so a move takes effect at
+    the user's next sign-in, at the latest when their current token expires.
+    """
+    _ensure_org(body, ctx)
+    normalised = email.strip().lower()
+    user = ctx.stores.users.get_by_email(normalised) or User(email=normalised, org_id=body.org_id)
+    user.org_id = body.org_id
+    ctx.stores.users.save(user)
+    return {"email": user.email, "org_id": user.org_id, "name": user.name}
+
+
+def _ensure_org(body: MembershipIn, ctx: AppContext) -> None:
+    try:
+        ctx.stores.orgs.get(body.org_id)
+    except NotFound:
+        ctx.stores.orgs.save(Org(id=body.org_id, name=body.org_name or body.org_id))
 
 
 __all__ = ["router"]

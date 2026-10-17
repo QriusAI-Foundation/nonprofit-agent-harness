@@ -2,11 +2,18 @@ from __future__ import annotations
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, Response, UploadFile, status
 
-from nonprofit_harness.api.deps import AppContext, get_ctx, get_principal
+from nonprofit_harness.api.deps import (
+    AppContext,
+    authorized_blob,
+    authorized_run,
+    get_ctx,
+    get_principal,
+    org_for_new_run,
+)
 from nonprofit_harness.api.schemas import AgentOut, BlobOut, RunCreate, RunOut
 from nonprofit_harness.auth import Principal
 from nonprofit_harness.core.errors import InvalidRequest
-from nonprofit_harness.core.types import Document, RunStatus
+from nonprofit_harness.core.types import Document, Run, RunStatus
 from nonprofit_harness.documents import extract
 
 router = APIRouter(tags=["runs"])
@@ -56,8 +63,8 @@ def create_run(
     ctx: AppContext = Depends(get_ctx),
     principal: Principal = Depends(get_principal),
 ) -> RunOut:
-    org_id = body.org_id or principal.org_id
-    documents = [_to_document(item, ctx) for item in body.inputs]
+    org_id = org_for_new_run(body.org_id, principal, ctx)
+    documents = [_to_document(item, ctx, principal) for item in body.inputs]
     if not documents:
         raise InvalidRequest("A run needs at least one input document")
 
@@ -84,13 +91,13 @@ def list_runs(
 
 
 @router.get("/runs/{run_id}", response_model=RunOut)
-def get_run(run_id: str, ctx: AppContext = Depends(get_ctx)) -> RunOut:
-    return RunOut.of(ctx.stores.runs.get(run_id))
+def get_run(run: Run = Depends(authorized_run)) -> RunOut:
+    return RunOut.of(run)
 
 
-def _to_document(item, ctx: AppContext) -> Document:
+def _to_document(item, ctx: AppContext, principal: Principal) -> Document:
     if item.blob_id:
-        meta = ctx.stores.blobs.meta(item.blob_id)
+        meta = authorized_blob(item.blob_id, ctx, principal)
         raw = ctx.stores.blobs.get(item.blob_id)
         return extract(raw, media_type=meta.media_type, name=meta.name)
     if not item.text.strip():

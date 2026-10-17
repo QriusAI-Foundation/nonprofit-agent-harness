@@ -143,11 +143,12 @@ personal data.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `HARNESS_AUTH_REQUIRED` | `false` | Require a session token on every request |
+| `HARNESS_AUTH_REQUIRED` | `false` | Require a session token for runs, uploads, review, and admin routes |
 | `HARNESS_GOOGLE_CLIENT_ID` | unset | Google Sign-In client id |
 | `HARNESS_JWT_SECRET` | unset | Session signing secret, 32 bytes or more |
 | `HARNESS_JWT_TTL_SECONDS` | `43200` | Session lifetime |
 | `HARNESS_ADMIN_EMAILS` | empty | Comma-separated admin allowlist |
+| `HARNESS_DEFAULT_ORG` | `org_default` | Org a first-time Google user joins; empty means only enrolled users sign in |
 
 With auth off, the API is a single shared workspace with no caller identity. That is
 intended for a laptop. **Turn it on before exposing a deployment to anyone.**
@@ -155,6 +156,9 @@ intended for a laptop. **Turn it on before exposing a deployment to anyone.**
 The admin allowlist is exact-match and case-insensitive. There are no domain wildcards,
 deliberately, because a wildcard on a shared email domain is an accident waiting to
 happen.
+
+Sign-in never chooses an organisation. An admin assigns one with
+`PUT /v1/admin/members/{email}`. See [security.md](security.md#organisations-and-membership).
 
 ## Agents and clients
 

@@ -70,6 +70,9 @@ class HarnessConfig:
     jwt_ttl_seconds: int = 60 * 60 * 12
     admin_emails: list[str] = field(default_factory=list)
     auth_required: bool = False
+    #: The org a first-time Google user joins. Empty means only users an admin has
+    #: enrolled (and the admins themselves) can sign in.
+    default_org: str = "org_default"
 
     cors_origins: list[str] = field(default_factory=list)
 
@@ -95,6 +98,7 @@ class HarnessConfig:
             jwt_ttl_seconds=_env_int("HARNESS_JWT_TTL_SECONDS", 60 * 60 * 12) or 60 * 60 * 12,
             admin_emails=_env_list("HARNESS_ADMIN_EMAILS"),
             auth_required=_env_bool("HARNESS_AUTH_REQUIRED", False),
+            default_org=os.getenv("HARNESS_DEFAULT_ORG", "org_default").strip(),
             cors_origins=_env_list("HARNESS_CORS_ORIGINS"),
             gcp_project=os.getenv("GOOGLE_CLOUD_PROJECT"),
             documents_bucket=os.getenv("HARNESS_DOCUMENTS_BUCKET"),
@@ -107,6 +111,11 @@ class HarnessConfig:
             problems.append("HARNESS_AUTH_REQUIRED is on but HARNESS_GOOGLE_CLIENT_ID is unset")
         if self.auth_required and not self.jwt_secret:
             problems.append("HARNESS_AUTH_REQUIRED is on but HARNESS_JWT_SECRET is unset")
+        if self.auth_required and self.default_org:
+            problems.append(
+                f"HARNESS_DEFAULT_ORG={self.default_org}: any verified Google account can sign "
+                "in and join it. Set HARNESS_DEFAULT_ORG= (empty) to allow only enrolled users"
+            )
         if self.storage in {"gcp", "firestore", "google"} and not self.documents_bucket:
             problems.append("HARNESS_STORAGE is gcp but HARNESS_DOCUMENTS_BUCKET is unset")
         if self.max_cost_usd is None and self.max_tokens is None and self.max_calls is None:
