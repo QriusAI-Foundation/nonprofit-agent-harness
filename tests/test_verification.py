@@ -5,6 +5,7 @@ import pytest
 from nonprofit_harness.verification import (
     SUPPORTED,
     UNSUPPORTED,
+    UNSURE,
     Citation,
     Claim,
     GroundingVerifier,
@@ -13,6 +14,7 @@ from nonprofit_harness.verification import (
     is_grounded,
 )
 from nonprofit_harness.verification.grounding import max_edits
+from nonprofit_harness.verification.verifier import VOTE_MAX_OUTPUT_TOKENS, parse_vote
 
 SOURCE = (
     "The literacy programme reached twelve villages during the third quarter. "
@@ -31,12 +33,14 @@ class ScriptedProvider:
     def __init__(self, replies: list[str]) -> None:
         self._replies = list(replies)
         self.models_used: list[str | None] = []
+        self.output_caps: list[int | None] = []
 
     def generate(self, prompt, *, system=None, model=None, **kwargs):
         from nonprofit_harness.core.types import Usage
         from nonprofit_harness.providers.base import ModelResponse
 
         self.models_used.append(model)
+        self.output_caps.append(kwargs.get("max_output_tokens"))
         text = self._replies.pop(0) if self._replies else ""
         return ModelResponse(text=text, model=model or self.default_model, usage=Usage(calls=1))
 
@@ -491,6 +495,49 @@ def test_an_empty_reply_counts_as_an_abstention():
     # One real vote out of three does not reach a quorum of two.
     assert verdict.outcome == Outcome.INCONCLUSIVE
     assert verdict.votes == ["UNSURE", "UNSURE", SUPPORTED]
+
+
+def test_an_empty_reply_says_the_token_cap_is_the_likely_cause():
+    provider = ScriptedProvider(["", "", ""])
+
+    verdict = GroundingVerifier(provider=provider, passes=3).verify(
+        grounded_claim(), {"report": SOURCE}
+    )
+
+    assert verdict.outcome == Outcome.INCONCLUSIVE
+    assert verdict.votes == [UNSURE] * 3
+    assert f"{VOTE_MAX_OUTPUT_TOKENS}-token output cap" in verdict.reason
+
+
+def test_a_vote_after_reasoning_text_is_still_counted():
+    reasoning = (
+        "The evidence says the programme reached twelve villages. "
+        "That is what the statement says, so it is not UNSUPPORTED.\n\n**SUPPORTED**"
+    )
+    provider = ScriptedProvider([reasoning, "Answer: SUPPORTED", UNSUPPORTED])
+
+    verdict = GroundingVerifier(provider=provider, passes=3).verify(
+        grounded_claim(), {"report": SOURCE}
+    )
+
+    assert verdict.votes == [SUPPORTED, SUPPORTED, UNSUPPORTED]
+    assert verdict.outcome == Outcome.VERIFIED
+
+
+def test_a_denied_label_in_prose_is_not_a_vote_for_it():
+    assert parse_vote("On balance the claim is not SUPPORTED.", {SUPPORTED, UNSUPPORTED}) == UNSURE
+    assert parse_vote("This is a fair reading.", {"A", "B"}) == UNSURE
+    assert parse_vote("Reading the options.\nB", {"A", "B"}) == "B"
+
+
+def test_votes_ask_for_room_to_reason():
+    # Thinking shares the output ceiling on some models; 16 tokens left no text.
+    provider = ScriptedProvider([SUPPORTED] * 3)
+
+    GroundingVerifier(provider=provider, passes=3).verify(grounded_claim(), {"report": SOURCE})
+
+    assert provider.output_caps == [VOTE_MAX_OUTPUT_TOKENS] * 3
+    assert VOTE_MAX_OUTPUT_TOKENS >= 1024
 
 
 def test_unparseable_replies_do_not_become_votes():

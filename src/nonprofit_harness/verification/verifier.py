@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from collections import Counter
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
@@ -17,6 +18,16 @@ from nonprofit_harness.verification.types import (
 UNSURE = "UNSURE"
 SUPPORTED = "SUPPORTED"
 UNSUPPORTED = "UNSUPPORTED"
+
+#: Output-token ceiling for one vote. The vote is one word, but on models where
+#: thinking is always on (Claude Sonnet 5.5 and Opus 5.5) the reasoning spends the
+#: same ceiling. At 16 they used all of it thinking and returned empty text, so
+#: every vote abstained and every cross-checked claim came back inconclusive.
+#: Observed replies take about 160 to 230 tokens; 1024 leaves room for a long one.
+VOTE_MAX_OUTPUT_TOKENS = 1024
+
+_VOTE_WORD = re.compile(r"[A-Z0-9_]+")
+_DENIALS = frozenset(["NOT", "NO", "NEVER"])
 
 #: Three different framings, not three runs of the same one. Reviewers that share a
 #: framing tend to share its blind spots, which makes agreement between them much
@@ -150,7 +161,22 @@ class GroundingVerifier:
         return Outcome.CITATION_UNCERTAIN if uncertain else Outcome.CITATION_NOT_FOUND
 
     def _cross_check(self, claim: Claim, grounded, ungrounded) -> Verdict:
-        votes = [self._one_pass(claim, index) for index in range(self.passes)]
+        allowed = set(claim.choices) if claim.choices else {SUPPORTED, UNSUPPORTED}
+        replies = [self._one_pass(claim, index) for index in range(self.passes)]
+        votes = [parse_vote(reply, allowed) for reply in replies]
+        verdict = self._decide(claim, grounded, ungrounded, votes)
+
+        empty = sum(1 for reply in replies if not reply.strip())
+        if empty:
+            # An empty reply is an abstention, but a reviewer needs to know it was
+            # the cap and not the evidence: the fix is configuration, not the claim.
+            verdict.reason += (
+                f"; {empty} of {self.passes} reviewer(s) returned no text, which usually "
+                f"means reasoning used the whole {VOTE_MAX_OUTPUT_TOKENS}-token output cap"
+            )
+        return verdict
+
+    def _decide(self, claim: Claim, grounded, ungrounded, votes: list[str]) -> Verdict:
         tally = Counter(vote for vote in votes if vote != UNSURE)
 
         if not tally:
@@ -200,6 +226,7 @@ class GroundingVerifier:
         )
 
     def _one_pass(self, claim: Claim, index: int) -> str:
+        """One reviewer's raw reply. Parsing happens in `parse_vote`."""
         evidence = "\n".join(f"- {citation.text!r}" for citation in claim.citations)
 
         if claim.choices:
@@ -208,26 +235,20 @@ class GroundingVerifier:
                 f"Reply with one label only, or {UNSURE}.\n\n"
                 f"Statement: {claim.statement}\n\nOptions:\n{options}"
             )
-            allowed = set(claim.choices)
         else:
             instruction = (
                 f"Reply with {SUPPORTED}, {UNSUPPORTED}, or {UNSURE} and nothing else.\n\n"
                 f"Statement: {claim.statement}"
             )
-            allowed = {SUPPORTED, UNSUPPORTED}
 
         response = self.provider.generate(  # type: ignore[union-attr]
             f"{instruction}\n\nEvidence:\n{evidence}",
             system=self._systems[index % len(self._systems)],
             model=self._model_for(index),
             temperature=0.0,
-            max_output_tokens=16,
+            max_output_tokens=VOTE_MAX_OUTPUT_TOKENS,
         )
-
-        # An empty reply is exactly as inconclusive as one that says so, so it is
-        # treated as an abstention rather than being retried or counted as a vote.
-        reply = (response.text or "").strip().upper().strip(".:,'\" ")
-        return reply if reply in allowed else UNSURE
+        return response.text or ""
 
     def _model_for(self, index: int) -> str | None:
         if not self.models:
@@ -235,4 +256,40 @@ class GroundingVerifier:
         return self.models[index % len(self.models)]
 
 
-__all__ = ["SUPPORTED", "UNSUPPORTED", "UNSURE", "GroundingVerifier"]
+def parse_vote(reply: str, allowed: set[str]) -> str:
+    """The vote in a reviewer's reply, or UNSURE.
+
+    Models that reason aloud put text before the answer, so the last line is read
+    first, then the last whole-word label anywhere in the reply. An empty reply is
+    as inconclusive as one that says so: an abstention, never retried or counted.
+    """
+    labels = {label.upper(): label for label in allowed} | {UNSURE: UNSURE}
+    lines = [line.strip().strip(".:,'\"*` ").upper() for line in reply.splitlines()]
+    lines = [line for line in lines if line]
+    if not lines:
+        return UNSURE
+    if lines[-1] in labels:
+        return labels[lines[-1]]
+
+    words = _VOTE_WORD.findall(reply.upper())
+    for position in range(len(words) - 1, -1, -1):
+        word = words[position]
+        # A one-letter choice label is read only from the last line: in prose, "A"
+        # is the article far more often than the answer.
+        if word not in labels or len(word) == 1:
+            continue
+        # "the evidence does not show it is SUPPORTED" is not a vote for it.
+        if position and words[position - 1] in _DENIALS:
+            return UNSURE
+        return labels[word]
+    return UNSURE
+
+
+__all__ = [
+    "SUPPORTED",
+    "UNSUPPORTED",
+    "UNSURE",
+    "VOTE_MAX_OUTPUT_TOKENS",
+    "GroundingVerifier",
+    "parse_vote",
+]
