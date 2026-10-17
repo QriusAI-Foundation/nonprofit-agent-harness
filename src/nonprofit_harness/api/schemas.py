@@ -21,7 +21,10 @@ class RunCreate(BaseModel):
     agent: str
     inputs: list[DocumentIn] = Field(default_factory=list)
     options: dict[str, Any] = Field(default_factory=dict)
-    org_id: str | None = None
+    org_id: str | None = Field(
+        default=None,
+        description="Defaults to the caller's org. Another org is refused unless you are an admin",
+    )
     sync: bool = Field(default=False, description="Run inline and return the finished run")
 
 
@@ -39,7 +42,15 @@ class ReadinessScoreIn(BaseModel):
 
 class GoogleSignIn(BaseModel):
     credential: str = Field(description="The ID token from Google Sign-In")
-    org_id: str | None = None
+    org_id: str | None = Field(
+        default=None,
+        description="Optional. Must match the org an admin assigned, or sign-in is refused",
+    )
+
+
+class MembershipIn(BaseModel):
+    org_id: str = Field(min_length=1, description="The org this user belongs to")
+    org_name: str = Field(default="", description="Used only if the org is new")
 
 
 class UsageOut(BaseModel):
@@ -186,6 +197,7 @@ __all__ = [
     "DocumentIn",
     "ErrorOut",
     "GoogleSignIn",
+    "MembershipIn",
     "ReadinessScoreIn",
     "ReviewDecisionIn",
     "ReviewOut",

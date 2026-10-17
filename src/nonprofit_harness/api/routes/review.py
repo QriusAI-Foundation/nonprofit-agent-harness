@@ -2,9 +2,16 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends
 
-from nonprofit_harness.api.deps import AppContext, get_ctx, get_principal, reviewer_name
+from nonprofit_harness.api.deps import (
+    AppContext,
+    authorized_run,
+    get_ctx,
+    get_principal,
+    reviewer_name,
+)
 from nonprofit_harness.api.schemas import ArtifactOut, ReviewDecisionIn, RunOut
 from nonprofit_harness.auth import Principal
+from nonprofit_harness.core.types import Run
 
 router = APIRouter(prefix="/review", tags=["review"])
 
@@ -31,6 +38,7 @@ def approve(
     body: ReviewDecisionIn,
     ctx: AppContext = Depends(get_ctx),
     principal: Principal = Depends(get_principal),
+    _: Run = Depends(authorized_run),
 ) -> RunOut:
     run = ctx.gate.approve(
         run_id, artifact_id, reviewer=reviewer_name(principal), note=body.note
@@ -45,6 +53,7 @@ def reject(
     body: ReviewDecisionIn,
     ctx: AppContext = Depends(get_ctx),
     principal: Principal = Depends(get_principal),
+    _: Run = Depends(authorized_run),
 ) -> RunOut:
     run = ctx.gate.reject(run_id, artifact_id, reviewer=reviewer_name(principal), note=body.note)
     return RunOut.of(run)
@@ -56,15 +65,17 @@ def approve_all(
     body: ReviewDecisionIn,
     ctx: AppContext = Depends(get_ctx),
     principal: Principal = Depends(get_principal),
+    _: Run = Depends(authorized_run),
 ) -> RunOut:
     run = ctx.gate.approve_all(run_id, reviewer=reviewer_name(principal), note=body.note)
     return RunOut.of(run)
 
 
 @router.get("/{run_id}/released", response_model=list[ArtifactOut])
-def released(run_id: str, ctx: AppContext = Depends(get_ctx)) -> list[ArtifactOut]:
+def released(
+    run: Run = Depends(authorized_run), ctx: AppContext = Depends(get_ctx)
+) -> list[ArtifactOut]:
     """Only what a human approved. Errors if anything is still pending."""
-    run = ctx.stores.runs.get(run_id)
     return [ArtifactOut.of(a) for a in ctx.gate.release(run)]
 
 

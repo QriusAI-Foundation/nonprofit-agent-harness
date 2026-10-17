@@ -70,6 +70,9 @@ class HarnessConfig:
     jwt_ttl_seconds: int = 60 * 60 * 12
     admin_emails: list[str] = field(default_factory=list)
     auth_required: bool = False
+    #: The org a first-time Google user joins. Empty means only users an admin has
+    #: enrolled (and the admins themselves) can sign in.
+    default_org: str = "org_default"
 
     cors_origins: list[str] = field(default_factory=list)
 
@@ -95,6 +98,7 @@ class HarnessConfig:
             jwt_ttl_seconds=_env_int("HARNESS_JWT_TTL_SECONDS", 60 * 60 * 12) or 60 * 60 * 12,
             admin_emails=_env_list("HARNESS_ADMIN_EMAILS"),
             auth_required=_env_bool("HARNESS_AUTH_REQUIRED", False),
+            default_org=os.getenv("HARNESS_DEFAULT_ORG", "org_default").strip(),
             cors_origins=_env_list("HARNESS_CORS_ORIGINS"),
             gcp_project=os.getenv("GOOGLE_CLOUD_PROJECT"),
             documents_bucket=os.getenv("HARNESS_DOCUMENTS_BUCKET"),
