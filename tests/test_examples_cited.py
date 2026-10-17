@@ -87,6 +87,12 @@ def test_parse_json_reads_a_fenced_object():
     }
 
 
+def test_parse_json_skips_an_echoed_schema():
+    reply = '{"type": "object", "properties": {}}\n\n{"text": "Brief.", "claims": []}'
+
+    assert parse_json(reply) == {"text": "Brief.", "claims": []}
+
+
 def _activity() -> XmlActivity:
     reached = Indicator(
         title="Households visited",
