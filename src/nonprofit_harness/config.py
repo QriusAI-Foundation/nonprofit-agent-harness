@@ -54,6 +54,15 @@ class HarnessConfig:
 
     redact_inputs: bool = False
 
+    #: Ceilings on the work one input file may cause. The upload size alone does not
+    #: bound it: a small DOCX can expand many times over, a small PDF can hold
+    #: thousands of pages. See `documents.ExtractionLimits`.
+    max_upload_bytes: int | None = 20 * 1024 * 1024
+    max_pdf_pages: int | None = 300
+    max_docx_expanded_bytes: int | None = 100 * 1024 * 1024
+    max_document_chars: int | None = 2_000_000
+    extract_timeout_seconds: float | None = 120.0
+
     #: How long a run may sit in `running` before a restart treats it as abandoned.
     #: Generous by default: a run still in progress on another instance must not be
     #: reaped, so this needs to exceed the longest run you expect.
@@ -89,6 +98,11 @@ class HarnessConfig:
             max_tokens=_env_int("HARNESS_MAX_TOKENS", 200_000),
             max_calls=_env_int("HARNESS_MAX_CALLS", 50),
             redact_inputs=_env_bool("HARNESS_REDACT_INPUTS", False),
+            max_upload_bytes=_env_int("HARNESS_MAX_UPLOAD_BYTES", 20 * 1024 * 1024),
+            max_pdf_pages=_env_int("HARNESS_MAX_PDF_PAGES", 300),
+            max_docx_expanded_bytes=_env_int("HARNESS_MAX_DOCX_EXPANDED_BYTES", 100 * 1024 * 1024),
+            max_document_chars=_env_int("HARNESS_MAX_DOCUMENT_CHARS", 2_000_000),
+            extract_timeout_seconds=_env_float("HARNESS_EXTRACT_TIMEOUT_SECONDS", 120.0),
             run_timeout_seconds=_env_int("HARNESS_RUN_TIMEOUT_SECONDS", 3600) or 3600,
             verify_claims=_env_bool("HARNESS_VERIFY_CLAIMS", True),
             verify_passes=_env_int("HARNESS_VERIFY_PASSES", 0) or 0,
