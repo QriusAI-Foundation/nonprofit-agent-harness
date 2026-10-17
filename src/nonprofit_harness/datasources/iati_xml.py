@@ -108,7 +108,7 @@ def _indicator(element: Any) -> Indicator:
     reference = element.find("reference")
     # The standard requires @measure. An absent or unrecognised one stays UNKNOWN, since
     # assuming a count would let labels and ranks into sums and percentages.
-    code = element.get("measure")
+    code = element.get("measure") or ""
     return Indicator(
         title=_narrative(element.find("title")),
         description=_narrative(element.find("description")),

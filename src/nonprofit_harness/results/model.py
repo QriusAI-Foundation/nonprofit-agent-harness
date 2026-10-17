@@ -195,7 +195,11 @@ class Period:
 
     @property
     def target(self) -> Measurement | None:
-        """The undisaggregated target, which is the one to compare a total against."""
+        """The overall target: no dimensions, no location.
+
+        None when there is no such figure or when two of them disagree.
+        `achievement` reports which of those it was.
+        """
         return _headline(self.targets)
 
     @property

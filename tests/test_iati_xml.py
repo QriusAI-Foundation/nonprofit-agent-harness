@@ -334,7 +334,7 @@ def test_parsing_preserves_an_unknown_measure(measure):
     )
 
     assert indicator.measure is Measure.UNKNOWN
-    assert indicator.metadata["measure_code"] == ("9" if measure else None)
+    assert indicator.metadata["measure_code"] == ("9" if measure else "")
     assert achievement(indicator).reason is NotCalculable.UNKNOWN_MEASURE
 
 

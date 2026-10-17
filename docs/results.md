@@ -102,6 +102,10 @@ only signal, and it is the one used.
   `the baseline is for sex=female, but the target and actual are overall`.
   The XML parser prefers the overall baseline when a publisher sends one per slice.
 
+The flattened Datastore path cannot apply any of this. Flattening drops the location
+and dimensions of each figure, so a figure from that path is treated as overall
+without evidence that it is. Read results as XML where scope matters.
+
 ## Which measures permit which arithmetic
 
 | Measure       | Achievement ratio | Sum in `total_actual` | Refusal reason      |
