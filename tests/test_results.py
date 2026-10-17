@@ -376,3 +376,256 @@ def test_a_result_reports_every_indicator():
     assert len(got) == 2
     assert got[0].percent == 90.0
     assert got[1].ratio is None
+
+
+# --- scope: dimensions and location (audit F09, F10) -------------------------------
+
+
+def at(value, location="", **dimensions):
+    return Measurement(
+        value=value,
+        location=location,
+        dimensions=tuple(Dimension(name, v) for name, v in dimensions.items()),
+    )
+
+
+def test_a_location_only_value_does_not_become_the_total():
+    """Two districts and no dimensions: neither district is the programme."""
+    p = Period(targets=[at(100)], actuals=[at(30, "KE-01"), at(50, "KE-02")])
+
+    got = achievement(Indicator(title="Wells", periods=[p]))
+
+    assert p.actual is None
+    assert got.ratio is None
+    assert got.reason is NotCalculable.NO_TOTAL
+
+
+def test_different_locations_are_never_compared():
+    """A's actual against B's target is not a result for anyone."""
+    p = Period(targets=[at(100, "KE-01")], actuals=[at(80, "KE-02")])
+
+    got = achievement(Indicator(title="Wells", periods=[p]))
+
+    assert got.ratio is None
+    assert got.reason is NotCalculable.NO_TOTAL
+    assert "location KE-01" in got.detail
+
+
+def test_a_genuine_total_still_works_beside_its_slices():
+    p = Period(
+        targets=[at(40, "KE-01"), at(100), at(60, sex="female")],
+        actuals=[at(30, "KE-01"), at(80), at(50, sex="female")],
+    )
+
+    got = achievement(Indicator(title="Wells", periods=[p]))
+
+    assert got.percent == 80.0
+    assert got.basis is Basis.AGAINST_TARGET
+
+
+def test_input_order_does_not_change_the_population():
+    targets = [at(40, "KE-01"), at(100), at(60, "KE-02")]
+    actuals = [at(35, "KE-02"), at(30, "KE-01"), at(80)]
+
+    forwards = Period(targets=targets, actuals=actuals)
+    backwards = Period(targets=targets[::-1], actuals=actuals[::-1])
+
+    got = {achievement(Indicator(title="W", periods=[p])).percent for p in (forwards, backwards)}
+    assert got == {80.0}
+
+
+def test_an_absent_total_is_not_calculable_and_names_the_locations():
+    p = Period(targets=[at(100)], actuals=[at(50, "KE-02"), at(30, "KE-01")])
+
+    got = achievement(Indicator(title="Wells", periods=[p]))
+
+    assert got.reason is NotCalculable.NO_TOTAL
+    assert got.target == 100
+    assert got.detail == (
+        "the actual is reported only for location KE-01; location KE-02, "
+        "with no overall figure"
+    )
+    assert "location KE-01; location KE-02" in got.explain()
+
+
+def test_two_disagreeing_totals_are_refused_rather_than_picked_by_position():
+    p = Period(targets=[at(100)], actuals=[at(80), at(60)])
+
+    got = achievement(Indicator(title="Wells", periods=[p]))
+
+    assert p.actual is None
+    assert got.reason is NotCalculable.CONFLICTING_TOTALS
+    assert "60, 80" in got.detail
+
+
+def test_location_only_actuals_are_refused_from_a_total():
+    indicators = [
+        Indicator(title="Wells", periods=[period(target=10, actual=8)]),
+        Indicator(title="Clinics", periods=[Period(actuals=[at(4, "KE-01")])]),
+    ]
+
+    got = total_actual(indicators)
+
+    assert got.value == 8
+    assert not got.ok
+    assert "location KE-01" in got.refused[0]
+
+
+def test_coverage_does_not_treat_a_location_figure_as_the_whole():
+    measurements = [at(50, "KE-01"), at(60, sex="female"), at(40, sex="male")]
+
+    assert coverage(measurements, "sex") is None
+
+
+def test_a_scoped_baseline_is_refused_against_an_overall_result():
+    """The audit's case: a women-only 60 would otherwise report 50%."""
+    indicator = Indicator(
+        title="Literacy",
+        baseline=Baseline(value=60, dimensions=(Dimension("sex", "female"),)),
+        periods=[period(target=100, actual=80)],
+    )
+
+    got = achievement(indicator)
+
+    assert got.ratio is None
+    assert got.reason is NotCalculable.BASELINE_SCOPE_MISMATCH
+    assert got.detail == "the baseline is for sex=female, but the target and actual are overall"
+    assert (got.target, got.actual, got.baseline) == (100, 80, 60)
+
+
+def test_a_baseline_for_one_location_is_refused_against_an_overall_result():
+    indicator = Indicator(
+        title="Literacy",
+        baseline=Baseline(value=60, location="KE-01"),
+        periods=[period(target=100, actual=80)],
+    )
+
+    got = achievement(indicator)
+
+    assert got.reason is NotCalculable.BASELINE_SCOPE_MISMATCH
+    assert "location KE-01" in got.detail
+
+
+def test_matched_overall_scopes_keep_the_baseline_formula_both_directions():
+    upward = Indicator(
+        title="Enrolment",
+        baseline=Baseline(value=60),
+        periods=[Period(targets=[at(80), at(50, "KE-01")], actuals=[at(70), at(40, "KE-01")])],
+    )
+    downward = Indicator(
+        title="Dropouts",
+        ascending=False,
+        baseline=Baseline(value=100),
+        periods=[Period(targets=[at(50)], actuals=[at(75), at(9, sex="female")])],
+    )
+
+    assert achievement(upward).percent == 50.0
+    assert achievement(upward).basis is Basis.FROM_BASELINE
+    assert achievement(downward).percent == 50.0
+
+
+# --- measure semantics (audit F11) --------------------------------------------------
+
+
+def test_nominal_labels_produce_no_percentage():
+    """Category 2 against category 4 is not halfway to anything."""
+    indicator = Indicator(
+        title="Delivery model", measure=Measure.NOMINAL, periods=[period(target=4, actual=2)]
+    )
+
+    got = achievement(indicator)
+
+    assert got.ratio is None
+    assert got.reason is NotCalculable.NOMINAL_LABELS
+    assert "labels" in got.explain()
+
+
+def test_ordinal_ranks_produce_no_percentage():
+    """Rank 3 of a target 4 from 2 is not a known fraction of the way."""
+    indicator = Indicator(
+        title="Capacity rating",
+        measure=Measure.ORDINAL,
+        baseline=Baseline(value=2),
+        periods=[period(target=4, actual=3)],
+    )
+
+    got = achievement(indicator)
+
+    assert got.ratio is None
+    assert got.reason is NotCalculable.ORDINAL_SCALE
+
+
+def test_an_unknown_measure_produces_no_percentage():
+    indicator = Indicator(
+        title="Mystery", measure=Measure.UNKNOWN, periods=[period(target=4, actual=2)]
+    )
+
+    got = achievement(indicator)
+
+    assert got.ratio is None
+    assert got.reason is NotCalculable.UNKNOWN_MEASURE
+
+
+def test_unknown_codes_are_not_summable():
+    indicators = [
+        Indicator(title="Wells", periods=[period(target=10, actual=8)]),
+        Indicator(title="Mystery", measure=Measure.from_code("9"), periods=[period(actual=5)]),
+    ]
+
+    got = total_actual(indicators)
+
+    assert got.value == 8
+    assert not got.ok
+    assert "measure is unknown" in got.refused[0]
+
+
+def test_nominal_and_ordinal_values_are_not_summed():
+    indicators = [
+        Indicator(title="Model", measure=Measure.NOMINAL, periods=[period(actual=2)]),
+        Indicator(title="Rating", measure=Measure.ORDINAL, periods=[period(actual=3)]),
+    ]
+
+    got = total_actual(indicators)
+
+    assert got.value is None
+    assert len(got.refused) == 2
+
+
+def test_an_unrecognised_code_is_kept_unknown_rather_than_read_as_a_count():
+    assert Measure.from_code("9") is Measure.UNKNOWN
+    assert Measure.from_code("") is Measure.UNKNOWN
+    assert Measure.from_code(None) is Measure.UNKNOWN
+    assert Measure.from_code(1) is Measure.UNIT
+    assert not Measure.UNKNOWN.is_summable
+    assert not Measure.UNKNOWN.permits_ratio
+
+
+@pytest.mark.parametrize(
+    ("measure", "reason"),
+    [
+        (Measure.QUALITATIVE, NotCalculable.NOT_NUMERIC),
+        (Measure.NOMINAL, NotCalculable.NOMINAL_LABELS),
+        (Measure.ORDINAL, NotCalculable.ORDINAL_SCALE),
+        (Measure.UNKNOWN, NotCalculable.UNKNOWN_MEASURE),
+    ],
+)
+def test_every_unsupported_calculation_returns_a_reason(measure, reason):
+    got = achievement(Indicator(title="X", measure=measure, periods=[period(4, 2)]))
+
+    assert got.reason is reason
+    assert got.detail
+    assert got.to_dict()["detail"] == got.detail
+
+
+def test_valid_counts_and_percentages_stay_correct():
+    count = Indicator(title="Wells", periods=[period(target=10, actual=8)])
+    share = Indicator(
+        title="Attendance rate",
+        measure=Measure.PERCENTAGE,
+        baseline=Baseline(value=70),
+        periods=[period(target=90, actual=85)],
+    )
+
+    assert achievement(count).percent == 80.0
+    assert achievement(share).percent == 75.0
+    assert total_actual([count]).value == 8

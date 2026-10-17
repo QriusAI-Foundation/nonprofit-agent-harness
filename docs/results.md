@@ -73,6 +73,63 @@ total_actual(indicators)
 It refuses rather than filtering quietly. A total that silently dropped three of five
 indicators is more dangerous than no total, because it looks complete.
 
+## Scope: which population a figure describes
+
+Every target, actual and baseline describes a population. Its **scope** is its
+dimensions (such as `sex=female`) and its location (an IATI location `ref`). An empty
+scope is the whole programme. Two figures may only be compared when their scopes are
+equal.
+
+**A headline total must be identifiable as a total.** It has no dimensions and no
+location. IATI has no explicit "total" marker on a target or actual; the bundled
+codelists and the standard's `aggregation-status` describe whether values *may* be
+summed, not which one is the whole. So the absence of dimensions and location is the
+only signal, and it is the one used.
+
+- A figure for one district is a slice. Two districts with no dimensions do not make
+  the first district the programme's actual.
+- Selection is by scope, never by position. Reordering targets or actuals never changes
+  which population is reported. Two overall figures that disagree are refused
+  (`CONFLICTING_TOTALS`) rather than resolved by taking the first.
+- No overall figure gives `NotCalculable.NO_TOTAL`, and `detail` names the scopes that
+  were found, for example
+  `the actual is reported only for location KE-01; location KE-02, with no overall figure`.
+- Because target and actual are both overall, they always describe the same
+  population. The baseline is the one figure that can still describe another. A
+  women-only baseline of 60 against an overall target of 100 and actual of 80 would
+  report 50%, comparing two different groups. It is refused with
+  `BASELINE_SCOPE_MISMATCH`:
+  `the baseline is for sex=female, but the target and actual are overall`.
+  The XML parser prefers the overall baseline when a publisher sends one per slice.
+
+The flattened Datastore path cannot apply any of this. Flattening drops the location
+and dimensions of each figure, so a figure from that path is treated as overall
+without evidence that it is. Read results as XML where scope matters.
+
+## Which measures permit which arithmetic
+
+| Measure       | Achievement ratio | Sum in `total_actual` | Refusal reason      |
+|---------------|-------------------|-----------------------|---------------------|
+| `UNIT`        | yes               | yes                   |                     |
+| `PERCENTAGE`  | yes               | no                    |                     |
+| `ORDINAL`     | no                | no                    | `ORDINAL_SCALE`     |
+| `NOMINAL`     | no                | no                    | `NOMINAL_LABELS`    |
+| `QUALITATIVE` | no                | no                    | `NOT_NUMERIC`       |
+| `UNKNOWN`     | no                | no                    | `UNKNOWN_MEASURE`   |
+
+- **Nominal** values are category labels. Category 2 against category 4 is not 50%.
+- **Ordinal** values are ranks with no fixed distance between them. Moving from rank 2
+  to rank 3 is not a known fraction of moving from 2 to 4, so no percentage of the way
+  to target is stated. Comparing ranks (did the rating reach the target?) is legitimate,
+  and is left to the caller, who knows the scale.
+- **Unknown** is not an IATI code. A publisher's code that is not recognised, or an
+  absent one, parses as `UNKNOWN` with the raw code kept in
+  `indicator.metadata["measure_code"]`. It is never assumed to be a count. The
+  flattened path also adds a warning.
+
+Every refusal sets `reason` and a sentence in `detail`, which `explain()` and
+`to_dict()` include.
+
 ## Using it
 
 ```python
@@ -105,7 +162,7 @@ dimension_totals(measurements, "sex")   # {"female": 60, "male": 40}
 coverage(measurements, "sex")           # 1.0
 ```
 
-`coverage` compares the slices against the undisaggregated total. Well below 1.0 means
+`coverage` compares the slices against the overall total (no dimensions, no location). Well below 1.0 means
 the breakdown is partial. Above 1.0 means the slices overlap, or one of them is itself
 a total. Either is worth seeing before a breakdown goes into a report.
 
