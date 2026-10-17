@@ -67,8 +67,12 @@ normal response with `status: failed`.
 The call that breaches a limit has already happened and already cost money, so refusing
 to count it would make the harness report less spend than the invoice shows.
 
-Call ceilings are also checked *before* dispatch, so an exhausted budget fails fast
-instead of paying for one more response first.
+Before dispatch, two cheaper steps narrow the overshoot. The call ceiling is checked,
+so an exhausted budget fails fast instead of paying for one more response. Then a
+reservation lowers the output limit to the token and dollar allowance left after an
+estimate of the input, and refuses the call when the estimate alone fills it, or when a
+cost ceiling meets a model with no price. The estimate never enters the accounting.
+See [configuration.md](configuration.md#what-each-ceiling-does) for the limits that remain.
 
 ## Review
 

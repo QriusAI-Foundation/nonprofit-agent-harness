@@ -38,6 +38,8 @@ def run_to_dict(run: Run) -> dict[str, Any]:
             "output_tokens": run.usage.output_tokens,
             "cost_usd": run.usage.cost_usd,
             "calls": run.usage.calls,
+            "unpriced_calls": run.usage.unpriced_calls,
+            "unpriced_models": list(run.usage.unpriced_models),
         },
         "summary": run.summary,
         "error": run.error,
@@ -113,6 +115,8 @@ def run_from_dict(data: dict[str, Any]) -> Run:
         output_tokens=usage.get("output_tokens", 0),
         cost_usd=usage.get("cost_usd", 0.0),
         calls=usage.get("calls", 0),
+        unpriced_calls=usage.get("unpriced_calls", 0),
+        unpriced_models=tuple(usage.get("unpriced_models") or ()),
     )
     run.created_at = _as_datetime(data.get("created_at")) or run.created_at
     run.updated_at = _as_datetime(data.get("updated_at")) or run.updated_at

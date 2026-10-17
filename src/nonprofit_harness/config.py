@@ -51,6 +51,10 @@ class HarnessConfig:
     max_cost_usd: float | None = None
     max_tokens: int | None = 200_000
     max_calls: int | None = 50
+    #: `model=input/output` pairs in USD per 1M tokens, as `HARNESS_PRICES` takes them.
+    #: Providers read the variable themselves; this copy is here so `validate` can
+    #: tell a dollar ceiling with nothing to price against.
+    prices: str = ""
 
     redact_inputs: bool = False
 
@@ -97,6 +101,7 @@ class HarnessConfig:
             max_cost_usd=_env_float("HARNESS_MAX_COST_USD"),
             max_tokens=_env_int("HARNESS_MAX_TOKENS", 200_000),
             max_calls=_env_int("HARNESS_MAX_CALLS", 50),
+            prices=os.getenv("HARNESS_PRICES", ""),
             redact_inputs=_env_bool("HARNESS_REDACT_INPUTS", False),
             max_upload_bytes=_env_int("HARNESS_MAX_UPLOAD_BYTES", 20 * 1024 * 1024),
             max_pdf_pages=_env_int("HARNESS_MAX_PDF_PAGES", 300),
@@ -134,6 +139,7 @@ class HarnessConfig:
             problems.append("HARNESS_STORAGE is gcp but HARNESS_DOCUMENTS_BUCKET is unset")
         if self.max_cost_usd is None and self.max_tokens is None and self.max_calls is None:
             problems.append("No budget ceiling is set, so a run can consume without limit")
+        problems.extend(self._pricing_problems())
         if self.verify_passes > 0 and not self.verify_claims:
             problems.append(
                 "HARNESS_VERIFY_PASSES is set but HARNESS_VERIFY_CLAIMS is off, "
@@ -150,6 +156,26 @@ class HarnessConfig:
                 "and ties resolve as inconclusive. An odd number is usually wanted"
             )
         return problems
+
+    def _pricing_problems(self) -> list[str]:
+        # Imported here: providers import core, and core imports this module.
+        from nonprofit_harness.providers.base import PriceBook
+
+        try:
+            book = PriceBook.parse(self.prices)
+        except ValueError as exc:
+            return [str(exc)]
+        if self.max_cost_usd is None:
+            return []
+        if not book.rates:
+            return [
+                f"HARNESS_MAX_COST_USD={self.max_cost_usd} is set but HARNESS_PRICES is not. "
+                "Unless code passes a PriceBook to the provider, the ceiling refuses every "
+                "call on a paid model (the offline echo provider is free and unaffected)"
+            ]
+        if self.model and not book.knows(self.model):
+            return [f"HARNESS_MAX_COST_USD is set but HARNESS_PRICES has no price for {self.model}"]
+        return []
 
 
 __all__ = ["UNLIMITED", "HarnessConfig"]

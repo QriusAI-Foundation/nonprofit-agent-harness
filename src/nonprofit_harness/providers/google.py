@@ -5,7 +5,6 @@ import time
 from typing import Any
 
 from nonprofit_harness.core.errors import ProviderError
-from nonprofit_harness.core.usage import Usage
 from nonprofit_harness.providers.base import ModelResponse, PriceBook, scrub_secrets
 
 _MAX_RETRIES = 5
@@ -36,7 +35,7 @@ class GoogleProvider:
         client: Any = None,
     ) -> None:
         self.default_model = model
-        self.prices = prices or PriceBook()
+        self.prices = prices if prices is not None else PriceBook.from_env()
         # Kept so error text can be scrubbed of it, not so it can be read back.
         self._api_key = api_key or os.getenv("GOOGLE_API_KEY")
         self._client = client
@@ -77,17 +76,16 @@ class GoogleProvider:
         )
 
         meta = getattr(response, "usage_metadata", None)
-        input_tokens = int(getattr(meta, "prompt_token_count", 0) or 0)
-        output_tokens = int(getattr(meta, "candidates_token_count", 0) or 0)
+        answered = getattr(response, "model_version", None) or used
 
         return ModelResponse(
             text=response.text or "",
-            model=used,
-            usage=Usage(
-                input_tokens=input_tokens,
-                output_tokens=output_tokens,
-                cost_usd=self.prices.cost(used, input_tokens, output_tokens),
-                calls=1,
+            model=answered,
+            usage=self.prices.usage(
+                answered,
+                int(getattr(meta, "prompt_token_count", 0) or 0),
+                int(getattr(meta, "candidates_token_count", 0) or 0),
+                requested=used,
             ),
             raw=response,
         )
