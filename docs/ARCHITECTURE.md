@@ -90,7 +90,9 @@ record is never hidden behind newer ones. Each stranded run is resolved in one a
 `RunStore.update` that judges it again on the stored copy, so a run that finished or
 renewed between the listing and the write is left alone, and a second pass finds
 nothing to do. A run that strands after its work was stored goes to review rather than
-to `failed`: the agent's work exists, only the checking was cut off. Every pass logs
+to `failed`: the agent's work exists, only the checking was cut off. Either way the
+reason is recorded in `metadata.recovery`, which the API returns with the run. Only a
+failed run gets an `error`: clients read a non-empty error as a failure. Every pass logs
 one line with its counts, and `GET /v1/admin/config` reports the totals under
 `recovery`.
 

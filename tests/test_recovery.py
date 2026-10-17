@@ -97,6 +97,7 @@ def test_a_stranded_run_that_had_finished_generating_goes_to_review(runner, stor
     assert stored.status == RunStatus.AWAITING_REVIEW
     assert stored.artifacts[0].verification.verdicts[0].outcome == Outcome.INCONCLUSIVE
     assert stored.metadata["recovery"]["outcome"] == "review"
+    assert stored.error == ""
     assert runner.recovery.sent_to_review == 1
 
 

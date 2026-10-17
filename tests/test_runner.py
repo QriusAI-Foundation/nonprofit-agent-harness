@@ -293,7 +293,11 @@ def test_a_run_stranded_during_verification_goes_to_review_with_its_work(registr
     reason = stored.artifacts[0].verification.verdicts[0].reason
     assert "stopped during verification" in reason
     assert "provider unavailable" not in reason
-    assert stored.error.startswith("Recovered")
+    # The note goes to metadata, which the API shows. A non-empty error reads as failed.
+    assert stored.error == ""
+    note = RunOut.of(stored).metadata["recovery"]
+    assert note["outcome"] == "review"
+    assert "stopped before verification completed" in note["note"]
 
 
 def test_the_heartbeat_renews_the_lease_while_the_agent_works(registry, stores, documents):

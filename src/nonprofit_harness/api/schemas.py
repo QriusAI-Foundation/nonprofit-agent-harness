@@ -148,6 +148,9 @@ class RunOut(BaseModel):
     failed_verification: int
     created_at: datetime
     updated_at: datetime
+    #: Includes `recovery` (why a stranded run was failed or sent to review) and
+    #: `execution` (which worker ran it), which a reviewer may need to judge it.
+    metadata: dict[str, Any] = Field(default_factory=dict)
 
     @classmethod
     def of(cls, run: Run) -> RunOut:
@@ -172,6 +175,7 @@ class RunOut(BaseModel):
             failed_verification=len(run.unverified),
             created_at=run.created_at,
             updated_at=run.updated_at,
+            metadata=run.metadata,
         )
 
 

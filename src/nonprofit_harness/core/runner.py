@@ -455,14 +455,20 @@ def _resolve(run: Run, now: datetime, cutoff: datetime, stamp: str) -> bool:
     reason = _overdue(run, now, cutoff) if run.status == RunStatus.RUNNING else None
     if reason is None:
         return False
+    note = {"at": stamp, "reason": reason}
     if lease.phase(run) == lease.VERIFYING and run.artifacts:
         _send_to_review(run, reason)
-        outcome = "review"
+        # Not in run.error: clients and the CLI read a non-empty error as a failed run.
+        note["outcome"] = "review"
+        note["note"] = (
+            "The agent finished, but its process stopped before verification completed. "
+            "The work was sent to review with checking incomplete."
+        )
     else:
         run.status = RunStatus.FAILED
         run.error = f"Abandoned. The process running it stopped before it finished: {reason}."
-        outcome = "failed"
-    run.metadata[RECOVERY] = {"at": stamp, "reason": reason, "outcome": outcome}
+        note["outcome"] = "failed"
+    run.metadata[RECOVERY] = note
     return True
 
 
@@ -477,10 +483,6 @@ def _send_to_review(run: Run, reason: str) -> None:
         if artifact.claims and artifact.verification is None:
             artifact.verification = _stopped_short(artifact.claims, detail)
     hold_for_review(run)
-    run.error = (
-        "Recovered: the agent finished, but its process stopped before verification "
-        "completed. The work was sent to review with checking incomplete."
-    )
 
 
 def _stopped_short(claims: list[Claim], detail: str) -> VerificationReport:
