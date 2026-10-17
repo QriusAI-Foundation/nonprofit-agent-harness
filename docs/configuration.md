@@ -14,6 +14,7 @@ Run `harness check` to print what is actually in force, along with any warnings.
 | `OPENAI_API_KEY` | unset | For any OpenAI-compatible server |
 | `OPENAI_BASE_URL` | vendor default | Point the same adapter at another server |
 | `ANTHROPIC_API_KEY` | unset | For Claude models |
+| `ANTHROPIC_EFFORT` | model default | Claude depth: `low`, `medium`, `high`, `xhigh`, `max` |
 | `GOOGLE_API_KEY` | unset | Gemini API key. Leave unset to use Vertex AI instead |
 | `GOOGLE_CLOUD_PROJECT` | unset | Vertex AI project |
 | `GOOGLE_CLOUD_LOCATION` | `us-central1` | Vertex AI region |
@@ -30,7 +31,7 @@ continuous integration, and a first local run cost nothing.
 | `groq`, `together`, `openrouter` | that vendor's endpoint | `OPENAI_API_KEY`, `HARNESS_MODEL` |
 | `ollama`, `local` | localhost:11434 | `HARNESS_MODEL` |
 | `vllm` | localhost:8000 | `HARNESS_MODEL` |
-| `anthropic`, `claude` | api.anthropic.com | `ANTHROPIC_API_KEY` |
+| `anthropic`, `claude` | api.anthropic.com, `claude-haiku-5-5` by default | `ANTHROPIC_API_KEY` |
 | `google`, `gemini`, `vertex` | Vertex AI or the Gemini API | the `adk` extra |
 
 Everything except Google and Anthropic is one adapter speaking the OpenAI chat API, so
@@ -40,13 +41,20 @@ named alias here.
 No provider needs an extra except Google. The others speak HTTP directly using the
 `httpx` the harness already depends on, so a plain install reaches all of them.
 
-### Two differences worth knowing
+### Three differences worth knowing
 
 **Structured output is not equally strict.** OpenAI-compatible servers get
 `response_format` with your JSON schema, which most enforce. Anthropic has no
 equivalent, so the schema is requested in the system prompt and the reply is not
 guaranteed to match. Validate what comes back rather than assuming, otherwise an agent
 works on one provider and fails on another for reasons that look random.
+
+**Claude takes no sampling parameters.** The Claude 5.x models reject `temperature`,
+`top_p` and `top_k` with HTTP 400, so the Anthropic adapter never sends them and every
+call runs at the model's default. An agent's `temperature` argument is accepted and
+ignored for this provider. Depth is set with `ANTHROPIC_EFFORT` instead. A response the
+model refuses raises a `ProviderError` naming the refusal category, and the run fails
+rather than keeping a partial answer.
 
 **Vertex AI has no API key at all.** It authenticates with the service account, so
 there is no long-lived credential to leak. Prefer it for anything deployed on GCP.

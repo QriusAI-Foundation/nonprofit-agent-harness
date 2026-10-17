@@ -206,6 +206,68 @@ def test_anthropic_usage_is_recorded():
     assert (usage.input_tokens, usage.output_tokens) == (120, 45)
 
 
+def test_the_default_claude_model_is_the_current_small_one(monkeypatch):
+    monkeypatch.delenv("HARNESS_MODEL", raising=False)
+    http = FakeHttp(FakeResponse(ANTHROPIC_BODY))
+
+    AnthropicProvider(api_key="sk-ant-test-value", client=http).generate("x")
+
+    assert http.calls[0]["json"]["model"] == "claude-haiku-5-5"
+
+
+def test_harness_model_selects_the_claude_model(monkeypatch):
+    monkeypatch.setenv("HARNESS_MODEL", "claude-opus-5-5")
+    http = FakeHttp(FakeResponse(ANTHROPIC_BODY))
+
+    AnthropicProvider(api_key="sk-ant-test-value", client=http).generate("x")
+
+    assert http.calls[0]["json"]["model"] == "claude-opus-5-5"
+
+
+def test_no_sampling_parameter_is_sent_because_5x_models_reject_them():
+    http = FakeHttp(FakeResponse(ANTHROPIC_BODY))
+
+    AnthropicProvider(api_key="sk-ant-test-value", client=http).generate("x", temperature=0.9)
+
+    sent = http.calls[0]["json"]
+    assert not {"temperature", "top_p", "top_k"} & set(sent)
+
+
+def test_effort_is_passed_through_only_when_set(monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_EFFORT", raising=False)
+    plain, deep = FakeHttp(FakeResponse(ANTHROPIC_BODY)), FakeHttp(FakeResponse(ANTHROPIC_BODY))
+
+    AnthropicProvider(api_key="sk-ant-test-value", client=plain).generate("x")
+    AnthropicProvider(api_key="sk-ant-test-value", client=deep, effort="high").generate("x")
+
+    assert "output_config" not in plain.calls[0]["json"]
+    assert deep.calls[0]["json"]["output_config"] == {"effort": "high"}
+
+
+def test_a_refusal_is_an_error_not_a_partial_answer():
+    body = {
+        **ANTHROPIC_BODY,
+        "content": [{"type": "text", "text": "Here is the start of"}],
+        "stop_reason": "refusal",
+        "stop_details": {"type": "refusal", "category": "cyber", "explanation": "..."},
+    }
+    provider = AnthropicProvider(api_key="sk-ant-test-value", client=FakeHttp(FakeResponse(body)))
+
+    with pytest.raises(ProviderError, match="refused.*category: cyber") as caught:
+        provider.generate("x")
+
+    # Billed all the same, so the spend travels with the error.
+    assert caught.value.usage.output_tokens == 45
+
+
+def test_a_refusal_without_a_category_is_still_an_error():
+    body = {**ANTHROPIC_BODY, "stop_reason": "refusal", "stop_details": {"category": None}}
+    provider = AnthropicProvider(api_key="sk-ant-test-value", client=FakeHttp(FakeResponse(body)))
+
+    with pytest.raises(ProviderError, match="refused the request$"):
+        provider.generate("x")
+
+
 # --- shared HTTP behaviour ----------------------------------------------------------
 
 
