@@ -215,6 +215,21 @@ configuration implies otherwise.
 |---|---|---|
 | `HARNESS_REDACT_INPUTS` | `false` | Mask direct identifiers before text reaches a model |
 | `HARNESS_RUN_TIMEOUT_SECONDS` | `3600` | How long a run may sit in `running` before a restart treats it as abandoned |
+| `HARNESS_MAX_UPLOAD_BYTES` | `20971520` (20MB) | Largest file accepted, by upload or `harness run`. Refused with 413 as soon as the read passes it |
+| `HARNESS_MAX_PDF_PAGES` | `300` | Pages read from one PDF. Later pages are skipped and the document is marked `truncated_by: pages` |
+| `HARNESS_MAX_DOCX_EXPANDED_BYTES` | `52428800` (50MB) | Total unzipped size a DOCX may declare. Checked from the zip directory before any part is read; past it, refused with 413. This, not the character limit, bounds DOCX memory, because the parser reads each part whole |
+| `HARNESS_MAX_DOCUMENT_CHARS` | `2000000` | Characters of text kept from one file. Extraction stops here and marks the document `truncated_by: characters` |
+| `HARNESS_EXTRACT_TIMEOUT_SECONDS` | `120` | Wall-clock ceiling on reading one PDF, checked between pages. Past it, refused with 413 |
+
+Each limit accepts `none` to switch it off. A ceiling that cuts a document short sets
+`truncated` and `truncated_by` in the document's metadata, so an agent or a reviewer
+can tell. A ceiling that cannot leave a usable part (too many bytes, too large once
+unzipped, too slow) refuses the file with `document_too_large`. A corrupt, encrypted,
+or mislabelled PDF or DOCX is refused with `invalid_document`. Either way no file is
+stored and no run starts. The time ceiling cannot interrupt one slow page, so the page
+ceiling is what bounds the worst case. The web framework spools an upload to a
+temporary file before the route reads it, so also set a request-size limit at your
+proxy or platform.
 
 Redaction is a pattern matcher for emails, phone numbers, and similar identifiers. It
 reduces exposure. It is not anonymisation and it is not a lawful basis for processing

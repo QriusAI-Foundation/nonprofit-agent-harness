@@ -177,6 +177,12 @@ Three decisions carry the method:
 3. **Geometric mean across dimensions.** Weakness in one dimension is not averaged away
    by strength in another. A `ZERO_FLOOR` keeps a single genuine zero from collapsing
    the whole index.
+4. **Coverage gates the headline.** An overall score and tier need at least one scored
+   answer in every dimension. Without that the result is `incomplete`, with no overall
+   and no tier, because a geometric mean over fewer dimensions measures something
+   else. One scored answer per dimension is the floor, not a quality bar: the
+   `coverage` block gives answered, scored, excluded, and unanswered counts so an
+   instrument owner can set a stricter rule. Repeated multi-select values count once.
 
 ## Not included on purpose
 

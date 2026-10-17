@@ -51,6 +51,9 @@ class Instrument:
 
     The engine is deliberately empty of any particular index. Bring your own
     questions, weights, and tier bands; the maths below stays the same.
+
+    Tier bands apply only to a result with a scored answer in every dimension. See
+    `scoring.score` for the coverage rule.
     """
 
     id: str

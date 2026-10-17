@@ -7,11 +7,12 @@ import sys
 from pathlib import Path
 
 from nonprofit_harness.config import HarnessConfig
+from nonprofit_harness.core.errors import HarnessError
 from nonprofit_harness.core.registry import AgentRegistry
 from nonprofit_harness.core.runner import AgentRunner
 from nonprofit_harness.core.types import Document
 from nonprofit_harness.core.usage import Usage
-from nonprofit_harness.documents import extract
+from nonprofit_harness.documents import ExtractionLimits, extract
 from nonprofit_harness.providers import load_provider
 from nonprofit_harness.readiness import example_instrument, score
 from nonprofit_harness.readiness.instrument import Instrument
@@ -76,10 +77,11 @@ def _run(args) -> int:
     registry = AgentRegistry()
     registry.register(agent_class())
 
-    documents: list[Document] = []
-    for path in args.files:
-        media_type = _MEDIA_TYPES.get(path.suffix.lower(), "text/plain")
-        documents.append(extract(path.read_bytes(), media_type=media_type, name=path.name))
+    try:
+        documents = _read_documents(args.files, ExtractionLimits.from_config(config))
+    except (OSError, HarnessError) as exc:
+        print(f"Could not read input: {exc}", file=sys.stderr)
+        return 2
 
     options = dict(item.split("=", 1) for item in args.option if "=" in item)
     try:
@@ -113,6 +115,18 @@ def _run(args) -> int:
 def _print_usage(usage: Usage) -> None:
     # Never "$0.0000" for a model with no price: that reads as free in a grant report.
     print(f"usage: {usage.calls} calls, {usage.total_tokens} tokens, {usage.describe_cost()}")
+
+
+def _read_documents(paths: list[Path], limits: ExtractionLimits) -> list[Document]:
+    documents: list[Document] = []
+    for path in paths:
+        # Checked before reading, so an oversized file is never loaded whole.
+        limits.check_size(path.stat().st_size, path.name)
+        media_type = _MEDIA_TYPES.get(path.suffix.lower(), "text/plain")
+        documents.append(
+            extract(path.read_bytes(), media_type=media_type, name=path.name, limits=limits)
+        )
+    return documents
 
 
 def _score(args) -> int:

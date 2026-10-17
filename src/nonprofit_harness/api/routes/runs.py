@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, Response, UploadFile, status
+from starlette.concurrency import run_in_threadpool
 
 from nonprofit_harness.api.deps import (
     AppContext,
@@ -14,11 +15,12 @@ from nonprofit_harness.api.schemas import AgentOut, BlobOut, RunCreate, RunOut
 from nonprofit_harness.auth import Principal
 from nonprofit_harness.core.errors import InvalidRequest
 from nonprofit_harness.core.types import Document, Run, RunStatus
-from nonprofit_harness.documents import extract
+from nonprofit_harness.documents import ExtractionLimits, extract
 
 router = APIRouter(tags=["runs"])
 
-MAX_UPLOAD_BYTES = 20 * 1024 * 1024
+#: Small enough that a refused upload holds at most this much past the limit.
+_READ_CHUNK = 64 * 1024
 
 
 @router.get("/agents", response_model=list[AgentOut])
@@ -32,14 +34,18 @@ async def upload(
     ctx: AppContext = Depends(get_ctx),
     principal: Principal = Depends(get_principal),
 ) -> BlobOut:
-    data = await file.read()
+    limits = ExtractionLimits.from_config(ctx.config)
+    data = await _read_capped(file, limits)
     if not data:
         raise InvalidRequest("Uploaded file is empty")
-    if len(data) > MAX_UPLOAD_BYTES:
-        raise InvalidRequest(f"File exceeds the {MAX_UPLOAD_BYTES // (1024 * 1024)}MB limit")
 
     media_type = file.content_type or "application/octet-stream"
-    document = extract(data, media_type=media_type, name=file.filename or "upload")
+    # Extract before storing, so a file that fails a limit or will not parse leaves
+    # no blob behind for a later run to trip over. Parsing is synchronous and can
+    # take seconds, so it runs off the event loop instead of stalling every request.
+    document = await run_in_threadpool(
+        extract, data, media_type=media_type, name=file.filename or "upload", limits=limits
+    )
     blob = ctx.stores.blobs.put(
         org_id=principal.org_id,
         name=file.filename or "upload",
@@ -53,6 +59,24 @@ async def upload(
         size=blob.size,
         characters=len(document.text),
     )
+
+
+async def _read_capped(file: UploadFile, limits: ExtractionLimits) -> bytes:
+    """Read an upload, refusing it as soon as it passes the size limit.
+
+    Reading everything first and checking after meant an oversized file was held in
+    memory whole before being refused.
+    """
+    name = file.filename or "upload"
+    if file.size is not None:
+        limits.check_size(file.size, name)
+    chunks: list[bytes] = []
+    total = 0
+    while chunk := await file.read(_READ_CHUNK):
+        total += len(chunk)
+        limits.check_size(total, name)
+        chunks.append(chunk)
+    return b"".join(chunks)
 
 
 @router.post("/runs", response_model=RunOut)
@@ -99,7 +123,12 @@ def _to_document(item, ctx: AppContext, principal: Principal) -> Document:
     if item.blob_id:
         meta = authorized_blob(item.blob_id, ctx, principal)
         raw = ctx.stores.blobs.get(item.blob_id)
-        return extract(raw, media_type=meta.media_type, name=meta.name)
+        return extract(
+            raw,
+            media_type=meta.media_type,
+            name=meta.name,
+            limits=ExtractionLimits.from_config(ctx.config),
+        )
     if not item.text.strip():
         raise InvalidRequest("Each input needs either text or a blob_id")
     return Document(text=item.text, name=item.name, media_type=item.media_type)

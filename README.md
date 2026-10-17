@@ -364,13 +364,15 @@ from nonprofit_harness.readiness import Instrument, score
 instrument = Instrument.from_json("my-instrument.json")
 result = score(instrument, {"d1": "spreadsheets", "d2": "dont_know"})
 
-result.overall            # 0.0 to 1.0
+result.status             # "complete", "partial", or "incomplete"
+result.overall            # 0.0 to 1.0, or None when incomplete
 result.dimension_scores   # per dimension
-result.tier               # whichever band the overall lands in
+result.tier               # whichever band the overall lands in, or "" when incomplete
 result.excluded_questions # what was left out of scoring, and why
+result.to_dict()["coverage"]  # answered, scored, excluded, unanswered per dimension
 ```
 
-Two design choices worth knowing about, because they change the numbers:
+Three design choices worth knowing about, because they change the numbers:
 
 - **"Don't know" removes a question from scoring rather than scoring it zero.** In this
   sector, "don't know" usually means a thin back office, not low capability. Scoring it
@@ -378,6 +380,14 @@ Two design choices worth knowing about, because they change the numbers:
 - **Dimensions combine with a geometric mean.** An organisation with excellent tooling
   and no data governance is not "average". It is blocked on data governance, and an
   arithmetic mean hides that.
+- **No overall score without every dimension.** The overall score and tier are issued
+  only when every dimension has at least one scored answer. Otherwise the result is
+  `incomplete`: `overall` is `None`, `tier` is empty, and `missing_dimensions` names
+  what is missing. One answer cannot produce a "High". When every dimension is covered
+  but some questions are blank, the result is `partial` and says how many. "Don't know"
+  counts as answered but not scored, so `coverage` reports `excluded` and `unanswered`
+  separately. A value selected twice in a multi-select question counts once, and
+  `duplicates_dropped` lists the repeats.
 
 A small example instrument ships in `src/nonprofit_harness/readiness/instruments/`. It
 is a demonstration, not a validated index. Bring your own.
