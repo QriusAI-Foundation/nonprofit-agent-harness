@@ -9,9 +9,9 @@ from nonprofit_harness import Agent, AgentResult, Citation, Claim, RunContext
 from nonprofit_harness.api.schemas import RunOut
 from nonprofit_harness.config import HarnessConfig
 from nonprofit_harness.core import lease
-from nonprofit_harness.core.errors import ReviewRequired
+from nonprofit_harness.core.errors import ProviderError, ReviewRequired
 from nonprofit_harness.core.runner import AgentRunner
-from nonprofit_harness.core.types import ArtifactStatus, Document, Run, RunStatus
+from nonprofit_harness.core.types import ArtifactStatus, Document, Run, RunStatus, Usage
 from nonprofit_harness.providers.echo import EchoProvider
 from nonprofit_harness.review.gate import AUTO_REVIEWER, ReviewGate
 from nonprofit_harness.verification.types import Outcome
@@ -158,7 +158,28 @@ def test_a_provider_error_during_verification_keeps_the_artifacts_and_usage(
     assert len(stored.artifacts) == 1
     assert stored.artifacts[0].content
     assert stored.summary == "1 brief"
-    assert stored.usage.calls == 1
+    # The agent's call, plus the verification call that failed: a failed call still
+    # counts toward the ceiling.
+    assert stored.usage.calls == 2
+
+
+def test_a_billed_provider_error_during_verification_stays_in_the_run_s_usage(
+    registry, stores, source
+):
+    class BilledOutage(OutageAfter):
+        def generate(self, prompt, **kwargs):
+            if self._left <= 0:
+                raise ProviderError("refused", usage=Usage(calls=1, input_tokens=500))
+            return super().generate(prompt, **kwargs)
+
+    runner = _checking_runner(registry, stores, BilledOutage(healthy_calls=1))
+
+    run = runner.start("citing-note", org_id="org_1", inputs=source)
+
+    stored = stores.runs.get(run.id)
+    assert stored.status == RunStatus.AWAITING_REVIEW
+    assert stored.usage.calls == 2
+    assert stored.usage.input_tokens > 500
 
 
 def test_a_provider_error_during_verification_ends_in_review_not_running(registry, stores, source):
