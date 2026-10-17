@@ -11,7 +11,6 @@ default, so there is nothing to switch on.
 
 from __future__ import annotations
 
-import json
 import os
 from typing import Any
 
@@ -75,28 +74,25 @@ class AnthropicProvider:
             raise ProviderError(f"No API key. Set {KEY_ENV}, or pass api_key")
 
         used = model or self.default_model
-        instruction = system or ""
-
-        if json_schema is not None:
-            # The Messages API has no response_format equivalent, so the schema is
-            # asked for rather than enforced. Callers must still validate what comes
-            # back. Said plainly because a silent difference in strictness between
-            # providers is how an agent starts failing only on one of them.
-            schema_text = json.dumps(json_schema, separators=(",", ":"))
-            instruction = (
-                f"{instruction}\n\nReply with JSON only, matching this schema. "
-                f"No prose, no code fence.\n{schema_text}"
-            ).strip()
 
         payload: dict[str, Any] = {
             "model": used,
             "max_tokens": max_output_tokens or self.default_max_output_tokens,
             "messages": [{"role": "user", "content": prompt}],
         }
-        if instruction:
-            payload["system"] = instruction
+        if system:
+            payload["system"] = system
+
+        output_config: dict[str, Any] = {}
         if self.effort:
-            payload["output_config"] = {"effort": self.effort}
+            output_config["effort"] = self.effort
+        if json_schema is not None:
+            # Enforced by the API rather than requested in the prompt. Asking in the
+            # prompt worked on the larger models, but Haiku 5.5 often replied with the
+            # schema itself instead of an answer.
+            output_config["format"] = {"type": "json_schema", "schema": strict_schema(json_schema)}
+        if output_config:
+            payload["output_config"] = output_config
 
         body = post_json(
             self._client,
@@ -142,6 +138,55 @@ class AnthropicProvider:
         )
 
 
+#: Constraints structured outputs reject. Dropped rather than sent, so a schema written
+#: for another provider still works here; the caller validates what comes back anyway.
+_UNSUPPORTED_KEYWORDS = frozenset(
+    {
+        "minimum",
+        "maximum",
+        "exclusiveMinimum",
+        "exclusiveMaximum",
+        "multipleOf",
+        "minLength",
+        "maxLength",
+        "minItems",
+        "maxItems",
+        "uniqueItems",
+    }
+)
+
+
+def strict_schema(schema: Any) -> Any:
+    """A copy of `schema` in the form structured outputs accepts.
+
+    Every object must say `additionalProperties: false`, and some constraints are not
+    supported at all. Only schema positions are rewritten: a property that happens to be
+    named `maximum`, or an `enum` value that is an object, passes through untouched.
+    """
+    if not isinstance(schema, dict):
+        return schema
+    cleaned: dict[str, Any] = {}
+    for key, value in schema.items():
+        if key in _UNSUPPORTED_KEYWORDS:
+            continue
+        if key in _SCHEMA_MAPS and isinstance(value, dict):
+            cleaned[key] = {name: strict_schema(sub) for name, sub in value.items()}
+        elif key in _SCHEMA_LISTS and isinstance(value, list):
+            cleaned[key] = [strict_schema(sub) for sub in value]
+        elif key in _SCHEMA_VALUES:
+            cleaned[key] = strict_schema(value)
+        else:
+            cleaned[key] = value
+    if cleaned.get("type") == "object" or "properties" in cleaned:
+        cleaned["additionalProperties"] = False
+    return cleaned
+
+
+_SCHEMA_MAPS = frozenset({"properties", "$defs", "definitions"})
+_SCHEMA_LISTS = frozenset({"anyOf", "allOf", "oneOf", "prefixItems"})
+_SCHEMA_VALUES = frozenset({"items", "not"})
+
+
 def _refusal_category(body: dict[str, Any]) -> str | None:
     # `stop_details` is only populated on a refusal, and its category can be null.
     details = body.get("stop_details")
@@ -157,4 +202,5 @@ __all__ = [
     "EFFORT_ENV",
     "KEY_ENV",
     "AnthropicProvider",
+    "strict_schema",
 ]
