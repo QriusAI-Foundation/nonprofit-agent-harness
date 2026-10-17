@@ -267,8 +267,11 @@ def test_a_run_stranded_during_verification_goes_to_review_with_its_work(registr
     assert run.status == stored.status == RunStatus.AWAITING_REVIEW
     assert stored.artifacts[0].status == ArtifactStatus.PENDING_REVIEW
     assert stored.usage.calls == 1
+    # Recovery's verdict, not the late worker's ("provider unavailable"): a run already
+    # in front of a person is not overwritten.
     reason = stored.artifacts[0].verification.verdicts[0].reason
     assert "stopped during verification" in reason
+    assert "provider unavailable" not in reason
     assert stored.error.startswith("Recovered")
 
 
@@ -310,3 +313,69 @@ def test_a_hung_run_stops_renewing_its_lease_after_the_run_timeout(stores):
         time.sleep(0.6)
 
     assert lease.expires_at(stores.runs.get(run.id)) == before
+
+
+def test_a_brief_store_outage_does_not_lose_the_finished_work(runner, stores, documents):
+    update = stores.runs.update
+    outage = {"left": 1}
+
+    def flaky(run_id, change):
+        if outage["left"] and lease.phase(stores.runs.get(run_id)) == lease.GENERATING:
+            stored = stores.runs.get(run_id)
+            if stored.status == RunStatus.RUNNING and not stored.artifacts:
+                outage["left"] -= 1
+                raise ConnectionError("store unavailable")
+        return update(run_id, change)
+
+    stores.runs.update = flaky
+    runner.registry.register(_ReturnsWork())
+
+    run = runner.start("returns-work", org_id="org_1", inputs=documents)
+
+    assert outage["left"] == 0
+    assert stores.runs.get(run.id).status == RunStatus.AWAITING_REVIEW
+    assert len(stores.runs.get(run.id).artifacts) == 1
+
+
+class _ReturnsWork(Agent):
+    name = "returns-work"
+
+    def run(self, ctx: RunContext) -> AgentResult:
+        return AgentResult(
+            artifacts=[self.artifact("note", "done")],
+            metadata={"execution": "agent says hi", "source": "agent"},
+        )
+
+
+def test_an_agent_cannot_overwrite_the_harness_s_execution_record(
+    runner, stores, documents, caplog
+):
+    runner.registry.register(_ReturnsWork())
+
+    run = runner.start("returns-work", org_id="org_1", inputs=documents)
+
+    stored = stores.runs.get(run.id)
+    assert stored.metadata["source"] == "agent"
+    assert stored.metadata["execution"]["worker"] == runner.worker_id
+    assert "harness-owned key(s) execution" in caplog.text
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        lambda r: setattr(r, "status", RunStatus.FAILED),
+        lambda r: r.metadata[lease.EXECUTION].update(worker="someone-else"),
+    ],
+    ids=["no-longer-running", "held-by-another-worker"],
+)
+def test_the_heartbeat_never_renews_a_run_it_no_longer_owns(stores, change):
+    run = stores.runs.save(Run(agent="note", org_id="org_1", status=RunStatus.RUNNING))
+    stores.runs.update(run.id, lambda r: lease.claim(r, worker="me", lease_seconds=1) or True)
+    run = stores.runs.update(run.id, lambda r: change(r) or True)
+    before = (run.version, lease.expires_at(run))
+
+    with lease.Heartbeat(stores.runs, run.id, worker="me", lease_seconds=1, max_seconds=60):
+        time.sleep(0.6)
+
+    after = stores.runs.get(run.id)
+    assert (after.version, lease.expires_at(after)) == before

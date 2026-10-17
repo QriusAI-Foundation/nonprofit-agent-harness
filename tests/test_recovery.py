@@ -183,3 +183,27 @@ def test_the_reap_interval_reads_from_the_environment(monkeypatch, raw, expected
         monkeypatch.setenv("HARNESS_REAP_INTERVAL_SECONDS", raw)
 
     assert HarnessConfig.from_env().reap_interval_seconds == expected
+
+
+def test_a_store_without_a_cursor_still_has_its_first_page_recovered(runner, stores):
+    run = _running(stores, lease_in=-1)
+    newer_list = stores.runs.list
+
+    def old_signature_list(*, org_id=None, status=None, limit=50):
+        return newer_list(org_id=org_id, status=status, limit=limit)
+
+    stores.runs.list = old_signature_list
+
+    assert [r.id for r in runner.reap_abandoned()] == [run.id]
+
+
+def test_one_malformed_lease_does_not_block_recovery_of_the_others(runner, stores):
+    broken = _running(stores, lease_in=-1)
+    stores.runs._runs[broken.id].metadata[lease.EXECUTION]["lease_expires_at"] = "not a time"
+    fine = _running(stores, lease_in=-1)
+
+    reaped = runner.reap_abandoned()
+
+    assert [r.id for r in reaped] == [fine.id]
+    assert runner.recovery.errors == 1
+    assert broken.id in runner.recovery.last_error

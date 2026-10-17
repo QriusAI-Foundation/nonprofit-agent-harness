@@ -72,7 +72,9 @@ usage before verification starts. Verification can call a model, so it can fail 
 hang. Any exception there, not only the budget ceiling, marks the claims it did not
 reach as inconclusive with the reason, and an inconclusive claim holds its artifact
 for a person even when the agent opted out of review. A checking outage costs a
-reviewer some work. It never costs the run its output.
+reviewer some work. It never costs the run its output. The first write is retried. A
+store outage that outlasts the retries is the one case where nothing can be saved:
+the run's lease lapses and recovery fails it as abandoned.
 
 **Execution ownership.** The worker that executes a run writes its id and a lease
 expiry into `metadata.execution`, and a background thread renews the lease every third

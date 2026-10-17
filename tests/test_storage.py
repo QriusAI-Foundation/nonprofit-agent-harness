@@ -278,7 +278,8 @@ def test_firestore_update_applies_the_change_and_bumps_the_version(firestore_run
         firestore_runs.update("run_missing", change)
 
 
-def test_firestore_listing_resumes_after_the_cursor_run(firestore_runs):
+def test_firestore_listing_passes_the_cursor_run_s_snapshot_to_the_query(firestore_runs):
+    """Checks the query chain against a stand-in, not Firestore's own cursor semantics."""
     for _ in range(5):
         firestore_runs.save(Run(agent="note", org_id="org_1", status=RunStatus.RUNNING))
 

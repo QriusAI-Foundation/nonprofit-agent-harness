@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import logging
+import time
 from collections.abc import Callable, Iterator
 from dataclasses import asdict, dataclass, field, replace
 from datetime import UTC, datetime, timedelta
@@ -31,6 +32,7 @@ logger = logging.getLogger("nonprofit_harness.runner")
 #: Metadata key recovery writes when it resolves a stranded run.
 RECOVERY = "recovery"
 _HARNESS_KEYS = {lease.EXECUTION, RECOVERY}
+_BANK_RETRY_DELAYS = (0.5, 2.0)
 
 
 class _Superseded(Exception):
@@ -138,7 +140,7 @@ class AgentRunner:
 
             run.artifacts = list(result.artifacts)
             run.summary = result.summary
-            run.metadata.update(result.metadata)
+            run.metadata.update(_agent_metadata(run.id, result.metadata))
             run.usage = guard.spent
             try:
                 return self._finish(run, agent, provider, guard)
@@ -151,7 +153,7 @@ class AgentRunner:
         # The work exists and is paid for from here on. It is stored before
         # verification, which can call a model and so can fail, hang, or outlive the
         # process; whatever happens next, the work is not lost.
-        run = self._land(run, self._hold_for_verification)
+        run = self._bank(run)
 
         # Before usage is banked, so cross-checking shows up in the run's own cost.
         self._verify_claims(run, provider)
@@ -175,6 +177,22 @@ class AgentRunner:
             lease_seconds=self.config.run_lease_seconds,
             phase=lease.VERIFYING,
         )
+
+    def _bank(self, run: Run) -> Run:
+        """The first write of finished work, retried, since losing it loses the output.
+
+        A store outage that outlasts the retries still leaves the run `running`. Its
+        lease then lapses and recovery fails it as abandoned: nothing could be saved.
+        """
+        for delay in _BANK_RETRY_DELAYS:
+            try:
+                return self._land(run, self._hold_for_verification)
+            except _Superseded:
+                raise
+            except Exception:  # noqa: BLE001 - retried; the last attempt raises
+                logger.warning("Could not store finished work for run %s; retrying", run.id)
+                time.sleep(delay)
+        return self._land(run, self._hold_for_verification)
 
     def _land(self, work: Run, finish: Callable[[Run], None]) -> Run:
         """Write this worker's copy of the run onto whatever is stored now.
@@ -288,9 +306,9 @@ class AgentRunner:
         try:
             for candidate in self._running(page_size):
                 examined += 1
-                if _overdue(candidate, now, cutoff) is None:
-                    continue
                 try:
+                    if _overdue(candidate, now, cutoff) is None:
+                        continue
                     run = self.stores.runs.update(
                         candidate.id, lambda r: _resolve(r, now, cutoff, stamp)
                     )
@@ -322,13 +340,16 @@ class AgentRunner:
         return resolved
 
     def _running(self, page_size: int) -> Iterator[Run]:
-        after: str | None = None
+        page = self.stores.runs.list(status=RunStatus.RUNNING, limit=page_size)
         while True:
-            page = self.stores.runs.list(status=RunStatus.RUNNING, limit=page_size, after=after)
             yield from page
             if len(page) < page_size:
                 return
-            after = page[-1].id
+            # The first page goes without a cursor, so a custom store that predates
+            # `after` still has its newest runs recovered.
+            page = self.stores.runs.list(
+                status=RunStatus.RUNNING, limit=page_size, after=page[-1].id
+            )
 
     def _fail(self, run: Run, guard: BudgetGuard, message: str) -> Run:
         spent = guard.spent
@@ -376,6 +397,18 @@ def _sources_for(run: Run) -> dict[str, str]:
             key = f"{key} ({document.id})"
         sources[key] = document.text
     return sources
+
+
+def _agent_metadata(run_id: str, metadata: dict[str, Any]) -> dict[str, Any]:
+    """An agent's metadata, minus the keys recovery depends on."""
+    clashing = sorted(_HARNESS_KEYS.intersection(metadata))
+    if clashing:
+        logger.warning(
+            "Run %s: discarded agent metadata under harness-owned key(s) %s",
+            run_id,
+            ", ".join(clashing),
+        )
+    return {k: v for k, v in metadata.items() if k not in _HARNESS_KEYS}
 
 
 def _landable(stored: Run) -> bool:
