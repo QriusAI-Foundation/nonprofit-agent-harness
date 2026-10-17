@@ -28,6 +28,9 @@ class Source:
     filename: str
     url: str
     sha256: str
+    #: Extract page by page and skip pages pypdf cannot parse. Needed for a PDF on
+    #: which the harness's own `extract` raises; the skipped pages are recorded.
+    tolerant: bool = False
 
 
 DOCUMENTS = (
@@ -50,6 +53,32 @@ DOCUMENTS = (
         "db71a3ceedc4077a8acc76c0b102a3b1b50dc2dbd87b5a82930629ce4e005caa",
     ),
 )
+
+#: Added after the first pass, at the Foundation's request for longer documents.
+MORE_DOCUMENTS = (
+    Source(
+        "alnap-sohs-2022",
+        "alnap-sohs-2022.pdf",
+        # A byte-identical mirror: the ALNAP URL for the full report returned 404.
+        "https://www.oiren.org/wp-content/uploads/2023/11/State-of-Humanitarian-System-2022_Full-report.pdf",
+        "982ffd712b56d36276c58e399f7d09c788e2e324410484770e1b014ed45bca06",
+    ),
+    Source(
+        "wdr-2018-learning",
+        "wdr-2018-learning.pdf",
+        "https://documents1.worldbank.org/curated/en/240351507784846426/pdf/120299-WDR-v1-PUBLIC-main.pdf",
+        "091c14411843f9efec16b097e715fdc00e29e18f8973fab4e399500d409a7393",
+        tolerant=True,
+    ),
+    Source(
+        "wb-vnen-evaluation",
+        "wb-vnen-impact-evaluation-2017.pdf",
+        "https://documents1.worldbank.org/curated/en/339001502818131149/pdf/118675-REVISED-PUBLIC-1708908-VNEN-IE-Web.pdf",
+        "4253431599023da2c296e1574e0bdad624f1a4d8c1b3098b22704d040065ad7f",
+    ),
+)
+
+ALL_DOCUMENTS = DOCUMENTS + MORE_DOCUMENTS
 
 #: Published IATI activities, fetched once through `IatiClient.activity_xml` and cached,
 #: because the free tier allows 100 calls a week.
@@ -79,7 +108,23 @@ def fetch(source: Source) -> Path:
 
 def document(source: Source) -> Document:
     path = fetch(source)
-    return extract(path.read_bytes(), media_type="application/pdf", name=source.filename)
+    if not source.tolerant:
+        return extract(path.read_bytes(), media_type="application/pdf", name=source.filename)
+    from pypdf import PdfReader
+
+    pages, skipped = [], []
+    for number, page in enumerate(PdfReader(str(path)).pages, start=1):
+        try:
+            pages.append(page.extract_text() or "")
+        except Exception:  # noqa: BLE001 - one unparseable page should not sink the rest
+            pages.append("")
+            skipped.append(number)
+    return Document(
+        text="\n\n".join(pages).strip(),
+        name=source.filename,
+        media_type="application/pdf",
+        metadata={"pages": len(pages), "skipped_pages": skipped},
+    )
 
 
 def iati_xml(slug: str, identifier: str) -> bytes:
@@ -94,6 +139,7 @@ def iati_xml(slug: str, identifier: str) -> bytes:
 
 def results_documents() -> list[tuple[str, Document]]:
     from examples.results_narrative import results_sheet
+
     from nonprofit_harness.datasources.iati_xml import parse_activities
 
     sheets = []
@@ -104,7 +150,7 @@ def results_documents() -> list[tuple[str, Document]]:
 
 
 def main() -> int:
-    for source in DOCUMENTS:
+    for source in ALL_DOCUMENTS:
         path = fetch(source)
         print(f"ok  {source.filename}  {hashlib.sha256(path.read_bytes()).hexdigest()}")
     for slug, _ in results_documents():

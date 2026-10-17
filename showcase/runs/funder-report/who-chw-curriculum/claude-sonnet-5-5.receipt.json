@@ -1,0 +1,127 @@
+{
+  "run_id": "run_8fa9380b04ce47c1",
+  "date": "2026-10-17",
+  "agent": "funder-report",
+  "agent_version": "0.1.0",
+  "source": "who-chw-curriculum",
+  "source_sha256": "5273d03171b03a7fb71ba8fb07de8a5ab38bdab43a3bacd5c485cd5b982e342d",
+  "model": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 23.9,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 158089,
+    "output_tokens": 3674,
+    "cost_usd": 0.352918
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "11 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "The guide is designed to be adapted to the needs of different health systems, programmes and contexts.",
+      "quote": "This competency-based CHW curriculum guide is designed to be adapted to the needs of different health systems, programmes and contexts.",
+      "locator": "1. Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The guide is designed primarily for formal CHWs who are integrated into the health system, have a structured education pathway and a contract, and are appropriately remunerated and supported.",
+      "quote": "This curriculum guide is designed primarily for formal CHWs who are integrated into the health system, who have a structured education pathway and a contract, and who are appropriately remunerated and supported.",
+      "locator": "1.2 Objective and target audience",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "CBE prepares learners for practice oriented to outcome abilities, with less emphasis on time-based training and more on mastery of knowledge, skills and competencies, accountability, flexibility and lifelong learning.",
+      "quote": "CBE aims to prepare learners for practice that is oriented to outcome abilities, with less emphasis on time-based training and increased attention to mastery of knowledge, skills and competencies for practice, as well as accountability, flexibility and lifelong learning (5).",
+      "locator": "1.5 Principles of competency-based education (CBE)",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The guide sets out 25 competencies relevant to all CHWs across all contexts.",
+      "quote": "There are 25 competencies that are relevant to all CHWs across all contexts, including the breadth of the practice activities in the universal and role-specific modules.",
+      "locator": "Section 1. Competencies",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The content comprises six competency domains, 12 universal modules, and four role-specific modules with 28 topics.",
+      "quote": "The content is organized into six competency domains, 12 universal modules (11 practice activities plus one module of basic science knowledge), and four role-specific modules, comprising 28 role-specific topics organized under the four modules.",
+      "locator": "3.1 Overview of the CHW curriculum guide",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The universal modules have a suggested total duration of 303 hours.",
+      "quote": "Total duration of universal practice activities (hours) 303",
+      "locator": "Table 2.1 Universal modules: practice activities and suggested duration",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "No CHW can carry out all of the practice activities and tasks in the role-specific modules.",
+      "quote": "No CHW can carry out all of the practice activities and tasks outlined in the role-specific modules in this framework.",
+      "locator": "3.1 Overview of the CHW curriculum guide",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The guide recommends that teaching minimize didactic approaches and use diverse practical and authentic learning methods.",
+      "quote": "As recommended in the CHW guideline, teaching should minimize didactic approaches, and include a diverse array of practical and authentic learning methods suited to the unique needs and contexts of the learners.",
+      "locator": "Creating user-friendly learning materials appropriate to CHWs",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Formative and summative assessments are outlined for each module.",
+      "quote": "Both formative and summative assessments of learning are outlined for each module.",
+      "locator": "2. Learning and assessment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Module 1 suggests 33 teaching hours, including a minimum of 5 hours of shadowing and 6 hours for the summative assessment, with 3 hours of practice-based observation.",
+      "quote": "The total suggested time to complete this module is 33 teaching hours, including a minimum of 5 hours of shadowing and 6 hours for the summative assessment (including 3 hours of practice-based observation).",
+      "locator": "Module 1. Conducting a home visit",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The scoping review that informed the guide's design extracted 236 peer-reviewed articles.",
+      "quote": "In total, 236 peer-reviewed articles were extracted for inclusion in the scoping review (4).",
+      "locator": "1.3 Methods",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4d84e6f"
+}

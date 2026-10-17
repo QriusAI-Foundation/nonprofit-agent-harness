@@ -23,10 +23,10 @@ import json
 import random
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from pathlib import Path
 from typing import Any
 
 from examples._cited import parse_json
+
 from nonprofit_harness import Agent, AgentResult, RunContext
 from nonprofit_harness.core.types import Document
 from nonprofit_harness.verification.grounding import is_quantity, normalize, tokenize
@@ -47,10 +47,13 @@ KINDS = FAITHFUL_KINDS + ALTERED_KINDS
 
 #: Words that carry negation once text is tokenised. "doesn't" tokenises to "doesn",
 #: "t", so the contracted stems are here too.
-NEGATION = frozenset(
-    "not no never none nor neither without cannot t isn aren wasn weren doesn don didn "
-    "won hasn haven hadn shouldn wouldn couldn".split()
-)
+# fmt: off
+NEGATION = frozenset([
+    "not", "no", "never", "none", "nor", "neither", "without", "cannot", "t", "isn",
+    "aren", "wasn", "weren", "doesn", "don", "didn", "won", "hasn", "haven", "hadn",
+    "shouldn", "wouldn", "couldn",
+])
+# fmt: on
 
 DOMAINS = [
     ("community health workers", "a district health programme in East Africa"),
@@ -127,11 +130,14 @@ SCHEMA: dict[str, Any] = {
                     "variants": {
                         "type": "object",
                         "properties": {kind: {"type": "string"} for kind in KINDS},
+                        "required": list(KINDS),
                     },
                 },
+                "required": ["source_passage", "variants"],
             },
         },
     },
+    "required": ["text", "passages"],
 }
 
 

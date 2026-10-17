@@ -1,0 +1,10 @@
+{
+  "d1": "shared_database",
+  "d2": "dont_know",
+  "d3": 3,
+  "p1": [
+    "manages_spreadsheets"
+  ],
+  "p2": "occasionally",
+  "p3": "ad_hoc"
+}

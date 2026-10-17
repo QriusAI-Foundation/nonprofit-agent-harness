@@ -1,0 +1,82 @@
+{
+  "run_id": "run_527b242568cf485f",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "pathfinder-chbc-trainers",
+  "source_sha256": "6c23212037340d36e0c47fb1096efccd35269368dc196b8913b8f6cd30ccaec8",
+  "model": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 30.5,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 331837,
+    "output_tokens": 3095,
+    "cost_usd": 0.694624
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "6 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "Community home-based care is not a replacement for hospital care.",
+      "quote": "CHBC is not a replacement for hospital care.",
+      "locator": "Notes to the Trainer",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Trainings should be limited to 15-20 participants to allow good skills practice.",
+      "quote": "should be limited to 15-20 participants to ensure a good trainer-participant ratio",
+      "locator": "Notes to the Trainer: Training and Supervision of Community Health Workers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "CHWs should be selected by the community, with help from community-based and faith-based organisations.",
+      "quote": "should be selected by the community, with the help of CBOs and/or FBOs.",
+      "locator": "Notes to the Trainer: CHW Selection Process",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Ongoing supervision and support are needed to help CHWs overcome challenges.",
+      "quote": "Ongoing supervision and support is needed to help the CHW overcome challenges,",
+      "locator": "Notes to the Trainer: Training and Supervision of Community Health Workers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The curriculum is flexible and units can be combined into a shorter course.",
+      "quote": "This curriculum is also flexible, and different units can be put together for a shorter",
+      "locator": "Notes to the Trainer: Using this Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Clients in the practicum can refuse to take part without it affecting their existing care.",
+      "quote": "that they can refuse to participate in the practicum and that it will not affect the care that",
+      "locator": "Notes to the Trainer: More About the CHBC Practicum, Evaluation, and Certification",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4d84e6f"
+}

@@ -18,15 +18,15 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import UTC, datetime
-from pathlib import Path
 
 from examples.board_brief import BoardBriefAgent
 from examples.funder_report import FunderReportAgent
 from examples.results_narrative import ResultsNarrativeAgent
+
 from nonprofit_harness import __version__
 from nonprofit_harness.core.types import Document, Run
 from showcase import harness_setup as setup
-from showcase.sources import DOCUMENTS, document, results_documents
+from showcase.sources import ALL_DOCUMENTS, document, results_documents
 
 RUNS = setup.HERE / "runs"
 AGENTS = {
@@ -52,7 +52,11 @@ class Job:
 def jobs(
     agents: list[str], models: list[str], repeats: int, only: set[str] | None = None
 ) -> list[Job]:
-    manuals = [(source.slug, document(source)) for source in DOCUMENTS]
+    manuals = [
+        (source.slug, document(source))
+        for source in ALL_DOCUMENTS
+        if not only or source.slug in only
+    ]
     sheets = results_documents()
     planned = []
     for agent in agents:

@@ -1,0 +1,136 @@
+{
+  "run_id": "run_2ce2a0aaa2864d0a",
+  "date": "2026-10-17",
+  "agent": "funder-report",
+  "agent_version": "0.1.0",
+  "source": "ifrc-cbhfa-volunteers",
+  "source_sha256": "e011d9b15fe71e9b93101155bf8085255143d64b8ad3f3157bb33e8c71438418",
+  "model": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 26.5,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 170968,
+    "output_tokens": 3615,
+    "cost_usd": 0.378086
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "12 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "The manual describes a method of learning in the classroom and doing in the community.",
+      "quote": "Learn in the classroom: do in the community.",
+      "locator": "Introduction \u2013 How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Volunteers are recruited from the communities in which they live and work.",
+      "quote": "Red Cross Red Crescent volunteers are recruited from the communities where they live and work.",
+      "locator": "Module 1, Topic 3 \u2013 CBHFA in action",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A facilitator supports volunteers and gives feedback on their learning and development.",
+      "quote": "Your facilitator will support you and provide feedback in your learning and development.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The first three modules of the materials are obligatory.",
+      "quote": "The first three modules of the CBHFA materials are obligatory",
+      "locator": "Introduction \u2013 How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The community assessment gives the community the means to decide on its priority learning needs.",
+      "quote": "The community assessment will give your community the means to decide on what your priority",
+      "locator": "Introduction \u2013 How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The Community Tools are a set of dialogue cue cards used with household and community members.",
+      "quote": "The Community Tools are a set of dialogue cue cards that you can use with household and",
+      "locator": "Introduction \u2013 How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Module 3 topics include assessment tools such as direct observation, the transect walk, the community map and the seasonal calendar.",
+      "quote": "T opic 3 Community assessment tools: direct observation, transect walk, community map and seasonal calendar",
+      "locator": "Module 3 \u2013 Assessment-based action in my community",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "In Module 4 volunteers learn to assess, plan, implement and evaluate first aid for various injuries and illnesses.",
+      "quote": "In this module you will learn how to assess, plan, implement and evaluate first aid for various injuries",
+      "locator": "Module 4 \u2013 Basic first aid and injury prevention",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Module 4 has 20 topics, five of which are optional.",
+      "quote": "There are 20 topics in this module, five of which are optional:",
+      "locator": "Module 4 \u2013 Basic first aid and injury prevention",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Module 5 covers major emergencies that may affect the community.",
+      "quote": "In this module you will learn about major emergencies that may affect your community and how to",
+      "locator": "Module 5 \u2013 Community mobilization in major emergencies",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "In Module 6 volunteers choose at least five of 16 topics, depending on the priorities set in the community assessment.",
+      "quote": "Of the 16 topics in this module, you will have chosen at least five, depending on the priorities you",
+      "locator": "Module 6 \u2013 Disease prevention and health promotion",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Module 7 topics include road safety.",
+      "quote": "Topic 1 Road safety",
+      "locator": "Module 7 \u2013 Supplementary topics",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4d84e6f"
+}
