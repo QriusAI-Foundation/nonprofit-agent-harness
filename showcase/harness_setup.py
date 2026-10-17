@@ -127,6 +127,7 @@ def record(task: str, run: Run, model: str, **extra: Any) -> dict[str, Any]:
         "input_tokens": run.usage.input_tokens,
         "output_tokens": run.usage.output_tokens,
         "cost_usd": round(run.usage.cost_usd, 6),
+        "unpriced_calls": run.usage.unpriced_calls,
         **extra,
     }
     with LEDGER.open("a", encoding="utf-8") as handle:

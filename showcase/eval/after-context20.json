@@ -1,0 +1,35 @@
+{
+  "whitespace_case": {
+    "verified": 395,
+    "citation_uncertain": 12
+  },
+  "reordered": {
+    "citation_not_found": 660
+  },
+  "punctuation": {
+    "verified": 391,
+    "citation_uncertain": 16
+  },
+  "paraphrase": {
+    "citation_not_found": 401,
+    "citation_uncertain": 6
+  },
+  "changed_quantity": {
+    "citation_not_found": 623,
+    "citation_uncertain": 1
+  },
+  "removed_negation": {
+    "citation_not_found": 407
+  },
+  "added_negation": {
+    "citation_not_found": 406,
+    "citation_uncertain": 1
+  },
+  "moved_negation": {
+    "citation_not_found": 240
+  },
+  "exact": {
+    "verified": 402,
+    "citation_uncertain": 5
+  }
+}

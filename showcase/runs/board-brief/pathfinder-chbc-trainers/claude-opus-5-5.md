@@ -1,39 +1,42 @@
 # Board Brief: Pathfinder CHBC Trainer's Guide (2006)
 
-## What this document is
-This is a training course from Pathfinder International. It is for people who train community health workers (CHWs). The CHWs then care for people living with HIV/AIDS at home and in their communities. It is a long, step-by-step guide with sessions, handouts, tests and practice checklists.
+## What this is
+This is a trainer's guide from Pathfinder International, dated October 2006. It is a full course for training community health workers (CHWs) to care for people living with HIV/AIDS in their homes and communities. It comes with a separate handbook for participants.
+
+## What it asks of us
+If we use this guide, we take on more than running a class. We take on choosing workers, keeping groups small, supervising after training, and protecting clients' rights during practice visits.
 
 ## Key points
 
-1. **Purpose.** The course teaches CHWs the knowledge and skills to give home-based care.
-2. **Size and shape.** There are 13 core units, a practicum, and 5 optional advanced units. Advanced topics include family planning, mother-to-child transmission and ART. We can choose which units to run.
-3. **Small classes.** Trainings should have 15 to 20 participants so there is enough time for hands-on practice.
-4. **Supervision does not stop after training.** CHWs need ongoing support. Without it, service quality may drop.
-5. **Client rights in practice visits.** Trainees practise with real clients in their homes. Clients must give consent and can refuse at any time without losing their care.
-6. **Free to use and adapt.** We may copy or adapt the material without asking first. We must credit Pathfinder and give it out free or at cost.
+1. **Purpose.** The course aims to give CHWs the knowledge and skills to provide home-based care in their own communities.
 
-## What the board should decide
-- Whether to run the full course or a shorter set of units. The decision depends on time and funding.
-- Whether we can fund ongoing supervision, not just the training itself.
-- Who will act as trainers and supervisors.
+2. **It supports hospitals, it does not replace them.** Home care is one part of a wider chain of prevention, care, treatment and support. We should not present it as a substitute for medical care.
 
-## What the board should watch
-- Class sizes stay within the recommended limit.
-- Consent is properly obtained before home practice visits.
-- Any adapted version credits Pathfinder and is not sold for profit.
-- The guide dates from 2006, so medical content may need checking against current local guidance before use.
+3. **Who we select matters.** The guide says both women and men should be chosen as CHWs, and so should people living with HIV/AIDS.
+
+4. **Keep classes small.** Trainings should have 15 to 20 participants. This allows enough trainer time and skills practice.
+
+5. **Training is not a one-off.** CHWs need ongoing supervision and support after the course. This has staff and cost implications.
+
+6. **Client consent is required.** During home practice, the client's permission is needed before other participants observe any care.
+
+## What the board should decide or watch
+- **Selection rules:** Do our CHW selection rules match the guidance on including women, men and people living with HIV/AIDS?
+- **Class size:** Can we keep each class to 15–20 people?
+- **Supervision:** Do we have money and staff for supervision after training?
+- **Consent:** Do we have a clear process for client consent during practice visits?
 
 ## Evidence cited
 
-1. The course teaches CHWs the knowledge and skills to give home-based care.
-   > "This curriculum aims to provide CHWs with the knowledge and skills necessary to provide CHBC to PLWHA in their communities." (Introduction to the Curriculum)
-2. The guide has 13 core units, a practicum, and 5 advanced units.
-   > "The Trainer’s Guide is divided into 13 core units, a practicum, and 5 advanced units that contain additional information that CHWs might find useful after they have covered the core areas." (Introduction to the Curriculum)
-3. Trainings should be limited to 15 to 20 participants to allow skills practice.
-   > "CHBC trainings should be limited to 15-20 participants to ensure a good trainer-participant ratio and adequate time for skills practice." (Pathfinder's CHBC Model – Training and Supervision of Community Health Workers)
-4. CHWs need ongoing supervision and support to maintain service quality.
-   > "Ongoing supervision and support is needed to help the CHW overcome challenges, to ensure that PLWHA are getting good quality services, and to facilitate learning between trainings." (Pathfinder's CHBC Model – Training and Supervision of Community Health Workers)
-5. Clients can refuse to take part in the practicum without it affecting their existing care.
-   > "Clients should understand that they can refuse to participate in the practicum and that it will not affect the care that they are already receiving." (More About the CHBC Practicum, Evaluation, and Certification)
-6. The material may be copied or adapted without permission if Pathfinder is credited and it is free or at cost.
-   > "Any part of this document may be reproduced or adapted to meet local needs without prior permission from Pathfinder International provided that Pathfinder International is acknowledged, and the material is made available free of charge or at cost." (Copyright notice)
+1. The curriculum aims to give CHWs the knowledge and skills to provide CHBC.
+   > "This curriculum aims to provide CHWs with the knowledge and skills necessary to" (Introduction to the Curriculum)
+2. CHBC does not replace hospital care.
+   > "CHBC is not a replacement for hospital care." (Notes to the Trainer)
+3. Both women and men, and PLWHA, should be chosen as CHWs.
+   > "Both women and men should be chosen, as well as PLWHA." (Pathfinder’s CHBC Model – CHW Selection Process)
+4. Trainings should be limited to 15-20 participants.
+   > "should be limited to 15-20 participants to ensure a good trainer-participant ratio" (Pathfinder’s CHBC Model – Training and Supervision of Community Health Workers)
+5. CHWs need ongoing supervision and support.
+   > "Ongoing supervision and support is needed to help the CHW overcome challenges," (Pathfinder’s CHBC Model – Training and Supervision of Community Health Workers)
+6. Client permission is required before other participants observe services.
+   > "The client’s permission must be obtained before having other participants observe any" (Client’s Rights During Home- and Community-Based Training)

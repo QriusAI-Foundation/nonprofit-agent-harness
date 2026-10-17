@@ -17,9 +17,17 @@ from pathlib import Path
 
 from nonprofit_harness.core.types import Document
 from nonprofit_harness.documents import extract
+from nonprofit_harness.documents.extraction import ExtractionLimits
 
 HERE = Path(__file__).resolve().parent
 CACHE = HERE / "sources"
+
+#: The harness caps a PDF at 300 pages and two minutes by default (HARNESS_MAX_PDF_PAGES,
+#: HARNESS_EXTRACT_TIMEOUT_SECONDS), which protects a public upload endpoint. These are
+#: known documents read on purpose, the longest at 748 pages, so the deployer lifts them.
+LIMITS = ExtractionLimits(
+    max_bytes=None, max_pdf_pages=1_000, max_chars=None, timeout_seconds=900.0
+)
 
 
 @dataclass(frozen=True)
@@ -109,7 +117,9 @@ def fetch(source: Source) -> Path:
 def document(source: Source) -> Document:
     path = fetch(source)
     if not source.tolerant:
-        return extract(path.read_bytes(), media_type="application/pdf", name=source.filename)
+        return extract(
+            path.read_bytes(), media_type="application/pdf", name=source.filename, limits=LIMITS
+        )
     from pypdf import PdfReader
 
     pages, skipped = [], []

@@ -1,0 +1,88 @@
+{
+  "run_id": "run_e502257885aa4b1f",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "pathfinder-chbc-trainers",
+  "source_sha256": "6c23212037340d36e0c47fb1096efccd35269368dc196b8913b8f6cd30ccaec8",
+  "model": "claude-fable-5-1",
+  "model_reported": "claude-fable-5-1",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 149.9,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 331837,
+    "output_tokens": 4312,
+    "cost_usd": 3.53397,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 748,
+    "truncated": false,
+    "bytes": 4202112
+  },
+  "verification": "6 claim(s): 6 resolved (support not checked)",
+  "claims": [
+    {
+      "statement": "The guide aims to give CHWs the knowledge and skills to care for people with HIV/AIDS in their own communities.",
+      "quote": "This curriculum aims to provide CHWs with the knowledge and skills necessary to provide CHBC to PLWHA in their communities.",
+      "locator": "Notes to the Trainer \u2014 Introduction to the Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "We can reproduce or adapt any part without permission, as long as Pathfinder is acknowledged and the material is free or at cost.",
+      "quote": "Any part of this document may be reproduced or adapted to meet local needs without prior permission from Pathfinder International provided that Pathfinder International is acknowledged, and the material is made available free of charge or at cost.",
+      "locator": "Copyright page",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide contains 13 core units, a practicum, and 5 advanced units.",
+      "quote": "The Trainer\u2019s Guide is divided into 13 core units, a practicum, and 5 advanced units that contain additional information that CHWs might find useful after they have covered the core areas.",
+      "locator": "Notes to the Trainer \u2014 Introduction to the Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Training should be limited to 15-20 people so everyone gets skills practice.",
+      "quote": "CHBC trainings should be limited to 15-20 participants to ensure a good trainer-participant ratio and adequate time for skills practice.",
+      "locator": "Notes to the Trainer \u2014 Training and Supervision of Community Health Workers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide suggests trainers also supervise the CHWs afterwards, linking community care to facility services.",
+      "quote": "It is suggested that trainers double as supervisors of CHWs as they are in the best position to reinforce transferred skills and strengthen ties between CHBC and facility-based services.",
+      "locator": "Notes to the Trainer \u2014 Training and Supervision of Community Health Workers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide lists incentive costs to expect: travel stipends, bicycles, uniforms or badges, kit supplies, and income-generation training.",
+      "quote": "Examples of different incentives include travel stipends to reach clients\u2019 homes, IGA training to support CHWs\u2019 volunteerism, bicycles to reach far distances, uniforms or badges for identification and community recognition, replenishment of CHBC kit supplies as needed, and recognition of CHWs for their important work.",
+      "locator": "Notes to the Trainer \u2014 Incentives for CHW",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

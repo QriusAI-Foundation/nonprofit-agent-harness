@@ -1,0 +1,88 @@
+{
+  "run_id": "run_3ea543a5470244ec",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "ifrc-cbhfa-volunteers",
+  "source_sha256": "e011d9b15fe71e9b93101155bf8085255143d64b8ad3f3157bb33e8c71438418",
+  "model": "claude-opus-5-5",
+  "model_reported": "claude-opus-5-5",
+  "effort": "medium",
+  "repeat": 2,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 20.6,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 170945,
+    "output_tokens": 2001,
+    "cost_usd": 0.7238,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 346,
+    "truncated": false,
+    "bytes": 6541723
+  },
+  "verification": "6 claim(s): 5 resolved (support not checked), 1 citation uncertain",
+  "claims": [
+    {
+      "statement": "Volunteers learn in the classroom and then act in the community, which the manual calls learning by doing.",
+      "quote": "This is the learning by doing method: learn in the classroom, do in the community.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "A National Society implementing CBHFA is committing to long-term health programming.",
+      "quote": "A National Red Cross or Red Crescent Society implementing CBHFA is making a commitment to long-term health programming.",
+      "locator": "Foreword",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The first three modules are compulsory and prepare volunteers to help the community decide its priorities.",
+      "quote": "The first three modules of the CBHFA materials are obligatory, and will give you the background skills you need to help your community make decisions about its priority concerns.",
+      "locator": "How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Explaining what CBHFA can and cannot do is essential to avoid unrealistic expectations.",
+      "quote": "This is imperative to avoid creating unrealistic expectations.",
+      "locator": "Talk to community groups or organizations",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (ifrc-cbhfa-volunteer-manual.pdf: the source reads 'not' just before it)"
+    },
+    {
+      "statement": "Life-saving skills must be taught by qualified first aid trainers recognised by the National Society.",
+      "quote": "These skills must be trained by qualified first aid trainers recognized by the National Society.",
+      "locator": "Topic 3: Basic life support (Part 1)",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "A report form should be completed after each household visit or community activity.",
+      "quote": "A report form should be completed after each household visit or whenever CBHFA activities are performed in the community.",
+      "locator": "Topic 8: Reporting on CBHFA activities in my community",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

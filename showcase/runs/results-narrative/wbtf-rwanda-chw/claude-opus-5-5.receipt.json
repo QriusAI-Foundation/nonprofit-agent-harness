@@ -1,5 +1,5 @@
 {
-  "run_id": "run_a99c125868644c6b",
+  "run_id": "run_23b949721c8f4e58",
   "date": "2026-10-17",
   "agent": "results-narrative",
   "agent_version": "0.1.0",
@@ -12,116 +12,138 @@
   "status": "awaiting_review",
   "error": "",
   "review_state": "pending_review",
-  "seconds": 30.5,
+  "seconds": 29.2,
   "usage": {
     "calls": 1,
     "input_tokens": 2284,
-    "output_tokens": 3285,
-    "cost_usd": 0.074836
+    "output_tokens": 3550,
+    "cost_usd": 0.080136,
+    "unpriced_calls": 0
   },
   "price_file": "prices-2026-10-17.json",
-  "verification": "11 claim(s), all verified",
+  "document": {
+    "iati_identifier": "XI-IATI-WBTF-P175583"
+  },
+  "verification": "13 claim(s): 13 resolved (support not checked)",
   "claims": [
     {
-      "statement": "Indicators are reported for the period 1 July 2023 to 31 December 2025.",
-      "quote": "Period 2023-07-01 to 2025-12-31: target 26, actual 0",
-      "locator": "Result (output): Intermediate Results Indicator",
+      "statement": "The project is the Rwanda JSDF \u2013 Support to Community Health Workers Project, IATI activity XI-IATI-WBTF-P175583.",
+      "quote": "Results sheet for IATI activity XI-IATI-WBTF-P175583",
+      "locator": "Results sheet header",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Baselines of 0 were set in 2023.",
-      "quote": "Baseline: 0 in 2023",
-      "locator": "Result (output): Intermediate Results Indicator",
+      "statement": "Project title.",
+      "quote": "Rwanda JSDF - Support to Community Health Workers Project",
+      "locator": "Results sheet header",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The reporting period is 2023-07-01 to 2025-12-31.",
+      "quote": "Period 2023-07-01 to 2025-12-31: target 26, actual 0",
+      "locator": "Intermediate Results Indicator \u2013 exchange visits",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Indicators are measured against a baseline of 0 set in 2023.",
+      "quote": "Baseline: 0 in 2023",
+      "locator": "Intermediate Results Indicator \u2013 exchange visits",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
       "statement": "Beneficiaries: target 16000, actual 0, achievement 0.0%.",
       "quote": "Number of beneficiaries of project interventions (disaggregated by gender and location): 0.0% (0 from a baseline of 0 towards 16000)",
-      "locator": "Result (outcome): PDO Indicator",
+      "locator": "PDO Indicator \u2013 beneficiaries",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
       "statement": "Satisfactory operational performance: target 80, actual 0, achievement 0.0%.",
       "quote": "Proportion of supported CHW cooperatives that have achieved a satisfactory operational performance during the previous fiscal year: 0.0% (0 from a baseline of 0 towards 80)",
-      "locator": "Result (outcome): PDO Indicator",
+      "locator": "PDO Indicator \u2013 operational performance",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Improved knowledge in cooperative management: target 75, actual 0, achievement 0.0%.",
+      "statement": "Improved knowledge: target 75, actual 0, achievement 0.0%.",
       "quote": "Percentage of CHW cooperative members and leaders demonstrating improved knowledge in cooperative management (operational, financial, managerial and compliance): 0.0% (0 from a baseline of 0 towards 75)",
-      "locator": "Result (outcome): PDO Indicator",
+      "locator": "PDO Indicator \u2013 improved knowledge",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Improved financial performance (positive net profit): target 75, actual 0, achievement 0.0%.",
+      "statement": "Improved financial performance: target 75, actual 0, achievement 0.0%.",
       "quote": "Proportion of supported CHW cooperatives that have reported improved financial performance (positive net profit) during the previous fiscal year: 0.0% (0 from a baseline of 0 towards 75)",
-      "locator": "Result (outcome): PDO Indicator",
+      "locator": "PDO Indicator \u2013 financial performance",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Exchange visits or peer learning events: target 26, actual 0, achievement 0.0%.",
+      "statement": "Exchange visits: target 26, actual 0, achievement 0.0%.",
       "quote": "Number of exchange visits or peer to peer learning events conducted by CHW cooperative members: 0.0% (0 from a baseline of 0 towards 26)",
-      "locator": "Result (output): Intermediate Results Indicator",
+      "locator": "Intermediate Results Indicator \u2013 exchange visits",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
       "statement": "Income-generating activity proposals: target 160, actual 0, achievement 0.0%.",
-      "quote": "0.0% (0 from a baseline of 0 towards 160)",
-      "locator": "Result (output): Intermediate Results Indicator",
+      "quote": "Number of income-generating activity proposals developed, submitted, financed and implemented by beneficiary cooperatives (by location): 0.0% (0 from a baseline of 0 towards 160)",
+      "locator": "Intermediate Results Indicator \u2013 IGA proposals",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
       "statement": "Members and leaders trained: target 4000, actual 0, achievement 0.0%.",
-      "quote": "0.0% (0 from a baseline of 0 towards 4000)",
-      "locator": "Result (output): Intermediate Results Indicator",
+      "quote": "Number of CHW cooperative members and leaders trained on cooperative management, including the development of business plan, financial management and market linkages (by gender and location): 0.0% (0 from a baseline of 0 towards 4000)",
+      "locator": "Intermediate Results Indicator \u2013 training",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
       "statement": "Member satisfaction: target 75, actual 0, achievement 0.0%.",
       "quote": "Percentage of CHW cooperative members reporting satisfaction with cooperative management and performance (by gender and location): 0.0% (0 from a baseline of 0 towards 75)",
-      "locator": "Result (output): Intermediate Results Indicator",
+      "locator": "Intermediate Results Indicator \u2013 member satisfaction",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Clean report or unqualified opinion on financial management: target 75, actual 0, achievement 0.0%.",
+      "statement": "Clean report or unqualified opinion: target 75, actual 0, achievement 0.0%.",
       "quote": "Proportion of benefiting cooperative that have received a clean report or unqualified opinion on financial management during the past fiscal year: 0.0% (0 from a baseline of 0 towards 75)",
-      "locator": "Result (output): Intermediate Results Indicator",
+      "locator": "Intermediate Results Indicator \u2013 clean audit report",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     }
   ],
   "harness_version": "0.3.0",
-  "harness_commit": "4d84e6f"
+  "harness_commit": "4369977"
 }

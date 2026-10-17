@@ -1,88 +1,75 @@
 # Results narrative: We Don cam Teenage Pregnancy Prevention in Sierra Leone
 
-## Overview
-This narrative draws on the results sheet for IATI activity NL-KVK-41160054-200782. The sheet reports no actual value for any indicator discussed here. Missing actuals are therefore not read as zero, and no progress against any target can be stated. For every indicator the sheet records achievement as not calculable, giving "no target" as the reason.
+## What the sheet allows us to say
+
+The results sheet for this activity gives no reported actual for any indicator in any period. We therefore cannot say how far the activity progressed against its targets. Missing actuals are not treated as zero. Every achievement line on the sheet reads "not calculable" and gives its reason, which is that no target is recorded.
 
 ## Overall reach
-For direct beneficiaries, the sheet says achievement is not calculable because there is no target. It says the same for indirect beneficiaries.
+
+The overall result covers direct and indirect beneficiaries. For both, the sheet gives neither a target nor an actual for 2020 or 2021. The direct beneficiaries achievement is not calculable (no target), as is the indirect beneficiaries achievement.
 
 ## Health outcomes
-The sheet lists these targets, each with no actual reported:
 
-- Health centres with Youth Friendly Health Services: a target of 10.
-- Facilities with tracer medicines and commodities in stock: a target of 50 (percentage).
-- Local staff trained in SRHR and meaningful youth participation: a target of 30.
-- Religious leaders reached by advocacy on ASRHR: a target of 80.
-- Community and traditional leaders reached by advocacy: a target of 150.
-- People reached through community meetings and door-to-door visits: a target of 450.
-- Youth involved in SRHR activities: a target of 1200.
-- People on modern short-term family planning methods: a target of 3000, with a baseline of 0 in 2020.
-
-## Health project-specific indicators
-Targets with no actuals reported cover steering committees strengthened with action plans (16), quarterly steering committee meetings (48) and secondary schools with active peer and parent clubs (24).
+The health thematic indicators carry some targets covering several months. These include 10 health centres with youth friendly health services, a 50 percent tracer medicines target, 30 local staff trained in SRHR and youth participation, 80 religious leaders reached by advocacy, and 3000 women, girls, boys and men on modern short-term family planning methods. No actual is reported against any of them. The family planning indicator has a baseline of 0 in 2020.
 
 ## Health corporate indicators
-Three targets are set for beneficiaries reached (HE): 100, 2300 and 4200, one for each period listed. No actual is reported for any of them. For health facilities supported or contracted, the baseline is 7 in 2021 and the target is 14, with no actual reported.
+
+For health facilities supported or contracted, the sheet gives a baseline of 7 in 2021 and a target of 14, with no actual reported. For facilities with improved technical quality, it gives a baseline of 5 in 2021 and a target of 10, again with no actual reported. The beneficiaries reached (HE) indicator has a target of 4200 for its longest period, with no actual reported. The percentage of facilities with an improved quality score in 2021 has no target and no actual, so its achievement is not calculable.
 
 ## Security and justice
-Targets with no actuals reported are 12 radio shows, 192 police patrols in grey areas, and 50 SGBV cases investigated and referred within 7 days.
+
+The security and justice indicators set targets of 12 radio shows, 192 police patrols in grey areas, and 50 SGBV cases investigated and referred within 7 days. No actual is reported for any of them.
 
 ## Women empowerment and climate resilience
-The target for quarterly outreach sessions is 168, with no actual reported. The climate resilience indicator, on integrating climate risks in programming, is also not calculable because there is no target.
+
+The women empowerment result sets a target of 168 quarterly outreach sessions, with no actual reported. The climate resilience indicator, on integrating climate risks in programming, has no target or actual and is not calculable.
 
 ## Conclusion
-The sheet states targets for many indicators but reports no results against them. Achievement cannot be assessed from this sheet.
+
+The sheet records plans and baselines but no measured results, so this report cannot claim achievement for any indicator.
 
 ## Evidence cited
 
-1. Direct beneficiaries achievement is not calculable because there is no target.
-   > "Achievement: Number of direct beneficiaries reached through our activities: not calculable (no target)" (Result (output): Cordaid Overall)
-2. Indirect beneficiaries achievement is not calculable because there is no target.
-   > "Achievement: Number of indirect beneficiaries reached through our activities: not calculable (no target)" (Result (output): Cordaid Overall)
-3. Youth Friendly Health Services centres have a target of 10 and no actual reported.
+1. No actual is reported for direct beneficiaries in 2020, and no target is stated.
+   > "Period 2020-01-01 to 2020-12-31: target none stated, actual none reported" (Result (output): Cordaid Overall)
+2. The direct beneficiaries achievement is not calculable because there is no target.
+   > "Number of direct beneficiaries reached through our activities: not calculable (no target)" (Result (output): Cordaid Overall)
+3. The indirect beneficiaries achievement is not calculable because there is no target.
+   > "Number of indirect beneficiaries reached through our activities: not calculable (no target)" (Result (output): Cordaid Overall)
+4. A target of 10 health centres with youth friendly health services is stated, with no actual reported.
    > "Period 2020-03-01 to 2020-07-01: target 10, actual none reported" (Result (outcome): Health Thematic Indicators)
-4. Tracer medicines indicator has a target of 50 and no actual reported.
+5. A target of 50 is stated for the share of facilities with tracer medicines in stock, with no actual reported.
    > "Period 2020-03-01 to 2021-08-31: target 50, actual none reported" (Result (outcome): Health Thematic Indicators)
-5. Local staff trained has a target of 30 and no actual reported.
+6. A target of 30 local staff trained in SRHR and meaningful youth participation is stated, with no actual reported.
    > "Period 2020-03-01 to 2021-07-01: target 30, actual none reported" (Result (outcome): Health Thematic Indicators)
-6. Religious leaders reached has a target of 80 and no actual reported.
+7. A target of 80 religious leaders reached by advocacy is stated, with no actual reported.
    > "Period 2020-03-01 to 2021-07-01: target 80, actual none reported" (Result (outcome): Health Thematic Indicators)
-7. Community and traditional leaders reached has a target of 150 and no actual reported.
-   > "Period 2020-03-01 to 2021-07-01: target 150, actual none reported" (Result (outcome): Health Thematic Indicators)
-8. People reached through community meetings and door-to-door has a target of 450 and no actual reported.
-   > "Period 2020-03-01 to 2021-07-01: target 450, actual none reported" (Result (outcome): Health Thematic Indicators)
-9. Youth involved in SRHR activities has a target of 1200 and no actual reported.
-   > "Period 2020-03-01 to 2021-07-01: target 1200, actual none reported" (Result (outcome): Health Thematic Indicators)
-10. Family planning methods indicator has a target of 3000 and no actual reported.
+8. A target of 3000 for people on modern short-term family planning methods is stated, with no actual reported.
    > "Period 2020-03-01 to 2021-07-01: target 3000, actual none reported" (Result (outcome): Health Thematic Indicators)
-11. Family planning methods indicator has a baseline of 0 in 2020.
+9. The family planning methods indicator has a baseline of 0 in 2020.
    > "Baseline: 0 in 2020" (Result (outcome): Health Thematic Indicators)
-12. Steering committees strengthened has a target of 16 and no actual reported.
-   > "Period 2020-03-01 to 2020-07-01: target 16, actual none reported" (Result (output): Health Project Specific Indicators)
-13. Quarterly steering committee meetings have a target of 48 and no actual reported.
-   > "Period 2020-03-01 to 2021-07-01: target 48, actual none reported" (Result (output): Health Project Specific Indicators)
-14. Secondary schools with peer and parent clubs have a target of 24 and no actual reported.
-   > "Period 2020-03-01 to 2020-07-01: target 24, actual none reported" (Result (output): Health Project Specific Indicators)
-15. Beneficiaries reached (HE) has a target of 100 for one period, with no actual reported.
-   > "Period 2020-03-01 to 2020-04-01: target 100, actual none reported" (Result (output): Health Corporate Indicators)
-16. Beneficiaries reached (HE) has a target of 2300 for one period, with no actual reported.
-   > "Period 2020-04-01 to 2020-07-01: target 2300, actual none reported" (Result (output): Health Corporate Indicators)
-17. Beneficiaries reached (HE) has a target of 4200 for one period, with no actual reported.
-   > "Period 2020-07-01 to 2021-07-31: target 4200, actual none reported" (Result (output): Health Corporate Indicators)
-18. Health facilities supported or contracted has a baseline of 7 in 2021.
+10. Health facilities supported or contracted have a baseline of 7 in 2021.
    > "Baseline: 7 in 2021" (Result (output): Health Corporate Indicators)
-19. Health facilities supported or contracted has a target of 14 and no actual reported.
+11. A target of 14 health facilities supported or contracted is stated, with no actual reported.
    > "Period 2020-03-01 to 2021-08-31: target 14, actual none reported" (Result (output): Health Corporate Indicators)
-20. Radio shows broadcasted has a target of 12 and no actual reported.
+12. Health facilities with improved technical quality have a baseline of 5 in 2021.
+   > "Baseline: 5 in 2021" (Result (output): Health Corporate Indicators)
+13. A target of 10 health facilities with improved technical quality is stated, with no actual reported.
+   > "Period 2020-03-01 to 2021-08-31: target 10, actual none reported" (Result (output): Health Corporate Indicators)
+14. A target of 4200 beneficiaries reached (HE) is stated for the longest period, with no actual reported.
+   > "Period 2020-07-01 to 2021-07-31: target 4200, actual none reported" (Result (output): Health Corporate Indicators)
+15. The percentage of facilities with an improved quality score in the calendar year is not calculable because there is no target.
+   > "% of of health facilities with improved (technical) quality score in calendar year: not calculable (no target)" (Result (output): Health Corporate Indicators)
+16. A target of 12 radio shows is stated, with no actual reported.
    > "Period 2020-03-01 to 2021-08-31: target 12, actual none reported" (Result (output): Security & Justice Project Specific Indicators)
-21. Police patrols in grey areas have a target of 192 and no actual reported.
+17. A target of 192 police patrols in grey areas is stated, with no actual reported.
    > "Period 2020-03-01 to 2021-08-31: target 192, actual none reported" (Result (output): Security & Justice Project Specific Indicators)
-22. SGBV cases investigated and referred within 7 days has a target of 50 and no actual reported.
+18. A target of 50 SGBV cases investigated and referred within 7 days is stated, with no actual reported.
    > "Period 2020-03-01 to 2021-08-31: target 50, actual none reported" (Result (output): Security & Justice Project Specific Indicators)
-23. Quarterly outreach sessions have a target of 168 and no actual reported.
+19. A target of 168 quarterly outreach sessions is stated, with no actual reported.
    > "Period 2020-03-01 to 2021-08-31: target 168, actual none reported" (Result (output): Women Empowerment)
-24. Climate risk integration achievement is not calculable because there is no target.
-   > "Achievement: The project integrates climate risks in programming: not calculable (no target)" (Result (outcome): Climate Resilience)
+20. The climate risk integration indicator is not calculable because there is no target.
+   > "The project integrates climate risks in programming: not calculable (no target)" (Result (outcome): Climate Resilience)
 
 ## Not calculable from the published data
 

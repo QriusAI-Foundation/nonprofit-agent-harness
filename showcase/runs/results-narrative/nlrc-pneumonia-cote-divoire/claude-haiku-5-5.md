@@ -1,95 +1,91 @@
-# 3FM Serious Request 2016: Pneumonia in Cote d'Ivoire
+## 3FM Serious Request 2016: Pneumonia in Cote d'Ivoire
 
-This narrative draws only on the results sheet for activity NL-KVK-40409352-PRJ08-272-0005. Most indicators cannot yet be assessed: the sheet holds targets for the 2019 and 2020 periods but no actuals for them, so those achievements are marked not calculable rather than zero.
+This narrative covers the results sheet for IATI activity NL-KVK-40409352-PRJ08-272-0005. Achievement cannot be calculated for most indicators, because the sheet reports no actual for them. Where an actual is not reported, this narrative does not treat it as zero.
 
-## Health: knowledge and health promotion
+### Health: knowledge and health promotion
 
-For people identifying danger signs of illness and disease, the target for the 2019 period is 80, with no actual reported, so the achievement is not calculable. The health promotion reach indicator has a 2019 target of 14187 with no actual reported. Its 2018 actuals of 9031 and 13798 carry no stated target, so no achievement can be calculated. Traditional healers reached has a 2019 target of 28 with no actual reported.
+For people reached with health promotion and/or behaviour change communication activities, the sheet gives a target of 14187 for the period 2019-07-01 to 2019-09-30, with no actual reported. Achievement is therefore not calculable because there is no actual. The same applies to traditional healers reached through the project, which had a target of 28 for the same period. For danger-sign identification, achievement is not calculable because no actual is reported. For caretakers who know that continued feeding and drinking of an ill child is crucial, achievement is not calculable because no target is stated.
 
-For caretakers who know that feeding and drinking must continue for an ill child, no target is stated, so the achievement cannot be calculated.
+### Health: access to treatment and services
 
-## WASH: hygiene promotion, water and sanitation
+The volunteers trained and equipped to perform community health services had a target of 127 for 2019-07-01 to 2019-09-30, with no actual reported. Achievement is not calculable. Health centres supported had a target of 4 for the same period, with no actual reported, so achievement is not calculable.
 
-For correct handwashing, the 2020 target is 60 with no actual reported, so the achievement is not calculable. Water points constructed or rehabilitated has a 2020 target of 2, but no actual is reported against it, so the achievement is not calculable. Latrines constructed or rehabilitated started from a 2017 baseline of 519 against a 2019 target of 1000. The 2018 actual of 1102 has no stated target, so no achievement can be calculated.
+### WASH
 
-## Health access and services
+For the number of water points constructed or rehabilitated, the sheet gives a target of 2 for 2020-01-01 to 2020-03-31 and no actual, so achievement is not calculable. For latrines constructed or rehabilitated, the sheet records a baseline of 519 in 2017 and a target of 1000 for 2019-07-01 to 2019-09-30. No actual is reported, so achievement is not calculable.
 
-Volunteers trained and equipped have a 2019 target of 127 and no actual reported. Health staff trained has a 2019 target of 6 and no actual reported. Health centres supported has a 2019 target of 4 and no actual reported. Households with children under 5 visited at least twice per month have a 2019 target of 2539. Their 2018 actual of 1326 has no stated target. Communities with transport or insurance systems have a 2019 target of 5 and no actual reported.
+### Processes: human resources
 
-## Processes and outcomes
+The target for female volunteers working in the project is 55, and for male volunteers it is 72, both for 2019-07-01 to 2019-09-30. No actuals are reported against either target, so achievement is not calculable for either.
 
-Female volunteers have a 2019 target of 55 and male volunteers a target of 72, with no actual reported for either, so neither achievement is calculable. Mothers practising exclusive breastfeeding have a 2019 target of 100 with no actual reported. Households with an improved cooking stove started from a 2016 baseline of 47 against a 2019 target of 1500. The achievement is not calculable because no actual is reported.
+### Health: infant health, prevention and indoor air quality
 
-## Resilience and feedback
+For mothers who practice exclusive breastfeeding for the first 6 months, the target is 100 for 2019-07-01 to 2019-09-30, with no actual reported. Achievement is not calculable. For children under 5 with symptoms of pneumonia who are taken to an appropriate health care provider, the target is also 100 for the same period, with no actual reported, so achievement is not calculable. For households that have and use an improved cooking stove, the sheet records a baseline of 47 in 2016 and a target of 1500 for 2019-07-01 to 2019-09-30. No actual is reported, so achievement is not calculable.
 
-For people receiving services that contribute to their resilience, the sheet reports targets only by gender and age group, with no overall figure, so no total achievement can be calculated. No feedback target is set for communities, so that achievement is also not calculable.
+### Impact: people reached and resilience
 
-## Summary
+For people who received direct services that contribute to their resilience, and for people living in communities benefitting from resilience interventions, achievement is not calculable. The reason is that no overall total can be formed: targets are reported only for gender or age subgroups, not for the full population.
 
-The absence of reported actuals limits what the sheet can say about results. Missing actuals are not read as zeros, and where a target is absent the sheet gives no basis for an achievement.
+### RCRC systems
+
+For communities that have a project feedback system in place and where feedback is being received, no target is stated, so achievement is not calculable.
 
 ## Evidence cited
 
-1. For people identifying danger signs of illness and disease, the 2019 target is 80 with no actual reported.
-   > "Period 2019-07-01 to 2019-09-30: target 80, actual none reported" (Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment)
-2. The danger signs achievement is not calculable because there is no actual.
-   > "People can identify danger signs of illness and disease: not calculable (no actual)" (Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment)
-3. The health promotion reach indicator has a 2019 target of 14187 with no actual reported.
+1. The sheet gives a target of 14187 for people reached with health promotion and/or behaviour change communication activities for 2019-07-01 to 2019-09-30, with no actual reported.
    > "Period 2019-07-01 to 2019-09-30: target 14187, actual none reported" (Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment)
-4. A 2018 actual of 9031 is recorded for health promotion reach with no stated target.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 9031" (Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment)
-5. A 2018 actual of 13798 is recorded for health promotion reach with no stated target.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 13798" (Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment)
-6. The health promotion reach achievement is not calculable because there is no actual.
-   > "People reached with health promotion and/or behaviour change communication activities.: not calculable (no actual)" (Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment)
-7. Traditional healers reached has a 2019 target of 28 with no actual reported.
+2. Achievement for people reached with health promotion and/or behaviour change communication activities is not calculable because there is no actual.
+   > "Achievement: People reached with health promotion and/or behaviour change communication activities.: not calculable (no actual)" (Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment)
+3. Traditional healers reached through the project had a target of 28 for 2019-07-01 to 2019-09-30, with no actual reported.
    > "Period 2019-07-01 to 2019-09-30: target 28, actual none reported" (Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment)
-8. The caretaker feeding and drinking indicator has no target, so its achievement is not calculable.
-   > "Caretakers that know continued feeding and drinking of an ill child is crucial: not calculable (no target)" (Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment)
-9. Correct handwashing has a 2020 target of 60 with no actual reported.
-   > "Period 2020-01-01 to 2020-03-31: target 60, actual none reported" (Result (output): WASH - Hygiene promotion)
-10. The handwashing achievement is not calculable because there is no actual.
-   > "People practicing correct handwashing: not calculable (no actual)" (Result (output): WASH - Hygiene promotion)
-11. Water points constructed or rehabilitated has a 2020 target of 2, with no actual reported against it.
-   > "Period 2020-01-01 to 2020-03-31: target 2, actual none reported" (Result (outcome): WASH - Water)
-12. The water points achievement is not calculable because there is no actual.
-   > "Number of water points constructed or rehabilitated: not calculable (no actual)" (Result (outcome): WASH - Water)
-13. Latrines constructed or rehabilitated started from a 2017 baseline of 519.
-   > "Baseline: 519 in 2017" (Result (output): WASH - Sanitation)
-14. Latrines constructed or rehabilitated has a 2019 target of 1000 with no actual reported.
-   > "Period 2019-07-01 to 2019-09-30: target 1000, actual none reported" (Result (output): WASH - Sanitation)
-15. A 2018 actual of 1102 is recorded for latrines with no stated target, so no achievement can be calculated.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 1102" (Result (output): WASH - Sanitation)
-16. Volunteers trained and equipped have a 2019 target of 127 with no actual reported.
+4. Achievement for people who can identify danger signs of illness and disease is not calculable because there is no actual.
+   > "Achievement: People can identify danger signs of illness and disease: not calculable (no actual)" (Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment)
+5. Achievement for caretakers who know continued feeding and drinking of an ill child is crucial is not calculable because no target is stated.
+   > "Achievement: Caretakers that know continued feeding and drinking of an ill child is crucial: not calculable (no target)" (Result (output): Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment)
+6. The volunteers trained and equipped to perform community health services had a target of 127 for 2019-07-01 to 2019-09-30, with no actual reported.
    > "Period 2019-07-01 to 2019-09-30: target 127, actual none reported" (Result (output): Health - Access to treatment & services)
-17. Health staff trained has a 2019 target of 6 with no actual reported.
-   > "Period 2019-07-01 to 2019-09-30: target 6, actual none reported" (Result (output): Health - Access to treatment & services)
-18. Health centres supported has a 2019 target of 4 with no actual reported.
+7. Achievement for volunteers trained and equipped to perform community health services is not calculable because there is no actual.
+   > "Achievement: Volunteers trained and equipped to perform community health services: not calculable (no actual)" (Result (output): Health - Access to treatment & services)
+8. Health centres supported had a target of 4 for 2019-07-01 to 2019-09-30, with no actual reported.
    > "Period 2019-07-01 to 2019-09-30: target 4, actual none reported" (Result (output): Health - Access to treatment & services)
-19. Households with children under 5 visited at least twice per month have a 2019 target of 2539 with no actual reported.
-   > "Period 2019-07-01 to 2019-09-30: target 2539, actual none reported" (Result (output): Health - Access to treatment & services)
-20. A 2018 actual of 1326 is recorded for household visits with no stated target.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 1326" (Result (output): Health - Access to treatment & services)
-21. Communities with transport or insurance systems have a 2019 target of 5 with no actual reported.
-   > "Period 2019-07-01 to 2019-09-30: target 5, actual none reported" (Result (output): Health - Access to treatment & services)
-22. Female volunteers working in the project have a 2019 target of 55 with no actual reported.
+9. Achievement for health centres supported is not calculable because there is no actual.
+   > "Achievement: Health centers supported: not calculable (no actual)" (Result (output): Health - Access to treatment & services)
+10. The number of water points constructed or rehabilitated has a target of 2 for 2020-01-01 to 2020-03-31, with no actual reported.
+   > "Period 2020-01-01 to 2020-03-31: target 2, actual none reported" (Result (outcome): WASH - Water)
+11. Achievement for the number of water points constructed or rehabilitated is not calculable because there is no actual.
+   > "Achievement: Number of water points constructed or rehabilitated: not calculable (no actual)" (Result (outcome): WASH - Water)
+12. The sheet records a baseline of 519 for latrines constructed or rehabilitated in 2017.
+   > "Baseline: 519 in 2017" (Result (output): WASH - Sanitation)
+13. Latrines constructed or rehabilitated have a target of 1000 for 2019-07-01 to 2019-09-30, with no actual reported.
+   > "Period 2019-07-01 to 2019-09-30: target 1000, actual none reported" (Result (output): WASH - Sanitation)
+14. Achievement for latrines constructed or rehabilitated is not calculable because there is no actual.
+   > "Achievement: Number of latrines constructed or rehabilitated: not calculable (no actual)" (Result (output): WASH - Sanitation)
+15. Female volunteers working in the project have a target of 55 for 2019-07-01 to 2019-09-30, with no actual reported.
    > "Period 2019-07-01 to 2019-09-30: target 55, actual none reported" (Result (outcome): Processes - HR)
-23. Male volunteers working in the project have a 2019 target of 72 with no actual reported.
+16. Male volunteers working in the project have a target of 72 for 2019-07-01 to 2019-09-30, with no actual reported.
    > "Period 2019-07-01 to 2019-09-30: target 72, actual none reported" (Result (outcome): Processes - HR)
-24. The female volunteers achievement is not calculable because there is no actual.
-   > "Female volunteers working in the project: not calculable (no actual)" (Result (outcome): Processes - HR)
-25. Mothers practising exclusive breastfeeding have a 2019 target of 100 with no actual reported.
+17. Achievement for female volunteers working in the project is not calculable because there is no actual.
+   > "Achievement: Female volunteers working in the project: not calculable (no actual)" (Result (outcome): Processes - HR)
+18. Achievement for male volunteers working in the project is not calculable because there is no actual.
+   > "Achievement: Male volunteers working in the project: not calculable (no actual)" (Result (outcome): Processes - HR)
+19. Mothers who practice exclusive breastfeeding for the first 6 months have a target of 100 for 2019-07-01 to 2019-09-30, with no actual reported.
    > "Period 2019-07-01 to 2019-09-30: target 100, actual none reported" (Result (outcome): Health - Protective measures promoting infant health)
-26. Households with an improved cooking stove started from a 2016 baseline of 47.
+20. Achievement for mothers who practice exclusive breastfeeding for the first 6 months is not calculable because there is no actual.
+   > "Achievement: Mothers who practice exclusive breastfeeding for first 6 months: not calculable (no actual)" (Result (outcome): Health - Protective measures promoting infant health)
+21. Achievement for children under 5 with symptoms of pneumonia who are taken to an appropriate health care provider is not calculable because there is no actual.
+   > "Achievement: Children <5  years with symptoms of pneumonia that are taken to an appropriate health care provider: not calculable (no actual)" (Result (outcome): Health - Sufficient nutritious food intake)
+22. The sheet records a baseline of 47 for households that have and use an improved cooking stove in 2016.
    > "Baseline: 47 in 2016" (Result (outcome): Health - Indoor air quality)
-27. Households with an improved cooking stove have a 2019 target of 1500 with no actual reported.
+23. Households that have and use an improved cooking stove have a target of 1500 for 2019-07-01 to 2019-09-30, with no actual reported.
    > "Period 2019-07-01 to 2019-09-30: target 1500, actual none reported" (Result (outcome): Health - Indoor air quality)
-28. The improved cooking stove achievement is not calculable because there is no actual.
-   > "Households that have and use an improved cooking stove: not calculable (no actual)" (Result (outcome): Health - Indoor air quality)
-29. Resilience services are reported only by gender and age group, with no overall figure, so no total achievement is calculable.
-   > "People who received direct services that contribute to their resilience: not calculable (no total): the target is reported only for gender=Female, with no overall figure" (Result (impact): Other - People reached)
-30. The community feedback system achievement is not calculable because no target is set.
-   > "Communities that have a project feedback system in place and where feedback is being received: not calculable (no target)" (Result (output): - RCRC systems improved)
+24. Achievement for households that have and use an improved cooking stove is not calculable because there is no actual.
+   > "Achievement: Households that have and use an improved cooking stove: not calculable (no actual)" (Result (outcome): Health - Indoor air quality)
+25. Achievement for people who received direct services that contribute to their resilience is not calculable because no overall total is reported; the target is given only for gender=Female.
+   > "Achievement: People who received direct services that contribute to their resilience: not calculable (no total): the target is reported only for gender=Female, with no overall figure" (Result (output): Other - People reached)
+26. Achievement for people living in communities benefitting from resilience interventions is not calculable because no overall total is reported; the target is given only for gender=Male.
+   > "Achievement: People living in communities benefitting from resilience interventions: not calculable (no total): the target is reported only for gender=Male, with no overall figure" (Result (output): Other - People reached)
+27. Achievement for communities that have a project feedback system in place and where feedback is being received is not calculable because no target is stated.
+   > "Achievement: Communities that have a project feedback system in place and where feedback is being received: not calculable (no target)" (Result (output): - RCRC systems improved)
 
 ## Not calculable from the published data
 

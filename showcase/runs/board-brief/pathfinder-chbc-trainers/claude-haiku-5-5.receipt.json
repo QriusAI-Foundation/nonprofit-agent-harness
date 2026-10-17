@@ -1,5 +1,5 @@
 {
-  "run_id": "run_46ddccafb2a447b8",
+  "run_id": "run_d3c914bef55641e6",
   "date": "2026-10-17",
   "agent": "board-brief",
   "agent_version": "0.1.0",
@@ -12,62 +12,77 @@
   "status": "awaiting_review",
   "error": "",
   "review_state": "pending_review",
-  "seconds": 14.7,
+  "seconds": 10.5,
   "usage": {
     "calls": 1,
     "input_tokens": 331837,
-    "output_tokens": 1193,
-    "cost_usd": 0.168901
+    "output_tokens": 1116,
+    "cost_usd": 0.168709,
+    "unpriced_calls": 0
   },
   "price_file": "prices-2026-10-17.json",
-  "verification": "5 claim(s), all verified",
+  "document": {
+    "pages": 748,
+    "truncated": false,
+    "bytes": 4202112
+  },
+  "verification": "6 claim(s): 6 resolved (support not checked)",
   "claims": [
     {
-      "statement": "The document is a training guide for community health workers who care for people with HIV/AIDS at home.",
+      "statement": "The guide is a training course for Community Health Workers to provide home-based care to people living with HIV/AIDS.",
       "quote": "A Comprehensive Training Course for Community Health Workers",
       "locator": "Title page",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "CHBC is not a replacement for hospital care and works within a continuum of services.",
+      "statement": "CHBC is not a replacement for hospital care; it is part of a continuum of prevention, care, treatment, and support.",
       "quote": "CHBC is not a replacement for hospital care.",
       "locator": "Notes to the Trainer",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "CHWs should be selected by the community, with the help of CBOs and/or FBOs, and both women and men should be chosen, as well as PLWHA.",
-      "quote": "CHWs should be selected by the community, with the help of CBOs and/or FBOs.",
-      "locator": "Notes to the Trainer: CHW Selection Process",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
-    },
-    {
-      "statement": "Trainers should double as supervisors of CHWs because they are best placed to reinforce transferred skills.",
-      "quote": "It is suggested that trainers double as supervisors of CHWs as they are in the best position to reinforce transferred skills and strengthen ties between CHBC and facility-based services.",
+      "statement": "CHBC trainings should be limited to 15-20 participants.",
+      "quote": "CHBC trainings should be limited to 15-20 participants",
       "locator": "Notes to the Trainer: Training and Supervision of Community Health Workers",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "CHWs should be given support to avoid burnout, including meeting with peers and having counsellors available.",
-      "quote": "Trained counselors available for support and individual or group problem solving.",
-      "locator": "Session 12.1: Avoiding Burnout: Creating a Supportive Environment",
+      "statement": "Trainers are suggested to double as supervisors because they can reinforce transferred skills.",
+      "quote": "It is suggested that trainers double as supervisors of CHWs",
+      "locator": "Notes to the Trainer: Training and Supervision of Community Health Workers",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The 2-way referral system links home to hospital and hospital back to home.",
+      "quote": "1. From home to hospital or health center.",
+      "locator": "Unit 3: CHBC Basics, 2-Way Referral System",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "CHWs should be supported to avoid burnout and should set limits in their work.",
+      "quote": "Taking Care of Yourself",
+      "locator": "Unit 12: Taking Care of Yourself",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     }
   ],
   "harness_version": "0.3.0",
-  "harness_commit": "4d84e6f"
+  "harness_commit": "4369977"
 }

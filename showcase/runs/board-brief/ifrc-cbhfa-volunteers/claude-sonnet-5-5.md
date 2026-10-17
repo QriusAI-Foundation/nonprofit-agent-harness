@@ -1,37 +1,35 @@
 # Board brief: CBHFA Volunteer Manual
 
-**What it is.** This is a 2009 training manual from the International Federation of Red Cross and Red Crescent Societies. It is for volunteers in the Community-based health and first aid in action (CBHFA) programme. It covers first aid, health promotion, disease prevention and disaster preparedness.
+## What this is
+This is a training manual from the International Federation of Red Cross and Red Crescent Societies, dated March 2009. It is for volunteers in community-based health and first aid, or CBHFA. It is not a grant or a contract. It describes a programme that a Red Cross or Red Crescent Society can adopt.
 
-**What it asks of an organisation**
+## Six key points
+1. **A broader approach.** The manual moves beyond first aid teaching. It adds injury and disease prevention and health promotion.
+2. **A long-term commitment.** A National Society that adopts CBHFA is committing to long-term health programming.
+3. **Learn, then do.** Volunteers learn in the classroom and then act in their own community.
+4. **Core modules first.** The first three modules are required. They build the skills to help a community choose its priorities.
+5. **Assessment comes before action.** Without a community assessment, volunteers will not know which projects are most appropriate.
+6. **First aid needs qualified trainers.** Skills such as basic life support must be taught by qualified first aid trainers recognised by the National Society.
 
-1. **Learn in class, act in the community.** Volunteers study, then go out and use what they learned. They bring their experience back to the group.
-2. **Think long term.** The foreword says an organisation using CBHFA is making a commitment to long-term health programming.
-3. **Follow the module order.** The first three modules are required. They build the skills volunteers need to help the community choose its priorities.
-4. **Assess before acting.** The manual says volunteers cannot know which projects fit without a community assessment. Community members should help.
-5. **Set clear expectations for volunteers.** Volunteers are expected to be available in an emergency, as agreed with the organisation, and within their skills.
-6. **Use qualified trainers for life-saving skills.** The manual says some skills, such as basic life support, must be taught by qualified first aid trainers.
+## What the board should decide or watch
+- **Fit.** If we are part of a National Society or work with one, would this commitment suit our mission?
+- **Time.** The manual expects volunteers to join in assessments, meetings and training. Do we have enough volunteers and staff?
+- **Trainers.** Can we get qualified first aid trainers recognised by the National Society?
+- **Community voice.** The programme depends on the community choosing its own priorities. Are we ready to follow what the assessment finds?
 
-**What the board should decide or watch**
-
-- Decide whether the organisation can commit to a long-term programme, not a one-off project.
-- Ask who would act as facilitator and who would be the qualified first aid trainers.
-- Ask how the organisation would involve the community in the assessment and keep the action plan up to date.
-- Watch what is asked of volunteers in emergencies. Agree this with them in advance.
-- Note the manual's age (2009). Check its guidance with qualified people before relying on it.
-
-This brief draws only on the manual itself.
+The manual covers many topics, including first aid, disease prevention and disasters. The board does not need to read every module. A short briefing from staff on modules 1 to 3 would be a sensible first step.
 
 ## Evidence cited
 
-1. The programme trains volunteers by having them learn in the classroom and then act in their own community.
-   > "This is the learning by doing method: learn in the classroom, do in the community." (Introduction)
-2. An organisation that adopts CBHFA is committing to long-term health programming.
+1. The manual proposes a broader approach covering injury and disease prevention and health promotion, called CBHFA in action.
+   > "Now we propose to move to a broader and more comprehensive approach to injury and disease prevention and health promotion with our new community-based health and first aid (CBHFA) in action." (Foreword)
+2. A National Society that adopts CBHFA is committing to long-term health programming.
    > "A National Red Cross or Red Crescent Society implementing CBHFA is making a commitment to long-term health programming." (Foreword)
-3. The first three modules are required and give volunteers the background skills to help the community set priorities.
+3. Volunteers learn in the classroom and then act in the community.
+   > "Learn in the classroom: do in the community." (Introduction: How CBHFA in action works)
+4. The first three modules are required and build the skills to help a community choose its priorities.
    > "The first three modules of the CBHFA materials are obligatory, and will give you the background skills you need to help your community make decisions about its priority concerns." (Introduction: How CBHFA in action works)
-4. Volunteers need a community assessment to know which projects or actions are most appropriate.
+5. A community assessment is needed so volunteers know which projects are appropriate.
    > "Without community assessment, volunteers will not know which future projects or actions are most appropriate." (Module 3, Topic 1: Assessing my community: an overview)
-5. Volunteers are expected to be available in an emergency, as agreed with their National Society and according to their skills and abilities.
-   > "Be available in an emergency, as agreed with the National Society, and according to their skills and abilities." (Module 1, Topic 4: Volunteering, Expectations of all Red Cross and Red Crescent volunteers)
-6. Basic life support skills must be taught by qualified first aid trainers recognized by the National Society.
+6. Basic life support skills must be taught by qualified first aid trainers recognised by the National Society.
    > "These skills must be trained by qualified first aid trainers recognized by the National Society." (Module 4, Topic 3: Basic life support (Part 1))

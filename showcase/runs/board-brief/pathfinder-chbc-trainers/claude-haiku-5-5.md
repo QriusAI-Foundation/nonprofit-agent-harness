@@ -1,40 +1,39 @@
 Board Brief: Pathfinder CHBC Trainer's Guide (2006)
 
 What this document is
-This is a training guide for Community Health Workers (CHWs) who care for people living with HIV/AIDS at home. It is a full course: 19 units, plus notes, tools, and handouts. It was written by Pathfinder International in October 2006.
+This is a training guide for Community Home-Based Care (CHBC). It was written by Pathfinder International in October 2006. It trains Community Health Workers (CHWs) to care for people living with HIV/AIDS (PLWHA) at home, and to mobilize their communities.
 
-What it asks of our organisation
-The guide asks us to think about three things:
-- Who trains CHWs, and how. Trainers should be skilled, and should also supervise CHWs after training.
-- How CHWs are chosen. Selection should be community-driven, and should include people living with HIV.
-- How CHWs are supported. Support includes training, supervision, recognition, and help with burnout.
+What it asks of the organisation
+The guide is a full course. It has 13 core units, a practicum, and 5 advanced units. It covers HIV basics, prevention, nursing care, communication, nutrition, and infection control. It also covers referrals, record keeping, and self-care for CHWs. It asks the organisation to recruit CHWs, supervise them, and give them kits and supplies. It also asks for trainers who are facility-based providers where possible.
 
 Key points for the board
-1. Home care is not a replacement for hospital care. It works alongside health facilities through two-way referrals.
-2. CHWs cover a wide range of work: nursing care, prevention, counselling, record keeping, and linking clients to food and legal help.
-3. Prevention is part of the job. CHWs promote safer sex, condoms, HIV testing, and prevention of mother-to-child transmission.
-4. Some groups need special attention, including sex workers, injecting drug users, young people, and men who have sex with men.
-5. CHWs can burn out. The guide asks that they get support, set limits, and use peer groups.
-6. Record keeping matters. Monthly records show what is done and help plan and report to donors.
+1. CHBC is home care, not a replacement for hospital care. It works alongside health facilities.
+2. Training groups should be limited to 15 to 20 participants.
+3. CHWs need ongoing supervision and support, not just one training.
+4. Referrals should work both ways between home and health facility.
+5. CHWs need support to avoid burnout, and they must be clear about their limits.
+6. The guide notes that medicine advice, such as OI prevention drugs, should be checked against current local guidelines.
 
 What the board should decide or watch
-- Whether we have the staff and budget to run training, supervision, and a practicum.
-- Whether our CHW selection and support match the guide's advice.
-- Whether our records and reports are kept as the guide describes.
-- Whether medicine and supply guidance has been checked against current national rules. The guide itself warns that some recommendations, such as long-term antibiotic prophylaxis, may be out of date.
-- Whether our volunteers are protected from burnout.
+- Whether we have the staff, funds, and supervisors to run this course.
+- Whether local health facilities can accept referrals and send information back to CHWs.
+- Whether the medical content, especially drug advice, is current in our country. The guide tells trainers to check local protocols.
+- Whether CHWs get the incentives and support the guide recommends.
+- Whether our CHWs are protected from burnout and stigma.
 
-Note: The guide is from 2006. Check current national guidelines before acting on any clinical advice in it.
+This brief is based only on the source document.
 
 ## Evidence cited
 
-1. The document is a training guide for community health workers who care for people with HIV/AIDS at home.
+1. The guide is a training course for Community Health Workers to provide home-based care to people living with HIV/AIDS.
    > "A Comprehensive Training Course for Community Health Workers" (Title page)
-2. CHBC is not a replacement for hospital care and works within a continuum of services.
+2. CHBC is not a replacement for hospital care; it is part of a continuum of prevention, care, treatment, and support.
    > "CHBC is not a replacement for hospital care." (Notes to the Trainer)
-3. CHWs should be selected by the community, with the help of CBOs and/or FBOs, and both women and men should be chosen, as well as PLWHA.
-   > "CHWs should be selected by the community, with the help of CBOs and/or FBOs." (Notes to the Trainer: CHW Selection Process)
-4. Trainers should double as supervisors of CHWs because they are best placed to reinforce transferred skills.
-   > "It is suggested that trainers double as supervisors of CHWs as they are in the best position to reinforce transferred skills and strengthen ties between CHBC and facility-based services." (Notes to the Trainer: Training and Supervision of Community Health Workers)
-5. CHWs should be given support to avoid burnout, including meeting with peers and having counsellors available.
-   > "Trained counselors available for support and individual or group problem solving." (Session 12.1: Avoiding Burnout: Creating a Supportive Environment)
+3. CHBC trainings should be limited to 15-20 participants.
+   > "CHBC trainings should be limited to 15-20 participants" (Notes to the Trainer: Training and Supervision of Community Health Workers)
+4. Trainers are suggested to double as supervisors because they can reinforce transferred skills.
+   > "It is suggested that trainers double as supervisors of CHWs" (Notes to the Trainer: Training and Supervision of Community Health Workers)
+5. The 2-way referral system links home to hospital and hospital back to home.
+   > "1. From home to hospital or health center." (Unit 3: CHBC Basics, 2-Way Referral System)
+6. CHWs should be supported to avoid burnout and should set limits in their work.
+   > "Taking Care of Yourself" (Unit 12: Taking Care of Yourself)

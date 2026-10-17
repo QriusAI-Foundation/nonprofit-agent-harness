@@ -1,5 +1,5 @@
 {
-  "run_id": "run_1a14cf170b384166",
+  "run_id": "run_bc4cd196af764ede",
   "date": "2026-10-17",
   "agent": "funder-report",
   "agent_version": "0.1.0",
@@ -12,51 +12,48 @@
   "status": "awaiting_review",
   "error": "",
   "review_state": "pending_review",
-  "seconds": 37.3,
+  "seconds": 42.8,
   "usage": {
     "calls": 1,
     "input_tokens": 158089,
-    "output_tokens": 10083,
-    "cost_usd": 0.104252
+    "output_tokens": 11697,
+    "cost_usd": 0.108287,
+    "unpriced_calls": 0
   },
   "price_file": "prices-2026-10-17.json",
-  "verification": "21 claim(s), all verified",
+  "document": {
+    "pages": 172,
+    "truncated": false,
+    "bytes": 1008298
+  },
+  "verification": "27 claim(s): 27 resolved (support not checked)",
   "claims": [
     {
-      "statement": "The guide states that it adopts the principles and structure of competency-based education (CBE).",
-      "quote": "This CHW curriculum guide adopts the principles and structure of competency-based education (CBE).",
-      "locator": "1.5 Principles of competency-based education (CBE)",
+      "statement": "The training material is the WHO Global curriculum guide for community health workers published in 2025.",
+      "quote": "Global curriculum guide for community health workers",
+      "locator": "Title",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Programmatic assessment of the achievement of learning is one of the five core components of CBE programmes listed in the guide.",
-      "quote": "programmatic assessment of the achievement of learning.",
-      "locator": "1.5 Principles of competency-based education (CBE)",
+      "statement": "The guide is designed to be adapted to the needs of different health systems, programmes and contexts.",
+      "quote": "This competency-based CHW curriculum guide is designed to be adapted to the needs of different health systems, programmes and contexts.",
+      "locator": "1. Introduction",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "In CBE, the role of the tutor shifts towards facilitation rather than imparting knowledge.",
-      "quote": "In CBE, the role of the tutor evolves into that of a facilitator rather than an individual who imparts knowledge.",
-      "locator": "2. Learning and assessment",
+      "statement": "The guide is not intended to be interpreted as rigid or prescriptive.",
+      "quote": "This guide is designed to facilitate design and implementation of CHW curricula, and is not intended to be interpreted as rigid or prescriptive.",
+      "locator": "3.3 How to use the curriculum guide",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
-    },
-    {
-      "statement": "The guide is designed mainly for CHWs who are formally integrated into the health system after a structured education pathway.",
-      "quote": "This curriculum guide is designed mainly for CHWs, who are formally integrated into the health system after a structured education pathway",
-      "locator": "Executive summary",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
       "statement": "The guide has three parts.",
@@ -65,153 +62,216 @@
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The first section sets out competencies that all health workers, including CHWs, should possess.",
-      "quote": "The first section of the curriculum guide comprises competencies that all health workers, including CHWs, should possess",
-      "locator": "Executive summary",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
-    },
-    {
-      "statement": "The guide lists 25 competencies relevant to all CHWs across all contexts.",
+      "statement": "There are 25 competencies relevant to all CHWs across all contexts.",
       "quote": "There are 25 competencies that are relevant to all CHWs across all contexts",
       "locator": "Section 1. Competencies",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The guide describes 11 universal modules oriented to practice activities and one module on basic science knowledge.",
+      "statement": "There are 11 universal modules oriented to practice activities plus one basic science module.",
       "quote": "There are 11 modules oriented to practice activities, and one module relating to the common basic science knowledge required for practice.",
       "locator": "3.1 Overview of the CHW curriculum guide",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The universal modules table gives a total of 303 hours of universal practice activities.",
+      "statement": "The total suggested duration of universal practice activities is 303 hours.",
       "quote": "Total duration of universal practice activities (hours) 303",
-      "locator": "Section 2. Universal modules, Table 2.1",
+      "locator": "Section 2. Universal modules",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Module 1, Conducting a home visit, is suggested at 33 teaching hours.",
-      "quote": "The total suggested time to complete this module is 33 teaching hours",
-      "locator": "Module 1. Conducting a home visit, Learning activities and assessments",
+      "statement": "Module 1 can be used to prepare CHWs to conduct a home visit.",
+      "quote": "This module can be used to prepare CHWs to conduct a home visit.",
+      "locator": "Module 1. Conducting a home visit",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Both formative and summative assessments of learning are outlined for each module.",
-      "quote": "Both formative and summative assessments of learning are outlined for each module.",
-      "locator": "2. Learning and assessment",
+      "statement": "Module 2 includes distributing health commodities such as bednets, soaps and pedometers as a task.",
+      "quote": "Distribute health commodities such as bednets, soaps and pedometers.",
+      "locator": "Module 2. Providing information and support to impact individual health behaviours",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "No CHW can carry out all of the practice activities and tasks in the role-specific modules.",
+      "statement": "Module 12 outlines basic biology, anatomy, physiology and pathology for CHW practice.",
+      "quote": "This module outlines basic biology, human anatomy, physiology and pathology to enable CHWs to understand and learn the scientific rationale behind the critical tasks they are required to perform.",
+      "locator": "Module 12. Basic science",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Module 12 has a suggested time of 60 hours, including assessments.",
+      "quote": "The total suggested time to complete this module is 60 hours, including assessments.",
+      "locator": "Module 12. Basic science",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Role-specific modules address areas including maternal and newborn health, HIV and STIs, TB, malaria, NCDs, NTDs, and health emergency preparedness and response.",
+      "quote": "These areas include maternal and newborn health, human immunodeficiency virus (HIV) and sexually transmitted infections (STIs), tuberculosis (TB), malaria, noncommunicable diseases (NCDs), neglected tropical diseases (NTDs), and health emergency preparedness and response.",
+      "locator": "3.1 Overview of the CHW curriculum guide",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "No CHW can carry out all practice activities and tasks in the role-specific modules.",
       "quote": "No CHW can carry out all of the practice activities and tasks outlined in the role-specific modules in this framework.",
       "locator": "3.1 Overview of the CHW curriculum guide",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Module 13 covers eight health topics.",
-      "quote": "This module comprises eight health service areas (health topics) that are underpinned by 12 learning sessions",
-      "locator": "Section 3. Module 13. Life course approach to health, Learning activities and assessments",
+      "statement": "Learners should be trained using all 12 sessions, but only with material relevant to the planned scope of practice of the CHW.",
+      "quote": "Learners should be trained using all 12 sessions, but only with material that is relevant to the planned scope of practice of the CHW being trained.",
+      "locator": "Section 3. Role-specific modules, Module 13",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Module 16 covers four population-based service areas.",
-      "quote": "This module comprises four population-based service areas (health topics) that are underpinned by eight learning sessions",
-      "locator": "Section 3. Module 16. Population-based services, Module outline",
+      "statement": "Learning activities are suggested throughout the modules, oriented to learning objectives and the module learning outcome.",
+      "quote": "Learning activities are suggested throughout the modules, oriented to the learning objectives and achievement of the module learning outcome.",
+      "locator": "2. Learning and assessment",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Tutors should select only relevant health topics to tailor the programme to the roles and responsibilities of the CHWs.",
-      "quote": "Tutors should select only relevant health topics to tailor the programme to the roles and responsibilities of the CHWs.",
-      "locator": "Section 3. Module 13. Life course approach to health, Content",
+      "statement": "Both formative and summative assessments are outlined for each module.",
+      "quote": "Both formative and summative assessments of learning are outlined for each module.",
+      "locator": "2. Learning and assessment",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The guide's content was informed by a scoping review of 236 peer-reviewed articles.",
-      "quote": "In total, 236 peer-reviewed articles were extracted for inclusion in the scoping review",
+      "statement": "Module 1 includes shadowing of a CHW through home visits with a reflective debrief.",
+      "quote": "Shadowing (minimum of 5 hours) a CHW through home visits",
+      "locator": "Module 1. Conducting a home visit",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Module 1 has a suggested total of 33 teaching hours.",
+      "quote": "The total suggested time to complete this module is 33 teaching hours",
+      "locator": "Module 1. Conducting a home visit",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide does not contain the learning materials or case studies.",
+      "quote": "While it proposes learning activities that often draw from presentations, case scenarios or role play scenario cards, it does not contain the learning materials or case studies.",
+      "locator": "Creating user-friendly learning materials appropriate to CHWs",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide is a pointer or reference to what can be included in CHW trainings.",
+      "quote": "This curriculum guide is only a pointer or reference to what can be included in CHW trainings.",
+      "locator": "Creating user-friendly learning materials appropriate to CHWs",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide's evidence base included a scoping review in which 236 peer-reviewed articles were extracted.",
+      "quote": "In total, 236 peer-reviewed articles were extracted for inclusion in the scoping review (4).",
       "locator": "1.3 Methods",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The guide's evidence base included a grey literature search covering 16 countries.",
-      "quote": "This search included grey literature from 16 countries, representing all WHO regions and a range of income levels",
-      "locator": "1.3 Methods",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
-    },
-    {
-      "statement": "Drafts were shared with the WHO Technical Advisory Group in 2023, 2024 and 2025.",
-      "quote": "The drafts of the curriculum guide were shared with the WHO Technical Advisory Group in June 2023, October 2023, June 2024 and February 2025",
-      "locator": "1.4 Iterative consultation and expert validation",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
-    },
-    {
-      "statement": "CHWs from a range of settings also reviewed the draft curriculum.",
+      "statement": "CHWs from a range of geographical and income settings reviewed the draft curriculum.",
       "quote": "In parallel, CHWs from a range of geographical and income settings also reviewed the draft curriculum.",
       "locator": "1.4 Iterative consultation and expert validation",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The guide describes itself as only a pointer or reference to what can be included in CHW trainings.",
-      "quote": "This curriculum guide is only a pointer or reference to what can be included in CHW trainings.",
-      "locator": "3.4.4 Adapt the modules, Creating user-friendly learning materials appropriate to CHWs",
+      "statement": "Competency-based education is a form of outcome-based education.",
+      "quote": "CBE is a form of outcome-based education.",
+      "locator": "1.5 Principles of competency-based education (CBE)",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The guide recommends updating curricula periodically, for example at least every 5\u201310 years.",
-      "quote": "or periodically, for example at least every 5\u201310 years.",
+      "statement": "Competencies are developed incrementally across universal and role-specific modules and are not learned in a single module.",
+      "quote": "Competencies are developed incrementally through the series of universal and role-specific modules across a range of relevant settings, and are not learned or developed in a single module.",
+      "locator": "3.2.1 Competencies and behaviours",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide recommends that teaching minimize didactic approaches and include practical and authentic learning methods.",
+      "quote": "As recommended in the CHW guideline, teaching should minimize didactic approaches, and include a diverse array of practical and authentic learning methods suited to the unique needs and contexts of the learners.",
+      "locator": "Creating user-friendly learning materials appropriate to CHWs",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide recommends a sequence of steps for national or subnational adaptation.",
+      "quote": "The following sequential steps are recommended to help facilitate national or subnational adaptation:",
       "locator": "3.3 How to use the curriculum guide",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Curriculum developers should begin by selecting only health topics relevant to their context.",
+      "quote": "Curriculum developers should begin by selecting only those health topics relevant to their particular context.",
+      "locator": "Adapting role-specific modules 13\u201316",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     }
   ],
   "harness_version": "0.3.0",
-  "harness_commit": "4d84e6f"
+  "harness_commit": "4369977"
 }

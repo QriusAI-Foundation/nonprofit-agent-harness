@@ -35,6 +35,7 @@ KIND_ORDER = (
     "added_negation",
     "removed_negation",
     "reordered",
+    "moved_negation",
     "paraphrase",
 )
 

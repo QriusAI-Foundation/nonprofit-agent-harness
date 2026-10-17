@@ -1,41 +1,31 @@
-# Board brief: CBHFA Volunteer Manual
+# Board brief: CBHFA Volunteer Manual (IFRC, March 2009)
 
-**What this is.** This is the Volunteer Manual for Community-based health and first aid in action (CBHFA). It was published by the International Federation of Red Cross and Red Crescent Societies in March 2009. It is written for volunteers. It covers their role, how to work with the community, first aid, emergencies, and disease prevention.
+**What it is.** This is a training manual for community volunteers. It comes from the International Federation of Red Cross and Red Crescent Societies. It covers seven modules: the volunteer role, community mobilization, community assessment, first aid, emergencies, disease prevention and extra topics such as road safety.
 
-**Why it matters to us.** If we adopt this approach, we are not signing up for a one-off project. It shapes how we recruit, train, support and track volunteers over many years.
+**What it asks of an organisation.** Taking on this programme is not a one-off project. Volunteers learn in a classroom, then work in their own community. The community helps choose which health topics matter most. Volunteers must report on what they do.
 
 ## Key points
 
-1. **A long-term commitment.** Taking on CBHFA means committing to health work over the long term. The board should check that we have the staff, money and time to keep going.
+1. **A long-term commitment.** The manual says an organisation that runs this programme is committing to long-term health work. The board should be sure it can sustain that.
+2. **Learn, then do.** The method is simple. Volunteers learn in the classroom and then act in the community. The board should check that both parts are funded and staffed.
+3. **Manage expectations.** Volunteers must tell communities what the programme can and cannot do. This avoids promises the organisation cannot keep. The board should watch for this risk.
+4. **Qualified first aid trainers.** Life-support skills must be taught by qualified trainers recognised by the National Society. The board should confirm who will deliver this training.
+5. **Volunteer rights cost money.** Volunteers have a right to rewards and to repayment of out-of-pocket expenses. The board should budget for this.
+6. **Reporting is required.** Reporting is needed for official records. The board should decide how it will receive and review these reports.
 
-2. **Learn, then do.** Volunteers learn in class and then act in their own community. We must plan for both the classroom and the fieldwork.
-
-3. **Core training is required.** The first three modules are compulsory for every volunteer. Budget and scheduling must cover them before any optional topics.
-
-4. **The community sets priorities.** Volunteers run a community assessment. The aim is a ranked list of three to five health, safety or first aid priorities. The board should not decide the topics in advance.
-
-5. **Volunteers have rights.** These include the right to be reimbursed for out-of-pocket costs. We need a clear policy and budget for this.
-
-6. **Reporting is routine.** A report form is filled in after each household visit or activity. The board should ask for regular summaries to see whether the work is making a difference.
-
-## What the board should decide or watch
-
-- Can we sustain a long-term programme?
-- Is funding in place for core training and volunteer expenses?
-- Are we letting the community choose its priorities?
-- Are reports reaching us, and are we using them?
+**Decisions for the board:** whether to commit long term; who trains first aid; how to fund volunteer expenses; and how reports reach the board.
 
 ## Evidence cited
 
-1. Implementing CBHFA is a commitment to long-term health programming.
-   > "A National Red Cross or Red Crescent Society implementing CBHFA is making a commitment to long-term health programming." (Foreword)
-2. Volunteers learn in the classroom and then act in the community.
-   > "This is the learning by doing method: learn in the classroom, do in the community." (Introduction)
-3. The first three modules are compulsory for volunteers.
-   > "The first three modules of the CBHFA materials are obligatory, and will give you the background skills you need to help your community make decisions about its priority concerns." (How CBHFA in action works)
-4. The community assessment aims to produce a ranked list of three to five priorities.
-   > "By the end of the community meeting, the desired outcome is a ranked or prioritized list of between three to five health, safety or first aid priorities." (Module 3, Topic 6: Making sense of the data)
-5. Volunteers have a right to reimbursement for out-of-pocket expenses.
+1. An organisation implementing CBHFA is making a commitment to long-term health programming.
+   > "A National Red Cross or Red Crescent Society implementing CBHFA is making a commitment to long-term" (Foreword)
+2. The method is to learn in the classroom and then act in the community.
+   > "Learn in the classroom: do in the community." (How CBHFA in action works)
+3. Volunteers must explain what the programme can and cannot do, to avoid unrealistic expectations.
+   > "This is imperative to avoid creating unrealistic expectations." (Module 3, Topic 1: Assessing my community: an overview)
+4. Life-support skills must be taught by qualified first aid trainers recognised by the National Society.
+   > "These skills must be trained by qualified first aid trainers recognized by the National Society." (Module 4, Topic 3: Basic life support (Part 1))
+5. Volunteers have a right to rewards and repayment of out-of-pocket expenses.
    > "rewards and reimbursement for out-of-pocket expenses" (Module 1, Topic 4: Volunteering)
-6. A report form is completed after each household visit or activity.
-   > "A report form should be completed after each household visit or whenever CBHFA activities are performed in the community." (Module 3, Topic 8: Reporting on CBHFA activities in my community)
+6. Reporting on activities is needed for official records.
+   > "Reporting on activities and action is necessary for official records." (Module 3, Topic 8: Reporting on CBHFA activities in my community)

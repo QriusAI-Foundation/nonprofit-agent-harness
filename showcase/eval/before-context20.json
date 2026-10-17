@@ -1,29 +1,32 @@
 {
   "whitespace_case": {
-    "verified": 403
+    "verified": 407
   },
   "reordered": {
-    "verified": 403
+    "verified": 660
   },
   "punctuation": {
-    "verified": 403
+    "verified": 407
   },
   "paraphrase": {
-    "citation_not_found": 356,
-    "verified": 47
-  },
-  "removed_negation": {
-    "verified": 403
-  },
-  "added_negation": {
-    "verified": 398,
-    "citation_not_found": 5
+    "citation_not_found": 358,
+    "verified": 49
   },
   "changed_quantity": {
-    "citation_not_found": 400,
-    "verified": 3
+    "citation_not_found": 617,
+    "verified": 7
+  },
+  "removed_negation": {
+    "verified": 407
+  },
+  "added_negation": {
+    "verified": 403,
+    "citation_not_found": 4
+  },
+  "moved_negation": {
+    "verified": 240
   },
   "exact": {
-    "verified": 403
+    "verified": 407
   }
 }

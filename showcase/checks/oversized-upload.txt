@@ -1,0 +1,3 @@
+$ harness run examples.summarizer:SummarizerAgent big.txt   # 21,000,000 bytes, echo provider
+Could not read input: 'big.txt' exceeds the 20MB upload limit
+exit 2

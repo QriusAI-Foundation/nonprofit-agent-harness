@@ -1,5 +1,5 @@
 {
-  "run_id": "run_5a17359b3b0843f1",
+  "run_id": "run_0c6a16f07e1044c5",
   "date": "2026-10-17",
   "agent": "funder-report",
   "agent_version": "0.1.0",
@@ -12,251 +12,212 @@
   "status": "awaiting_review",
   "error": "",
   "review_state": "pending_review",
-  "seconds": 71.4,
+  "seconds": 51.9,
   "usage": {
     "calls": 1,
     "input_tokens": 331860,
-    "output_tokens": 7931,
-    "cost_usd": 1.48606
+    "output_tokens": 5591,
+    "cost_usd": 1.43926,
+    "unpriced_calls": 0
   },
   "price_file": "prices-2026-10-17.json",
-  "verification": "26 claim(s), all verified",
+  "document": {
+    "pages": 748,
+    "truncated": false,
+    "bytes": 4202112
+  },
+  "verification": "21 claim(s): 20 resolved (support not checked), 1 citation uncertain",
   "claims": [
     {
-      "statement": "The Trainer's Guide was published by Pathfinder International in 2006.",
+      "statement": "The training material is a Trainer's Guide titled 'Community Home-Based Care for People and Communities Affected by HIV/AIDS: A Comprehensive Training Course for Community Health Workers'.",
+      "quote": "A Comprehensive Training Course for Community Health Workers",
+      "locator": "Title page",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide is a Pathfinder International publication.",
       "quote": "\u00a9 2006 Pathfinder International.",
-      "locator": "Title page / copyright",
+      "locator": "Copyright page",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The curriculum draws on Pathfinder's experience of implementing CHBC in Kenya, Tanzania, Ethiopia, Nigeria and Uganda.",
-      "quote": "Home-Based Care (CHBC) in Kenya, Tanzania, Ethiopia, Nigeria, and Uganda.",
-      "locator": "Acknowledgments",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
-    },
-    {
-      "statement": "The curriculum is intended as a global model that can be adapted to local contexts.",
-      "quote": "it is intended to provide a global model for CHBC which can be adapted into local contexts",
-      "locator": "Acknowledgments",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
-    },
-    {
-      "statement": "The curriculum was pre-tested in Tanzania and Mozambique and underwent internal and external peer review.",
-      "quote": "The curriculum was pre-tested in Tanzania and Mozambique, and underwent an internal and",
-      "locator": "Acknowledgments",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
-    },
-    {
-      "statement": "The course aims to give CHWs the knowledge and skills needed to provide CHBC to PLWHA in their communities.",
-      "quote": "This curriculum aims to provide CHWs with the knowledge and skills necessary to",
-      "locator": "Notes to the Trainer \u2013 Introduction to the Curriculum",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "statement": "The guide was published in October 2006.",
+      "quote": "October 2006",
+      "locator": "Title page",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (pathfinder-chbc-trainers-guide-2006.pdf: the number continues in the source as '2006 2006')"
     },
     {
       "statement": "The course goal is to add skilled CHWs to the forces fighting the HIV/AIDS epidemic.",
-      "quote": "The goal of this course is to add skilled Community Health Workers (CHWs) to the",
-      "locator": "Session 1.2: Training Overview \u2013 Expectations",
+      "quote": "The goal of this course is to add skilled Community Health Workers (CHWs) to the forces that are fighting the HIV/AIDS epidemic.",
+      "locator": "Session 1.2: Training Overview \u2014 Expectations",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The CHW's main responsibility should be to transfer nursing and support skills to caregivers.",
-      "quote": "transfer nursing and support skills to caregivers (i.e., family or friends of PLWHA)",
-      "locator": "Notes to the Trainer \u2013 Pathfinder\u2019s CHBC Model",
+      "statement": "The curriculum aims to give CHWs the knowledge and skills to provide CHBC to PLWHA in their communities.",
+      "quote": "This curriculum aims to provide CHWs with the knowledge and skills necessary to provide CHBC to PLWHA in their communities.",
+      "locator": "Notes to the Trainer \u2014 Introduction to the Curriculum",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The materials consist of a Trainer's Guide for trainers and a Handbook for participants.",
-      "quote": "trainers and a Handbook for the participants.",
-      "locator": "Notes to the Trainer \u2013 Introduction to the Curriculum",
+      "statement": "The curriculum draws on Pathfinder staff experience implementing a CHBC model in Kenya, Tanzania, Ethiopia, Nigeria and Uganda.",
+      "quote": "It draws on the experience of Pathfinder staff who put into practice a model of Community Home-Based Care (CHBC) in Kenya, Tanzania, Ethiopia, Nigeria, and Uganda.",
+      "locator": "Acknowledgments",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The Trainer's Guide is divided into 13 core units.",
-      "quote": "The Trainer\u2019s Guide is divided into 13",
-      "locator": "Notes to the Trainer \u2013 Introduction to the Curriculum",
+      "statement": "The curriculum was pre-tested in Tanzania and Mozambique and underwent internal and external peer review.",
+      "quote": "The curriculum was pre-tested in Tanzania and Mozambique, and underwent an internal and external peer review.",
+      "locator": "Acknowledgments",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The core units are followed by a practicum and five advanced units.",
-      "quote": "core units, a practicum, and 5 advanced units",
-      "locator": "Notes to the Trainer \u2013 Introduction to the Curriculum",
+      "statement": "The materials comprise a Trainer's Guide for trainers and a Handbook for participants.",
+      "quote": "There is a Trainer\u2019s Guide for the trainers and a Handbook for the participants.",
+      "locator": "Notes to the Trainer \u2014 Introduction to the Curriculum",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The core training includes skills in basic nursing.",
-      "quote": "The core training includes skills in basic nursing,",
-      "locator": "Notes to the Trainer \u2013 Training and Supervision of Community Health Workers",
+      "statement": "The Trainer's Guide is organised into 13 core units, a practicum, and 5 advanced units.",
+      "quote": "The Trainer\u2019s Guide is divided into 13 core units, a practicum, and 5 advanced units that contain additional information that CHWs might find useful after they have covered the core areas.",
+      "locator": "Notes to the Trainer \u2014 Introduction to the Curriculum",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The core training also covers prevention and management of OIs and guidance on when to refer to a health facility.",
-      "quote": "prevention and management of OIs, guidance on when to refer to a health facility,",
-      "locator": "Notes to the Trainer \u2013 Training and Supervision of Community Health Workers",
+      "statement": "The curriculum is flexible: units can be combined into a shorter course or a training series depending on time, funding and local priorities.",
+      "quote": "This curriculum is also flexible, and different units can be put together for a shorter course, or a training series, depending on the time and funding available, and on the key issues being addressed in a particular setting.",
+      "locator": "Notes to the Trainer \u2014 Using this Curriculum",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "One advanced unit provides an introduction to family planning.",
-      "quote": "Advanced Unit 16: Introduction to Family Planning (FP)",
-      "locator": "Table of Contents",
+      "statement": "The core training covers basic nursing, prevention and management of opportunistic infections, referral guidance, basic counselling, community mobilisation and prevention, problem solving, and positive living.",
+      "quote": "The core training includes skills in basic nursing, prevention and management of OIs, guidance on when to refer to a health facility, basic counseling, community mobilization and prevention, problem solving, and positive living.",
+      "locator": "Notes to the Trainer \u2014 Training and Supervision of Community Health Workers",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Another advanced unit addresses preventing mother-to-child transmission of HIV.",
-      "quote": "Advanced Unit 17: Preventing Mother-to-Child Transmission (PMTCT) of HIV",
-      "locator": "Table of Contents",
+      "statement": "The CHW's main responsibility should be to transfer nursing and support skills to caregivers and to PLWHA able to do self-care.",
+      "quote": "The main responsibility of the CHW should be to transfer nursing and support skills to caregivers (i.e., family or friends of PLWHA) and to PLWHA who are able to do self-care.",
+      "locator": "Notes to the Trainer \u2014 Pathfinder\u2019s CHBC Model",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The training is participatory and based on adult learning principles.",
-      "quote": "The nature of this training program is intended to be participatory and based on adult",
-      "locator": "Notes to the Trainer \u2013 Training Philosophy",
+      "statement": "The training is intended to be participatory and based on adult learning principles.",
+      "quote": "The nature of this training program is intended to be participatory and based on adult learning principles.",
+      "locator": "Notes to the Trainer \u2014 Training Philosophy",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The training calls for a focus on learning by doing.",
-      "quote": "practical and interesting and there should be a focus on learning by doing.",
-      "locator": "Notes to the Trainer \u2013 Training Philosophy",
+      "statement": "The training emphasises learning by doing.",
+      "quote": "Content should be practical and interesting and there should be a focus on learning by doing.",
+      "locator": "Notes to the Trainer \u2014 Training Philosophy",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Trainings should be limited to 15\u201320 participants.",
-      "quote": "should be limited to 15-20 participants to ensure a good trainer-participant ratio",
-      "locator": "Notes to the Trainer \u2013 Training and Supervision of Community Health Workers",
+      "statement": "The guide advises that lectures be used less than more participatory methods.",
+      "quote": "Lecture promotes passive learning so it should be used less than other more participatory methods.",
+      "locator": "Notes to the Trainer \u2014 Learning Methodologies: Lectures",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Where possible, at least one trainer should be a facility-based provider.",
-      "quote": "the trainers) should be facility-based providers.",
-      "locator": "Notes to the Trainer \u2013 Training and Supervision of Community Health Workers",
+      "statement": "The guide recommends limiting trainings to 15\u201320 participants to ensure adequate time for skills practice.",
+      "quote": "CHBC trainings should be limited to 15-20 participants to ensure a good trainer-participant ratio and adequate time for skills practice.",
+      "locator": "Notes to the Trainer \u2014 Training and Supervision of Community Health Workers",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Methods described include demonstrations and return demonstrations.",
-      "quote": "Demonstrations and Return Demonstrations",
-      "locator": "Notes to the Trainer \u2013 Learning Methodologies",
+      "statement": "The guide notes that CHWs' experience and literacy can vary greatly.",
+      "quote": "The experience and literacy level of CHWs can vary greatly.",
+      "locator": "Notes to the Trainer \u2014 Using this Curriculum",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Lecture should be used less than more participatory methods because it promotes passive learning.",
-      "quote": "Lecture promotes passive learning so it should be used less than other more",
-      "locator": "Notes to the Trainer \u2013 Learning Methodologies: Lectures",
+      "statement": "Reading and writing activities can be replaced or adapted with activities that use pictures or speaking.",
+      "quote": "Activities that require writing or reading, for example, could be replaced or adapted with activities that use pictures or speaking.",
+      "locator": "Notes to the Trainer \u2014 Using this Curriculum",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "CHWs' literacy levels can vary greatly.",
-      "quote": "literacy level of CHWs can vary greatly.",
-      "locator": "Notes to the Trainer \u2013 Using this Curriculum",
+      "statement": "The guide includes three practicums covering client care and community mobilisation.",
+      "quote": "There are three practicums that cover skills in client care as well as community mobilization.",
+      "locator": "Notes to the Trainer \u2014 Using this Curriculum",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Trainers are asked to adapt the curriculum accordingly.",
-      "quote": "The trainer needs to be aware of this and adapt",
-      "locator": "Notes to the Trainer \u2013 Using this Curriculum",
+      "statement": "The first practicum is held in the classroom, so that skills are practised before participants work with real people.",
+      "quote": "The first is a classroom practicum where skills will be practiced before working with real people.",
+      "locator": "Notes to the Trainer \u2014 Using this Curriculum",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
-    },
-    {
-      "statement": "The curriculum includes three practicums covering client care and community mobilisation.",
-      "quote": "There are three practicums that cover skills in client care as well as community",
-      "locator": "Notes to the Trainer \u2013 Using this Curriculum",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
-    },
-    {
-      "statement": "Informed consent is to be obtained from PLWHA well before the practicum.",
-      "quote": "and informed consent should be obtained well before the",
-      "locator": "Notes to the Trainer \u2013 More About the CHBC Practicum, Evaluation, and Certification",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
       "statement": "Pre- and post-tests are to be given to all participants.",
       "quote": "Pre- and post-tests are to be given to all participants.",
-      "locator": "Notes to the Trainer \u2013 Design of the Curriculum",
+      "locator": "Notes to the Trainer \u2014 Design of the Curriculum",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
-    },
-    {
-      "statement": "The pre- and post-tests serve to evaluate the effectiveness of the training.",
-      "quote": "these serve to evaluate the effectiveness of the training.",
-      "locator": "Notes to the Trainer \u2013 Design of the Curriculum",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     }
   ],
   "harness_version": "0.3.0",
-  "harness_commit": "4d84e6f"
+  "harness_commit": "4369977"
 }

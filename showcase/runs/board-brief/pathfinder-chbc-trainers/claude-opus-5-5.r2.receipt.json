@@ -1,0 +1,88 @@
+{
+  "run_id": "run_a08022c731044a18",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "pathfinder-chbc-trainers",
+  "source_sha256": "6c23212037340d36e0c47fb1096efccd35269368dc196b8913b8f6cd30ccaec8",
+  "model": "claude-opus-5-5",
+  "model_reported": "claude-opus-5-5",
+  "effort": "medium",
+  "repeat": 2,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 32.5,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 331837,
+    "output_tokens": 2111,
+    "cost_usd": 1.369568,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 748,
+    "truncated": false,
+    "bytes": 4202112
+  },
+  "verification": "6 claim(s): 6 resolved (support not checked)",
+  "claims": [
+    {
+      "statement": "The curriculum aims to give CHWs the knowledge and skills to provide CHBC to PLWHA in their communities.",
+      "quote": "This curriculum aims to provide CHWs with the knowledge and skills necessary to provide CHBC to PLWHA in their communities.",
+      "locator": "Introduction to the Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide has 13 core units, a practicum, and 5 advanced units.",
+      "quote": "The Trainer\u2019s Guide is divided into 13 core units, a practicum, and 5 advanced units that contain additional information that CHWs might find useful after they have covered the core areas.",
+      "locator": "Introduction to the Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The material may be reproduced or adapted without permission if Pathfinder is credited and it is free or at cost.",
+      "quote": "Any part of this document may be reproduced or adapted to meet local needs without prior permission from Pathfinder International provided that Pathfinder International is acknowledged, and the material is made available free of charge or at cost.",
+      "locator": "Copyright notice",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "CHW selection should avoid favoritism or patronage.",
+      "quote": "Care should be taken to avoid favoritism or patronage (e.g., getting the job because you are related to or friends with the project manager).",
+      "locator": "Pathfinder\u2019s CHBC Model \u2013 CHW Selection Process",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Clients can refuse to take part in the practicum without it affecting their care.",
+      "quote": "Clients should understand that they can refuse to participate in the practicum and that it will not affect the care that they are already receiving.",
+      "locator": "More About the CHBC Practicum, Evaluation, and Certification",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "CHWs need ongoing supervision and support to ensure good quality services.",
+      "quote": "Ongoing supervision and support is needed to help the CHW overcome challenges, to ensure that PLWHA are getting good quality services, and to facilitate learning between trainings.",
+      "locator": "Training and Supervision of Community Health Workers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

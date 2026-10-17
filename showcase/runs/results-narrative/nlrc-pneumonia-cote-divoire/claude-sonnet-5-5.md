@@ -1,92 +1,75 @@
 # Results narrative: 3FM Serious Request 2016, Pneumonia in Cote d'Ivoire
 
-## Overview
-This narrative uses only the results sheet for IATI activity NL-KVK-40409352-PRJ08-272-0005. For most indicators the sheet lists a target for a later period but no reported actual. Achievement is therefore recorded as not calculable, and a missing actual has not been treated as zero.
+## How to read this sheet
+The sheet gives no calculable achievement for the indicators discussed below. In most cases the target for July to September 2019 has no reported actual. Where an actual is missing, it is treated as missing, not as zero. Some 2018 periods list several actual values without saying which one is current, so none is picked here.
 
 ## Access to treatment and services
-Health centres supported began from a baseline of 0 in 2017, with a target of 4 for July to September 2019. An actual of 4 was reported for a 2018 period. The sheet gives no actual for the target period, so achievement is not calculable.
+For volunteers trained and equipped to perform community health services, the target for July to September 2019 is 127, with no actual reported. The 2018 period lists actuals of 115 and 0. The sheet marks the achievement as not calculable because there is no actual.
 
-Volunteers trained and equipped to perform community health services also began at 0 in 2017. The target is 127 and an actual of 115 is reported for a 2018 period. Health staff trained has a target of 6, with an actual of 20 reported for a 2018 period.
+For health staff trained, the 2019 target is 6 with no actual reported. The 2018 period lists an actual of 20.
 
-For households with children under 5 visited at least twice per month, the target is 2539. Actuals of 1326 and 2539 are reported for 2018 periods.
+For households with children under 5 visited at least twice a month by volunteers, the 2019 target is 2539. The 2018 period lists actuals of 1326 and 2539, but the achievement is still not calculable.
 
-## Reach and health promotion
-People reached with health promotion and behaviour change communication started from a baseline of 0 in 2016. The target is 14187, and 2018 actuals of 9031 and 13798 are reported. For traditional healers reached the target is 28, and an actual of 0 is reported for a 2018 period.
+## Sanitation, cooking stoves and water
+For latrines constructed or rehabilitated, the baseline is 519 in 2017 and the 2019 target is 1000, with no actual reported. An actual of 1102 appears in a 2018 period that has no target.
 
-## Water, sanitation and hygiene
-For latrines constructed or rehabilitated, the baseline is 519 in 2017 and the target is 1000. An actual of 1102 is reported for a 2018 period. Water points constructed or rehabilitated have a target of 2 and an actual of 2 reported for a 2018 period. For correct handwashing, the target is 60 for January to March 2020 and no actual is reported.
+For households with an improved cooking stove, the baseline is 47 in 2016 and the 2019 target is 1500. A 2018 actual of 1203 is listed, and the achievement is not calculable.
 
-## Volunteers and cooking stoves
-Female volunteers have a target of 55 and an actual of 49 reported for a 2018 period. Male volunteers have a target of 72 and an actual of 79. For improved cooking stoves the baseline is 47 in 2016, the target is 1500, and an actual of 1203 is reported for a 2018 period.
+For water points constructed or rehabilitated, the target for January to March 2020 is 2, with no actual reported.
 
-## Gaps in the sheet
-Some indicators have no target, so achievement cannot be calculated. Caretakers' knowledge of continued feeding of an ill child is one example. The resilience indicator for people receiving direct services cannot be calculated either, because targets are reported only for sub-groups and no overall total is given.
+## Knowledge and behaviour
+For people who can identify danger signs of illness, the 2019 target is 80 and no actual is reported. For correct handwashing, the target for January to March 2020 is 60, also with no actual reported.
+
+## Indicators without targets or totals
+Some indicators have a baseline but no target, so no achievement can be calculated. Examples are caretakers' knowledge of continued feeding of an ill child and children vaccinated for PCV. The resilience indicators for people receiving direct services are not calculable either. Their targets are reported only for sub-groups, with no overall figure.
 
 ## Evidence cited
 
-1. Health centres supported are not calculable because no actual is available.
-   > "Achievement: Health centers supported: not calculable (no actual)" (Health - Access to treatment & services)
-2. Health centres supported had a baseline of 0 in 2017.
-   > "Baseline: 0 in 2017" (Health - Access to treatment & services)
-3. Health centres supported target of 4 for July to September 2019 with no actual reported.
-   > "Period 2019-07-01 to 2019-09-30: target 4, actual none reported" (Health centers supported)
-4. An actual of 4 health centres supported was reported for a 2018 period.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 4" (Health centers supported)
-5. Volunteers trained and equipped target of 127.
-   > "Period 2019-07-01 to 2019-09-30: target 127, actual none reported" (Volunteers trained and equipped to perform community health services)
-6. Volunteers trained and equipped actual of 115 in a 2018 period.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 115" (Volunteers trained and equipped to perform community health services)
-7. Health staff trained target of 6.
-   > "Period 2019-07-01 to 2019-09-30: target 6, actual none reported" (Health staff trained)
-8. Health staff trained actual of 20 in a 2018 period.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 20" (Health staff trained)
-9. Households visited twice per month have a target of 2539.
-   > "Period 2019-07-01 to 2019-09-30: target 2539, actual none reported" (Households with children < 5 in the project communities that have been visited at least twice per month by RCRC volunteers)
-10. Households visited actual of 1326 in a 2018 period.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 1326" (Households with children < 5 in the project communities that have been visited at least twice per month by RCRC volunteers)
-11. Households visited actual of 2539 in 2018 periods.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 2539" (Households with children < 5 in the project communities that have been visited at least twice per month by RCRC volunteers)
-12. People reached with health promotion had a baseline of 0 in 2016.
-   > "Baseline: 0 in 2016" (People reached with health promotion and/or behaviour change communication activities.)
-13. People reached target of 14187.
-   > "Period 2019-07-01 to 2019-09-30: target 14187, actual none reported" (People reached with health promotion and/or behaviour change communication activities.)
-14. People reached actual of 9031 in a 2018 period.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 9031" (People reached with health promotion and/or behaviour change communication activities.)
-15. People reached actual of 13798 in a 2018 period.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 13798" (People reached with health promotion and/or behaviour change communication activities.)
-16. Traditional healers reached target of 28.
-   > "Period 2019-07-01 to 2019-09-30: target 28, actual none reported" (Traditional healers reached through the project.)
-17. Traditional healers reached actual of 0 reported for a 2018 period.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 0" (Traditional healers reached through the project.)
-18. Latrines baseline of 519 in 2017.
+1. For volunteers trained and equipped, the target for July to September 2019 is 127 with no actual reported.
+   > "Period 2019-07-01 to 2019-09-30: target 127, actual none reported" (Health - Access to treatment & services)
+2. The 2018 period lists an actual of 115 for volunteers trained and equipped.
+   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 115" (Health - Access to treatment & services)
+3. The 2018 period also lists an actual of 0 for volunteers trained and equipped.
+   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 0" (Health - Access to treatment & services)
+4. The achievement for volunteers trained and equipped is not calculable because there is no actual.
+   > "Achievement: Volunteers trained and equipped to perform community health services: not calculable (no actual)" (Health - Access to treatment & services)
+5. For health staff trained, the 2019 target is 6 with no actual reported.
+   > "Period 2019-07-01 to 2019-09-30: target 6, actual none reported" (Health - Access to treatment & services)
+6. The 2018 period lists an actual of 20 for health staff trained.
+   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 20" (Health - Access to treatment & services)
+7. For households with children under 5 visited at least twice a month, the 2019 target is 2539.
+   > "Period 2019-07-01 to 2019-09-30: target 2539, actual none reported" (Health - Access to treatment & services)
+8. The 2018 period lists an actual of 1326 for households visited.
+   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 1326" (Health - Access to treatment & services)
+9. The 2018 period lists an actual of 2539 for households visited.
+   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 2539" (Health - Access to treatment & services)
+10. The achievement for households visited at least twice a month is not calculable.
+   > "Achievement: Households with children < 5 in the project communities that have been visited at least twice per month by RCRC volunteers: not calculable (no actual)" (Health - Access to treatment & services)
+11. The latrines baseline is 519 in 2017.
    > "Baseline: 519 in 2017" (WASH - Sanitation)
-19. Latrines target of 1000.
+12. The latrines target for July to September 2019 is 1000 with no actual reported.
    > "Period 2019-07-01 to 2019-09-30: target 1000, actual none reported" (WASH - Sanitation)
-20. Latrines actual of 1102 in a 2018 period.
+13. A 2018 actual of 1102 latrines appears in a period with no target.
    > "Period 2018-07-01 to 2018-09-30: target none stated, actual 1102" (WASH - Sanitation)
-21. Water points target of 2 for January to March 2020.
-   > "Period 2020-01-01 to 2020-03-31: target 2, actual none reported" (WASH - Water)
-22. Water points actual of 2 in a 2018 period.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 2" (WASH - Water)
-23. Handwashing target of 60 for January to March 2020 with no actual.
-   > "Period 2020-01-01 to 2020-03-31: target 60, actual none reported" (WASH - Hygiene promotion)
-24. Female volunteers target of 55.
-   > "Period 2019-07-01 to 2019-09-30: target 55, actual none reported" (Processes - HR)
-25. Female volunteers actual of 49 in a 2018 period.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 49" (Processes - HR)
-26. Male volunteers target of 72.
-   > "Period 2019-07-01 to 2019-09-30: target 72, actual none reported" (Processes - HR)
-27. Male volunteers actual of 79 in a 2018 period.
-   > "Period 2018-07-01 to 2018-09-30: target none stated, actual 79" (Processes - HR)
-28. Improved cooking stoves baseline of 47 in 2016.
+14. The improved cooking stove baseline is 47 in 2016.
    > "Baseline: 47 in 2016" (Health - Indoor air quality)
-29. Improved cooking stoves target of 1500.
+15. The improved cooking stove target for 2019 is 1500.
    > "Period 2019-07-01 to 2019-09-30: target 1500, actual none reported" (Health - Indoor air quality)
-30. Improved cooking stoves actual of 1203 in a 2018 period.
+16. A 2018 actual of 1203 is listed for improved cooking stoves.
    > "Period 2018-07-01 to 2018-09-30: target none stated, actual 1203" (Health - Indoor air quality)
-31. Caretakers' knowledge of continued feeding of an ill child has no target, so achievement is not calculable.
+17. The achievement for improved cooking stoves is not calculable.
+   > "Achievement: Households that have and use an improved cooking stove: not calculable (no actual)" (Health - Indoor air quality)
+18. For water points, the target for January to March 2020 is 2 with no actual reported.
+   > "Period 2020-01-01 to 2020-03-31: target 2, actual none reported" (WASH - Water)
+19. For people who can identify danger signs, the 2019 target is 80 and no actual is reported.
+   > "Period 2019-07-01 to 2019-09-30: target 80, actual none reported" (Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment)
+20. For correct handwashing, the target for January to March 2020 is 60 with no actual reported.
+   > "Period 2020-01-01 to 2020-03-31: target 60, actual none reported" (WASH - Hygiene promotion)
+21. The caretakers' feeding-knowledge indicator has no target, so its achievement is not calculable.
    > "Achievement: Caretakers that know continued feeding and drinking of an ill child is crucial: not calculable (no target)" (Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment)
-32. The resilience direct-services indicator is not calculable because the target is reported only for a sub-group with no overall figure.
+22. The PCV vaccination indicator has no target, so its achievement is not calculable.
+   > "Achievement: Children under 5 years in the project communities that received vaccinations for PCV: not calculable (no target)" (Health - Uptake of preventive healthcare)
+23. The resilience direct-services indicator is not calculable because the target is reported only for a sub-group with no overall figure.
    > "Achievement: People who received direct services that contribute to their resilience: not calculable (no total): the target is reported only for gender=Female, with no overall figure" (Other - People reached)
 
 ## Not calculable from the published data

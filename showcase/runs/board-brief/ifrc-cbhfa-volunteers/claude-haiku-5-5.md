@@ -2,37 +2,37 @@
 
 **What it is:** A training manual for volunteers in the International Federation of Red Cross and Red Crescent Societies. It covers community-based health and first aid in action (CBHFA), published March 2009.
 
-**What it asks of the organisation:** The manual asks National Societies to train local volunteers who live in their communities. Volunteers learn in class, then act in their communities. The manual is built in seven modules.
+**What it asks of the organisation:** Train local volunteers who live in the community. Volunteers learn in class, then act in their own community. The manual has seven modules covering Red Cross history and principles, community work, community assessment, first aid, disaster response, and disease prevention.
 
 **Key points for the board:**
 
-1. **Local volunteers at the centre.** Volunteers come from the communities where they work. The Federation believes they understand local life best.
-2. **Learn in class, act in the community.** Volunteers take what they learn back to their neighbours and share experience in return.
-3. **Community decides priorities.** A community assessment comes first. Topics are chosen from local health needs.
-4. **Broad health scope.** Topics include first aid, disease prevention, nutrition, safe water, family planning and HIV.
-5. **Long-term commitment.** A National Society that adopts CBHFA makes a commitment to long-term health work.
-6. **Protect the emblems and principles.** Volunteers must follow the seven Fundamental Principles and respect the emblems.
+1. **Volunteers are at the centre.** Local volunteers know how their community lives. They learn in the classroom, then put it into action.
 
-**What the board should decide or watch:**
+2. **Communities decide priorities.** Topics are chosen from what the community says are its main concerns. A community assessment comes first.
 
-- Whether the organisation can commit to training, supervision and long-term health programming.
-- Whether the local branch has the people and resources to run the modules.
-- Whether volunteers have proper equipment, insurance and training, as the manual states they should.
-- Whether the work is tracked with the report forms the manual describes.
+3. **A community health committee is a key partner.** It links volunteers, branch staff, and local health workers.
+
+4. **Training covers first aid and health.** Topics include bleeding, shock, burns, choking, CPR, malaria, diarrhoea, and HIV.
+
+5. **Volunteers need rules and support.** They must follow the seven Fundamental Principles, protect the emblems, keep information confidential, and rest enough.
+
+6. **Watch the reporting and the limits.** The manual says to explain clearly what CBHFA can and cannot do, to avoid unrealistic expectations, and to report activities to branch staff.
+
+**What the board should decide or watch:** Whether the organisation can supply trainers, materials, and time for volunteers. Whether a local health committee and health facility link can be set up. Whether reporting and first aid training follow National Society rules.
 
 ## Evidence cited
 
-1. The manual is a training document for volunteers in the Federation's community-based health and first aid programme.
-   > "Volunteer manual for Community-based health and first aid in action (CBHFA)" (Title page)
-2. The manual says volunteers come from and live in the communities where they work.
-   > "In many countries, volunteers come from and live in the communities where they work." (Introduction)
-3. Volunteers learn in the classroom and then act in their own communities.
-   > "Learn in the classroom, do in the community." (Introduction)
-4. What volunteers learn responds to what the community has decided are its priority areas of concern.
+1. The manual is a training document for volunteers in the CBHFA programme, published March 2009.
+   > "Volunteer manual for Community-based health and first aid in action (CBHFA) March 2009" (Cover)
+2. Local volunteers learn in the classroom and then act in their own community.
+   > "learn in the classroom, do in the community." (Introduction)
+3. Topics are chosen from the priority concerns that the community identifies.
    > "What you learn is in response to what your own community has decided are priority areas of concern." (Introduction)
-5. A National Society that implements CBHFA is making a commitment to long-term health programming.
-   > "A National Red Cross or Red Crescent Society implementing CBHFA is making a commitment to long-term health programming." (Foreword)
-6. The manual has seven modules.
-   > "Module 7 Supplementary topics" (Contents)
-7. Volunteers are guided by the seven Fundamental Principles.
-   > "Volunteers are guided by the seven Fundamental Principles of the International Red Cross and Red Crescent Movement." (Module 1, Main learning points)
+4. A community health committee is an important partner for CBHFA volunteers.
+   > "When organizing CBHFA, a community health committee is an important group to have as a partner." (Community health committee)
+5. The manual covers first aid for injuries and illnesses such as choking, bleeding, and shock.
+   > "Topic 4 Basic first aid for choking" (Module 4 Basic first aid and injury prevention)
+6. Volunteers must act in accordance with the seven Fundamental Principles.
+   > "Act in accordance with the seven Fundamental Principles of the International Red Cross and Red Crescent Movement and promote their dissemination." (Expectations of all Red Cross and Red Crescent volunteers)
+7. Volunteers should explain to community members what CBHFA activities can and cannot do.
+   > "As volunteers gather information, they will need to explain to community members what CBHFA activities CAN, and CANNOT do." (Module 3 Step 1: Plan the community assessment)

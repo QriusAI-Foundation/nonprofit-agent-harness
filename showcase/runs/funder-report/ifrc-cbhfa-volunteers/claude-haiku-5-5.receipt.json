@@ -1,5 +1,5 @@
 {
-  "run_id": "run_a0bb593ef2534255",
+  "run_id": "run_92fe0e573c8146f4",
   "date": "2026-10-17",
   "agent": "funder-report",
   "agent_version": "0.1.0",
@@ -12,161 +12,176 @@
   "status": "awaiting_review",
   "error": "",
   "review_state": "pending_review",
-  "seconds": 8.6,
+  "seconds": 9.0,
   "usage": {
     "calls": 1,
     "input_tokens": 170968,
-    "output_tokens": 1909,
-    "cost_usd": 0.090257
+    "output_tokens": 2067,
+    "cost_usd": 0.090651,
+    "unpriced_calls": 0
   },
   "price_file": "prices-2026-10-17.json",
-  "verification": "16 claim(s), all verified",
+  "document": {
+    "pages": 346,
+    "truncated": false,
+    "bytes": 6541723
+  },
+  "verification": "17 claim(s): 17 resolved (support not checked)",
   "claims": [
     {
-      "statement": "The CBHFA programme is described as using a learning-by-doing approach in which volunteers learn in the classroom and then act in their own communities.",
+      "statement": "The manual describes CBHFA as a dynamic programme in which volunteers learn in the classroom and then put learning into action in their communities.",
+      "quote": "The CBHFA in action programme is dynamic.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The manual describes the approach as learning by doing: learn in the classroom, do in the community.",
       "quote": "This is the learning by doing method: learn in the classroom, do in the community.",
       "locator": "Introduction",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The manual states that CBHFA brings first aid for common injuries to the community.",
+      "statement": "The programme trains and mobilizes volunteers from the community to carry out activities in the community.",
+      "quote": "CBHFA's integrated approach trains and mobilizes volunteers from the community to carry out activities in the community.",
+      "locator": "Foreword",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The manual states that local volunteers understand better how a particular community lives and works.",
+      "quote": "We believe that local volunteers understand better how a particular community lives and works.",
+      "locator": "Foreword",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The programme aims to bring first aid for common injuries to the community, identify and address community health priorities, advocate health promotion and disease prevention, and prepare volunteers to respond to disasters.",
       "quote": "brings first aid for common injuries to the community",
       "locator": "Introduction",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The manual states that CBHFA identifies and addresses community health priorities.",
-      "quote": "identifies and addresses community health priorities",
-      "locator": "Introduction",
+      "statement": "The first three modules of the CBHFA materials are obligatory.",
+      "quote": "The first three modules of the CBHFA materials are obligatory, and will give you the background skills you need",
+      "locator": "Introduction: How CBHFA in action works",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The manual states that CBHFA advocates health promotion and disease prevention.",
-      "quote": "advocates health promotion and disease prevention",
-      "locator": "Introduction",
+      "statement": "Some topics in the remaining modules are obligatory, but many of them are optional.",
+      "quote": "Some topics are obligatory, but many of them are optional.",
+      "locator": "Introduction: How CBHFA in action works",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The manual states that CBHFA prepares volunteers to respond to disasters.",
-      "quote": "prepares you and your fellow volunteers to respond to disasters",
-      "locator": "Introduction",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
-    },
-    {
-      "statement": "The programme is described as flexible, with content responding to priority areas of concern identified by the community.",
-      "quote": "What you learn is in response to what your own community has decided are priority areas of concern.",
-      "locator": "Introduction",
-      "outcome": "verified",
-      "match": "fuzzy",
-      "score": 1.0,
-      "reason": "citations resolve, some only approximately"
-    },
-    {
-      "statement": "The manual is organised into seven modules.",
-      "quote": "Module 7 Module 6 Module 4 Module 3Module 5",
+      "statement": "Module 4 covers basic first aid and injury prevention.",
+      "quote": "Basic first aid and injury prevention",
       "locator": "Contents",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Module 1 covers the Red Cross Red Crescent Movement, its emblems and the seven Fundamental Principles.",
-      "quote": "describe the seven Fundamental Principles of the International Red Cross and Red Crescent Movement and how they guide a volunteer's daily work",
-      "locator": "Module 1 Topic 1",
-      "outcome": "verified",
-      "match": "fuzzy",
-      "score": 1.0,
-      "reason": "citations resolve, some only approximately"
-    },
-    {
-      "statement": "Module 2 covers communication and community organizing, including a sensitization meeting and social mobilization with the Community Tools.",
-      "quote": "Topic 3 Sensitizing the community to CBHFA in action",
-      "locator": "Module 2",
+      "statement": "Module 6 covers disease prevention and health promotion.",
+      "quote": "Disease prevention and health promotion",
+      "locator": "Contents",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Module 3 covers community assessment tools including direct observation, transect walk, community map and seasonal calendar.",
-      "quote": "Topic 3 Community assessment tools: direct observation, transect walk, community map and seasonal calendar",
-      "locator": "Module 3",
+      "statement": "Module 3 covers assessment-based action in the community.",
+      "quote": "Assessment-based action in my community",
+      "locator": "Contents",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Module 4 covers basic first aid and injury prevention in 20 topics, of which five are optional.",
-      "quote": "There are 20 topics in this module, five of which are optional:",
-      "locator": "Module 4",
+      "statement": "The Community Tools are a set of dialogue cue cards used with household and community members.",
+      "quote": "The Community Tools are a set of dialogue cue cards that you can use with household and community members.",
+      "locator": "Introduction: How CBHFA in action works",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Module 5 covers community mobilization in major emergencies and public health in emergencies.",
-      "quote": "T opic 2 Public health in emergencies: preventing and responding to epidemics",
-      "locator": "Module 5",
+      "statement": "In the classroom, volunteers practise using the Community Tools before taking them into the community.",
+      "quote": "In the classroom, you will practise using the Community Tools for communicating key messages on different topics before you take them out into the community.",
+      "locator": "Introduction: How CBHFA in action works",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Module 6 covers disease prevention and health promotion topics such as family planning, safe motherhood and nutrition.",
-      "quote": "Topic 2 Family planning",
-      "locator": "Module 6",
+      "statement": "Each module includes learning objectives, main learning points and topic summaries.",
+      "quote": "At the completion of this topic, you will be able to:",
+      "locator": "Module 4, Topic 1",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Module 7 covers supplementary topics including road safety, safe blood and blood donor recruitment, and excessive substance use.",
-      "quote": "Topic 1 Road safety",
-      "locator": "Module 7",
+      "statement": "The manual states that the programme is designed to respond to the priority health needs of the community.",
+      "quote": "The CBHFAin action programme is designed to respond to the priority health needs of the community.",
+      "locator": "Topic 3: CBHFA in action",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The first three modules are obligatory, and remaining topics are often optional.",
-      "quote": "The first three modules of the CBHFA materials are obligatory",
-      "locator": "Introduction",
+      "statement": "Module 3 aims to identify three to five health, first aid and safety priorities for CBHFA activities.",
+      "quote": "Three to five health and safety priorities that can be addressed by community volunteer activities will be selected for CBHFA activities.",
+      "locator": "Topic 6: Making sense of the data",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The community assessment is used to decide which optional learning topics volunteers choose.",
-      "quote": "The community assessment will give your community the means to decide on what your priority learning needs are.",
-      "locator": "Introduction",
+      "statement": "Community participation is described as the core of CBHFA.",
+      "quote": "Community participation is the core of CBHFA.",
+      "locator": "Topic 3: CBHFA in action",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Module 4 covers the four steps for first aid action: assess, plan, implement and evaluate.",
+      "quote": "The four steps for first aid action",
+      "locator": "Module 4, Topic 1: Principles of first aid",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     }
   ],
   "harness_version": "0.3.0",
-  "harness_commit": "4d84e6f"
+  "harness_commit": "4369977"
 }

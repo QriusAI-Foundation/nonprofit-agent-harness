@@ -1,0 +1,88 @@
+{
+  "run_id": "run_0ad6fb42b2414598",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "alnap-sohs-2022",
+  "source_sha256": "3430e28b6714faadc34da9c36738b2f21457e1e264a530f0652b358d068b3d13",
+  "model": "claude-haiku-5-5",
+  "model_reported": "claude-haiku-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 8.1,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 385006,
+    "output_tokens": 1196,
+    "cost_usd": 0.195493,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 358,
+    "truncated": false,
+    "bytes": 6617310
+  },
+  "verification": "6 claim(s): 5 resolved (support not checked), 1 citation uncertain",
+  "claims": [
+    {
+      "statement": "International humanitarian assistance was estimated at $31.3 billion in 2021.",
+      "quote": "at an estimated $31.3 billion in 2021, funding is larger than ever before.",
+      "locator": "Chapter 2: What is the shape and size of the humanitarian system?",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Almost half of international humanitarian assistance came from five donors.",
+      "quote": "Almost half of international humanitarian assistance continued to come from just five donors",
+      "locator": "Chapter 2: What is the shape and size of the humanitarian system?",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The system reached an estimated 46% of people identified as in need under the plans where data was available.",
+      "quote": "the system reached an estimated 46% of the people it identified to be in need",
+      "locator": "Chapter 4: Does humanitarian support reach the right people?",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Only 36% of aid recipients surveyed thought that aid went to those who needed it most.",
+      "quote": "Only 36% of aid recipients surveyed thought that aid went to those who needed it most.",
+      "locator": "Chapter 4: Does humanitarian support reach the right people?",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Direct funding to local and national actors was about 1.2% of international humanitarian assistance in 2021.",
+      "quote": "a low of 1.2% in 2021.",
+      "locator": "Chapter 9: Does the international system enable local action?",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Only four countries out of a sample of 29 had mortality data available consistently year on year.",
+      "quote": "only four had mortality data available consistently year on year",
+      "locator": "Chapter 6: Does humanitarian action work?",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (alnap-sohs-2022.pdf: 1 word difference(s) the free check cannot judge)"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

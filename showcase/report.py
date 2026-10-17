@@ -17,7 +17,18 @@ from pathlib import Path
 from showcase import harness_setup as setup
 
 RUNS = setup.HERE / "runs"
-MODELS = ("claude-haiku-5-5", "claude-sonnet-5-5", "claude-opus-5-5")
+MODELS = (
+    "claude-haiku-5-5",
+    "claude-sonnet-5-5",
+    "claude-opus-5-5",
+    "claude-opus-5-5 (effort high)",
+    "claude-fable-5-1",
+)
+
+
+def model_label(receipt: dict) -> str:
+    effort = receipt.get("effort")
+    return f"{receipt['model']} (effort high)" if effort == "high" else receipt["model"]
 
 
 def receipts(folder: Path = RUNS) -> list[dict]:
@@ -28,8 +39,10 @@ def outcome_counts(receipt: dict) -> Counter:
     counts: Counter = Counter()
     for claim in receipt["claims"]:
         outcome = claim["outcome"] or "unchecked"
-        if outcome == "verified" and claim.get("match"):
-            outcome = f"verified ({claim['match']})"
+        # The free check proves a quote is in the source, not that it supports the
+        # claim, so a passing quote is "resolved", as the harness itself labels it.
+        if outcome == "verified":
+            outcome = f"resolved ({claim.get('match') or 'unknown'})"
         counts[outcome] += 1
     return counts
 
@@ -37,7 +50,7 @@ def outcome_counts(receipt: dict) -> Counter:
 def model_table(rows: list[dict]) -> list[str]:
     groups: dict[tuple[str, str], list[dict]] = defaultdict(list)
     for receipt in rows:
-        groups[(receipt["agent"], receipt["model"])].append(receipt)
+        groups[(receipt["agent"], model_label(receipt))].append(receipt)
     names = sorted({name for r in rows for name in outcome_counts(r)})
     header = ["Agent", "Model", "Runs", "Input tokens", "Output tokens", "Cost (USD)",
               "Claims", *names, "Empty outputs"]
@@ -74,9 +87,9 @@ def run_table(rows: list[dict]) -> list[str]:
         "| Agent | Source | Model | Run | Input | Output | USD | Seconds | Verification |",
         "|---|---|---|---:|---:|---:|---:|---:|---|",
     ]
-    for r in sorted(rows, key=lambda r: (r["agent"], r["source"], r["model"], r["repeat"])):
+    for r in sorted(rows, key=lambda r: (r["agent"], r["source"], model_label(r), r["repeat"])):
         lines.append(
-            f"| {r['agent']} | {r['source']} | {r['model']} | {r['repeat']} | "
+            f"| {r['agent']} | {r['source']} | {model_label(r)} | {r['repeat']} | "
             f"{r['usage']['input_tokens']:,} | {r['usage']['output_tokens']:,} | "
             f"{r['usage']['cost_usd']:.4f} | {r['seconds']} | "
             f"{r['verification'] or 'no claims returned'} |"

@@ -1,0 +1,88 @@
+{
+  "run_id": "run_cce1bfd4e7a840ff",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "wb-vnen-evaluation",
+  "source_sha256": "585b3e8d46a296b262cc161b999dce0f94f91269994ccf4a9c8883c93b592f3c",
+  "model": "claude-opus-5-5",
+  "model_reported": "claude-opus-5-5",
+  "effort": "medium",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 25.2,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 152933,
+    "output_tokens": 2457,
+    "cost_usd": 0.660872,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 166,
+    "truncated": false,
+    "bytes": 16529609
+  },
+  "verification": "6 claim(s): 5 resolved (support not checked), 1 citation uncertain",
+  "claims": [
+    {
+      "statement": "The report finds VNEN had a positive impact on cognitive and non-cognitive achievement.",
+      "quote": "The VNEN program has had a positive impact on cognitive and non-cognitive achievement of children in Vietnam.",
+      "locator": "8.1 Positive Impact of VNEN",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The programme cost roughly US$40 per student per year.",
+      "quote": "This works out roughly to about US$40 per student per year.",
+      "locator": "Executive Summary \u2013 Findings Highlights",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Implementation varied across schools and a complex reform cannot be imposed by mandate.",
+      "quote": "A complex reform cannot be enforced uniformly by mandate.",
+      "locator": "1.4 Preview of Findings",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wb-vnen-impact-evaluation-2017.pdf: the source reads 'not' just before it)"
+    },
+    {
+      "statement": "Actual parent participation was sporadic.",
+      "quote": "However, actual participation of parents was sporadic",
+      "locator": "Executive Summary \u2013 Key Findings",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Biweekly teacher cluster meetings happened only sporadically in many schools.",
+      "quote": "Biweekly interaction between teachers appears to have taken place only sporadically in many schools.",
+      "locator": "8.4 Training of Teachers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The authors say the findings still need academic review.",
+      "quote": "These findings need to be examined through the scrutiny of academic publication",
+      "locator": "1.4 Preview of Findings",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

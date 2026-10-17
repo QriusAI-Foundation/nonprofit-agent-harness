@@ -1,0 +1,82 @@
+{
+  "run_id": "run_a371ce08b7f64243",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "who-chw-curriculum",
+  "source_sha256": "5273d03171b03a7fb71ba8fb07de8a5ab38bdab43a3bacd5c485cd5b982e342d",
+  "model": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 17.2,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 158066,
+    "output_tokens": 2342,
+    "cost_usd": 0.339552
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "6 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "The guide was developed to help design and implement CHW curricula to strengthen essential community services within primary health care.",
+      "quote": "This guide was developed to assist in the conceptualization, design and implementation of CHW curricula with a view to strengthening delivery of essential services at community level as an integral part of primary health care.",
+      "locator": "Executive summary",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The main audience is CHW educators and those developing CHW curricula.",
+      "quote": "The main target audience for this document comprises CHW educators as well those developing CHW curricula.",
+      "locator": "Executive summary",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Most volunteer or very part-time CHWs cannot carry out all the universal practice activities in the framework.",
+      "quote": "Most volunteer CHWs, or those working only a few hours a week, cannot reasonably carry out all the universal practice activities expected of all CHWs in this framework.",
+      "locator": "1.2 Objective and target audience",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The guide has six competency domains, 12 universal modules and four role-specific modules with 28 topics.",
+      "quote": "The content is organized into six competency domains, 12 universal modules (11 practice activities plus one module of basic science knowledge), and four role-specific modules, comprising 28 role-specific topics organized under the four modules.",
+      "locator": "3.1 Overview of the CHW curriculum guide",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "For role-specific activities, planners are advised to select only the modules relevant to their health system.",
+      "quote": "For the role-specific activities, programme managers or CHW educators are advised to select only the relevant modules appropriate to their health system.",
+      "locator": "1. Introduction",
+      "outcome": "verified",
+      "match": "fuzzy",
+      "score": 1.0,
+      "reason": "citations resolve, some only approximately"
+    },
+    {
+      "statement": "The guide recommends that practising CHWs receive a financial package matched to job demands, hours, training and roles.",
+      "quote": "Providing practising CHWs with a financial package commensurate with the job demands, complexity, number of hours worked, training and roles that they undertake.",
+      "locator": "4. Health policy and health system support for CHW integration in primary health care",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4d84e6f"
+}

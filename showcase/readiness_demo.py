@@ -131,6 +131,20 @@ def generate(count: int, model: str) -> None:
     print(f"wrote {len(payload.get('organisations') or [])} answer sets")
 
 
+def describe(result: dict) -> str:
+    """One cell from `harness score` output, before and after the scorer gained a status."""
+    overall = result.get("overall")
+    shown = "no score" if overall is None else f"{overall:.3f}"
+    parts = [f"{shown} {result.get('tier') or 'no tier'}"]
+    if "status" in result:
+        parts.append(f"status {result['status']}")
+    parts.append(f"dimensions {len(result.get('dimension_scores') or {})}/2")
+    for key in ("missing_dimensions", "duplicates_dropped", "excluded_questions"):
+        if result.get(key):
+            parts.append(f"{key.replace('_', ' ')} {result[key]}")
+    return "; ".join(parts)
+
+
 def score_all() -> None:
     rows = []
     for path in sorted(ANSWERS.glob("*.answers.json")):
@@ -139,12 +153,7 @@ def score_all() -> None:
             [str(HARNESS), "score", str(path)], capture_output=True, text=True, check=False
         )
         if done.returncode == 0:
-            result = json.loads(done.stdout)
-            reported = (
-                f"{result['overall']:.3f} {result['tier']}; dimensions "
-                f"{len(result['dimension_scores'])}/2; excluded {result['excluded_questions']}"
-                f"; unanswered {result['unanswered_questions']}"
-            )
+            reported = describe(json.loads(done.stdout))
         else:
             last = (done.stderr.strip().splitlines() or ["(no output)"])[-1]
             reported = f"exit {done.returncode}: {last[:120]}"

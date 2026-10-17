@@ -43,7 +43,12 @@ ALTERED_KINDS = (
     "reordered",
     "paraphrase",
 )
-KINDS = FAITHFUL_KINDS + ALTERED_KINDS
+BASE_KINDS = FAITHFUL_KINDS + ALTERED_KINDS
+
+#: The kinds a token-overlap check finds hardest. A second generation pass (`--hard`)
+#: writes two of each per passage, and `build` keeps up to twice as many of them.
+HARD_KINDS = ("changed_quantity", "reordered", "moved_negation")
+KINDS = BASE_KINDS + ("moved_negation",)
 
 #: Words that carry negation once text is tokenised. "doesn't" tokenises to "doesn",
 #: "t", so the contracted stems are here too.
@@ -129,8 +134,8 @@ SCHEMA: dict[str, Any] = {
                     "source_passage": {"type": "string"},
                     "variants": {
                         "type": "object",
-                        "properties": {kind: {"type": "string"} for kind in KINDS},
-                        "required": list(KINDS),
+                        "properties": {kind: {"type": "string"} for kind in BASE_KINDS},
+                        "required": list(BASE_KINDS),
                     },
                 },
                 "required": ["source_passage", "variants"],
@@ -141,6 +146,37 @@ SCHEMA: dict[str, Any] = {
 }
 
 
+HARD_SYSTEM = SYSTEM.split("For each passage")[0] + """For each passage, write two quotes
+of each kind below, each from a different span where possible. Spans are 8 to 30 words
+long. Keep every other word verbatim.
+
+- changed_quantity, changed_quantity_2: a contiguous span with exactly one quantity
+  (digits, a number word, a percentage, or a year) replaced by a different one.
+- reordered, reordered_2: a contiguous span with two content words or noun phrases
+  swapped so the meaning changes. Same words, different order.
+- moved_negation, moved_negation_2: a contiguous span containing a negation, with the
+  negation moved to a different place in the span so the meaning changes. Same words,
+  different order.
+"""
+
+HARD_VARIANTS = (
+    "changed_quantity",
+    "changed_quantity_2",
+    "reordered",
+    "reordered_2",
+    "moved_negation",
+    "moved_negation_2",
+)
+
+#: A deep copy, so editing the variants does not change the first-pass schema.
+HARD_SCHEMA: dict[str, Any] = json.loads(json.dumps(SCHEMA))
+HARD_SCHEMA["properties"]["passages"]["items"]["properties"]["variants"] = {
+    "type": "object",
+    "properties": {name: {"type": "string"} for name in HARD_VARIANTS},
+    "required": list(HARD_VARIANTS),
+}
+
+
 class QuotationCorpusAgent(Agent):
     name = "quotation-corpus"
     description = "Writes fictional passages with labelled quote variants for testing."
@@ -148,8 +184,12 @@ class QuotationCorpusAgent(Agent):
 
     def run(self, ctx: RunContext) -> AgentResult:
         brief = ctx.inputs[0]
+        hard = bool(ctx.option("hard", False))
         response = ctx.provider.generate(
-            brief.text, system=SYSTEM, json_schema=SCHEMA, max_output_tokens=32_000
+            brief.text,
+            system=HARD_SYSTEM if hard else SYSTEM,
+            json_schema=HARD_SCHEMA if hard else SCHEMA,
+            max_output_tokens=32_000,
         )
         return AgentResult(
             artifacts=[self.artifact("corpus-batch", response.text, title=brief.name)],
@@ -169,18 +209,24 @@ def brief_for(call: int, passages: int) -> Document:
     return Document(text="\n".join(lines), name=f"corpus-call-{call:03d}")
 
 
-def generate(calls: int, first: int, model: str, effort: str | None, workers: int) -> None:
+def generate(
+    calls: int, first: int, model: str, effort: str | None, workers: int, hard: bool = False
+) -> None:
     setup.require_key()
     setup.require_headroom(calls * 0.9)
     RAW.mkdir(parents=True, exist_ok=True)
 
     def one(call: int) -> str:
         run = setup.runner(QuotationCorpusAgent(), model, effort=effort, max_cost_usd=3.0).start(
-            QuotationCorpusAgent.name, org_id="showcase", inputs=[brief_for(call, 10)]
+            QuotationCorpusAgent.name,
+            org_id="showcase",
+            inputs=[brief_for(call, 10)],
+            options={"hard": hard},
         )
-        setup.record("corpus", run, model, call=call)
+        setup.record("corpus-hard" if hard else "corpus", run, model, call=call)
+        stem = f"{model}-hard" if hard else model
         if run.artifacts:
-            (RAW / f"{model}-{call:03d}.json").write_text(run.artifacts[0].content)
+            (RAW / f"{stem}-{call:03d}.json").write_text(run.artifacts[0].content)
         return f"call {call}: {run.status} ${run.usage.cost_usd:.4f} {run.error or ''}"
 
     with ThreadPoolExecutor(max_workers=workers) as pool:
@@ -246,6 +292,8 @@ def valid(kind: str, passage: str, quote: str) -> bool:
                 for i in range(len(p_tokens) - len(q_tokens) + 1)
             )
         )
+    if kind == "moved_negation":
+        return valid("reordered", passage, quote) and bool(set(q_tokens) & NEGATION)
     if kind == "paraphrase":
         novel = [t for t in q_tokens if t not in set(p_tokens)]
         return not _contiguous(p_tokens, q_tokens) and len(novel) >= 2
@@ -264,8 +312,11 @@ def build(per_kind: int | None) -> None:
             variants = entry.get("variants") or {}
             if not passage:
                 continue
-            for kind in KINDS:
-                quote = str(variants.get(kind) or "")
+            for name, quote in variants.items():
+                kind = name.removesuffix("_2")
+                if kind not in KINDS:
+                    continue
+                quote = str(quote or "")
                 key = hashlib.sha256(f"{kind}\0{normalize(passage)}\0{quote}".encode()).hexdigest()
                 if key in seen:
                     continue
@@ -287,12 +338,12 @@ def build(per_kind: int | None) -> None:
     by_kind: dict[str, list[dict[str, Any]]] = {kind: [] for kind in KINDS}
     for item in items:
         by_kind[item["kind"]].append(item)
-    cap = per_kind or min(len(v) for v in by_kind.values())
+    cap = per_kind or min(len(by_kind[kind]) for kind in BASE_KINDS)
     rng = random.Random(17)
     balanced = []
     for kind in KINDS:
         rng.shuffle(by_kind[kind])
-        balanced.extend(by_kind[kind][:cap])
+        balanced.extend(by_kind[kind][: cap * 2 if kind in HARD_KINDS else cap])
     balanced.sort(key=lambda item: item["id"])
 
     FIXTURE.parent.mkdir(parents=True, exist_ok=True)
@@ -311,12 +362,13 @@ def main(argv: list[str] | None = None) -> int:
     gen.add_argument("--model", default="claude-opus-5-5")
     gen.add_argument("--effort", default="medium")
     gen.add_argument("--workers", type=int, default=4)
+    gen.add_argument("--hard", action="store_true", help="two of each hard kind per passage")
     bld = sub.add_parser("build")
     bld.add_argument("--per-kind", type=int, default=None)
     args = parser.parse_args(argv)
 
     if args.command == "generate":
-        generate(args.calls, args.first, args.model, args.effort, args.workers)
+        generate(args.calls, args.first, args.model, args.effort, args.workers, args.hard)
     else:
         build(args.per_kind)
     return 0

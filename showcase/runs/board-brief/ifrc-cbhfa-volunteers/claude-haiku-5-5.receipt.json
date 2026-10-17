@@ -1,5 +1,5 @@
 {
-  "run_id": "run_00e82d5184364c1a",
+  "run_id": "run_8d94a2a6f12c4d0e",
   "date": "2026-10-17",
   "agent": "board-brief",
   "agent_version": "0.1.0",
@@ -12,80 +12,86 @@
   "status": "awaiting_review",
   "error": "",
   "review_state": "pending_review",
-  "seconds": 6.3,
+  "seconds": 7.8,
   "usage": {
     "calls": 1,
     "input_tokens": 170945,
-    "output_tokens": 1041,
-    "cost_usd": 0.088075
+    "output_tokens": 1155,
+    "cost_usd": 0.08836,
+    "unpriced_calls": 0
   },
   "price_file": "prices-2026-10-17.json",
-  "verification": "7 claim(s), all verified",
+  "document": {
+    "pages": 346,
+    "truncated": false,
+    "bytes": 6541723
+  },
+  "verification": "7 claim(s): 2 citation uncertain, 3 resolved (support not checked), 2 citation not found",
   "claims": [
     {
-      "statement": "The manual is a training document for volunteers in the Federation's community-based health and first aid programme.",
-      "quote": "Volunteer manual for Community-based health and first aid in action (CBHFA)",
-      "locator": "Title page",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "statement": "The manual is a training document for volunteers in the CBHFA programme, published March 2009.",
+      "quote": "Volunteer manual for Community-based health and first aid in action (CBHFA) March 2009",
+      "locator": "Cover",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (ifrc-cbhfa-volunteer-manual.pdf: the number continues in the source as '2009 145600')"
     },
     {
-      "statement": "The manual says volunteers come from and live in the communities where they work.",
-      "quote": "In many countries, volunteers come from and live in the communities where they work.",
+      "statement": "Local volunteers learn in the classroom and then act in their own community.",
+      "quote": "learn in the classroom, do in the community.",
       "locator": "Introduction",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Volunteers learn in the classroom and then act in their own communities.",
-      "quote": "Learn in the classroom, do in the community.",
-      "locator": "Introduction",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
-    },
-    {
-      "statement": "What volunteers learn responds to what the community has decided are its priority areas of concern.",
+      "statement": "Topics are chosen from the priority concerns that the community identifies.",
       "quote": "What you learn is in response to what your own community has decided are priority areas of concern.",
       "locator": "Introduction",
-      "outcome": "verified",
-      "match": "fuzzy",
-      "score": 1.0,
-      "reason": "citations resolve, some only approximately"
+      "outcome": "citation_not_found",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) were not found in the source; the closest passage was refused: word order differs from the source"
     },
     {
-      "statement": "A National Society that implements CBHFA is making a commitment to long-term health programming.",
-      "quote": "A National Red Cross or Red Crescent Society implementing CBHFA is making a commitment to long-term health programming.",
-      "locator": "Foreword",
+      "statement": "A community health committee is an important partner for CBHFA volunteers.",
+      "quote": "When organizing CBHFA, a community health committee is an important group to have as a partner.",
+      "locator": "Community health committee",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (ifrc-cbhfa-volunteer-manual.pdf: 1 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "The manual covers first aid for injuries and illnesses such as choking, bleeding, and shock.",
+      "quote": "Topic 4 Basic first aid for choking",
+      "locator": "Module 4 Basic first aid and injury prevention",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "The manual has seven modules.",
-      "quote": "Module 7 Supplementary topics",
-      "locator": "Contents",
+      "statement": "Volunteers must act in accordance with the seven Fundamental Principles.",
+      "quote": "Act in accordance with the seven Fundamental Principles of the International Red Cross and Red Crescent Movement and promote their dissemination.",
+      "locator": "Expectations of all Red Cross and Red Crescent volunteers",
       "outcome": "verified",
       "match": "exact",
       "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
     },
     {
-      "statement": "Volunteers are guided by the seven Fundamental Principles.",
-      "quote": "Volunteers are guided by the seven Fundamental Principles of the International Red Cross and Red Crescent Movement.",
-      "locator": "Module 1, Main learning points",
-      "outcome": "verified",
-      "match": "exact",
-      "score": 1.0,
-      "reason": "every citation quotes the source exactly"
+      "statement": "Volunteers should explain to community members what CBHFA activities can and cannot do.",
+      "quote": "As volunteers gather information, they will need to explain to community members what CBHFA activities CAN, and CANNOT do.",
+      "locator": "Module 3 Step 1: Plan the community assessment",
+      "outcome": "citation_not_found",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) were not found in the source; the closest passage was refused: word order differs from the source"
     }
   ],
   "harness_version": "0.3.0",
-  "harness_commit": "4d84e6f"
+  "harness_commit": "4369977"
 }

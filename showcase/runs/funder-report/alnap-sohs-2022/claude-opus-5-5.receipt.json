@@ -1,0 +1,178 @@
+{
+  "run_id": "run_5fc945711b11449d",
+  "date": "2026-10-17",
+  "agent": "funder-report",
+  "agent_version": "0.1.0",
+  "source": "alnap-sohs-2022",
+  "source_sha256": "3430e28b6714faadc34da9c36738b2f21457e1e264a530f0652b358d068b3d13",
+  "model": "claude-opus-5-5",
+  "model_reported": "claude-opus-5-5",
+  "effort": "medium",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 32.1,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 385029,
+    "output_tokens": 3439,
+    "cost_usd": 1.608896,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 358,
+    "truncated": false,
+    "bytes": 6617310
+  },
+  "verification": "16 claim(s): 16 resolved (support not checked)",
+  "claims": [
+    {
+      "statement": "The SOHS is an independent longitudinal study.",
+      "quote": "is a unique, independent longitudinal study that gathers and synthesises",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The 2022 edition covers January 2018 to December 2021.",
+      "quote": "edition covers the period from January 2018 to December 2021 inclusive.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Content is organised around framing questions beginning with 'What is the system?'",
+      "quote": "fundamental ones framing the report: What is the system?",
+      "locator": "A reader\u2019s guide to this report",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Each of the 12 chapters presents evidence to answer a key question about the system.",
+      "quote": "The 12 chapters in this edition of the SOHS each present evidence",
+      "locator": "A reader\u2019s guide to this report",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "A quick user guide signposts key topics.",
+      "quote": "a quick user guide that highlights key topics.",
+      "locator": "A reader\u2019s guide to this report",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Findings are drawn from 10 research components combining primary and secondary data.",
+      "quote": "Findings are drawn from 10 research components, using a combination",
+      "locator": "Research components and methods",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The report includes a survey of 5,487 aid recipients in six crisis contexts.",
+      "quote": "A survey of 5,487 aid recipients in six crisis contexts, using",
+      "locator": "Research components and methods",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The practitioner and host-government survey had 436 completed responses.",
+      "quote": "A global web-based survey, with 436 completed responses,",
+      "locator": "Research components and methods",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Over 500 humanitarian evaluations were assessed for inclusion in the evaluation synthesis.",
+      "quote": "Over 500 humanitarian evaluations were assessed for inclusion with",
+      "locator": "Research components and methods",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "For the first time, aid recipients were consulted on the design of the research.",
+      "quote": "This time, for the first time, we consulted aid recipients on the design",
+      "locator": "Objectives and approach",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "This led to greater emphasis on targeting, corruption, do no harm and accountability to affected populations.",
+      "quote": "priority issues: targeting, corruption, do no harm and accountability",
+      "locator": "Objectives and approach",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The material sets out performance criteria adapted from the OECD-DAC criteria.",
+      "quote": "Box A: The SOHS performance criteria, adapted for use",
+      "locator": "Box A",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Coverage is defined in terms of the degree to which action reaches people in need.",
+      "quote": "Coverage: The degree to which action by the international",
+      "locator": "Box A",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Effectiveness is defined in terms of operations meeting their stated objectives.",
+      "quote": "Effectiveness: The degree to which humanitarian operations meet",
+      "locator": "Box A",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The conclusion summarises changes in the system's performance.",
+      "quote": "The conclusion summarises changes in the system\u2019s performance",
+      "locator": "Report structure",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Persistent data gaps limit the report's ability to give clear assessments.",
+      "quote": "and pervasive data gaps continue to limit this report\u2019s ability to provide clear,",
+      "locator": "Report limitations and pervasive data gaps",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

@@ -1,0 +1,91 @@
+{
+  "run_id": "run_00e82d5184364c1a",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "ifrc-cbhfa-volunteers",
+  "source_sha256": "e011d9b15fe71e9b93101155bf8085255143d64b8ad3f3157bb33e8c71438418",
+  "model": "claude-haiku-5-5",
+  "model_reported": "claude-haiku-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 6.3,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 170945,
+    "output_tokens": 1041,
+    "cost_usd": 0.088075
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "7 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "The manual is a training document for volunteers in the Federation's community-based health and first aid programme.",
+      "quote": "Volunteer manual for Community-based health and first aid in action (CBHFA)",
+      "locator": "Title page",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The manual says volunteers come from and live in the communities where they work.",
+      "quote": "In many countries, volunteers come from and live in the communities where they work.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Volunteers learn in the classroom and then act in their own communities.",
+      "quote": "Learn in the classroom, do in the community.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "What volunteers learn responds to what the community has decided are its priority areas of concern.",
+      "quote": "What you learn is in response to what your own community has decided are priority areas of concern.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "fuzzy",
+      "score": 1.0,
+      "reason": "citations resolve, some only approximately"
+    },
+    {
+      "statement": "A National Society that implements CBHFA is making a commitment to long-term health programming.",
+      "quote": "A National Red Cross or Red Crescent Society implementing CBHFA is making a commitment to long-term health programming.",
+      "locator": "Foreword",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The manual has seven modules.",
+      "quote": "Module 7 Supplementary topics",
+      "locator": "Contents",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Volunteers are guided by the seven Fundamental Principles.",
+      "quote": "Volunteers are guided by the seven Fundamental Principles of the International Red Cross and Red Crescent Movement.",
+      "locator": "Module 1, Main learning points",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4d84e6f"
+}

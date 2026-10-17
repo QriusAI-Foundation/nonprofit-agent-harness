@@ -50,7 +50,11 @@ class Job:
 
 
 def jobs(
-    agents: list[str], models: list[str], repeats: int, only: set[str] | None = None
+    agents: list[str],
+    models: list[str],
+    repeats: int,
+    only: set[str] | None = None,
+    first_repeat: int = 1,
 ) -> list[Job]:
     manuals = [
         (source.slug, document(source))
@@ -65,7 +69,7 @@ def jobs(
             if only and slug not in only:
                 continue
             for model in models:
-                for repeat in range(1, repeats + 1):
+                for repeat in range(first_repeat, repeats + 1):
                     planned.append(Job(agent, slug, source, model, repeat))
     return planned
 
@@ -83,6 +87,8 @@ def execute(job: Job, effort: str | None) -> dict:
     )
     seconds = round(time.monotonic() - started, 1)
     stem = job.model if job.repeat == 1 else f"{job.model}.r{job.repeat}"
+    if effort and effort != "medium":
+        stem = f"{stem}.effort-{effort}"
     folder = RUNS / job.agent / job.slug
     folder.mkdir(parents=True, exist_ok=True)
     if run.artifacts:
@@ -132,8 +138,10 @@ def build_receipt(job: Job, run: Run, effort: str | None, seconds: float) -> dic
             "input_tokens": run.usage.input_tokens,
             "output_tokens": run.usage.output_tokens,
             "cost_usd": round(run.usage.cost_usd, 6),
+            "unpriced_calls": run.usage.unpriced_calls,
         },
         "price_file": setup.PRICE_FILE.name,
+        "document": {k: v for k, v in job.source.metadata.items() if k != "not_calculable"},
         "verification": artifact.verification.summary() if artifact and artifact.verification
         else None,
         "claims": claims,
@@ -149,12 +157,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--effort", default=None)
     parser.add_argument("--sources", default="", help="comma-separated slugs; all if empty")
     parser.add_argument("--repeats", type=int, default=1)
+    parser.add_argument("--first-repeat", type=int, default=1)
     parser.add_argument("--workers", type=int, default=3)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
 
     only = set(filter(None, args.sources.split(","))) or None
-    planned = jobs(args.agents.split(","), args.models.split(","), args.repeats, only)
+    planned = jobs(
+        args.agents.split(","), args.models.split(","), args.repeats, only, args.first_repeat
+    )
     projected = sum(estimate(job) for job in planned)
     print(f"{len(planned)} runs, estimated up to ${projected:.2f}")
     if args.dry_run:
