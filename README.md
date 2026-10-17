@@ -57,6 +57,16 @@ What is here is the scaffolding, not the agents. The Curriculum Agent and the
 Foundation's other work stay in its own repositories. This is the part worth giving
 away.
 
+## See it run
+
+On 2026-10-17 the Foundation ran this harness against Claude Haiku 5.5, Sonnet 5.5,
+Opus 5.5 and Fable 5.1, on six openly licensed training and programme documents of up
+to 385,000 tokens and three published IATI activities: 183 harness runs, USD 85.36. Every
+output is committed with the harness's own receipt (tokens, cost, review state, the
+verdict on every quote). [docs/showcase.md](docs/showcase.md) has the cost per model,
+what the citation check caught and got wrong, a 3,966-item quote-checking test set,
+budget ceilings tripped on purpose, and how to reproduce it all with your own key.
+
 ## What we looked for, and did not find
 
 Before writing this we searched for one already. Two angles: open-source agent
@@ -501,6 +511,7 @@ uvx agent-starter-pack create my-agent -a github.com/QriusAI-Foundation/nonprofi
 | [docs/datasources.md](docs/datasources.md) | Reading the sector's open data, starting with IATI |
 | [docs/results.md](docs/results.md) | Results, indicators, and the arithmetic that gets them wrong |
 | [docs/configuration.md](docs/configuration.md) | Every setting, what it does, what it costs |
+| [docs/showcase.md](docs/showcase.md) | Real runs on Claude models: costs, receipts, what the checks caught |
 | [docs/deployment.md](docs/deployment.md) | Cloud Run and Terraform, start to finish |
 | [docs/security.md](docs/security.md) | Threat model, what is and is not protected |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Why the pieces are shaped the way they are |

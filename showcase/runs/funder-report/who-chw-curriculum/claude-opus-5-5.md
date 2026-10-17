@@ -1,0 +1,71 @@
+## Programme approach and training content
+
+The programme's training material is the World Health Organization's *Global curriculum guide for community health workers* (2025). This section summarises the approach and content as that guide describes them. It does not report delivery, participation or results.
+
+**Competency-based approach.** The guide adopts the principles and structure of competency-based education (CBE). It describes CBE as oriented to outcome abilities, with less emphasis on time-based training. Suggested learning activities include individual, small group and shadowing experiences. The guide states that in CBE the tutor acts as a facilitator rather than someone who imparts knowledge. Formative and summative assessments are outlined for each module.
+
+**Structure of the content.** The guide is organised into six competency domains, 12 universal modules and four role-specific modules comprising 28 topics. It sets out 25 competencies relevant to all community health workers (CHWs) across contexts.
+
+- **Universal modules.** These are described as relevant to all CHWs, with contextualization. Table 2.1 gives a total suggested duration of 303 hours for the universal modules. For example, Module 1 (Conducting a home visit) has a suggested 33 teaching hours, including at least 5 hours of shadowing and a 6-hour summative assessment. The basic science module is to be completed before any role-specific training.
+- **Role-specific modules.** These cover areas including:
+  - maternal and newborn health
+  - HIV and STIs
+  - tuberculosis
+  - malaria
+  - noncommunicable diseases
+  - neglected tropical diseases
+  - health emergency preparedness and response
+
+  The guide states that no CHW can carry out every role-specific practice activity. Content should be selected according to population needs and the local scope of practice.
+
+**Adaptation and intended users.** The guide states that it is not intended to be rigid or prescriptive. It recommends consulting CHWs throughout adaptation, including in field testing and feedback. It proposes learning activities but does not itself contain learning materials or case studies.
+
+The guide is designed primarily for formal CHWs who are:
+
+- integrated into the health system
+- trained through a structured education pathway
+- employed under a contract
+- appropriately paid and supported
+
+It notes that most volunteer CHWs, or those working only a few hours a week, cannot reasonably carry out all of the universal practice activities.
+
+## Evidence cited
+
+1. The guide adopts the principles and structure of competency-based education (CBE).
+   > "This CHW curriculum guide adopts the principles and structure of competency-based education (CBE)." (1.5 Principles of competency-based education (CBE))
+2. CBE is described as oriented to outcome abilities, with less emphasis on time-based training.
+   > "CBE aims to prepare learners for practice that is oriented to outcome abilities, with less emphasis on time-based training" (1.5 Principles of competency-based education (CBE))
+3. Suggested learning activities include individual, small group and shadowing experiences.
+   > "These include a range of individual, small group and shadowing learning experiences to collectively build the knowledge, skills, attitudes and competencies for practice." (2. Learning and assessment)
+4. In CBE the tutor acts as a facilitator rather than someone who imparts knowledge.
+   > "In CBE, the role of the tutor evolves into that of a facilitator rather than an individual who imparts knowledge." (2. Learning and assessment)
+5. Formative and summative assessments are outlined for each module.
+   > "Both formative and summative assessments of learning are outlined for each module." (2. Learning and assessment)
+6. The guide is organised into six competency domains, 12 universal modules and four role-specific modules comprising 28 topics.
+   > "The content is organized into six competency domains, 12 universal modules (11 practice activities plus one module of basic science knowledge), and four role-specific modules, comprising 28 role-specific topics organized under the four modules." (3.1 Overview of the CHW curriculum guide)
+7. The guide sets out 25 competencies relevant to all CHWs across contexts.
+   > "There are 25 competencies that are relevant to all CHWs across all contexts, including the breadth of the practice activities in the universal and role-specific modules." (Section 1. Competencies)
+8. Universal modules are described as relevant to all CHWs, with contextualization.
+   > "These modules are relevant to all CHWs, with contextualization." (3.1 Overview of the CHW curriculum guide)
+9. Table 2.1 gives a total suggested duration of 303 hours for the universal modules.
+   > "Total duration of universal practice activities (hours) 303" (Table 2.1 Universal modules: practice activities and suggested duration)
+10. Module 1 has a suggested 33 teaching hours, including at least 5 hours of shadowing and a 6-hour summative assessment.
+   > "The total suggested time to complete this module is 33 teaching hours, including a minimum of 5 hours of shadowing and 6 hours for the summative assessment (including 3 hours of practice-based observation)." (Module 1. Conducting a home visit)
+11. The basic science module is to be completed before any role-specific training.
+   > "It should be completed prior to conducting training on any of the role-specific activity content." (Module 12. Basic science: introduction to biology, anatomy, physiology and pathology)
+12. Role-specific modules cover maternal and newborn health, HIV and STIs, tuberculosis, malaria, noncommunicable diseases, neglected tropical diseases, and health emergency preparedness and response.
+   > "These areas include maternal and newborn health, human immunodeficiency virus (HIV) and sexually transmitted infections (STIs), tuberculosis (TB), malaria, noncommunicable diseases (NCDs), neglected tropical diseases (NTDs), and health emergency preparedness and response." (3.1 Overview of the CHW curriculum guide)
+13. The guide states that no CHW can carry out every role-specific practice activity.
+   > "No CHW can carry out all of the practice activities and tasks outlined in the role-specific modules in this framework." (3.1 Overview of the CHW curriculum guide)
+14. Role-specific content should be selected according to population needs and the local scope of practice.
+   > "Content from the role-specific modules should therefore be selected based on the needs of the population and the scope of practice of CHWs in a given context." (3.1 Overview of the CHW curriculum guide)
+15. The guide states that it is not intended to be rigid or prescriptive.
+   > "This guide is designed to facilitate design and implementation of CHW curricula, and is not intended to be interpreted as rigid or prescriptive." (3.3 How to use the curriculum guide)
+16. The guide recommends consulting CHWs throughout adaptation, including in field testing and feedback.
+   > "CHWs should be consulted throughout this process, engaged in field testing and providing feedback." (Creating user-friendly learning materials appropriate to CHWs)
+17. The guide proposes learning activities but does not itself contain learning materials or case studies.
+   > "While it proposes learning activities that often draw from presentations, case scenarios or role play scenario cards, it does not contain the learning materials or case studies." (Creating user-friendly learning materials appropriate to CHWs)
+18. The guide is designed primarily for formal CHWs who are integrated into the health system, trained through a structured education pathway, employed under a contract, and appropriately paid and supported.
+   > "This curriculum guide is designed primarily for formal CHWs who are integrated into the health system, who have a structured education pathway and a contract, and who are appropriately remunerated and supported." (1.2 Objective and target audience)
+19. Most volunteer CHWs, or those working only a few hours a week, cannot reasonably carry out all of the universal practice activities.
+   > "Most volunteer CHWs, or those working only a few hours a week, cannot reasonably carry out all the universal practice activities expected of all CHWs in this framework." (1.2 Objective and target audience)

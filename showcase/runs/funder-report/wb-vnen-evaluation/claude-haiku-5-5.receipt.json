@@ -1,0 +1,196 @@
+{
+  "run_id": "run_16369f0862b4465c",
+  "date": "2026-10-17",
+  "agent": "funder-report",
+  "agent_version": "0.1.0",
+  "source": "wb-vnen-evaluation",
+  "source_sha256": "585b3e8d46a296b262cc161b999dce0f94f91269994ccf4a9c8883c93b592f3c",
+  "model": "claude-haiku-5-5",
+  "model_reported": "claude-haiku-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 10.5,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 152956,
+    "output_tokens": 2476,
+    "cost_usd": 0.082668,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 166,
+    "truncated": false,
+    "bytes": 16529609
+  },
+  "verification": "18 claim(s): 12 citation uncertain, 6 resolved (support not checked)",
+  "claims": [
+    {
+      "statement": "The VNEN programme integrates several practices, including participative and collaborative learning, self-paced learning guides, and student government.",
+      "quote": "The VNEN incorporates and integrates several innovative and globally recognized practices including: (a) participative and collaborative learning; (b) self-paced learning guides; (c) student government;",
+      "locator": "Executive Summary",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wb-vnen-impact-evaluation-2017.pdf: 3 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "The source states that the combination of VNEN elements is intended to spur a transformative and powerful learning experience.",
+      "quote": "The combination of these elements is intended to spur a transformative and powerful learning experience.",
+      "locator": "Executive Summary",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wb-vnen-impact-evaluation-2017.pdf: 2 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "Escuela Nueva began in Colombia in the 1970s and used self-paced learning guides instead of textbooks.",
+      "quote": "Escuela Nueva began to be implemented in Colombia in the 1970s as a program that transformed rural education in that South American country.",
+      "locator": "1.1.1 Origins in Colombia",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wb-vnen-impact-evaluation-2017.pdf: 2 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "Escuela Nueva included self-paced learning guides instead of textbooks.",
+      "quote": "These included self-paced learning guides instead of textbooks and a flexible school calendar adapted to imperatives of rural life",
+      "locator": "1.1.1 Origins in Colombia",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wb-vnen-impact-evaluation-2017.pdf: 2 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "Learning guides for Vietnamese children were developed in Vietnam by Vietnamese textbook experts.",
+      "quote": "On a practical plane, learning guides for Vietnamese children needed to be developed for Vietnam by Vietnamese textbook experts.",
+      "locator": "Executive Summary",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wb-vnen-impact-evaluation-2017.pdf: 2 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "A pilot of Escuela Nueva in Vietnam began implementation in 2010.",
+      "quote": "to design a pilot of Escuela Nueva in Vietnam that began implementation in 2010.",
+      "locator": "1.1.2 Adaptation in Vietnam",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Learning guides replace textbooks under the VNEN model.",
+      "quote": "Learning Guides (LGs) replace textbooks under the VNEN model.",
+      "locator": "4.1.3 Learning Guides",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Teachers are trained to modify the learning guide's activities as they see fit.",
+      "quote": "teachers are not only given the opportunity to modify the learning guide's activities as they see fit but are even trained on how to effectively do so.",
+      "locator": "7.5 Extent and Nature of Use of the Learning Guide",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wb-vnen-impact-evaluation-2017.pdf: 2 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "Teachers rarely change the content of the learning guide but mostly adjust the operations or carry out additional activities.",
+      "quote": "Teachers rarely change the content of the learning guide but mostly adjust the operations or carry out additional activities.",
+      "locator": "7.5 Extent and Nature of Use of the Learning Guide",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wb-vnen-impact-evaluation-2017.pdf: 2 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "All primary school teachers in Vietnam receive two weeks of summer training, which constituted the initial VNEN training for most teachers.",
+      "quote": "All primary school teachers in Vietnam receive two weeks of summer training, which constituted the initial VNEN training for most teachers.",
+      "locator": "3.1.3 Training",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The training event consisted of practical implementation of VNEN classrooms rather than hearing lectures about VNEN.",
+      "quote": "the training event consisted of practical implementation of VNEN classrooms rather than hearing lectures about VNEN",
+      "locator": "3.1.3 Training",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wb-vnen-impact-evaluation-2017.pdf: 2 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "Teachers were involved at all levels of training, and the most skilled and motivated prior pilot teachers were included as trainers.",
+      "quote": "teachers were involved at all levels of training.",
+      "locator": "3.1.3 Training",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Teachers received all training materials at least 2 weeks before the training.",
+      "quote": "the teachers received all training materials at least 2 weeks before the training and came to the training prepared",
+      "locator": "3.1.3 Training",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wb-vnen-impact-evaluation-2017.pdf: 3 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "VNEN teachers reported attending an average of three to four school cluster meetings per year, lower than the roughly 15 or 16 expected.",
+      "quote": "teachers in VNEN schools reported taking part in an average of three to four school cluster meetings per year.",
+      "locator": "3.1.3 Training",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wb-vnen-impact-evaluation-2017.pdf: 1 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "The biweekly cluster training was not fully implemented in some schools.",
+      "quote": "The biweekly cluster training was not fully implemented in some schools.",
+      "locator": "Takeaways: Teacher Beliefs, Attitudes, and Training",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wb-vnen-impact-evaluation-2017.pdf: 2 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "The share of control group teachers who reported receiving VNEN training rose from 37% in 2013 to 71% in 2015.",
+      "quote": "The percentage of control group teachers who answered 'yes' went up from 37% in 2013 to 71% in 2015.",
+      "locator": "3.1.3 Training",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The study reports considerable heterogeneity in VNEN implementation across schools.",
+      "quote": "The study documents a considerable level of variation or heterogeneity in the implementation of VNEN practices.",
+      "locator": "Executive Summary",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wb-vnen-impact-evaluation-2017.pdf: 2 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "Use of classroom artifacts was made very seldom according to the study.",
+      "quote": "We found that the use of artifacts was made very seldom",
+      "locator": "Policy Conclusions and Recommendations",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

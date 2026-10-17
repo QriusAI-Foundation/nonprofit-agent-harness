@@ -93,4 +93,7 @@ ignore = ["B008"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# The cited examples' tests import `examples`, which lives at the repo root, not in the
+# package. Bare `pytest` (as CI runs it) does not put the root on sys.path by itself.
+pythonpath = ["."]
 asyncio_mode = "auto"

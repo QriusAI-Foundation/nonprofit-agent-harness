@@ -1,0 +1,98 @@
+{
+  "run_id": "run_9bc35c8a807242f6",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "wdr-2018-learning",
+  "source_sha256": "2e4e423f80106723808b14e703f0aa0f163c16cc28594f9faea76d57b5d4b47a",
+  "model": "claude-haiku-5-5",
+  "model_reported": "claude-haiku-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 10.8,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 352442,
+    "output_tokens": 1287,
+    "cost_usd": 0.179439,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 240,
+    "skipped_pages": [
+      155
+    ]
+  },
+  "verification": "7 claim(s): 6 resolved (support not checked), 1 citation uncertain",
+  "claims": [
+    {
+      "statement": "Schooling is not the same as learning; many children in school still cannot read a simple sentence.",
+      "quote": "Schooling is not the same as learning.",
+      "locator": "OVERVIEW: Learning to realize education's promise",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The report calls the gap between schooling and learning a learning crisis.",
+      "quote": "This learning crisis is a moral crisis.",
+      "locator": "OVERVIEW: Learning to realize education's promise",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Learning outcomes are almost always much worse for disadvantaged children.",
+      "quote": "Within countries, learning outcomes are almost always much worse for the disadvantaged.",
+      "locator": "OVERVIEW: Learning to realize education's promise",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Many countries lack the information needed to measure learning outcomes.",
+      "quote": "Many countries lack information on even basic reading and math competencies.",
+      "locator": "Assess learning\u2014to make it a serious goal",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wdr-2018-learning.pdf: the source reads 'not' just before it)"
+    },
+    {
+      "statement": "Children from disadvantaged backgrounds show learning deficits before they start school.",
+      "quote": "Children from disadvantaged backgrounds tend to exhibit learning deficits years before they start school",
+      "locator": "Chapter 3: Children do not arrive ready to learn",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Teachers are the most important factor affecting learning in schools.",
+      "quote": "Teachers are the most important factor affecting learning in schools.",
+      "locator": "OVERVIEW: The three dimensions of the learning crisis",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Systems must align actors and overcome technical and political barriers to make learning work at scale.",
+      "quote": "Countries must recognize that all the classroom innovation in the world is unlikely to have much impact if, because of technical and political barriers, the system as a whole does not support learning.",
+      "locator": "OVERVIEW: Learning to realize education's promise",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

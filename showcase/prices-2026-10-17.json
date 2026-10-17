@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-17",
+  "currency": "USD",
+  "unit": "per 1,000,000 tokens",
+  "source": "Anthropic first-party API list prices for the Claude 5.5 models, as published in October 2026. Check current prices before reusing these numbers.",
+  "status": "The deployer's price book for this showcase only, dated. It is loaded into the harness's PriceBook by showcase/harness_setup.py. It is not a package default, and the harness ships no prices (AGENTS.md rule 5).",
+  "models": {
+    "claude-haiku-5-5": {
+      "input": 0.1,
+      "output": 0.5,
+      "long_prompt": {
+        "above_input_tokens": 100000,
+        "input": 0.5,
+        "output": 2.5
+      }
+    },
+    "claude-sonnet-5-5": {
+      "input": 2.0,
+      "output": 10.0
+    },
+    "claude-opus-5-5": {
+      "input": 4.0,
+      "output": 20.0
+    },
+    "claude-fable-5-1": {
+      "input": 10.0,
+      "output": 50.0
+    }
+  }
+}

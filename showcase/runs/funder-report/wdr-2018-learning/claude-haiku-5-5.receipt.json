@@ -1,0 +1,233 @@
+{
+  "run_id": "run_140d49a794fb42c0",
+  "date": "2026-10-17",
+  "agent": "funder-report",
+  "agent_version": "0.1.0",
+  "source": "wdr-2018-learning",
+  "source_sha256": "2e4e423f80106723808b14e703f0aa0f163c16cc28594f9faea76d57b5d4b47a",
+  "model": "claude-haiku-5-5",
+  "model_reported": "claude-haiku-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 16.3,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 352465,
+    "output_tokens": 2684,
+    "cost_usd": 0.182943,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 240,
+    "skipped_pages": [
+      155
+    ]
+  },
+  "verification": "22 claim(s): 16 resolved (support not checked), 4 citation uncertain, 2 citation not found",
+  "claims": [
+    {
+      "statement": "The Report's framing is that schooling is not the same as learning.",
+      "quote": "Schooling is not the same as learning.",
+      "locator": "OVERVIEW",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report states that in Kenya, Tanzania, and Uganda, three-quarters of grade 3 students did not understand a simple sentence in a recent assessment.",
+      "quote": "In Kenya,  Tanzania, and Uganda, when grade 3 students were asked recently to read a sentence such as \u201cThe name of the dog is Puppy,\u201d three-quarters did not understand what it said.",
+      "locator": "OVERVIEW",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report frames its approach around three strategies: assess learning, act on evidence, and align actors.",
+      "quote": "Assess learning\u2014to make it a serious goal.",
+      "locator": "OVERVIEW",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report states that within countries, learning outcomes are almost always much worse for the disadvantaged.",
+      "quote": "Within countries, learning outcomes are almost always much worse for the disadvantaged.",
+      "locator": "OVERVIEW",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report states that poor children learn the least and that the learning gap widens over time.",
+      "quote": "Poor children learn the least, which hurts them the most",
+      "locator": "Chapter 3: The many faces of the learning crisis",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report states that disadvantaged children's learning gaps are evident before school begins.",
+      "quote": "Children from disadvantaged backgrounds tend to exhibit learning deficits years before they start school",
+      "locator": "What is causing the learning crisis?",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report states that severe deprivation impairs infants' brain development.",
+      "quote": "Severe deprivations\u2014whether in terms of nutrition, unhealthy environments, or lack of nurture by caregivers\u2014have long-lasting effects because they impair infants\u2019 brain development.",
+      "locator": "OVERVIEW",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wdr-2018-learning.pdf: 2 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "The Report identifies early childhood nutrition, care, stimulation, and learning opportunities as a key entry point for learner preparation.",
+      "quote": "Set children on high-development trajectories through early childhood nutrition, stimulation, and care.",
+      "locator": "Act on evidence\u2014to make schools work for all learners",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report states that fees and opportunity costs remain major financial barriers to schooling.",
+      "quote": "Fees and opportunity costs are still major financial barriers to schooling",
+      "locator": "OVERVIEW",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wdr-2018-learning.pdf: the source reads 'not' just before it)"
+    },
+    {
+      "statement": "The Report recommends that remediation be provided before further education and training.",
+      "quote": "To make up for the fact that so many youth lack skills  when leaving basic education, provide remediation before further education and training.",
+      "locator": "Act on evidence\u2014to make schools work for all learners",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report states that teachers are the most important factor affecting learning in schools.",
+      "quote": "Teachers are the most important factor affecting learning in schools.",
+      "locator": "OVERVIEW",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report states that most teacher training is ineffective, though some approaches work.",
+      "quote": "Most teacher training is ineffective, but some approaches work",
+      "locator": "Chapter 6: Teacher skills and motivation both matter",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report recommends that teacher training be individually targeted and repeated, with follow-up coaching.",
+      "quote": "For effective teacher training, design it to be individually targeted and repeated, with follow-up coaching",
+      "locator": "Act on evidence\u2014to make schools work for all learners",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report states that programs in Africa and South Asia that provided long-term coaching led to sizable learning gains.",
+      "quote": "By contrast, programs in Africa and South Asia that provided long-term coaching led to sizable learning gains.",
+      "locator": "Make teaching more effective",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report recommends targeting teaching to the level of the student so learners do not fall behind.",
+      "quote": "To keep learners from falling behind to the point where they cannot catch up, target teaching to the level of the student.",
+      "locator": "Make teaching more effective",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report recommends that incentives be used to improve teacher motivation, ensuring the incentivized actions are within teachers' capacity.",
+      "quote": "Use pecuniary and nonpecuniary incentives to improve the motivation of teachers, ensuring that the incentivized actions are within teachers\u2019 capacity.",
+      "locator": "Make teaching more effective",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wdr-2018-learning.pdf: 2 word difference(s) the free check cannot judge)"
+    },
+    {
+      "statement": "The Report states that additional inputs should complement rather than substitute for teachers.",
+      "quote": "Provide additional  inputs, including new technologies, in ways that complement rather than substitute for teachers.",
+      "locator": "Focus everything else on teaching and learning",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report states that technology interventions often fail because they are not implementable in current systems.",
+      "quote": "Ensure that new information and communication technology is really implementable in the current systems.",
+      "locator": "Align actors\u2014to make the whole system work for learning",
+      "outcome": "citation_not_found",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) were not found in the source; the closest passage was refused: word order differs from the source"
+    },
+    {
+      "statement": "The Report states that training principals in how to improve teacher-learner interaction has led to a large impact on student learning.",
+      "quote": "Training principals in how to improve that interaction\u2014by providing feedback to teachers on lesson plans, action plans to improve student performance, and classroom behavior\u2014has led to a large impact on student learning.",
+      "locator": "Align actors\u2014to make the whole system work for learning",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report states that misalignment in education systems arises from technical and political barriers.",
+      "quote": "Countries must also overcome technical and political barriers",
+      "locator": "OVERVIEW",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Report states that an iterative, problem-driven approach to reform can help systems adapt interventions to local contexts.",
+      "quote": "Recent examples show how an iterative, adaptive approach can strengthen education systems and improve learning.",
+      "locator": "Encouraging innovation and agility",
+      "outcome": "citation_not_found",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) were not found in the source; the closest passage was refused: word order differs from the source"
+    },
+    {
+      "statement": "The Report describes England's literacy and numeracy reforms as having improved primary schoolchildren's skills.",
+      "quote": "Since 1995, England has substantially improved the literacy and numeracy skills of primary schoolchildren using good political strategy and sound technical solutions.",
+      "locator": "How to escape low-learning traps",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (wdr-2018-learning.pdf: 1 word difference(s) the free check cannot judge)"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

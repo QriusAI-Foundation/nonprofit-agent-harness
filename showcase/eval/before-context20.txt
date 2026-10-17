@@ -1,0 +1,14 @@
+3966 items, context=20 passage(s), passes=0 (no model calls)
+
+kind              label     n     citation_not_found  verified  correct
+exact             faithful  407   0                   407       100.0% 
+whitespace_case   faithful  407   0                   407       100.0% 
+punctuation       faithful  407   0                   407       100.0% 
+changed_quantity  altered   624   617                 7         98.9%  
+added_negation    altered   407   4                   403       1.0%   
+removed_negation  altered   407   0                   407       0.0%   
+reordered         altered   660   0                   660       0.0%   
+moved_negation    altered   240   0                   240       0.0%   
+paraphrase        altered   407   358                 49        88.0%  
+all altered       altered   2745                                35.7%  
+all faithful      faithful  1221                                100.0% 

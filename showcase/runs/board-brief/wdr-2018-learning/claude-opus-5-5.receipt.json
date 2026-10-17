@@ -1,0 +1,89 @@
+{
+  "run_id": "run_a14b1427cf884edf",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "wdr-2018-learning",
+  "source_sha256": "2e4e423f80106723808b14e703f0aa0f163c16cc28594f9faea76d57b5d4b47a",
+  "model": "claude-opus-5-5",
+  "model_reported": "claude-opus-5-5",
+  "effort": "medium",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 32.0,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 352442,
+    "output_tokens": 2110,
+    "cost_usd": 1.451968,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 240,
+    "skipped_pages": [
+      155
+    ]
+  },
+  "verification": "6 claim(s): 6 resolved (support not checked)",
+  "claims": [
+    {
+      "statement": "The 2018 WDR is the first in the series devoted entirely to education.",
+      "quote": "is the first ever devoted entirely",
+      "locator": "Back cover introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Schooling does not guarantee learning.",
+      "quote": "Schooling is not the same as learning.",
+      "locator": "Overview: Learning to realize education's promise",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Poor children learn the least and are hurt the most by this.",
+      "quote": "Poor children learn the least, which hurts them the most",
+      "locator": "Chapter 3: The many faces of the learning crisis",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The first strategy is to assess learning and make it a serious goal.",
+      "quote": "Assess learning\u2014to make it a serious goal.",
+      "locator": "How to realize education's promise: Three policy responses",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Both teacher skills and teacher motivation matter for learning.",
+      "quote": "Teacher skills and motivation both matter",
+      "locator": "Contents: Chapter 6",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Additional resources must be used in ways that improve learning.",
+      "quote": "The key will be to use those additional resources",
+      "locator": "Spotlight 6: Spending more or spending better\u2014or both?",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

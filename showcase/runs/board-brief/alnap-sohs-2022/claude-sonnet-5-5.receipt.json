@@ -1,0 +1,88 @@
+{
+  "run_id": "run_899fecf66c104d69",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "alnap-sohs-2022",
+  "source_sha256": "3430e28b6714faadc34da9c36738b2f21457e1e264a530f0652b358d068b3d13",
+  "model": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 24.3,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 385006,
+    "output_tokens": 2475,
+    "cost_usd": 0.794762,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 358,
+    "truncated": false,
+    "bytes": 6617310
+  },
+  "verification": "6 claim(s): 6 resolved (support not checked)",
+  "claims": [
+    {
+      "statement": "The report covers the period from January 2018 to December 2021.",
+      "quote": "This fifth edition covers the period from January 2018 to December 2021 inclusive.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The humanitarian funding gap has grown over the study period.",
+      "quote": "The humanitarian funding gap has grown since the start of the study period.",
+      "locator": "Chapter 3: Is there enough aid? \u2013 In brief",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Only 36% of aid recipients surveyed thought aid went to those who needed it most.",
+      "quote": "Only 36% of aid recipients surveyed thought that aid went to those who needed it most.",
+      "locator": "Chapter 4: Does humanitarian support reach the right people?",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Local and national groups saw no real funding increase and mostly worked as sub-contractors with limited influence.",
+      "quote": "But there was no real increase in funding for local actors, and for the most part L/NNGOs continued to operate as sub-contractors, with limited influence.",
+      "locator": "Chapter 9: Does the international system enable local action? \u2013 In brief",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Mortality data was consistently available in only 4 of 29 sampled responses.",
+      "quote": "Out of a sample of 29 countries with humanitarian responses only 4 had mortality data available consistently year on year.",
+      "locator": "Chapter 6: Does humanitarian action work? \u2013 In brief",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Pressure on the space for principled humanitarian action has increased over the past 10 years.",
+      "quote": "Assertive states and a weakened multilateral system have meant that pressure on the space for principled humanitarian action has increased over the past 10 years.",
+      "locator": "Chapter 11: Does the system uphold its principles? \u2013 In brief",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

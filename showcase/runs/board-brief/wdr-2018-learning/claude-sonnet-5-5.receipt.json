@@ -1,0 +1,89 @@
+{
+  "run_id": "run_dead908ade484643",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "wdr-2018-learning",
+  "source_sha256": "2e4e423f80106723808b14e703f0aa0f163c16cc28594f9faea76d57b5d4b47a",
+  "model": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 26.3,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 352442,
+    "output_tokens": 2800,
+    "cost_usd": 0.732884,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 240,
+    "skipped_pages": [
+      155
+    ]
+  },
+  "verification": "6 claim(s): 6 resolved (support not checked)",
+  "claims": [
+    {
+      "statement": "The report is a product of World Bank staff with external contributions.",
+      "quote": "This work is a product of the staff of The World Bank with external contributions.",
+      "locator": "Rights and Permissions",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The report notes that some 260 million children and youth are not enrolled in primary or secondary school.",
+      "quote": "Some 260 million aren\u2019t even enrolled in primary or secondary school.",
+      "locator": "Overview: Learning to realize education\u2019s promise",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The first strategy is to measure and track learning better and use results to guide action.",
+      "quote": "Measure and track learning better; use the results to guide action.",
+      "locator": "How to realize education\u2019s promise: Three policy responses",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The second strategy is to use evidence to guide innovation and practice in schools.",
+      "quote": "Use evidence to guide innovation and practice.",
+      "locator": "How to realize education\u2019s promise: Three policy responses",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The third strategy is to tackle technical and political barriers to learning at scale.",
+      "quote": "Tackle the technical and political barriers to learning at scale.",
+      "locator": "How to realize education\u2019s promise: Three policy responses",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The report warns that taking learning seriously will not be easy.",
+      "quote": "Taking learning seriously won\u2019t be easy.",
+      "locator": "Learning to realize education\u2019s promise",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

@@ -1,0 +1,11 @@
+{
+  "d1": "spreadsheets",
+  "d2": "drafted",
+  "d3": 10,
+  "p1": [
+    "writes_reports",
+    "builds_dashboards"
+  ],
+  "p2": "tried_once",
+  "p3": "ad_hoc"
+}

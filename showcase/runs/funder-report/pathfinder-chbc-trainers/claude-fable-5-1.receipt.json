@@ -1,0 +1,340 @@
+{
+  "run_id": "run_8cff383642ba48f1",
+  "date": "2026-10-17",
+  "agent": "funder-report",
+  "agent_version": "0.1.0",
+  "source": "pathfinder-chbc-trainers",
+  "source_sha256": "6c23212037340d36e0c47fb1096efccd35269368dc196b8913b8f6cd30ccaec8",
+  "model": "claude-fable-5-1",
+  "model_reported": "claude-fable-5-1",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 116.9,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 331860,
+    "output_tokens": 11352,
+    "cost_usd": 3.8862,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 748,
+    "truncated": false,
+    "bytes": 4202112
+  },
+  "verification": "34 claim(s): 33 resolved (support not checked), 1 citation uncertain",
+  "claims": [
+    {
+      "statement": "The training material is Pathfinder International's Trainer's Guide, a comprehensive CHBC training course for community health workers.",
+      "quote": "A Comprehensive Training Course for Community Health Workers",
+      "locator": "Title page",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide is dated October 2006 and published by Pathfinder International.",
+      "quote": "Pathfinder International October 2006",
+      "locator": "Title page",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (pathfinder-chbc-trainers-guide-2006.pdf: the number continues in the source as '2006 2006')"
+    },
+    {
+      "statement": "The curriculum aims to give CHWs the knowledge and skills to provide CHBC to PLWHA in their communities.",
+      "quote": "This curriculum aims to provide CHWs with the knowledge and skills necessary to provide CHBC to PLWHA in their communities.",
+      "locator": "Notes to the Trainer \u2013 Introduction to the Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "A Handbook is provided for participants, used during training and as a reference afterwards in the community.",
+      "quote": "Participants will use their Handbooks throughout the training and as reference after the training when they are working in the communities.",
+      "locator": "Notes to the Trainer \u2013 Introduction to the Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Pathfinder's CHBC model involves and builds the capacity of local organisations, CHWs and facility-based providers.",
+      "quote": "Pathfinder\u2019s CHBC programs involve and build the capacity of local organizations, community health workers, and facility-based health care providers.",
+      "locator": "Notes to the Trainer \u2013 Pathfinder\u2019s CHBC Model",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The model includes prevention encompassing behaviour change communication, contraceptive services, and linkages to VCT and PMTCT.",
+      "quote": "Prevention which encompasses Behavior Change Communication (BCC); contraceptive services, including condoms for dual protection; linkages to Voluntary Counseling and Testing (VCT); and referrals for Prevention of Mother-to-Child Transmission (PMTCT) services.",
+      "locator": "Notes to the Trainer \u2013 Pathfinder\u2019s CHBC Model",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The model includes care and training for caregivers of PLWHA.",
+      "quote": "Care and training for caregivers of PLWHA that centers on infection prevention; nursing skills such as skin, mouth, and nail care; preventing and managing Opportunistic Infections (OIs); and skills to promote positive living such as preparing nutritious food.",
+      "locator": "Notes to the Trainer \u2013 Pathfinder\u2019s CHBC Model",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The model includes community sensitisation and mobilisation with community leaders and groups.",
+      "quote": "Community sensitization and mobilization with community leaders and groups to raise awareness of HIV/AIDS",
+      "locator": "Notes to the Trainer \u2013 Pathfinder\u2019s CHBC Model",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The model includes two-way referral linkages with health facilities and VCT centres.",
+      "quote": "Two-way referral linkages among CHBC providers, health facilities, other health providers, and VCT centers.",
+      "locator": "Notes to the Trainer \u2013 Pathfinder\u2019s CHBC Model",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The model includes linkages to emotional, social, spiritual and economic support services.",
+      "quote": "Strong linkages to emotional, social, spiritual, and economic support services such as food banks, PLWHA support/self-help groups, legal aid, microcredit and income generating activities, child support services, and faith-based groups.",
+      "locator": "Notes to the Trainer \u2013 Pathfinder\u2019s CHBC Model",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The model includes support for orphans and vulnerable children.",
+      "quote": "Support for orphans and vulnerable children, including linkages to nutrition support and health services, provision of school fees and uniforms, and access to income generating activities and vocational training.",
+      "locator": "Notes to the Trainer \u2013 Pathfinder\u2019s CHBC Model",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The CHW's main responsibility should be to transfer nursing and support skills to family caregivers and to PLWHA able to do self-care.",
+      "quote": "The main responsibility of the CHW should be to transfer nursing and support skills to caregivers (i.e., family or friends of PLWHA) and to PLWHA who are able to do self-care.",
+      "locator": "Notes to the Trainer \u2013 Pathfinder\u2019s CHBC Model",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Trainer's Guide is organised into 13 core units, a practicum and 5 advanced units.",
+      "quote": "The Trainer\u2019s Guide is divided into 13 core units, a practicum, and 5 advanced units that contain additional information that CHWs might find useful after they have covered the core areas.",
+      "locator": "Notes to the Trainer \u2013 Introduction to the Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The core training covers basic nursing, OI prevention and management, referral guidance, basic counselling, community mobilisation and prevention, problem solving, and positive living.",
+      "quote": "The core training includes skills in basic nursing, prevention and management of OIs, guidance on when to refer to a health facility, basic counseling, community mobilization and prevention, problem solving, and positive living.",
+      "locator": "Notes to the Trainer \u2013 Training and Supervision of Community Health Workers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "An advanced unit addresses the expanded role of the CHW.",
+      "quote": "Advanced Unit 15: Expanded Role of the Community Health Worker",
+      "locator": "Table of Contents",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "An advanced unit addresses family planning.",
+      "quote": "Advanced Unit 16: Introduction to Family Planning (FP)",
+      "locator": "Table of Contents",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "An advanced unit addresses prevention of mother-to-child transmission.",
+      "quote": "Advanced Unit 17: Preventing Mother-to-Child Transmission (PMTCT) of HIV",
+      "locator": "Table of Contents",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "An advanced unit addresses antiretroviral therapy.",
+      "quote": "Advanced Unit 18: Antiretroviral Therapy (ART)",
+      "locator": "Table of Contents",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "An advanced unit addresses CHBC for groups needing special attention.",
+      "quote": "Advanced Unit 19: CHBC for Groups Needing Special Attention",
+      "locator": "Table of Contents",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Units can be combined into a shorter course or training series depending on time, funding and local priorities.",
+      "quote": "This curriculum is also flexible, and different units can be put together for a shorter course, or a training series, depending on the time and funding available, and on the key issues being addressed in a particular setting.",
+      "locator": "Notes to the Trainer \u2013 Using this Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The training is described as participatory and based on adult learning principles.",
+      "quote": "The nature of this training program is intended to be participatory and based on adult learning principles.",
+      "locator": "Notes to the Trainer \u2013 Training Philosophy",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Reading and writing activities can be replaced or adapted with pictures or speaking for participants with limited literacy.",
+      "quote": "Activities that require writing or reading, for example, could be replaced or adapted with activities that use pictures or speaking.",
+      "locator": "Notes to the Trainer \u2013 Using this Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide recommends limiting trainings to 15\u201320 participants.",
+      "quote": "CHBC trainings should be limited to 15-20 participants to ensure a good trainer-participant ratio and adequate time for skills practice.",
+      "locator": "Notes to the Trainer \u2013 Training and Supervision of Community Health Workers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Involving facility-based providers in training and supervision is said to strengthen referral linkages.",
+      "quote": "By involving facility-based providers in the training and supervision of CHWs, referral linkages are strengthened and topics such as PMTCT and ART benefit from providers\u2019 specialized knowledge.",
+      "locator": "Notes to the Trainer \u2013 Training and Supervision of Community Health Workers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide suggests that trainers act as supervisors of CHWs.",
+      "quote": "It is suggested that trainers double as supervisors of CHWs as they are in the best position to reinforce transferred skills and strengthen ties between CHBC and facility-based services.",
+      "locator": "Notes to the Trainer \u2013 Training and Supervision of Community Health Workers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Pre- and post-tests are given to all participants.",
+      "quote": "Pre- and post-tests are to be given to all participants.",
+      "locator": "Notes to the Trainer \u2013 Design of the Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The pre- and post-tests serve to evaluate the training.",
+      "quote": "It should be explained to participants that these serve to evaluate the effectiveness of the training.",
+      "locator": "Notes to the Trainer \u2013 Design of the Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The course includes three practicums covering client care and community mobilisation.",
+      "quote": "There are three practicums that cover skills in client care as well as community mobilization.",
+      "locator": "Notes to the Trainer \u2013 Using this Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The first practicum takes place in the classroom before working with real people.",
+      "quote": "The first is a classroom practicum where skills will be practiced before working with real people.",
+      "locator": "Notes to the Trainer \u2013 Using this Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The second practicum takes place in the home with PLWHA and their caregivers.",
+      "quote": "The second will take place in the home, working with PLWHA, their caregivers, and their families.",
+      "locator": "Notes to the Trainer \u2013 Using this Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The third practicum is community-based and involves speaking to groups and mobilising support.",
+      "quote": "The third practicum will be based in the community and involve speaking to groups and mobilizing support.",
+      "locator": "Notes to the Trainer \u2013 Using this Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Informed consent is obtained from clients, who are told that practice with real clients forms part of the training.",
+      "quote": "Informed consent involves explaining to the person the purpose of the CHBC training and that part of the training involves practice with real clients.",
+      "locator": "Notes to the Trainer \u2013 More About the CHBC Practicum, Evaluation, and Certification",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The curriculum draws on Pathfinder's CHBC experience in Kenya, Tanzania, Ethiopia, Nigeria and Uganda.",
+      "quote": "It draws on the experience of Pathfinder staff who put into practice a model of Community Home-Based Care (CHBC) in Kenya, Tanzania, Ethiopia, Nigeria, and Uganda.",
+      "locator": "Acknowledgments",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The curriculum was pre-tested in Tanzania and Mozambique and underwent internal and external peer review.",
+      "quote": "The curriculum was pre-tested in Tanzania and Mozambique, and underwent an internal and external peer review.",
+      "locator": "Acknowledgments",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

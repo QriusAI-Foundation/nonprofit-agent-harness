@@ -1,0 +1,262 @@
+{
+  "run_id": "run_a8138066f93d4232",
+  "date": "2026-10-17",
+  "agent": "results-narrative",
+  "agent_version": "0.1.0",
+  "source": "cordaid-teenage-pregnancy-sl",
+  "source_sha256": "531828e41cdfa5c8758d12af9afff49b8c1d8df5de837b7ac2f23780fe21533f",
+  "model": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 28.7,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 8244,
+    "output_tokens": 5331,
+    "cost_usd": 0.069798
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "26 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "Direct beneficiaries reached in 2020 were 2084.",
+      "quote": "Period 2020-01-01 to 2020-12-31: target none stated, actual 2084",
+      "locator": "Cordaid Overall \u2013 Number of direct beneficiaries reached through our activities",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Direct beneficiaries reached in 2021 were 3400.",
+      "quote": "Period 2021-01-01 to 2021-12-31: target none stated, actual 3400",
+      "locator": "Cordaid Overall \u2013 Number of direct beneficiaries reached through our activities",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Indirect beneficiaries reached in 2020 were 24130.",
+      "quote": "Period 2020-01-01 to 2020-12-31: target none stated, actual 24130",
+      "locator": "Cordaid Overall \u2013 Number of indirect beneficiaries reached through our activities",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Indirect beneficiaries reached in 2021 were 23800.",
+      "quote": "Period 2021-01-01 to 2021-12-31: target none stated, actual 23800",
+      "locator": "Cordaid Overall \u2013 Number of indirect beneficiaries reached through our activities",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Achievement for direct beneficiaries is not calculable because there is no target.",
+      "quote": "Achievement: Number of direct beneficiaries reached through our activities: not calculable (no target)",
+      "locator": "Cordaid Overall",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "1582 people had access to SRHR services in July to September 2021.",
+      "quote": "Period 2021-07-01 to 2021-09-30: target none stated, actual 1582",
+      "locator": "Quality Basic Services \u2013 Number of people with access to SRHR services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Five health facilities were strengthened in 2021.",
+      "quote": "Period 2021-01-01 to 2021-12-31: target none stated, actual 5",
+      "locator": "Quality Basic Services \u2013 Number of strengthened health facilities",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Seven health centres with Youth Friendly Health Services were reported for 2021.",
+      "quote": "Period 2021-01-01 to 2021-12-31: target none stated, actual 7",
+      "locator": "Health Thematic Indicators \u2013 Number of health centres with Youth Friendly Health Services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A target of 10 health centres with Youth Friendly Health Services is listed for an earlier period with no actual reported.",
+      "quote": "Period 2020-03-01 to 2020-07-01: target 10, actual none reported",
+      "locator": "Health Thematic Indicators \u2013 Number of health centres with Youth Friendly Health Services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The share of facilities with tracer medicines and commodities in stock was reported as 0 for 2021.",
+      "quote": "Period 2021-01-01 to 2021-12-31: target none stated, actual 0",
+      "locator": "Health Thematic Indicators \u2013 % of facilities that have tracer medicines and commodities in stock",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The share of health facilities with an improved technical quality score in 2021 was 71.43 percent.",
+      "quote": "Period 2021-01-01 to 2021-12-31: target none stated, actual 71.43",
+      "locator": "Health Corporate Indicators \u2013 % of health facilities with improved (technical) quality score in calendar year",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Steering committees strengthened with action plans numbered 10 in April to June 2020.",
+      "quote": "Period 2020-04-01 to 2020-06-30: target none stated, actual 10",
+      "locator": "Health Project Specific Indicators \u2013 multi-stakeholder Chiefdom and District Steering Committees strengthened",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Steering committees strengthened with action plans numbered 14 in July to September 2021.",
+      "quote": "Period 2021-07-01 to 2021-09-30: target none stated, actual 14",
+      "locator": "Health Project Specific Indicators \u2013 multi-stakeholder Chiefdom and District Steering Committees strengthened",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "35 quarterly steering committee meetings were conducted in July to September 2021.",
+      "quote": "Period 2021-07-01 to 2021-09-30: target none stated, actual 35",
+      "locator": "Health Project Specific Indicators \u2013 quarterly meetings of district and chiefdom steering committees",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Twenty secondary schools had active peer and parent clubs on teenage pregnancy prevention in July to September 2021.",
+      "quote": "Period 2021-07-01 to 2021-09-30: target none stated, actual 20",
+      "locator": "Health Project Specific Indicators \u2013 secondary schools with active peer and parent clubs on TPP",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "54 young people and women of reproductive age received an integrated SGBV service package in July to September 2021.",
+      "quote": "Period 2021-07-01 to 2021-09-30: target none stated, actual 54",
+      "locator": "Health Project Specific Indicators \u2013 integrated package of SGBV services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Branded adolescent friendly facilities numbered 10 in July to September 2020.",
+      "quote": "Period 2020-07-01 to 2020-09-30: target none stated, actual 10",
+      "locator": "Health Project Specific Indicators \u2013 branded adolescent friendly health facilities",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Branded adolescent friendly facilities numbered 2 in July to September 2021.",
+      "quote": "Period 2021-07-01 to 2021-09-30: target none stated, actual 2",
+      "locator": "Health Project Specific Indicators \u2013 branded adolescent friendly health facilities",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Four radio shows were broadcast in July to September 2021.",
+      "quote": "Period 2021-07-01 to 2021-09-30: target none stated, actual 4",
+      "locator": "Security & Justice Project Specific Indicators \u2013 (FAF) Number of radio shows broadcasted",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Police carried out 96 patrols in grey areas in July to September 2021.",
+      "quote": "Period 2021-07-01 to 2021-09-30: target none stated, actual 96",
+      "locator": "Security & Justice Project Specific Indicators \u2013 foot and vehicular patrols by police in grey areas",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "87 SGBV cases were reported as investigated and referred within 7 days in July to September 2021.",
+      "quote": "Period 2021-07-01 to 2021-09-30: target none stated, actual 87",
+      "locator": "Security & Justice Project Specific Indicators \u2013 SGBV cases investigated and referred within 7 days",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Six security institutions had RBF contracts in July to September 2021.",
+      "quote": "Period 2021-07-01 to 2021-09-30: target none stated, actual 6",
+      "locator": "Security & Justice Thematic Indicators \u2013 Number of security institutions with RBF contracts",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "97 quarterly outreach sessions were held in July to September 2021.",
+      "quote": "Period 2021-07-01 to 2021-09-30: target none stated, actual 97",
+      "locator": "Women Empowerment \u2013 Number of quarterly outreach sessions",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A target of 30 local staff trained in SRHR and meaningful youth participation is listed with no actual reported.",
+      "quote": "Period 2020-03-01 to 2021-07-01: target 30, actual none reported",
+      "locator": "Health Thematic Indicators \u2013 Number of local staff trained in SRHR and meaningful youth participation",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A target of 2800 youth reached with targeted SRHR services is listed with no actual reported.",
+      "quote": "Period 2020-03-01 to 2021-07-01: target 2800, actual none reported",
+      "locator": "Health Corporate Indicators \u2013 Number of Youth that have been reached with targeted SRHR services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The climate risk integration indicator was reported as 0 percent for 2021.",
+      "quote": "Period 2021-01-01 to 2021-12-31: target none stated, actual 0",
+      "locator": "Climate Resilience \u2013 The project integrates climate risks in programming",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "e395e88"
+}

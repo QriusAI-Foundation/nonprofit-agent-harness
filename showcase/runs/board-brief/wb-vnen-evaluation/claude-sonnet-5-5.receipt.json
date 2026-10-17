@@ -1,0 +1,88 @@
+{
+  "run_id": "run_8d79e4fea0ba4e12",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "wb-vnen-evaluation",
+  "source_sha256": "585b3e8d46a296b262cc161b999dce0f94f91269994ccf4a9c8883c93b592f3c",
+  "model": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 22.7,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 152933,
+    "output_tokens": 2876,
+    "cost_usd": 0.334626,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 166,
+    "truncated": false,
+    "bytes": 16529609
+  },
+  "verification": "6 claim(s): 6 resolved (support not checked)",
+  "claims": [
+    {
+      "statement": "The study reports that VNEN had a positive impact on children's cognitive (test score) and non-cognitive (social and emotional) achievement.",
+      "quote": "The VNEN program has had a positive impact on cognitive and non-cognitive achievement of children in Vietnam.",
+      "locator": "8.1 Positive Impact of VNEN",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The program cost about US$85 million and reached about half a million children over four years.",
+      "quote": "The program cost approximately US$85 million, and benefited about a half million children over four years, not counting the children to be benefited in the future.",
+      "locator": "8.1 Positive Impact of VNEN",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Positive results depend on full implementation of VNEN elements, not on the program label.",
+      "quote": "What drives the positive results of the program is not so much the label of VNEN or participation in the program as much as the full implementation of VNEN elements.",
+      "locator": "1.4 Preview of Findings",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Most VNEN parents reported never taking part in classroom activities, and over half never took part in school activities.",
+      "quote": "However, a high 73% of VNEN parents report never having taken part in classroom activities and 54% reported never having taken part in school activities.",
+      "locator": "Takeaways: Parents Home and Community",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Biweekly teacher interaction (cluster training) happened only sporadically in many schools.",
+      "quote": "Biweekly interaction between teachers appears to have taken place only sporadically in many schools.",
+      "locator": "8.4 Training of Teachers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "VNEN students' score advantage was kept over the years but became smaller over the last two years.",
+      "quote": "This difference is retained throughout the years, though it narrows down over the last two years.",
+      "locator": "Executive Summary: Key Findings",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

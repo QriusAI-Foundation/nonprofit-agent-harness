@@ -44,10 +44,14 @@ No provider needs an extra except Google. The others speak HTTP directly using t
 ### Three differences worth knowing
 
 **Structured output is not equally strict.** OpenAI-compatible servers get
-`response_format` with your JSON schema, which most enforce. Anthropic has no
-equivalent, so the schema is requested in the system prompt and the reply is not
-guaranteed to match. Validate what comes back rather than assuming, otherwise an agent
-works on one provider and fails on another for reasons that look random.
+`response_format` with your JSON schema, which most enforce. Anthropic gets
+`output_config.format`, which the API enforces, after the adapter closes every object
+(`additionalProperties: false`) and drops constraints it does not support, such as
+`minLength` or `maximum`. A schema with a free-form map (`additionalProperties` given as
+a schema) cannot be expressed that way, so for it the adapter asks in the system prompt
+instead. Google and local servers vary. Validate what comes back rather
+than assuming, otherwise an agent works on one provider and fails on another for reasons
+that look random.
 
 **Claude takes no sampling parameters.** The Claude 5.x models reject `temperature`,
 `top_p` and `top_k` with HTTP 400, so the Anthropic adapter never sends them and every

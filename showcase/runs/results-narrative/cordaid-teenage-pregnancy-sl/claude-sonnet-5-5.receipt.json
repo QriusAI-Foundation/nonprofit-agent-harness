@@ -1,0 +1,212 @@
+{
+  "run_id": "run_e2f41d993f7b4b6a",
+  "date": "2026-10-17",
+  "agent": "results-narrative",
+  "agent_version": "0.1.0",
+  "source": "cordaid-teenage-pregnancy-sl",
+  "source_sha256": "d283aa986457b480db7e0f10173280025aa6de315e50a6c267636d6882a07b21",
+  "model": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 26.1,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 8494,
+    "output_tokens": 4163,
+    "cost_usd": 0.058618,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "iati_identifier": "NL-KVK-41160054-200782"
+  },
+  "verification": "20 claim(s): 4 resolved (support not checked), 16 citation uncertain",
+  "claims": [
+    {
+      "statement": "No actual is reported for direct beneficiaries in 2020, and no target is stated.",
+      "quote": "Period 2020-01-01 to 2020-12-31: target none stated, actual none reported",
+      "locator": "Result (output): Cordaid Overall",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The direct beneficiaries achievement is not calculable because there is no target.",
+      "quote": "Number of direct beneficiaries reached through our activities: not calculable (no target)",
+      "locator": "Result (output): Cordaid Overall",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "The indirect beneficiaries achievement is not calculable because there is no target.",
+      "quote": "Number of indirect beneficiaries reached through our activities: not calculable (no target)",
+      "locator": "Result (output): Cordaid Overall",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "A target of 10 health centres with youth friendly health services is stated, with no actual reported.",
+      "quote": "Period 2020-03-01 to 2020-07-01: target 10, actual none reported",
+      "locator": "Result (outcome): Health Thematic Indicators",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "A target of 50 is stated for the share of facilities with tracer medicines in stock, with no actual reported.",
+      "quote": "Period 2020-03-01 to 2021-08-31: target 50, actual none reported",
+      "locator": "Result (outcome): Health Thematic Indicators",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "A target of 30 local staff trained in SRHR and meaningful youth participation is stated, with no actual reported.",
+      "quote": "Period 2020-03-01 to 2021-07-01: target 30, actual none reported",
+      "locator": "Result (outcome): Health Thematic Indicators",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "A target of 80 religious leaders reached by advocacy is stated, with no actual reported.",
+      "quote": "Period 2020-03-01 to 2021-07-01: target 80, actual none reported",
+      "locator": "Result (outcome): Health Thematic Indicators",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "A target of 3000 for people on modern short-term family planning methods is stated, with no actual reported.",
+      "quote": "Period 2020-03-01 to 2021-07-01: target 3000, actual none reported",
+      "locator": "Result (outcome): Health Thematic Indicators",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "The family planning methods indicator has a baseline of 0 in 2020.",
+      "quote": "Baseline: 0 in 2020",
+      "locator": "Result (outcome): Health Thematic Indicators",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Health facilities supported or contracted have a baseline of 7 in 2021.",
+      "quote": "Baseline: 7 in 2021",
+      "locator": "Result (output): Health Corporate Indicators",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "A target of 14 health facilities supported or contracted is stated, with no actual reported.",
+      "quote": "Period 2020-03-01 to 2021-08-31: target 14, actual none reported",
+      "locator": "Result (output): Health Corporate Indicators",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "Health facilities with improved technical quality have a baseline of 5 in 2021.",
+      "quote": "Baseline: 5 in 2021",
+      "locator": "Result (output): Health Corporate Indicators",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "A target of 10 health facilities with improved technical quality is stated, with no actual reported.",
+      "quote": "Period 2020-03-01 to 2021-08-31: target 10, actual none reported",
+      "locator": "Result (output): Health Corporate Indicators",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "A target of 4200 beneficiaries reached (HE) is stated for the longest period, with no actual reported.",
+      "quote": "Period 2020-07-01 to 2021-07-31: target 4200, actual none reported",
+      "locator": "Result (output): Health Corporate Indicators",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "The percentage of facilities with an improved quality score in the calendar year is not calculable because there is no target.",
+      "quote": "% of of health facilities with improved (technical) quality score in calendar year: not calculable (no target)",
+      "locator": "Result (output): Health Corporate Indicators",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "A target of 12 radio shows is stated, with no actual reported.",
+      "quote": "Period 2020-03-01 to 2021-08-31: target 12, actual none reported",
+      "locator": "Result (output): Security & Justice Project Specific Indicators",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "A target of 192 police patrols in grey areas is stated, with no actual reported.",
+      "quote": "Period 2020-03-01 to 2021-08-31: target 192, actual none reported",
+      "locator": "Result (output): Security & Justice Project Specific Indicators",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "A target of 50 SGBV cases investigated and referred within 7 days is stated, with no actual reported.",
+      "quote": "Period 2020-03-01 to 2021-08-31: target 50, actual none reported",
+      "locator": "Result (output): Security & Justice Project Specific Indicators",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "A target of 168 quarterly outreach sessions is stated, with no actual reported.",
+      "quote": "Period 2020-03-01 to 2021-08-31: target 168, actual none reported",
+      "locator": "Result (output): Women Empowerment",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    },
+    {
+      "statement": "The climate risk integration indicator is not calculable because there is no target.",
+      "quote": "The project integrates climate risks in programming: not calculable (no target)",
+      "locator": "Result (outcome): Climate Resilience",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (NL-KVK-41160054-200782 results sheet: the source reads 'none' just before it)"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

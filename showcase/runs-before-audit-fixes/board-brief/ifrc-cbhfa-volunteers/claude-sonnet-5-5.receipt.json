@@ -1,0 +1,82 @@
+{
+  "run_id": "run_9c45f0bfd8b243ff",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "ifrc-cbhfa-volunteers",
+  "source_sha256": "e011d9b15fe71e9b93101155bf8085255143d64b8ad3f3157bb33e8c71438418",
+  "model": "claude-sonnet-5-5",
+  "model_reported": "claude-sonnet-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 16.3,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 170945,
+    "output_tokens": 1923,
+    "cost_usd": 0.36112
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "6 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "The programme trains volunteers by having them learn in the classroom and then act in their own community.",
+      "quote": "This is the learning by doing method: learn in the classroom, do in the community.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "An organisation that adopts CBHFA is committing to long-term health programming.",
+      "quote": "A National Red Cross or Red Crescent Society implementing CBHFA is making a commitment to long-term health programming.",
+      "locator": "Foreword",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The first three modules are required and give volunteers the background skills to help the community set priorities.",
+      "quote": "The first three modules of the CBHFA materials are obligatory, and will give you the background skills you need to help your community make decisions about its priority concerns.",
+      "locator": "Introduction: How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Volunteers need a community assessment to know which projects or actions are most appropriate.",
+      "quote": "Without community assessment, volunteers will not know which future projects or actions are most appropriate.",
+      "locator": "Module 3, Topic 1: Assessing my community: an overview",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Volunteers are expected to be available in an emergency, as agreed with their National Society and according to their skills and abilities.",
+      "quote": "Be available in an emergency, as agreed with the National Society, and according to their skills and abilities.",
+      "locator": "Module 1, Topic 4: Volunteering, Expectations of all Red Cross and Red Crescent volunteers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Basic life support skills must be taught by qualified first aid trainers recognized by the National Society.",
+      "quote": "These skills must be trained by qualified first aid trainers recognized by the National Society.",
+      "locator": "Module 4, Topic 3: Basic life support (Part 1)",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4d84e6f"
+}

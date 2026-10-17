@@ -1,0 +1,142 @@
+{
+  "run_id": "run_481c239ccbb8464b",
+  "date": "2026-10-17",
+  "agent": "funder-report",
+  "agent_version": "0.1.0",
+  "source": "alnap-sohs-2022",
+  "source_sha256": "3430e28b6714faadc34da9c36738b2f21457e1e264a530f0652b358d068b3d13",
+  "model": "claude-haiku-5-5",
+  "model_reported": "claude-haiku-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 12.8,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 385029,
+    "output_tokens": 1938,
+    "cost_usd": 0.197359,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 358,
+    "truncated": false,
+    "bytes": 6617310
+  },
+  "verification": "12 claim(s): 11 resolved (support not checked), 1 citation uncertain",
+  "claims": [
+    {
+      "statement": "The SOHS 2022 is an independent longitudinal study that gathers and synthesises evidence on the humanitarian system.",
+      "quote": "The SOHS is a unique, independent longitudinal study that gathers and synthesises evidence to form a picture of the system and assess how well it meets the needs of people affected by crises.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The fifth edition covers the period from January 2018 to December 2021.",
+      "quote": "This fifth edition covers the period from January 2018 to December 2021 inclusive.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The report frames its findings around three questions: what the system is, what it is achieving, and how it is working.",
+      "quote": "What is the system? What is it achieving? How is it working?",
+      "locator": "A reader's guide to this report",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The report adopts a working definition of the international humanitarian system.",
+      "quote": "The network of interconnected institutional and operational entities through which humanitarian action is undertaken when local and national resources are, on their own, insufficient to meet the needs of a population in crisis.",
+      "locator": "Scope and method, Definitions",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "International humanitarian assistance was estimated at $31.3 billion in 2021.",
+      "quote": "at an estimated $31.3 billion in 2021, funding is larger than ever before.",
+      "locator": "Chapter 2: What is the shape and size of the humanitarian system?",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Only 36% of aid recipients surveyed thought that aid went to those who needed it most.",
+      "quote": "Only 36% of aid recipients surveyed thought that aid went to those who needed it most.",
+      "locator": "Chapter 4: Does humanitarian support reach the right people?",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "In 2020, appeals were little more than half-funded, a record low.",
+      "quote": "which also saw in 2020 a record low in the level of funding against needs.",
+      "locator": "Chapter 3: Is there enough aid?",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Direct funding to local and national actors was 1.2% of international humanitarian assistance in 2021.",
+      "quote": "falling to a new low of 1.2% in 2021.",
+      "locator": "Chapter 9: Does the international system enable local action?",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Aid recipients who had been consulted were 2.4 times more likely to say they were treated with dignity.",
+      "quote": "aid recipients who had been consulted were 2.4 times more likely to say they were treated with dignity",
+      "locator": "Chapter 8: Does the system treat people with dignity?",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The report states that persistent data gaps limit clear assessments of reach, lifesaving and cost-effectiveness.",
+      "quote": "Persistent and pervasive data gaps continue to limit this report's ability to provide clear, definitive assessments on key performance issues",
+      "locator": "Report limitations and pervasive data gaps",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (alnap-sohs-2022.pdf: the source reads 'not' just before it)"
+    },
+    {
+      "statement": "The report's performance criteria are adapted from the OECD-DAC criteria.",
+      "quote": "The SOHS performance criteria, adapted for use from the OECD-DAC criteria used in humanitarian settings",
+      "locator": "Box A",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Around 80% of international humanitarian funding comes from public funds.",
+      "quote": "Consistent with previous periods, around 80% of international humanitarian funding comes from public funds.",
+      "locator": "Funding from government donors",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

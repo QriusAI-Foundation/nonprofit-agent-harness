@@ -1,0 +1,27 @@
+{
+  "run_id": "run_636596577b264ff6",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "pathfinder-chbc-trainers",
+  "source_sha256": "6c23212037340d36e0c47fb1096efccd35269368dc196b8913b8f6cd30ccaec8",
+  "model": "claude-haiku-5-5",
+  "model_reported": "claude-haiku-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 5.2,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 331649,
+    "output_tokens": 14,
+    "cost_usd": 0.165859
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": null,
+  "claims": [],
+  "harness_version": "0.3.0",
+  "harness_commit": "e395e88"
+}

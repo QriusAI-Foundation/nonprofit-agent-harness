@@ -77,3 +77,17 @@ make lint
 ```
 
 Add a test for any guarantee you change. Comments explain why, not what.
+
+## Done criteria
+
+```bash
+make test                     # offline, no network
+make lint
+env -u ANTHROPIC_API_KEY .venv/bin/harness check
+.venv/bin/harness run examples.summarizer:SummarizerAgent brief.txt      # echo provider
+.venv/bin/harness run examples.board_brief:BoardBriefAgent brief.txt     # echo provider
+.venv/bin/python scripts/quotation_eval.py                              # offline, free
+```
+
+No URL to check: the CLI run above is the live check. `make serve` starts the API on
+http://localhost:8080 when a change touches it.

@@ -1,0 +1,88 @@
+{
+  "run_id": "run_570260e216d748dd",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "who-chw-curriculum",
+  "source_sha256": "5273d03171b03a7fb71ba8fb07de8a5ab38bdab43a3bacd5c485cd5b982e342d",
+  "model": "claude-opus-5-5",
+  "model_reported": "claude-opus-5-5",
+  "effort": "medium",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 27.3,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 158066,
+    "output_tokens": 2040,
+    "cost_usd": 0.673064,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 172,
+    "truncated": false,
+    "bytes": 1008298
+  },
+  "verification": "6 claim(s): 6 resolved (support not checked)",
+  "claims": [
+    {
+      "statement": "The guide was developed to help design and implement CHW training to strengthen essential community services.",
+      "quote": "This guide was developed to assist in the conceptualization, design and implementation of CHW curricula with a view to strengthening delivery of essential services at community level as an integral part of primary health care.",
+      "locator": "Executive summary",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Most volunteer or part-time CHWs cannot reasonably carry out all the universal practice activities.",
+      "quote": "Most volunteer CHWs, or those working only a few hours a week, cannot reasonably carry out all the universal practice activities expected of all CHWs in this framework.",
+      "locator": "1.2 Objective and target audience",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The universal modules total 303 suggested hours.",
+      "quote": "Total duration of universal practice activities (hours) 303",
+      "locator": "Table 2.1 Universal modules: practice activities and suggested duration",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "No CHW can perform all the role-specific tasks, so content must be selected.",
+      "quote": "No CHW can carry out all of the practice activities and tasks outlined in the role-specific modules in this framework.",
+      "locator": "3.1 Overview of the CHW curriculum guide",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The guide does not include learning materials or case studies.",
+      "quote": "it does not contain the learning materials or case studies.",
+      "locator": "Creating user-friendly learning materials appropriate to CHWs",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "CHWs should not be trained in tasks they lack time or support to perform.",
+      "quote": "In general, CHWs should not be trained in practice activities that they do not reasonably have the time or support to perform",
+      "locator": "4. Health policy and health system support for CHW integration in primary health care",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

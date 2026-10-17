@@ -1,0 +1,20 @@
+{
+  "case": "token-ceiling-default",
+  "run_id": "run_69fa7667a9014833",
+  "model": "claude-haiku-5-5",
+  "limits": {
+    "max_tokens": 200000,
+    "max_cost_usd": null
+  },
+  "status": "failed",
+  "error": "Stopped at the budget ceiling: Run would exceed its token ceiling: 331,874 of 200,000",
+  "usage": {
+    "calls": 1,
+    "input_tokens": 331860,
+    "output_tokens": 14,
+    "cost_usd": 0.165965
+  },
+  "artifact_kept": false,
+  "verification": null,
+  "harness_commit": "4369977"
+}

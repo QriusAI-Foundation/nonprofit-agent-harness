@@ -1,0 +1,82 @@
+{
+  "run_id": "run_3900e8e41a794aa7",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "ifrc-cbhfa-volunteers",
+  "source_sha256": "e011d9b15fe71e9b93101155bf8085255143d64b8ad3f3157bb33e8c71438418",
+  "model": "claude-opus-5-5",
+  "model_reported": "claude-opus-5-5",
+  "effort": "medium",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 26.0,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 170757,
+    "output_tokens": 2558,
+    "cost_usd": 0.734188
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "6 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "Volunteers keep the manual and take it home.",
+      "quote": "The Volunteer Manual is for you to take home with you.",
+      "locator": "Introduction: How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The first three modules are required.",
+      "quote": "The first three modules of the CBHFA materials are obligatory",
+      "locator": "Introduction: How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Three to five priorities are chosen for volunteer activities.",
+      "quote": "Three to five health and safety priorities that can be addressed by community volunteer activities",
+      "locator": "Module 3, Topic 6: Making sense of the data",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Life-saving skills must be taught by first aid trainers that the national society recognises.",
+      "quote": "These skills must be trained by qualified first aid trainers recognized by the National Society.",
+      "locator": "Module 4, Topic 3: Basic life support (Part 1)",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Volunteers are entitled to rewards and to repayment of their out-of-pocket costs.",
+      "quote": "rewards and reimbursement for out-of-pocket expenses",
+      "locator": "Module 1, Topic 4: Volunteering",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Volunteers share their reports with branch staff or a supervisor for advice and support.",
+      "quote": "Reports should be shared with the local branch staff or supervisor for advice and support.",
+      "locator": "Module 3, Topic 8: Reporting on CBHFA activities in my community",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "e395e88"
+}

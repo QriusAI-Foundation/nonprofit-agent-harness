@@ -1,0 +1,5 @@
+$ HARNESS_PROVIDER=anthropic HARNESS_MAX_COST_USD=1 harness run examples.summarizer:SummarizerAgent doc.txt   # no HARNESS_PRICES
+error: Stopped at the budget ceiling: A $1.0000 cost ceiling is set but there is no price for claude-haiku-5-5, so its spend cannot be measured. Set HARNESS_PRICES='claude-haiku-5-5=<input>/<output>' (USD per 1M tokens), or pass prices=PriceBook().set('claude-haiku-5-5', input_per_1m=..., output_per_1m=...) to the provider
+run run_d790d332039940b0: failed
+usage: 0 calls, 0 tokens, $0.0000
+exit 1

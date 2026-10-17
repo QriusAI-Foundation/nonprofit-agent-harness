@@ -1,0 +1,11 @@
+{
+  "d1": "shared_database",
+  "d2": "adopted",
+  "d3": 4,
+  "p1": [
+    "writes_reports",
+    "builds_dashboards"
+  ],
+  "p2": "occasionally",
+  "p3": "planned_annually"
+}

@@ -19,3 +19,6 @@ venv/
 .DS_Store
 .vscode/
 .idea/
+
+# Showcase source documents: fetched at run time, licences forbid nothing but we do not redistribute them
+showcase/sources/

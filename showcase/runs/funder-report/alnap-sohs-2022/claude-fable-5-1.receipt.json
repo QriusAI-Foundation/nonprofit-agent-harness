@@ -1,0 +1,187 @@
+{
+  "run_id": "run_e17f974ba7a1435b",
+  "date": "2026-10-17",
+  "agent": "funder-report",
+  "agent_version": "0.1.0",
+  "source": "alnap-sohs-2022",
+  "source_sha256": "3430e28b6714faadc34da9c36738b2f21457e1e264a530f0652b358d068b3d13",
+  "model": "claude-fable-5-1",
+  "model_reported": "claude-fable-5-1",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 65.3,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 385029,
+    "output_tokens": 5843,
+    "cost_usd": 4.14244,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 358,
+    "truncated": false,
+    "bytes": 6617310
+  },
+  "verification": "17 claim(s): 16 resolved (support not checked), 1 citation uncertain",
+  "claims": [
+    {
+      "statement": "ALNAP describes itself as a global network of humanitarian organisations dedicated to learning how to improve crisis response.",
+      "quote": "ALNAP is a global network of humanitarian organisations, including UN agencies, members of the Red Cross/Red Crescent Movement, NGOs, donors, academics, networks and consultants dedicated to learning how to improve the response to humanitarian crises.",
+      "locator": "Front matter",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The report is the fifth edition and covers January 2018 to December 2021.",
+      "quote": "This fifth edition covers the period from January 2018 to December 2021 inclusive.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The report is presented as an independent longitudinal study synthesising evidence on how well the system meets the needs of people affected by crises.",
+      "quote": "The SOHS is a unique, independent longitudinal study that gathers and synthesises evidence to form a picture of the system and assess how well it meets the needs of people affected by crises.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The report defines humanitarian action as the principled provision of assistance and protection to save lives, reduce suffering and preserve dignity.",
+      "quote": "Humanitarian action is the principled provision of assistance and protection in order to save lives, prevent and reduce suffering and preserve people\u2019s dignity in crises arising from armed conflict, hazards and other causes.",
+      "locator": "Scope and method \u2013 Definitions",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The report's twelve chapters each answer a key question about the state of the system.",
+      "quote": "The 12 chapters in this edition of the SOHS each present evidence in order to answer a key question about the state of the system.",
+      "locator": "A reader\u2019s guide to this report",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The analysis is organised in three parts.",
+      "quote": "The analysis of the system\u2019s changing shape and performance is then presented in three parts:",
+      "locator": "Report structure",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The report opens with an overview of the global context and includes six Focus on sections, five on specific global challenges and one on wider networks of support.",
+      "quote": "The report begins with an overview of the changing global context between 2018 and 2021 and is interspersed with six \u2018Focus on\u2019 sections, five of which examine the system\u2019s performance against a specific global challenge and one that highlights wider networks of support for people affected by crisis.",
+      "locator": "A reader\u2019s guide to this report",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Performance is assessed against criteria adapted from the OECD-DAC criteria.",
+      "quote": "Box A: The SOHS performance criteria, adapted for use from the OECD-DAC criteria used in humanitarian settings (ALNAP/Beck, 2006)",
+      "locator": "Box A",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Sufficiency is defined as whether available resources cover humanitarian needs.",
+      "quote": "Sufficiency:* The degree to which the resources available to the international humanitarian system are sufficient to cover humanitarian needs.",
+      "locator": "Box A",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Accountability and participation is defined to include whether crisis-affected people can influence decisions about assistance and protection.",
+      "quote": "the degree to which crisis-affected people are able to influence decisions related to assistance and protection.",
+      "locator": "Box A",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Findings draw on ten research components combining primary data collection and secondary synthesis.",
+      "quote": "Findings are drawn from 10 research components, using a combination of primary data collection and secondary data synthesis.",
+      "locator": "Research components and methods",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The aid recipient survey covered 5,487 aid recipients in six crisis contexts using SMS and telephone interviewing.",
+      "quote": "A survey of 5,487 aid recipients in six crisis contexts, using SMS and computer-assisted telephone interviewing (CATI) to elicit their assessment of humanitarian performance.",
+      "locator": "Research components and methods",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "A global web survey received 436 completed responses from practitioners and host-government representatives.",
+      "quote": "A global web-based survey, with 436 completed responses, to elicit the perceptions of humanitarian practitioners and host-government representatives on humanitarian performance.",
+      "locator": "Research components and methods",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Country-level focus groups and interviews were conducted in Bangladesh (Cox's Bazar), DRC, Ethiopia, Lebanon, Venezuela and Yemen.",
+      "quote": "Focus group discussions (FGDs) and key informant interviews (KIIs), along with gathering relevant context-specific documentation and observations, were conducted in Bangladesh (Cox\u2019s Bazar), Democratic Republic of the Congo (DRC), Ethiopia, Lebanon, Venezuela and Yemen.",
+      "locator": "Research components and methods",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The evaluation synthesis assessed over 500 evaluations, with over 130 selected for in-depth analysis.",
+      "quote": "Over 500 humanitarian evaluations were assessed for inclusion with over 130 evaluations chosen for more in-depth analysis.",
+      "locator": "Research components and methods",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "For the first time, aid recipients in three contexts were consulted on the design of the research itself.",
+      "quote": "This time, for the first time, we consulted aid recipients on the design of the research itself, asking people in three different response contexts what should be included in the SOHS assessment.",
+      "locator": "Objectives and approach",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The report states that persistent data gaps limit its ability to give definitive assessments on how many people assistance reaches, whether it saves lives and protects people, and how cost-effective responses are.",
+      "quote": "Persistent and pervasive data gaps continue to limit this report\u2019s ability to provide clear, definitive assessments on key performance issues \u2013 such as how many people humanitarian assistance reaches, whether humanitarian action saves lives and protects people, and how cost-effective responses are.",
+      "locator": "Report limitations and pervasive data gaps",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (alnap-sohs-2022.pdf: the source reads 'not' just before it)"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

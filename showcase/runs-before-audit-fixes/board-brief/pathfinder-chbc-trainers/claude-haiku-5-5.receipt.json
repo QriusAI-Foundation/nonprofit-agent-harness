@@ -1,0 +1,73 @@
+{
+  "run_id": "run_46ddccafb2a447b8",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "pathfinder-chbc-trainers",
+  "source_sha256": "6c23212037340d36e0c47fb1096efccd35269368dc196b8913b8f6cd30ccaec8",
+  "model": "claude-haiku-5-5",
+  "model_reported": "claude-haiku-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 14.7,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 331837,
+    "output_tokens": 1193,
+    "cost_usd": 0.168901
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "5 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "The document is a training guide for community health workers who care for people with HIV/AIDS at home.",
+      "quote": "A Comprehensive Training Course for Community Health Workers",
+      "locator": "Title page",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "CHBC is not a replacement for hospital care and works within a continuum of services.",
+      "quote": "CHBC is not a replacement for hospital care.",
+      "locator": "Notes to the Trainer",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "CHWs should be selected by the community, with the help of CBOs and/or FBOs, and both women and men should be chosen, as well as PLWHA.",
+      "quote": "CHWs should be selected by the community, with the help of CBOs and/or FBOs.",
+      "locator": "Notes to the Trainer: CHW Selection Process",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Trainers should double as supervisors of CHWs because they are best placed to reinforce transferred skills.",
+      "quote": "It is suggested that trainers double as supervisors of CHWs as they are in the best position to reinforce transferred skills and strengthen ties between CHBC and facility-based services.",
+      "locator": "Notes to the Trainer: Training and Supervision of Community Health Workers",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "CHWs should be given support to avoid burnout, including meeting with peers and having counsellors available.",
+      "quote": "Trained counselors available for support and individual or group problem solving.",
+      "locator": "Session 12.1: Avoiding Burnout: Creating a Supportive Environment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4d84e6f"
+}

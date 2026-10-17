@@ -1,0 +1,241 @@
+{
+  "run_id": "run_66dffe98235f401f",
+  "date": "2026-10-17",
+  "agent": "funder-report",
+  "agent_version": "0.1.0",
+  "source": "ifrc-cbhfa-volunteers",
+  "source_sha256": "e011d9b15fe71e9b93101155bf8085255143d64b8ad3f3157bb33e8c71438418",
+  "model": "claude-opus-5-5",
+  "model_reported": "claude-opus-5-5",
+  "effort": "medium",
+  "repeat": 2,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 46.8,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 170968,
+    "output_tokens": 4935,
+    "cost_usd": 0.782572,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 346,
+    "truncated": false,
+    "bytes": 6541723
+  },
+  "verification": "23 claim(s): 1 citation uncertain, 22 resolved (support not checked)",
+  "claims": [
+    {
+      "statement": "The manual is dated March 2009 and issued by the International Federation of Red Cross and Red Crescent Societies.",
+      "quote": "March 2009",
+      "locator": "Cover",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (ifrc-cbhfa-volunteer-manual.pdf: the number continues in the source as '2009 145600')"
+    },
+    {
+      "statement": "The manual describes CBHFA as a move towards a broader and more comprehensive approach to injury and disease prevention and health promotion.",
+      "quote": "Now we propose to move to a broader and more comprehensive approach to injury and disease prevention and health promotion with our new community-based health and first aid (CBHFA) in action.",
+      "locator": "Foreword",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Volunteers from a community are trained and mobilized to carry out activities in that community.",
+      "quote": "CBHFA\u2019s integrated approach trains and mobilizes volunteers from the community to carry out activities in the community.",
+      "locator": "Foreword",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The manual names community participation as the core of CBHFA.",
+      "quote": "Community participation is the core of CBHFA.",
+      "locator": "Module 1, Topic 3: CBHFA in action",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Training follows a learning-by-doing method: learn in the classroom, act in the community.",
+      "quote": "This is the learning by doing method: learn in the classroom, do in the community.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The manual describes the programme as flexible.",
+      "quote": "The CBHFA in action programme is flexible.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "A facilitator supports volunteers and gives feedback on their learning and development.",
+      "quote": "Your facilitator will support you and provide feedback in your learning and development.",
+      "locator": "Introduction",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The first three modules are obligatory.",
+      "quote": "The first three modules of the CBHFA materials are obligatory, and will give you the background skills you need to help your community make decisions about its priority concerns.",
+      "locator": "How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "In the later modules, some topics are obligatory but many are optional.",
+      "quote": "Some topics are obligatory, but many of them are optional.",
+      "locator": "How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Module 2 includes a sensitization meeting that introduces CBHFA in action to the community.",
+      "quote": "A sensitization meeting will introduce CBHFA in action to the community.",
+      "locator": "Module 2, Topic 3: Sensitizing the community to CBHFA in action",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "A community assessment with community members identifies health, first aid and safety priorities.",
+      "quote": "A community assessment that involves community members will identify health, first aid and safety priorities.",
+      "locator": "Module 3, Topic 1: Assessing my community: an overview",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Assessment tools include direct observation, transect walks, community maps and seasonal calendars.",
+      "quote": "describe which information can be gathered from direct observation, a transect walk, drawing a community map, and drawing a seasonal calendar",
+      "locator": "Module 3, Topic 3",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Three to five priorities that community volunteer activities can address are selected for CBHFA activities.",
+      "quote": "Three to five health and safety priorities that can be addressed by community volunteer activities will be selected for CBHFA activities.",
+      "locator": "Module 3, Topic 6: Making sense of the data",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Volunteers are asked to complete a report form after each household visit or community activity.",
+      "quote": "A report form should be completed after each household visit or whenever CBHFA activities are performed in the community.",
+      "locator": "Module 3, Topic 8: Reporting on CBHFA activities in my community",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Module 4 teaches volunteers to assess, plan, implement and evaluate first aid for a range of injuries and illnesses.",
+      "quote": "In this module you will learn how to assess, plan, implement and evaluate first aid for various injuries and illnesses.",
+      "locator": "Module 4: Basic first aid and injury prevention",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Module 4 has 20 topics, five of them optional.",
+      "quote": "There are 20 topics in this module, five of which are optional:",
+      "locator": "Module 4: Basic first aid and injury prevention",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Module 5 covers major emergencies that may affect the community and how to prepare for and respond to them.",
+      "quote": "In this module you will learn about major emergencies that may affect your community and how to act to prepare and respond to them.",
+      "locator": "Module 5: Community mobilization in major emergencies",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Module 6 has 16 topics; volunteers choose at least five, depending on the priorities set in the Module 3 assessment.",
+      "quote": "Of the 16 topics in this module, you will have chosen at least five, depending on the priorities you set in the community assessment carried out during Module 3.",
+      "locator": "Module 6: Disease prevention and health promotion",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Module 7 has four topics.",
+      "quote": "There are four topics in this module.",
+      "locator": "Module 7: Supplementary topics",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Module 7 topics include road safety.",
+      "quote": "Topic 1 Road safety",
+      "locator": "Module 7: Supplementary topics",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Volunteers take the Volunteer Manual home with them.",
+      "quote": "The Volunteer Manual is for you to take home with you.",
+      "locator": "How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The Community Tools are a set of dialogue cue cards for use with households and community members.",
+      "quote": "The Community Tools are a set of dialogue cue cards that you can use with household and community members.",
+      "locator": "How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Volunteers practise using the Community Tools in the classroom before taking them into the community.",
+      "quote": "In the classroom, you will practise using the Community Tools for communicating key messages on different topics before you take them out into the community.",
+      "locator": "How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

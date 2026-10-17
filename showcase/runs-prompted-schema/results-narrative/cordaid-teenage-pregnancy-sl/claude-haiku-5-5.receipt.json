@@ -1,0 +1,27 @@
+{
+  "run_id": "run_56d1951473f8449e",
+  "date": "2026-10-17",
+  "agent": "results-narrative",
+  "agent_version": "0.1.0",
+  "source": "cordaid-teenage-pregnancy-sl",
+  "source_sha256": "531828e41cdfa5c8758d12af9afff49b8c1d8df5de837b7ac2f23780fe21533f",
+  "model": "claude-haiku-5-5",
+  "model_reported": "claude-haiku-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 20.2,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 8244,
+    "output_tokens": 5157,
+    "cost_usd": 0.003403
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": null,
+  "claims": [],
+  "harness_version": "0.3.0",
+  "harness_commit": "e395e88"
+}

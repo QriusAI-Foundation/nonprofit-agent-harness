@@ -44,3 +44,7 @@ jobs:
       - run: |
           echo "A short programme brief for testing." > brief.txt
           harness run examples.summarizer:SummarizerAgent brief.txt
+      - run: |
+          # A cited example, offline: the echo reply carries a claim the free check rejects.
+          harness run examples.board_brief:BoardBriefAgent brief.txt
+      - run: python scripts/quotation_eval.py

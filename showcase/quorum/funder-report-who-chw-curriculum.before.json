@@ -1,0 +1,448 @@
+{
+  "label": "before",
+  "run_id": "run_5be62f8490174942",
+  "agent": "funder-report",
+  "source": "who-chw-curriculum",
+  "writer": "claude-sonnet-5-5",
+  "reviewers": [
+    "claude-haiku-5-5",
+    "claude-sonnet-5-5",
+    "claude-opus-5-5"
+  ],
+  "harness_commit": "4d84e6f",
+  "status": "awaiting_review",
+  "error": "",
+  "usage": {
+    "calls": 55,
+    "input_tokens": 167488,
+    "output_tokens": 5187,
+    "cost_usd": 0.388085
+  },
+  "summary": "18 claim(s), 14 verified, 4 inconclusive",
+  "outcomes": {
+    "verified": 14,
+    "inconclusive": 4
+  },
+  "votes": {
+    "SUPPORTED": 30,
+    "UNSURE": 24
+  },
+  "verdicts": [
+    {
+      "claim_id": "clm_058e201ba815",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_9225284cb25f",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_7051b55c3faa",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_b9be81df127e",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_8777b5443ca3",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_616838ac0e2d",
+      "outcome": "inconclusive",
+      "reason": "reviewers split {'SUPPORTED': 1}, no majority of 2",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "UNSURE",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_a929580c01ba",
+      "outcome": "inconclusive",
+      "reason": "reviewers split {'SUPPORTED': 1}, no majority of 2",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "fuzzy",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "UNSURE",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_fd41956e9c10",
+      "outcome": "inconclusive",
+      "reason": "no reviewer could decide from the evidence alone",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "UNSURE",
+        "UNSURE",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_7920c7e79483",
+      "outcome": "inconclusive",
+      "reason": "no reviewer could decide from the evidence alone",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "UNSURE",
+        "UNSURE",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_b88085f42070",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_9e42f7d348c9",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_3d072483643c",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_8d8b4f89e027",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_76eb30f7b6b0",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_cb288e76b062",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_1f0653ea05dc",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_ae1ed12409a0",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_9617002de22a",
+      "outcome": "verified",
+      "reason": "2 of 3 reviewers agreed, citations resolve",
+      "grounded": [
+        {
+          "document": "who-chw-curriculum-2025.pdf",
+          "mode": "exact",
+          "score": 1.0
+        }
+      ],
+      "ungrounded": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "clm_058e201ba815",
+      "statement": "The guide is designed primarily for formal CHWs who are integrated into the health system, have a structured education pathway and a contract, and are appropriately remunerated and supported.",
+      "quote": "This curriculum guide is designed primarily for formal CHWs who are integrated into the health system, who have a structured education pathway and a contract, and who are appropriately remunerated and supported."
+    },
+    {
+      "id": "clm_9225284cb25f",
+      "statement": "The guide adopts the principles and structure of competency-based education.",
+      "quote": "This CHW curriculum guide adopts the principles and structure of competency-based education (CBE)."
+    },
+    {
+      "id": "clm_7051b55c3faa",
+      "statement": "The guide states that it is designed to be adapted to the needs of different health systems, programmes and contexts.",
+      "quote": "This competency-based CHW curriculum guide is designed to be adapted to the needs of different health systems, programmes and contexts."
+    },
+    {
+      "id": "clm_b9be81df127e",
+      "statement": "The scoping review that informed the guide's design extracted 236 peer-reviewed articles.",
+      "quote": "In total, 236 peer-reviewed articles were extracted for inclusion in the scoping review (4)."
+    },
+    {
+      "id": "clm_8777b5443ca3",
+      "statement": "CHWs from a range of geographical and income settings also reviewed the draft curriculum.",
+      "quote": "In parallel, CHWs from a range of geographical and income settings also reviewed the draft curriculum."
+    },
+    {
+      "id": "clm_616838ac0e2d",
+      "statement": "The guide has three parts.",
+      "quote": "There are three parts to this curriculum guide."
+    },
+    {
+      "id": "clm_a929580c01ba",
+      "statement": "The guide sets out 25 competencies relevant to all CHWs across all contexts.",
+      "quote": "There are 25 competencies that are relevant to all CHWs across all contexts, including the breadth of the practice activities in the universal modules and role-specific modules."
+    },
+    {
+      "id": "clm_fd41956e9c10",
+      "statement": "The universal modules comprise 11 practice-activity modules and one basic science module.",
+      "quote": "There are 11 modules oriented to practice activities, and one module relating to the common basic science knowledge required for practice."
+    },
+    {
+      "id": "clm_7920c7e79483",
+      "statement": "The content is organized into six competency domains, 12 universal modules, and four role-specific modules comprising 28 topics.",
+      "quote": "The content is organized into six competency domains, 12 universal modules (11 practice activities plus one module of basic science knowledge), and four role-specific modules, comprising 28 role-specific topics organized under the four modules."
+    },
+    {
+      "id": "clm_b88085f42070",
+      "statement": "The guide gives a total duration of 303 hours for the universal practice activities.",
+      "quote": "Total duration of universal practice activities (hours) 303"
+    },
+    {
+      "id": "clm_9e42f7d348c9",
+      "statement": "Module 1 has a suggested 33 teaching hours, including a minimum of 5 hours of shadowing and 6 hours for the summative assessment.",
+      "quote": "The total suggested time to complete this module is 33 teaching hours, including a minimum of 5 hours of shadowing and 6 hours for the summative assessment (including 3 hours of practice-based observation)."
+    },
+    {
+      "id": "clm_3d072483643c",
+      "statement": "The basic science module has a suggested total of 60 hours including assessments.",
+      "quote": "The total suggested time to complete this module is 60 hours, including assessments."
+    },
+    {
+      "id": "clm_8d8b4f89e027",
+      "statement": "The basic science module should be completed before training on any role-specific content.",
+      "quote": "It should be completed prior to conducting training on any of the role-specific activity content."
+    },
+    {
+      "id": "clm_76eb30f7b6b0",
+      "statement": "Role-specific content should be selected based on population needs and CHWs' scope of practice in a given context.",
+      "quote": "Content from the role-specific modules should therefore be selected based on the needs of the population and the scope of practice of CHWs in a given context."
+    },
+    {
+      "id": "clm_cb288e76b062",
+      "statement": "The guide recommends that teaching minimize didactic approaches and use practical, authentic learning methods.",
+      "quote": "teaching should minimize didactic approaches, and include a diverse array of practical and authentic learning methods suited to the unique needs and contexts of the learners."
+    },
+    {
+      "id": "clm_1f0653ea05dc",
+      "statement": "Formative and summative assessments are outlined for each module.",
+      "quote": "Both formative and summative assessments of learning are outlined for each module."
+    },
+    {
+      "id": "clm_ae1ed12409a0",
+      "statement": "The guide does not itself contain the learning materials or case studies.",
+      "quote": "While it proposes learning activities that often draw from presentations, case scenarios or role play scenario cards, it does not contain the learning materials or case studies."
+    },
+    {
+      "id": "clm_9617002de22a",
+      "statement": "The guide recommends that the curriculum be delivered, evaluated and updated as needed, and at least every 5\u201310 years.",
+      "quote": "deliver, evaluate and update the new curriculum as regularly as needed (indicated by programme evaluation) or periodically, for example at least every 5\u201310 years."
+    }
+  ]
+}

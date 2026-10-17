@@ -186,18 +186,82 @@ def test_several_text_blocks_are_joined():
     assert text == "One. Two."
 
 
-def test_a_schema_is_requested_in_the_system_prompt():
-    """The Messages API has no response_format, so this is asked for, not enforced."""
+def test_a_schema_is_enforced_through_structured_outputs():
     http = FakeHttp(FakeResponse(ANTHROPIC_BODY))
+    schema = {"type": "object", "properties": {"a": {"type": "string"}}}
 
     AnthropicProvider(api_key="sk-ant-test-value", client=http).generate(
+        "x", system="Be brief.", json_schema=schema
+    )
+
+    sent = http.calls[0]["json"]
+    assert sent["output_config"]["format"] == {
+        "type": "json_schema",
+        "schema": {**schema, "additionalProperties": False},
+    }
+    # Not repeated in the prompt, where Haiku 5.5 tended to echo it back.
+    assert sent["system"] == "Be brief."
+
+
+def test_strict_schema_closes_objects_and_drops_unsupported_constraints():
+    from nonprofit_harness.providers.anthropic import strict_schema
+
+    schema = {
+        "type": "object",
+        "properties": {
+            "maximum": {"type": "integer", "minimum": 0},
+            "tags": {"type": "array", "items": {"type": "object"}, "maxItems": 3},
+            "kind": {"enum": [{"properties": "kept as data"}]},
+        },
+    }
+
+    strict = strict_schema(schema)
+
+    assert strict["additionalProperties"] is False
+    assert strict["properties"]["maximum"] == {"type": "integer"}
+    assert strict["properties"]["tags"] == {
+        "type": "array",
+        "items": {"type": "object", "additionalProperties": False},
+    }
+    assert strict["properties"]["kind"] == {"enum": [{"properties": "kept as data"}]}
+    assert "additionalProperties" not in schema
+
+
+def test_a_nullable_object_is_closed_too():
+    from nonprofit_harness.providers.anthropic import strict_schema
+
+    strict = strict_schema({"type": ["object", "null"]})
+
+    assert strict["additionalProperties"] is False
+
+
+def test_a_free_form_map_is_asked_for_rather_than_closed_empty():
+    http = FakeHttp(FakeResponse(ANTHROPIC_BODY))
+    schema = {
+        "type": "object",
+        "properties": {"counts": {"type": "object", "additionalProperties": {"type": "integer"}}},
+    }
+
+    AnthropicProvider(api_key="sk-ant-test-value", client=http).generate(
+        "x", system="Be brief.", json_schema=schema
+    )
+
+    sent = http.calls[0]["json"]
+    assert "output_config" not in sent
+    assert sent["system"].startswith("Be brief.")
+    assert '"additionalProperties":{"type":"integer"}' in sent["system"]
+
+
+def test_effort_and_a_schema_share_one_output_config():
+    http = FakeHttp(FakeResponse(ANTHROPIC_BODY))
+
+    AnthropicProvider(api_key="sk-ant-test-value", client=http, effort="low").generate(
         "x", json_schema={"type": "object"}
     )
 
-    system = http.calls[0]["json"]["system"]
-    assert "JSON only" in system
-    assert '"type":"object"' in system
-    assert "response_format" not in http.calls[0]["json"]
+    config = http.calls[0]["json"]["output_config"]
+    assert config["effort"] == "low"
+    assert config["format"]["type"] == "json_schema"
 
 
 def test_anthropic_usage_is_recorded():

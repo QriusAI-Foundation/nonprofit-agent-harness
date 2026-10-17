@@ -1,0 +1,331 @@
+{
+  "label": "after",
+  "run_id": "run_8d16b9e996c949e8",
+  "agent": "results-narrative",
+  "source": "wbtf-rwanda-chw",
+  "writer": "claude-sonnet-5-5",
+  "reviewers": [
+    "claude-haiku-5-5",
+    "claude-sonnet-5-5",
+    "claude-opus-5-5"
+  ],
+  "harness_commit": "4369977",
+  "status": "awaiting_review",
+  "error": "",
+  "usage": {
+    "calls": 34,
+    "input_tokens": 7898,
+    "output_tokens": 7434,
+    "cost_usd": 0.103639
+  },
+  "summary": "11 claim(s): 7 supported, 4 inconclusive",
+  "outcomes": {
+    "verified": 7,
+    "inconclusive": 4
+  },
+  "votes": {
+    "SUPPORTED": 17,
+    "UNSURE": 16
+  },
+  "verdicts": [
+    {
+      "claim_id": "clm_91510a617a09",
+      "outcome": "verified",
+      "label": "supported",
+      "support_checked": true,
+      "reason": "citations resolved; claim supported by 2 of 3 reviewers",
+      "grounded": [
+        {
+          "document": "XI-IATI-WBTF-P175583 results sheet",
+          "mode": "exact",
+          "score": 1.0,
+          "note": ""
+        }
+      ],
+      "ungrounded": [],
+      "uncertain": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_a94a2b41684d",
+      "outcome": "inconclusive",
+      "label": "inconclusive",
+      "support_checked": true,
+      "reason": "no reviewer could decide from the evidence alone",
+      "grounded": [
+        {
+          "document": "XI-IATI-WBTF-P175583 results sheet",
+          "mode": "exact",
+          "score": 1.0,
+          "note": ""
+        }
+      ],
+      "ungrounded": [],
+      "uncertain": [],
+      "votes": [
+        "UNSURE",
+        "UNSURE",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_62cd1355169b",
+      "outcome": "verified",
+      "label": "supported",
+      "support_checked": true,
+      "reason": "citations resolved; claim supported by 2 of 3 reviewers",
+      "grounded": [
+        {
+          "document": "XI-IATI-WBTF-P175583 results sheet",
+          "mode": "exact",
+          "score": 1.0,
+          "note": ""
+        }
+      ],
+      "ungrounded": [],
+      "uncertain": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_39da27b3fffa",
+      "outcome": "inconclusive",
+      "label": "inconclusive",
+      "support_checked": true,
+      "reason": "reviewers split {'SUPPORTED': 1}, no majority of 2",
+      "grounded": [
+        {
+          "document": "XI-IATI-WBTF-P175583 results sheet",
+          "mode": "exact",
+          "score": 1.0,
+          "note": ""
+        }
+      ],
+      "ungrounded": [],
+      "uncertain": [],
+      "votes": [
+        "UNSURE",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_87d0cd179ae8",
+      "outcome": "verified",
+      "label": "supported",
+      "support_checked": true,
+      "reason": "citations resolved; claim supported by 2 of 3 reviewers",
+      "grounded": [
+        {
+          "document": "XI-IATI-WBTF-P175583 results sheet",
+          "mode": "exact",
+          "score": 1.0,
+          "note": ""
+        }
+      ],
+      "ungrounded": [],
+      "uncertain": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_f417923bdaf4",
+      "outcome": "inconclusive",
+      "label": "inconclusive",
+      "support_checked": true,
+      "reason": "reviewers split {'SUPPORTED': 1}, no majority of 2",
+      "grounded": [
+        {
+          "document": "XI-IATI-WBTF-P175583 results sheet",
+          "mode": "exact",
+          "score": 1.0,
+          "note": ""
+        }
+      ],
+      "ungrounded": [],
+      "uncertain": [],
+      "votes": [
+        "UNSURE",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_cc4f86254bd5",
+      "outcome": "verified",
+      "label": "supported",
+      "support_checked": true,
+      "reason": "citations resolved; claim supported by 2 of 3 reviewers",
+      "grounded": [
+        {
+          "document": "XI-IATI-WBTF-P175583 results sheet",
+          "mode": "exact",
+          "score": 1.0,
+          "note": ""
+        }
+      ],
+      "ungrounded": [],
+      "uncertain": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_278ab96ffcdc",
+      "outcome": "verified",
+      "label": "supported",
+      "support_checked": true,
+      "reason": "citations resolved; claim supported by 2 of 3 reviewers",
+      "grounded": [
+        {
+          "document": "XI-IATI-WBTF-P175583 results sheet",
+          "mode": "exact",
+          "score": 1.0,
+          "note": ""
+        }
+      ],
+      "ungrounded": [],
+      "uncertain": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_5445b8f9fbf0",
+      "outcome": "verified",
+      "label": "supported",
+      "support_checked": true,
+      "reason": "citations resolved; claim supported by 2 of 3 reviewers",
+      "grounded": [
+        {
+          "document": "XI-IATI-WBTF-P175583 results sheet",
+          "mode": "exact",
+          "score": 1.0,
+          "note": ""
+        }
+      ],
+      "ungrounded": [],
+      "uncertain": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_212e0467fa2d",
+      "outcome": "inconclusive",
+      "label": "inconclusive",
+      "support_checked": true,
+      "reason": "reviewers split {'SUPPORTED': 1}, no majority of 2",
+      "grounded": [
+        {
+          "document": "XI-IATI-WBTF-P175583 results sheet",
+          "mode": "exact",
+          "score": 1.0,
+          "note": ""
+        }
+      ],
+      "ungrounded": [],
+      "uncertain": [],
+      "votes": [
+        "UNSURE",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    },
+    {
+      "claim_id": "clm_75c8b3bb79dc",
+      "outcome": "verified",
+      "label": "supported",
+      "support_checked": true,
+      "reason": "citations resolved; claim supported by 2 of 3 reviewers",
+      "grounded": [
+        {
+          "document": "XI-IATI-WBTF-P175583 results sheet",
+          "mode": "exact",
+          "score": 1.0,
+          "note": ""
+        }
+      ],
+      "ungrounded": [],
+      "uncertain": [],
+      "votes": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "UNSURE"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "clm_91510a617a09",
+      "statement": "The reporting period runs from 1 July 2023 to 31 December 2025, and the actual recorded against the exchange-visit target of 26 is 0.",
+      "quote": "Period 2023-07-01 to 2025-12-31: target 26, actual 0"
+    },
+    {
+      "id": "clm_a94a2b41684d",
+      "statement": "Each indicator has a baseline of 0 recorded in 2023.",
+      "quote": "Baseline: 0 in 2023"
+    },
+    {
+      "id": "clm_62cd1355169b",
+      "statement": "Beneficiaries of project interventions: target 16000, achievement 0.0%, 0 from a baseline of 0.",
+      "quote": "0.0% (0 from a baseline of 0 towards 16000)"
+    },
+    {
+      "id": "clm_39da27b3fffa",
+      "statement": "Supported CHW cooperatives with satisfactory operational performance: target 80, achievement 0.0%, 0 from a baseline of 0.",
+      "quote": "0.0% (0 from a baseline of 0 towards 80)"
+    },
+    {
+      "id": "clm_87d0cd179ae8",
+      "statement": "Members and leaders demonstrating improved knowledge in cooperative management: target 75, achievement 0.0%, 0 from a baseline of 0.",
+      "quote": "0.0% (0 from a baseline of 0 towards 75)"
+    },
+    {
+      "id": "clm_f417923bdaf4",
+      "statement": "Supported cooperatives reporting improved financial performance (positive net profit): target 75, achievement 0.0%, 0 from a baseline of 0.",
+      "quote": "0.0% (0 from a baseline of 0 towards 75)"
+    },
+    {
+      "id": "clm_cc4f86254bd5",
+      "statement": "Exchange visits or peer to peer learning events: target 26, achievement 0.0%, 0 from a baseline of 0.",
+      "quote": "0.0% (0 from a baseline of 0 towards 26)"
+    },
+    {
+      "id": "clm_278ab96ffcdc",
+      "statement": "Income-generating activity proposals: target 160, achievement 0.0%, 0 from a baseline of 0.",
+      "quote": "0.0% (0 from a baseline of 0 towards 160)"
+    },
+    {
+      "id": "clm_5445b8f9fbf0",
+      "statement": "Cooperative members and leaders trained on cooperative management: target 4000, achievement 0.0%, 0 from a baseline of 0.",
+      "quote": "0.0% (0 from a baseline of 0 towards 4000)"
+    },
+    {
+      "id": "clm_212e0467fa2d",
+      "statement": "Members reporting satisfaction with cooperative management and performance: target 75, achievement 0.0%, 0 from a baseline of 0.",
+      "quote": "0.0% (0 from a baseline of 0 towards 75)"
+    },
+    {
+      "id": "clm_75c8b3bb79dc",
+      "statement": "Benefiting cooperatives receiving a clean report or unqualified opinion on financial management: target 75, achievement 0.0%, 0 from a baseline of 0.",
+      "quote": "0.0% (0 from a baseline of 0 towards 75)"
+    }
+  ]
+}

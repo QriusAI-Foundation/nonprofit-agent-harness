@@ -1,0 +1,343 @@
+{
+  "run_id": "run_3654db127ced4689",
+  "date": "2026-10-17",
+  "agent": "results-narrative",
+  "agent_version": "0.1.0",
+  "source": "nlrc-pneumonia-cote-divoire",
+  "source_sha256": "a9bb9eb72b382135ebd949fe79490170e2b49015f176b7b5b05f4ac51bcca681",
+  "model": "claude-opus-5-5",
+  "model_reported": "claude-opus-5-5",
+  "effort": "medium",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 48.4,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 6364,
+    "output_tokens": 6093,
+    "cost_usd": 0.147316
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "35 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "Achievement is not calculable for targeted indicators because no actual is reported.",
+      "quote": "Achievement: People reached with health promotion and/or behaviour change communication activities.: not calculable (no actual)",
+      "locator": "Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Target of 14187 people reached with health promotion, no actual reported for 2019.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 14187, actual none reported",
+      "locator": "Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Baseline of 0 in 2016 for people reached with health promotion.",
+      "quote": "Baseline: 0 in 2016",
+      "locator": "Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records 9031 people reached.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 9031",
+      "locator": "Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records 13798 people reached.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 13798",
+      "locator": "Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Target of 127 volunteers trained and equipped.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 127, actual none reported",
+      "locator": "Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records 115 volunteers trained and equipped.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 115",
+      "locator": "Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Target of 6 health staff trained.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 6, actual none reported",
+      "locator": "Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "2018 entries record 20 health staff trained.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 20",
+      "locator": "Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Target of 4 health centres supported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 4, actual none reported",
+      "locator": "Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records 4 health centres supported.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 4",
+      "locator": "Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Target of 2539 households with children under 5 visited at least twice per month.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 2539, actual none reported",
+      "locator": "Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records 1326 households visited.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 1326",
+      "locator": "Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "2018 entries record 2539 households visited.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 2539",
+      "locator": "Health - Access to treatment & services",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Target of 2 water points for January\u2013March 2020.",
+      "quote": "Period 2020-01-01 to 2020-03-31: target 2, actual none reported",
+      "locator": "WASH - Water",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records 2 water points.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 2",
+      "locator": "WASH - Water",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Latrines baseline of 519 in 2017.",
+      "quote": "Baseline: 519 in 2017",
+      "locator": "WASH - Sanitation",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Latrines target of 1000.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 1000, actual none reported",
+      "locator": "WASH - Sanitation",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "2018 entries record 1102 latrines.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 1102",
+      "locator": "WASH - Sanitation",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Correct handwashing target of 60 percent with no actual reported.",
+      "quote": "Period 2020-01-01 to 2020-03-31: target 60, actual none reported",
+      "locator": "WASH - Hygiene promotion",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Improved cooking stove baseline of 47 in 2016.",
+      "quote": "Baseline: 47 in 2016",
+      "locator": "Health - Indoor air quality",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Improved cooking stove target of 1500.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 1500, actual none reported",
+      "locator": "Health - Indoor air quality",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records 1203 households with improved cooking stoves.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 1203",
+      "locator": "Health - Indoor air quality",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Target of 55 female volunteers.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 55, actual none reported",
+      "locator": "Processes - HR",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "A 2018 entry records 49 female volunteers.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 49",
+      "locator": "Processes - HR",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Target of 72 male volunteers.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 72, actual none reported",
+      "locator": "Processes - HR",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "2018 entries record 79 male volunteers.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual 79",
+      "locator": "Processes - HR",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Target of 80 percent for identifying danger signs, no actual reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 80, actual none reported",
+      "locator": "Health - Knowledge on relevant health topics, health promotion, disease prevention and treatment",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Target of 80 percent for diversification of household diet, no actual reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 80, actual none reported",
+      "locator": "Health - Sufficient nutritious food intake",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Target of 80 percent for timely treatment-seeking, no actual reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 80, actual none reported",
+      "locator": "Health - Health seeking behaviour",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Target of 100 percent for exclusive breastfeeding, no actual reported.",
+      "quote": "Period 2019-07-01 to 2019-09-30: target 100, actual none reported",
+      "locator": "Health - Protective measures promoting infant health",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "PCV vaccination achievement is not calculable because there is no target.",
+      "quote": "Achievement: Children under 5 years in the project communities that received vaccinations for PCV: not calculable (no target)",
+      "locator": "Health - Uptake of preventive healthcare",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Measles vaccination achievement is not calculable because there is no target.",
+      "quote": "Achievement: Children under 5 years in the project communities that received vaccinations for measles: not calculable (no target)",
+      "locator": "Health - Uptake of preventive healthcare",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Resilience impact indicators have no targets.",
+      "quote": "Achievement: People who received direct services that contribute to their resilience: not calculable (no target)",
+      "locator": "Other - People reached",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Resilience impact indicators have no reported actuals.",
+      "quote": "Period 2018-07-01 to 2018-09-30: target none stated, actual none reported",
+      "locator": "Other - People reached",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "e395e88"
+}

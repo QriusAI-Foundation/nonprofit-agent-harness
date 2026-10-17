@@ -1,0 +1,82 @@
+{
+  "run_id": "run_71e67c32a988400e",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "who-chw-curriculum",
+  "source_sha256": "5273d03171b03a7fb71ba8fb07de8a5ab38bdab43a3bacd5c485cd5b982e342d",
+  "model": "claude-haiku-5-5",
+  "model_reported": "claude-haiku-5-5",
+  "effort": "model default",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 17.2,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 157878,
+    "output_tokens": 3792,
+    "cost_usd": 0.088419
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "6 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "The guide was written to help shape CHW curricula.",
+      "quote": "This guide was developed to assist in the conceptualization, design and implementation of CHW curricula",
+      "locator": "Executive summary",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The guide is designed mainly for formally integrated CHWs with a structured training path and a contract.",
+      "quote": "This curriculum guide is designed mainly for CHWs, who are formally integrated into the health system after a structured education pathway",
+      "locator": "Executive summary",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The main readers are CHW educators and people developing CHW curricula.",
+      "quote": "The main target audience for this document comprises CHW educators as well those developing CHW curricula.",
+      "locator": "Executive summary",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The guide has six competency domains, 12 universal modules and four role-specific modules.",
+      "quote": "The content is organized into six competency domains, 12 universal modules (11 practice activities plus one module of basic science knowledge), and four role-specific modules, comprising 28 role-specific topics organized under the four modules.",
+      "locator": "3.1 Overview of the CHW curriculum guide",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The guide should be adapted to different countries, health systems and contexts.",
+      "quote": "This CHW curriculum guide should be adapted to the needs of different countries, health systems, programmes and contexts.",
+      "locator": "Executive summary",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The curriculum should be updated regularly, for example at least every 5 to 10 years.",
+      "quote": "deliver, evaluate and update the new curriculum as regularly as needed (indicated by programme evaluation) or periodically, for example at least every 5\u201310 years.",
+      "locator": "3.3 How to use the curriculum guide",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "e395e88"
+}

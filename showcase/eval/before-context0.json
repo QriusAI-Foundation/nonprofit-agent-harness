@@ -1,0 +1,32 @@
+{
+  "whitespace_case": {
+    "verified": 407
+  },
+  "reordered": {
+    "verified": 660
+  },
+  "punctuation": {
+    "verified": 407
+  },
+  "paraphrase": {
+    "citation_not_found": 361,
+    "verified": 46
+  },
+  "changed_quantity": {
+    "citation_not_found": 618,
+    "verified": 6
+  },
+  "removed_negation": {
+    "verified": 407
+  },
+  "added_negation": {
+    "verified": 403,
+    "citation_not_found": 4
+  },
+  "moved_negation": {
+    "verified": 240
+  },
+  "exact": {
+    "verified": 407
+  }
+}

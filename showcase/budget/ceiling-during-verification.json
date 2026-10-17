@@ -1,0 +1,26 @@
+{
+  "case": "ceiling-during-verification",
+  "run_id": "run_f895c124d2044141",
+  "model": "claude-sonnet-5-5",
+  "limits": {
+    "max_cost_usd": 0.06,
+    "verify_passes": 3,
+    "verify_models": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5",
+      "claude-opus-5-5"
+    ],
+    "max_calls": 200
+  },
+  "status": "awaiting_review",
+  "error": "",
+  "usage": {
+    "calls": 13,
+    "input_tokens": 4452,
+    "output_tokens": 5097,
+    "cost_usd": 0.060474
+  },
+  "artifact_kept": true,
+  "verification": "11 claim(s): 11 inconclusive",
+  "harness_commit": "4369977"
+}

@@ -1,0 +1,19 @@
+{
+  "case": "cost-ceiling",
+  "run_id": "run_9d6bba4b57e14960",
+  "model": "claude-haiku-5-5",
+  "limits": {
+    "max_cost_usd": 0.05
+  },
+  "status": "failed",
+  "error": "Stopped at the budget ceiling: Run would exceed its cost ceiling: $0.1660 of $0.0500",
+  "usage": {
+    "calls": 1,
+    "input_tokens": 331860,
+    "output_tokens": 14,
+    "cost_usd": 0.165965
+  },
+  "artifact_kept": false,
+  "verification": null,
+  "harness_commit": "4369977"
+}

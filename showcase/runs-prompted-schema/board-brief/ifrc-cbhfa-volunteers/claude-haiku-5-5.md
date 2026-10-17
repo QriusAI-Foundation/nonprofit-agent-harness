@@ -1,0 +1,1 @@
+{"type":"object","properties":{"text":{"type":"string"},"claims":{"type":"array","items":{"type":"object","properties":{"statement":{"type":"string"},"quote":{"type":"string"},"locator":{"type":"string"}},"required":["statement","quote"]}}},"required":["text","claims"]}

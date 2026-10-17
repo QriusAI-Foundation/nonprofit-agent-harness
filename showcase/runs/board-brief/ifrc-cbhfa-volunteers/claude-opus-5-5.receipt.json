@@ -1,0 +1,88 @@
+{
+  "run_id": "run_9d918075e376495c",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "ifrc-cbhfa-volunteers",
+  "source_sha256": "e011d9b15fe71e9b93101155bf8085255143d64b8ad3f3157bb33e8c71438418",
+  "model": "claude-opus-5-5",
+  "model_reported": "claude-opus-5-5",
+  "effort": "medium",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 24.9,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 170945,
+    "output_tokens": 2663,
+    "cost_usd": 0.73704,
+    "unpriced_calls": 0
+  },
+  "price_file": "prices-2026-10-17.json",
+  "document": {
+    "pages": 346,
+    "truncated": false,
+    "bytes": 6541723
+  },
+  "verification": "6 claim(s): 5 resolved (support not checked), 1 citation uncertain",
+  "claims": [
+    {
+      "statement": "An organisation implementing CBHFA is making a commitment to long-term health programming.",
+      "quote": "A National Red Cross or Red Crescent Society implementing CBHFA is making a commitment to long-term",
+      "locator": "Foreword",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "The method is to learn in the classroom and then act in the community.",
+      "quote": "Learn in the classroom: do in the community.",
+      "locator": "How CBHFA in action works",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Volunteers must explain what the programme can and cannot do, to avoid unrealistic expectations.",
+      "quote": "This is imperative to avoid creating unrealistic expectations.",
+      "locator": "Module 3, Topic 1: Assessing my community: an overview",
+      "outcome": "citation_uncertain",
+      "match": null,
+      "score": null,
+      "reason": "1 of 1 citation(s) resemble the source but differ in ways the free check cannot judge, compare them by hand (ifrc-cbhfa-volunteer-manual.pdf: the source reads 'not' just before it)"
+    },
+    {
+      "statement": "Life-support skills must be taught by qualified first aid trainers recognised by the National Society.",
+      "quote": "These skills must be trained by qualified first aid trainers recognized by the National Society.",
+      "locator": "Module 4, Topic 3: Basic life support (Part 1)",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Volunteers have a right to rewards and repayment of out-of-pocket expenses.",
+      "quote": "rewards and reimbursement for out-of-pocket expenses",
+      "locator": "Module 1, Topic 4: Volunteering",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    },
+    {
+      "statement": "Reporting on activities is needed for official records.",
+      "quote": "Reporting on activities and action is necessary for official records.",
+      "locator": "Module 3, Topic 8: Reporting on CBHFA activities in my community",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "citations resolved, every one quoted exactly; claim support not checked, the free check only finds quotes"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "4369977"
+}

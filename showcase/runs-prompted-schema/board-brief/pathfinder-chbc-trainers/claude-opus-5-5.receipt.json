@@ -1,0 +1,82 @@
+{
+  "run_id": "run_127eddd702ad4066",
+  "date": "2026-10-17",
+  "agent": "board-brief",
+  "agent_version": "0.1.0",
+  "source": "pathfinder-chbc-trainers",
+  "source_sha256": "6c23212037340d36e0c47fb1096efccd35269368dc196b8913b8f6cd30ccaec8",
+  "model": "claude-opus-5-5",
+  "model_reported": "claude-opus-5-5",
+  "effort": "medium",
+  "repeat": 1,
+  "status": "awaiting_review",
+  "error": "",
+  "review_state": "pending_review",
+  "seconds": 26.7,
+  "usage": {
+    "calls": 1,
+    "input_tokens": 331649,
+    "output_tokens": 2025,
+    "cost_usd": 1.367096
+  },
+  "price_file": "prices-2026-10-17.json",
+  "verification": "6 claim(s), all verified",
+  "claims": [
+    {
+      "statement": "The course gives CHWs the knowledge and skills to provide home-based care to people living with HIV/AIDS in their communities.",
+      "quote": "This curriculum aims to provide CHWs with the knowledge and skills necessary to provide CHBC to PLWHA in their communities.",
+      "locator": "Introduction to the Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "The guide has 13 core units, a practicum and 5 advanced units.",
+      "quote": "The Trainer\u2019s Guide is divided into 13 core units, a practicum, and 5 advanced units that contain additional information that CHWs might find useful after they have covered the core areas.",
+      "locator": "Introduction to the Curriculum",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Trainings should have no more than 15 to 20 participants, which leaves enough time for skills practice.",
+      "quote": "CHBC trainings should be limited to 15-20 participants to ensure a good trainer-participant ratio and adequate time for skills practice.",
+      "locator": "Pathfinder\u2019s CHBC Model",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "CHWs need ongoing supervision and support to handle problems, keep care quality good and keep learning between trainings.",
+      "quote": "Ongoing supervision and support is needed to help the CHW overcome challenges, to ensure that PLWHA are getting good quality services, and to facilitate learning between trainings.",
+      "locator": "Pathfinder\u2019s CHBC Model",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "Depending on local tradition, the community should select CHWs, with help from community-based and faith-based groups.",
+      "quote": "Depending on the tradition in the region, CHWs should be selected by the community, with the help of CBOs and/or FBOs.",
+      "locator": "Pathfinder\u2019s CHBC Model",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    },
+    {
+      "statement": "During practice visits, clients must know they can refuse to take part, and refusing must not affect the care they already receive.",
+      "quote": "Clients should understand that they can refuse to participate in the practicum and that it will not affect the care that they are already receiving.",
+      "locator": "More About the CHBC Practicum, Evaluation, and Certification",
+      "outcome": "verified",
+      "match": "exact",
+      "score": 1.0,
+      "reason": "every citation quotes the source exactly"
+    }
+  ],
+  "harness_version": "0.3.0",
+  "harness_commit": "e395e88"
+}
