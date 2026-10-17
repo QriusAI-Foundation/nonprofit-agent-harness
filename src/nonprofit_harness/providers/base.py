@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass, field
 from typing import Any, Protocol, runtime_checkable
@@ -55,14 +56,21 @@ class ModelRate:
         )
 
 
+#: Where a deployment states its prices without writing code. Read by every provider
+#: that takes a `prices=` argument, when none is passed.
+PRICES_ENV = "HARNESS_PRICES"
+
+
 @dataclass
 class PriceBook:
     """Model pricing, supplied by the deployer.
 
     Deliberately empty by default. Published rates move often enough that a
     hardcoded table goes stale silently, and a wrong number here becomes a wrong
-    number in somebody's grant report. Unpriced calls cost 0.0 and still count
-    against token and call ceilings, so budget control works before any rate is set.
+    number in somebody's grant report. A call on a model the book does not know is
+    recorded as unpriced, never as free: it still counts against token and call
+    ceilings, and a dollar ceiling refuses it, because a ceiling that sees zero spend
+    cannot stop anything.
     """
 
     rates: dict[str, ModelRate] = field(default_factory=dict)
@@ -71,12 +79,84 @@ class PriceBook:
         self.rates[model] = ModelRate(input_per_1m, output_per_1m)
         return self
 
-    def cost(self, model: str, input_tokens: int, output_tokens: int) -> float:
+    def cost(self, model: str, input_tokens: int, output_tokens: int) -> float | None:
+        """The cost in USD, or None when this book has no rate for the model."""
         rate = self.rates.get(model)
-        return rate.cost(input_tokens, output_tokens) if rate else 0.0
+        return rate.cost(input_tokens, output_tokens) if rate else None
 
     def knows(self, model: str) -> bool:
         return model in self.rates
+
+    def rate_for(self, model: str) -> ModelRate | None:
+        return self.rates.get(model)
+
+    def usage(
+        self,
+        model: str,
+        input_tokens: int,
+        output_tokens: int,
+        *,
+        requested: str | None = None,
+    ) -> Usage:
+        """Cost one call by the model the API says answered it.
+
+        Priced by the returned name rather than the requested one, because that is the
+        model that was billed. When they differ and only the requested name has a rate,
+        the call is unpriced and the note says so: borrowing the requested rate would
+        cost a dated snapshot or a fallback model at somebody else's price.
+        """
+        cost = self.cost(model, input_tokens, output_tokens)
+        if cost is not None:
+            return Usage(
+                input_tokens=input_tokens, output_tokens=output_tokens, cost_usd=cost, calls=1
+            )
+        note = model
+        if requested and requested != model and self.knows(requested):
+            note = f"{model} (requested {requested}, which is priced)"
+        return Usage(
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            calls=1,
+            unpriced_calls=1,
+            unpriced_models=(note,),
+        )
+
+    @classmethod
+    def parse(cls, text: str) -> PriceBook:
+        """Read `model=input/output` pairs, comma separated, rates in USD per 1M tokens.
+
+        Split on the last `=` and the last `/`, because model names carry `/` and `:`
+        (`meta-llama/llama-4`, `llama3:8b`) and a rate never does.
+        """
+        book = cls()
+        for entry in (item.strip() for item in text.split(",")):
+            if not entry:
+                continue
+            model, sep, rates = entry.rpartition("=")
+            input_rate, slash, output_rate = rates.rpartition("/")
+            try:
+                if not (sep and slash and model.strip()):
+                    raise ValueError
+                book.set(model.strip(), float(input_rate), float(output_rate))
+            except ValueError:
+                raise ValueError(
+                    f"{PRICES_ENV} entry {entry!r} is not model=input/output, "
+                    "for example my-model=0.30/2.50"
+                ) from None
+        return book
+
+    @classmethod
+    def from_env(cls) -> PriceBook:
+        return cls.parse(os.getenv(PRICES_ENV, ""))
+
+
+def how_to_price(model: str) -> str:
+    """The fix, spelled out, for any message that reports a missing price."""
+    return (
+        f"Set {PRICES_ENV}='{model}=<input>/<output>' (USD per 1M tokens), or pass "
+        f"prices=PriceBook().set({model!r}, input_per_1m=..., output_per_1m=...) "
+        "to the provider"
+    )
 
 
 @runtime_checkable
@@ -102,4 +182,12 @@ class ModelProvider(Protocol):
     ) -> ModelResponse: ...
 
 
-__all__ = ["ModelProvider", "ModelRate", "ModelResponse", "PriceBook", "scrub_secrets"]
+__all__ = [
+    "PRICES_ENV",
+    "ModelProvider",
+    "ModelRate",
+    "ModelResponse",
+    "PriceBook",
+    "how_to_price",
+    "scrub_secrets",
+]

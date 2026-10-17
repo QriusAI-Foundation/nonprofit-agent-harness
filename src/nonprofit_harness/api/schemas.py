@@ -56,8 +56,13 @@ class MembershipIn(BaseModel):
 class UsageOut(BaseModel):
     input_tokens: int
     output_tokens: int
-    cost_usd: float
+    #: Null when any call was unpriced. A zero there would read as "free".
+    cost_usd: float | None
+    #: The priced calls' cost alone, which is a lower bound when `cost_usd` is null.
+    priced_cost_usd: float
     calls: int
+    unpriced_calls: int = 0
+    unpriced_models: list[str] = Field(default_factory=list)
 
 
 class ReviewOut(BaseModel):
@@ -156,8 +161,11 @@ class RunOut(BaseModel):
             usage=UsageOut(
                 input_tokens=run.usage.input_tokens,
                 output_tokens=run.usage.output_tokens,
-                cost_usd=run.usage.cost_usd,
+                cost_usd=run.usage.cost_usd if run.usage.cost_known else None,
+                priced_cost_usd=run.usage.cost_usd,
                 calls=run.usage.calls,
+                unpriced_calls=run.usage.unpriced_calls,
+                unpriced_models=list(run.usage.unpriced_models),
             ),
             artifacts=[ArtifactOut.of(a) for a in run.artifacts],
             pending_review=len(run.pending_review),

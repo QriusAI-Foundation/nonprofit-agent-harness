@@ -9,6 +9,8 @@ from __future__ import annotations
 import pytest
 
 from nonprofit_harness.core.errors import InvalidRequest, ProviderError
+from nonprofit_harness.core.usage import Usage
+from nonprofit_harness.guardrails.budget import BudgetedProvider, BudgetGuard
 from nonprofit_harness.providers import known_providers, load_provider
 from nonprofit_harness.providers.anthropic import AnthropicProvider
 from nonprofit_harness.providers.base import PriceBook, scrub_secrets
@@ -398,3 +400,62 @@ def test_the_provider_list_is_reported():
     names = known_providers()
 
     assert {"echo", "google", "openai", "anthropic", "ollama"} <= set(names)
+
+
+# --- budget accounting through the real adapters ------------------------------------
+
+
+def test_a_refusal_through_the_budget_wrapper_banks_its_billed_usage():
+    body = {**ANTHROPIC_BODY, "stop_reason": "refusal", "stop_details": {"category": None}}
+    adapter = AnthropicProvider(api_key="sk-ant-test-value", client=FakeHttp(FakeResponse(body)))
+    guard = BudgetGuard(max_tokens=10_000)
+
+    with pytest.raises(ProviderError, match="refused"):
+        BudgetedProvider(adapter, guard).generate("x")
+
+    assert guard.spent.input_tokens == 120
+    assert guard.spent.output_tokens == 45
+
+
+def test_a_dated_snapshot_answer_is_unpriced_not_free():
+    # OpenAI answers an alias with a dated snapshot. Borrowing the alias's rate would
+    # misprice it; costing it at zero would hide it. Neither is allowed.
+    body = {**OPENAI_BODY, "model": "gpt-test-2026-10-01"}
+    prices = PriceBook().set("gpt-test", input_per_1m=1000.0, output_per_1m=2000.0)
+    provider = OpenAIProvider(
+        model="gpt-test",
+        api_key="sk-test-key-value",
+        client=FakeHttp(FakeResponse(body)),
+        prices=prices,
+    )
+
+    response = provider.generate("x")
+
+    assert response.model == "gpt-test-2026-10-01"
+    assert response.usage.cost_known is False
+    assert "requested gpt-test" in response.usage.unpriced_models[0]
+
+
+def test_anthropic_costs_the_model_that_answered():
+    prices = PriceBook().set("claude-test", input_per_1m=1000.0, output_per_1m=1000.0)
+    provider = AnthropicProvider(
+        model="claude-alias",
+        api_key="sk-ant-test-value",
+        client=FakeHttp(FakeResponse(ANTHROPIC_BODY)),
+        prices=prices,
+    )
+
+    usage = provider.generate("x").usage
+
+    assert usage.cost_known
+    assert usage.cost_usd == pytest.approx(0.165)
+
+
+def test_the_output_cap_reaches_the_request_body():
+    http = FakeHttp(FakeResponse(ANTHROPIC_BODY))
+    adapter = AnthropicProvider(api_key="sk-ant-test-value", client=http)
+    guard = BudgetGuard(max_tokens=1_000, spent=Usage(input_tokens=700))
+
+    BudgetedProvider(adapter, guard).generate("x" * 60)
+
+    assert http.calls[0]["json"]["max_tokens"] == 1_000 - 700 - 10

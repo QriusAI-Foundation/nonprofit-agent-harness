@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from nonprofit_harness.core.usage import Usage
+
 
 class HarnessError(Exception):
     """Base class for every error the harness raises deliberately."""
@@ -37,12 +39,14 @@ class BudgetExceeded(HarnessError):
     status_code = 402
     code = "budget_exceeded"
 
-    def __init__(self, spent: float, ceiling: float, kind: str = "cost") -> None:
+    def __init__(
+        self, spent: float, ceiling: float, kind: str = "cost", *, message: str | None = None
+    ) -> None:
         if kind == "cost":
             detail = f"${spent:.4f} of ${ceiling:.4f}"
         else:
             detail = f"{spent:,.0f} of {ceiling:,.0f}"
-        super().__init__(f"Run would exceed its {kind} ceiling: {detail}")
+        super().__init__(message or f"Run would exceed its {kind} ceiling: {detail}")
         self.spent = spent
         self.ceiling = ceiling
         self.kind = kind
@@ -101,6 +105,13 @@ class AgentFailed(HarnessError):
 class ProviderError(HarnessError):
     status_code = 502
     code = "provider_error"
+
+    def __init__(self, message: str = "", *, usage: Usage | None = None) -> None:
+        super().__init__(message)
+        #: What the failed call was billed, when the provider's response said. The
+        #: budget wrapper banks it before the error travels on, so a refused or broken
+        #: response still shows up in the run's spend.
+        self.usage = usage
 
 
 class StorageError(HarnessError):

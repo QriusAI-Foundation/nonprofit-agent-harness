@@ -116,9 +116,20 @@ class ExpensiveAgent(Agent):
     budget_usd = 2.50
 ```
 
+A `budget_usd` needs a price for every model the agent calls. Without one the call is
+refused before it is sent, because a ceiling that sees zero spend cannot stop anything.
+See [Pricing](configuration.md#pricing).
+
 Token and call ceilings come from configuration and always apply. Your agent does not
 need to count anything. When a ceiling is hit, the run ends as `failed` with the spend
 so far recorded, and your `run` method simply stops.
+
+The guard may lower the `max_output_tokens` you pass, to what the run has left. It never
+raises it. If an answer then uses every token of that lowered limit, it was cut short,
+so the guard records its usage and stops the run at the ceiling rather than hand you a
+fragment. One call can still pass a ceiling by a little, because the input size is
+estimated before the call; see
+[what the ceilings cannot prevent](configuration.md#what-they-cannot-prevent).
 
 ## Failing
 

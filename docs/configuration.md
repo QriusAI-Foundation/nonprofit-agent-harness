@@ -87,18 +87,79 @@ All three apply per run. Any one of them stops the run when it trips.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `HARNESS_MAX_COST_USD` | unset | Cost ceiling in USD |
+| `HARNESS_MAX_COST_USD` | unset | Cost ceiling in USD. Needs a price for every model the run calls |
 | `HARNESS_MAX_TOKENS` | `200000` | Combined input and output tokens |
 | `HARNESS_MAX_CALLS` | `50` | Model calls |
+| `HARNESS_PRICES` | unset | Model rates in USD per 1M tokens, `model=input/output`, comma separated |
 
-Each accepts a number, or `none`, `unlimited`, or `off` to switch that ceiling off.
+Each ceiling accepts a number, or `none`, `unlimited`, or `off` to switch it off.
 `0` means zero, not "unset".
 
-Cost ceilings only work once pricing is configured, because published rates change too
-often to hardcode. Token and call ceilings need no pricing and work immediately, which
-is why they carry the defaults.
+### What each ceiling does
 
-To price a model, supply a `PriceBook`:
+Every model call goes through three steps, in this order.
+
+1. **Call check, before the call.** A call that would exceed `HARNESS_MAX_CALLS` is
+   not sent. The other ceilings are checked against what is already spent at the same
+   time, so a run that broke one cannot make another call.
+2. **Reservation, before the call.** The harness estimates the prompt's input tokens as
+   its character count divided by 6. That is an estimate, and a low one on purpose:
+   English text averages about 4 characters per token, so the check refuses only a
+   prompt that almost certainly does not fit. Then:
+   - if the estimate leaves no tokens under `HARNESS_MAX_TOKENS`, the call is not sent;
+   - otherwise the output limit sent to the provider is lowered to the tokens left after
+     the estimate. An answer that uses all of a lowered limit was cut short, so its
+     usage is recorded and the run stops at the ceiling instead of passing on a fragment;
+   - with a cost ceiling and a known rate, the output limit is also lowered to what the
+     remaining dollars buy, and a call whose estimated input alone costs more than is
+     left is not sent;
+   - a cost ceiling on a model with no price is refused here, before any money moves.
+3. **Accounting, after the call.** The tokens and cost the provider reports are added
+   to the run first and checked second. This is the accounting of record. A call that
+   broke a ceiling is counted in full, and the run then stops. A call that failed but
+   was still billed, such as a refusal, is counted the same way.
+
+### What they cannot prevent
+
+The ceilings narrow the overshoot. They do not remove it.
+
+- **One call can pass the token ceiling** by the amount its real input exceeds the
+  estimate. Text that tokenizes densely (code, tables, scripts other than Latin) is
+  where the estimate is furthest off. Output is held to the reserved limit by the
+  provider, so a provider that returns more than `max_tokens` would overshoot by that
+  excess too.
+- **One call can pass the cost ceiling** by the cost of that same input difference.
+- **When no output limit is stated** by the agent or the provider (the Gemini adapter
+  states none), the harness sends a reserved limit only below 8,192 tokens. Above that,
+  some APIs reject a limit larger than the model's own maximum, so the model's maximum
+  applies and bounds the overshoot instead.
+- **The ceilings bound one run, not a total.** Many small runs can add up without any
+  individual ceiling tripping. A deployment reachable by people you do not know needs
+  quota and rate limiting on top. See [security.md](security.md).
+
+The recorded totals are always what the provider reported, never the estimate.
+
+### Pricing
+
+The harness ships no rates. Published prices change too often to hardcode, and a wrong
+rate becomes a wrong figure in a grant report. Token and call ceilings need no pricing
+and work immediately, which is why they carry the defaults.
+
+A call on a model with no rate is **unpriced**, not free. The run's usage counts it in
+`unpriced_calls` and names the model in `unpriced_models`. `harness run` prints
+`cost: unknown (no price for <model>)` instead of a dollar figure, and the API returns
+`cost_usd: null` with the priced part in `priced_cost_usd`. With a cost ceiling set, an
+unpriced model is refused before dispatch, and the error names the model and the fix.
+
+Supply rates in one of two ways.
+
+From the environment, read by every provider that is not given a price book in code:
+
+```bash
+export HARNESS_PRICES="your-model=0.30/2.50,meta-llama/llama-4=0.10/0.30"
+```
+
+In code, which takes precedence over the environment:
 
 ```python
 from nonprofit_harness.providers import PriceBook
@@ -108,9 +169,14 @@ prices = PriceBook().set("your-model", input_per_1m=0.30, output_per_1m=2.50)
 provider = GoogleProvider(model="your-model", prices=prices)
 ```
 
-**These ceilings bound one run, not a total.** Many small runs can add up without any
-individual ceiling tripping. A deployment reachable by people you do not know needs
-quota and rate limiting on top. See [security.md](security.md).
+Price the name the API **answers** with, not only the one you request. A call is costed
+by the model the response names. OpenAI, for example, answers `gpt-x` with a dated
+snapshot such as `gpt-x-2026-10-01`. When the answered name has no rate and the
+requested one does, the call is unpriced and the usage says so. The harness does not
+borrow the requested rate, because a fallback or a newer snapshot can cost more.
+
+The offline `echo` provider is free and reports a known zero cost, so it runs under a
+cost ceiling with no prices set.
 
 ## Verification
 
@@ -179,6 +245,8 @@ It reports, among others:
 - auth required but no client id or signing secret configured
 - `gcp` storage with no bucket set
 - no budget ceiling of any kind, so a run can consume without limit
+- a cost ceiling with no `HARNESS_PRICES`, or with no price for `HARNESS_MODEL`
+- a malformed `HARNESS_PRICES` entry
 - cross-check passes configured without enough distinct models to make them independent
 - an even number of cross-check passes, where ties are possible
 

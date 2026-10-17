@@ -92,7 +92,9 @@ against the source document before a reviewer ever sees them, and that check cos
 nothing to run.
 
 **The budget is fixed and small.** Grant money does not stretch because a retry loop
-misbehaved. Every run carries a hard ceiling on cost, tokens, and calls.
+misbehaved. Every run carries a ceiling on tokens and calls by default, and on cost
+once you set one and price your models. A model with no price is reported as unknown
+cost, never as free.
 
 **Nobody chose their model provider.** Credits arrive donated, from whichever platform
 offered them, and some data is not allowed to leave the building at all. Eight
@@ -194,7 +196,7 @@ See [docs/writing-an-agent.md](docs/writing-an-agent.md) for the full guide.
 |---|---|
 | **Review gate** | Artifacts land in `pending_review`. Nothing is released until a person approves it, and every decision records who made it, including automatic ones. |
 | **Claim verification** | Cited quotes are checked against the source. Free and offline. An optional cross-check has several models re-derive the claim from its evidence alone. |
-| **Budget ceilings** | Hard per-run limits on cost, tokens, and calls. Token and call limits work before you configure any pricing. |
+| **Budget ceilings** | Per-run limits on calls, tokens, and cost. Each call's output is capped to what is left before it is sent and counted in full after. Token and call limits work with no pricing; a cost limit refuses a model it has no price for. One call can still overshoot by a little; [docs/configuration.md](docs/configuration.md#what-they-cannot-prevent) says how much. |
 | **Readiness scoring** | A scoring engine for AI-readiness instruments: per-question direction, excluded options, weighted dimensions, geometric-mean aggregation, tier bands. |
 | **Documents** | PDF, DOCX, and text in, plain text out. Agents never see bytes. |
 | **Sector data** | An IATI adapter: search activities, read their published XML into full results, and resolve codes to readable names from bundled codelists. |
@@ -440,7 +442,8 @@ Everything is environment variables. Defaults are offline, free, and reviewed. S
 | `HARNESS_PROVIDER` | `echo` | `echo`, `openai`, `anthropic`, `groq`, `ollama`, `google`, and more |
 | `HARNESS_MODEL` | provider default | Model name |
 | `HARNESS_STORAGE` | `memory` | `memory` or `gcp` |
-| `HARNESS_MAX_COST_USD` | unset | Per-run cost ceiling |
+| `HARNESS_MAX_COST_USD` | unset | Per-run cost ceiling (needs `HARNESS_PRICES`) |
+| `HARNESS_PRICES` | unset | Model rates, `model=input/output` in USD per 1M tokens |
 | `HARNESS_MAX_TOKENS` | `200000` | Per-run token ceiling |
 | `HARNESS_MAX_CALLS` | `50` | Per-run model-call ceiling |
 | `HARNESS_VERIFY_CLAIMS` | `true` | Check cited quotes against the source (free) |

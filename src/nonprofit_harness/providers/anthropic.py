@@ -54,7 +54,7 @@ class AnthropicProvider:
     ) -> None:
         self.default_model = model or os.getenv("HARNESS_MODEL") or DEFAULT_MODEL
         self.base_url = base_url.rstrip("/")
-        self.prices = prices or PriceBook()
+        self.prices = prices if prices is not None else PriceBook.from_env()
         self.default_max_output_tokens = max_output_tokens
         self.api_version = api_version
         self.effort = effort or os.getenv(EFFORT_ENV) or None
@@ -112,17 +112,17 @@ class AnthropicProvider:
 
         # A refusal can still carry partial text. Passing it on would put a fragment
         # into an artifact as if it were a complete answer.
-        usage = self._usage(used, body)
+        answered = body.get("model") or used
+        usage = self._usage(answered, used, body)
         if body.get("stop_reason") == "refusal":
             category = _refusal_category(body)
-            error = ProviderError(
-                f"Model {body.get('model') or used} refused the request"
-                + (f" (category: {category})" if category else "")
+            # The refused call was still billed. Kept on the error so the budget
+            # wrapper counts the spend instead of losing it.
+            raise ProviderError(
+                f"Model {answered} refused the request"
+                + (f" (category: {category})" if category else ""),
+                usage=usage,
             )
-            # The refused call was still billed. Kept on the error so whoever catches
-            # it can count the spend instead of losing it.
-            error.usage = usage
-            raise error
 
         text = "".join(
             block.get("text", "")
@@ -130,17 +130,15 @@ class AnthropicProvider:
             if block.get("type") == "text"
         )
 
-        return ModelResponse(text=text, model=body.get("model") or used, usage=usage, raw=body)
+        return ModelResponse(text=text, model=answered, usage=usage, raw=body)
 
-    def _usage(self, model: str, body: dict[str, Any]) -> Usage:
+    def _usage(self, answered: str, requested: str, body: dict[str, Any]) -> Usage:
         usage = body.get("usage") or {}
-        input_tokens = int(usage.get("input_tokens") or 0)
-        output_tokens = int(usage.get("output_tokens") or 0)
-        return Usage(
-            input_tokens=input_tokens,
-            output_tokens=output_tokens,
-            cost_usd=self.prices.cost(model, input_tokens, output_tokens),
-            calls=1,
+        return self.prices.usage(
+            answered,
+            int(usage.get("input_tokens") or 0),
+            int(usage.get("output_tokens") or 0),
+            requested=requested,
         )
 
 

@@ -10,6 +10,7 @@ from nonprofit_harness.config import HarnessConfig
 from nonprofit_harness.core.registry import AgentRegistry
 from nonprofit_harness.core.runner import AgentRunner
 from nonprofit_harness.core.types import Document
+from nonprofit_harness.core.usage import Usage
 from nonprofit_harness.documents import extract
 from nonprofit_harness.providers import load_provider
 from nonprofit_harness.readiness import example_instrument, score
@@ -92,18 +93,21 @@ def _run(args) -> int:
     print(f"run {run.id}: {run.status}")
     if run.error:
         print(f"error: {run.error}", file=sys.stderr)
+        # A failed run still spent money, and that is when the figure matters most.
+        _print_usage(run.usage)
         return 1
-    print(
-        f"usage: {run.usage.calls} calls, "
-        f"{run.usage.input_tokens + run.usage.output_tokens} tokens, "
-        f"${run.usage.cost_usd:.4f}"
-    )
+    _print_usage(run.usage)
     for artifact in run.artifacts:
         print(f"\n--- {artifact.kind} [{artifact.status}] {artifact.title} ---")
         print(artifact.content)
     if run.pending_review:
         print(f"\n{len(run.pending_review)} artifact(s) awaiting human review.")
     return 0
+
+
+def _print_usage(usage: Usage) -> None:
+    # Never "$0.0000" for a model with no price: that reads as free in a grant report.
+    print(f"usage: {usage.calls} calls, {usage.total_tokens} tokens, {usage.describe_cost()}")
 
 
 def _score(args) -> int:
@@ -124,6 +128,7 @@ def _check() -> int:
         "budget:   "
         f"cost={config.max_cost_usd} tokens={config.max_tokens} calls={config.max_calls}"
     )
+    print(f"prices:   {config.prices or 'none'}")
     print(f"auth:     required={config.auth_required}")
     if problems:
         print("\nwarnings:")
