@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import asyncio
+import contextlib
 import logging
 from contextlib import asynccontextmanager
 from typing import Any
@@ -76,7 +78,18 @@ def create_app(
             ctx.runner.reap_abandoned()
         except Exception:  # noqa: BLE001 - startup must not depend on storage health
             logger.exception("Could not reap abandoned runs at startup")
+        # Startup alone is not enough: a run whose lease had not lapsed yet when this
+        # instance booted would otherwise wait for the next restart.
+        reaper = (
+            asyncio.create_task(_reap_periodically(ctx.runner, config.reap_interval_seconds))
+            if config.reap_interval_seconds > 0
+            else None
+        )
         yield
+        if reaper is not None:
+            reaper.cancel()
+            with contextlib.suppress(asyncio.CancelledError):
+                await reaper
 
     app = FastAPI(
         title="Nonprofit Agent Harness",
@@ -120,6 +133,16 @@ def create_app(
         app.include_router(module.router, prefix=API_PREFIX)
 
     return app
+
+
+async def _reap_periodically(runner: AgentRunner, interval: float) -> None:
+    while True:
+        await asyncio.sleep(interval)
+        try:
+            # In a thread: a pass pages through storage and must not stall requests.
+            await asyncio.to_thread(runner.reap_abandoned)
+        except Exception:  # noqa: BLE001 - one bad pass must not end recovery for good
+            logger.exception("Recovery pass failed")
 
 
 def _provider_kwargs(config: HarnessConfig) -> dict[str, Any]:

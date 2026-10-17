@@ -50,16 +50,30 @@ class MemoryRunStore:
         self._runs[run.id] = copy.deepcopy(run)
 
     def list(
-        self, *, org_id: str | None = None, status: RunStatus | None = None, limit: int = 50
+        self,
+        *,
+        org_id: str | None = None,
+        status: RunStatus | None = None,
+        limit: int = 50,
+        after: str | None = None,
     ) -> list[Run]:
         with self._lock:
+            cursor = _position(self._stored(after)) if after else None
             found = [
                 copy.deepcopy(r)
                 for r in self._runs.values()
-                if (org_id is None or r.org_id == org_id) and (status is None or r.status == status)
+                if (org_id is None or r.org_id == org_id)
+                and (status is None or r.status == status)
+                and (cursor is None or _position(r) < cursor)
             ]
-        found.sort(key=lambda r: r.created_at, reverse=True)
+        found.sort(key=_position, reverse=True)
         return found[:limit]
+
+
+def _position(run: Run) -> tuple:
+    # The id breaks ties, as Firestore's document name does, so two runs created in
+    # the same microsecond cannot both sit on a page boundary and one be skipped.
+    return (run.created_at, run.id)
 
 
 class MemoryBlobStore:

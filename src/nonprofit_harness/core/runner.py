@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+import copy
 import logging
-from dataclasses import dataclass, replace
+from collections.abc import Callable, Iterator
+from dataclasses import asdict, dataclass, field, replace
 from datetime import UTC, datetime, timedelta
+from typing import Any
 
 from nonprofit_harness.config import HarnessConfig
+from nonprofit_harness.core import lease
 from nonprofit_harness.core.agent import Agent, RunContext
 from nonprofit_harness.core.errors import BudgetExceeded, HarnessError
 from nonprofit_harness.core.registry import AgentRegistry
@@ -12,12 +16,40 @@ from nonprofit_harness.core.types import Document, Run, RunStatus
 from nonprofit_harness.guardrails.budget import BudgetedProvider, BudgetGuard
 from nonprofit_harness.guardrails.redaction import Redactor
 from nonprofit_harness.providers.base import ModelProvider
-from nonprofit_harness.review.gate import ReviewGate
+from nonprofit_harness.review.gate import (
+    ReviewGate,
+    hold_for_review,
+    release_routine,
+    take_custody,
+)
 from nonprofit_harness.storage.base import Stores
 from nonprofit_harness.verification import GroundingVerifier
 from nonprofit_harness.verification.types import Claim, Outcome, Verdict, VerificationReport
 
 logger = logging.getLogger("nonprofit_harness.runner")
+
+#: Metadata key recovery writes when it resolves a stranded run.
+RECOVERY = "recovery"
+_HARNESS_KEYS = {lease.EXECUTION, RECOVERY}
+
+
+class _Superseded(Exception):
+    """The stored run moved on (finished elsewhere, or decided) while this worker ran."""
+
+
+@dataclass(slots=True)
+class RecoveryStats:
+    """Counts since this process started, so a stuck recovery is visible from outside."""
+
+    passes: int = 0
+    failed_as_abandoned: int = 0
+    sent_to_review: int = 0
+    errors: int = 0
+    last_pass_at: str | None = None
+    last_error: str = ""
+
+    def as_dict(self) -> dict[str, Any]:
+        return asdict(self)
 
 
 @dataclass(slots=True)
@@ -35,6 +67,8 @@ class AgentRunner:
     config: HarnessConfig
     gate: ReviewGate = None  # type: ignore[assignment]
     redactor: Redactor = None  # type: ignore[assignment]
+    worker_id: str = field(default_factory=lease.new_worker_id)
+    recovery: RecoveryStats = field(default_factory=RecoveryStats)
 
     def __post_init__(self) -> None:
         if self.gate is None:
@@ -71,11 +105,8 @@ class AgentRunner:
         return self.execute(run.id)
 
     def execute(self, run_id: str) -> Run:
-        run = self.stores.runs.get(run_id)
-        agent = self.registry.get(run.agent)
-
-        run.status = RunStatus.RUNNING
-        self.stores.runs.save(run)
+        agent = self.registry.get(self.stores.runs.get(run_id).agent)
+        run = self.stores.runs.update(run_id, self._claim)
 
         guard = self._guard_for(agent)
         provider = BudgetedProvider(self.provider, guard)
@@ -88,96 +119,232 @@ class AgentRunner:
             logger=logger,
         )
 
-        try:
-            result = agent.run(ctx)
-        except BudgetExceeded as exc:
-            return self._fail(run, guard, f"Stopped at the budget ceiling: {exc}")
-        except HarnessError as exc:
-            return self._fail(run, guard, str(exc))
-        except Exception as exc:  # noqa: BLE001 - a failed run is data, not a crash
-            logger.exception("Agent %s failed on run %s", agent.name, run.id)
-            return self._fail(run, guard, f"{type(exc).__name__}: {exc}")
+        with lease.Heartbeat(
+            self.stores.runs,
+            run.id,
+            worker=self.worker_id,
+            lease_seconds=self.config.run_lease_seconds,
+            max_seconds=self.config.run_timeout_seconds,
+        ):
+            try:
+                result = agent.run(ctx)
+            except BudgetExceeded as exc:
+                return self._fail(run, guard, f"Stopped at the budget ceiling: {exc}")
+            except HarnessError as exc:
+                return self._fail(run, guard, str(exc))
+            except Exception as exc:  # noqa: BLE001 - a failed run is data, not a crash
+                logger.exception("Agent %s failed on run %s", agent.name, run.id)
+                return self._fail(run, guard, f"{type(exc).__name__}: {exc}")
 
-        run.artifacts = list(result.artifacts)
-        run.summary = result.summary
-        run.metadata.update(result.metadata)
+            run.artifacts = list(result.artifacts)
+            run.summary = result.summary
+            run.metadata.update(result.metadata)
+            run.usage = guard.spent
+            try:
+                return self._finish(run, agent, provider, guard)
+            except _Superseded:
+                return self.stores.runs.get(run.id)
+
+    def _finish(
+        self, run: Run, agent: Agent, provider: BudgetedProvider, guard: BudgetGuard
+    ) -> Run:
+        # The work exists and is paid for from here on. It is stored before
+        # verification, which can call a model and so can fail, hang, or outlive the
+        # process; whatever happens next, the work is not lost.
+        run = self._land(run, self._hold_for_verification)
 
         # Before usage is banked, so cross-checking shows up in the run's own cost.
         self._verify_claims(run, provider)
         run.usage = guard.spent
 
         if agent.requires_review:
-            return self.gate.submit(run)
-        return self.gate.auto_release(run, reason=f"{agent.name} declares requires_review=False")
+            return self._land(run, hold_for_review)
+        reason = f"{agent.name} declares requires_review=False"
+        return self._land(run, lambda stored: release_routine(stored, reason=reason))
 
-    def _verify_claims(self, run: Run, provider: BudgetedProvider) -> None:
-        if not self.config.verify_claims:
-            return
-        claimed = [artifact for artifact in run.artifacts if artifact.claims]
-        if not claimed:
-            return
+    def _claim(self, run: Run) -> bool:
+        run.status = RunStatus.RUNNING
+        lease.claim(run, worker=self.worker_id, lease_seconds=self.config.run_lease_seconds)
+        return True
 
-        sources = _sources_for(run)
-        verifier = GroundingVerifier(
-            provider=provider if self.config.verify_passes > 0 else None,
-            passes=self.config.verify_passes,
-            models=self.config.verify_models,
+    def _hold_for_verification(self, run: Run) -> None:
+        take_custody(run)
+        lease.extend(
+            run,
+            worker=self.worker_id,
+            lease_seconds=self.config.run_lease_seconds,
+            phase=lease.VERIFYING,
         )
 
-        for position, artifact in enumerate(claimed):
-            try:
-                artifact.verification = verifier.verify_all(artifact.claims, sources)
-            except BudgetExceeded as exc:
-                # The agent's work is already done and already paid for. Throwing the
-                # run away because the checking ran out of budget would destroy more
-                # than it protects, so what is left goes to a person instead.
-                for remaining in claimed[position:]:
-                    remaining.verification = _stopped_short(remaining.claims, str(exc))
-                logger.warning("Verification stopped at the budget ceiling on run %s", run.id)
-                return
+    def _land(self, work: Run, finish: Callable[[Run], None]) -> Run:
+        """Write this worker's copy of the run onto whatever is stored now.
 
-    def reap_abandoned(self, *, older_than_seconds: int | None = None) -> list[Run]:
-        """Fail runs left in `running` by a process that is no longer there.
+        The runner holds one Run for the whole agent call, while the heartbeat and
+        the reaper write to the stored one. A compare-and-set save would refuse it,
+        so the result goes in through `update` instead, under one rule: completed
+        work wins over an abandonment mark. If recovery failed the run as abandoned
+        while the agent was in fact still working, the finished artifacts and usage
+        land anyway and the abandonment stays on record in the run's metadata.
+
+        A run that recovery sent to review, or that finished elsewhere, is left as
+        it is: people may already be deciding on it.
+        """
+
+        def change(stored: Run) -> bool:
+            if not _landable(stored):
+                raise _Superseded(stored.status)
+            if stored.status == RunStatus.FAILED:
+                _revive(stored)
+            stored.artifacts = copy.deepcopy(work.artifacts)
+            stored.summary = work.summary
+            stored.usage = work.usage
+            stored.metadata.update(
+                {k: v for k, v in work.metadata.items() if k not in _HARNESS_KEYS}
+            )
+            lease.extend(stored, worker=self.worker_id, lease_seconds=self.config.run_lease_seconds)
+            finish(stored)
+            return True
+
+        try:
+            return self.stores.runs.update(work.id, change)
+        except _Superseded as exc:
+            logger.warning(
+                "Run %s is already %s; this worker's result for it was not written",
+                work.id,
+                exc,
+            )
+            raise
+
+    def _verify_claims(self, run: Run, provider: BudgetedProvider) -> None:
+        """Check claims, and never let a failure here cost the run its work.
+
+        Verification reports to a person; it does not judge. So when it cannot finish,
+        for any reason, the artifacts it did not reach are marked inconclusive with
+        the reason, which holds them for review even when the agent opted out.
+        """
+        if not self.config.verify_claims:
+            return
+        pending = [artifact for artifact in run.artifacts if artifact.claims]
+        if not pending:
+            return
+
+        try:
+            sources = _sources_for(run)
+            verifier = GroundingVerifier(
+                provider=provider if self.config.verify_passes > 0 else None,
+                passes=self.config.verify_passes,
+                models=self.config.verify_models,
+            )
+            while pending:
+                pending[0].verification = verifier.verify_all(pending[0].claims, sources)
+                pending.pop(0)
+            return
+        except BudgetExceeded as exc:
+            # The agent's work is already done and already paid for. Throwing the
+            # run away because the checking ran out of budget would destroy more
+            # than it protects, so what is left goes to a person instead.
+            detail = str(exc)
+            logger.warning("Verification stopped at the budget ceiling on run %s", run.id)
+        except Exception as exc:  # noqa: BLE001 - a checking outage must not lose the work
+            detail = f"{type(exc).__name__}: {exc}"
+            logger.exception("Verification failed on run %s", run.id)
+        for remaining in pending:
+            remaining.verification = _stopped_short(remaining.claims, detail)
+
+    def reap_abandoned(
+        self, *, older_than_seconds: int | None = None, page_size: int = 200
+    ) -> list[Run]:
+        """Resolve runs left in `running` by a process that is no longer there.
 
         Runs execute in the web process, so an instance being recycled mid-run leaves a
         record nobody will ever update again. A poller would wait on it forever.
 
-        Intended to be called at startup, which is exactly when a replacement instance
-        exists and the dead one's runs need resolving. The threshold has to exceed the
-        longest run you expect, because a run genuinely in progress on another instance
-        looks identical from here.
+        Called at startup and then periodically, so a run that was too young to judge
+        on one pass is judged on a later one. Every running run is examined, a page at
+        a time, not only the newest.
+
+        A run is due when its lease has lapsed: its worker stopped renewing it, so that
+        worker is gone. A run another live worker holds is never touched. Runs written
+        before leases existed have none, and fall back to the old rule: due once they
+        have sat in `running` longer than `older_than_seconds`.
+
+        Each run is resolved in one atomic update that re-checks it, so a run that
+        finished between the listing and the write is left alone, and a second pass
+        finds nothing left to do.
         """
-        cutoff = datetime.now(UTC) - timedelta(
+        now = datetime.now(UTC)
+        cutoff = now - timedelta(
             seconds=older_than_seconds
             if older_than_seconds is not None
             else self.config.run_timeout_seconds
         )
+        stamp = now.isoformat()
+        stats = self.recovery
+        stats.passes += 1
+        stats.last_pass_at = stamp
 
-        reaped: list[Run] = []
-        for run in self.stores.runs.list(status=RunStatus.RUNNING, limit=500):
-            updated = run.updated_at
-            if updated.tzinfo is None:
-                updated = updated.replace(tzinfo=UTC)
-            if updated >= cutoff:
-                continue
-            stranded_for = int((datetime.now(UTC) - updated).total_seconds())
-            run.status = RunStatus.FAILED
-            run.error = (
-                "Abandoned. The process running it stopped before it finished, and it "
-                f"was still marked running after {stranded_for}s."
-            )
-            self.stores.runs.save(run)
-            reaped.append(run)
+        examined = errors = 0
+        resolved: list[Run] = []
+        try:
+            for candidate in self._running(page_size):
+                examined += 1
+                if _overdue(candidate, now, cutoff) is None:
+                    continue
+                try:
+                    run = self.stores.runs.update(
+                        candidate.id, lambda r: _resolve(r, now, cutoff, stamp)
+                    )
+                except Exception as exc:  # noqa: BLE001 - one bad record must not stop the pass
+                    errors += 1
+                    stats.last_error = f"{candidate.id}: {type(exc).__name__}: {exc}"
+                    logger.exception("Recovery could not resolve run %s", candidate.id)
+                    continue
+                if run.metadata.get(RECOVERY, {}).get("at") == stamp:
+                    resolved.append(run)
+        except Exception as exc:  # noqa: BLE001 - reported below, retried next pass
+            errors += 1
+            stats.last_error = f"listing running runs: {type(exc).__name__}: {exc}"
+            logger.exception("Recovery could not list running runs")
 
-        if reaped:
-            logger.warning("Failed %d abandoned run(s) on startup", len(reaped))
-        return reaped
+        failed = sum(1 for r in resolved if r.status == RunStatus.FAILED)
+        stats.failed_as_abandoned += failed
+        stats.sent_to_review += len(resolved) - failed
+        stats.errors += errors
+        logger.log(
+            logging.WARNING if resolved or errors else logging.INFO,
+            "Recovery pass: examined %d running run(s); failed %d as abandoned, "
+            "sent %d to review, %d error(s)",
+            examined,
+            failed,
+            len(resolved) - failed,
+            errors,
+        )
+        return resolved
+
+    def _running(self, page_size: int) -> Iterator[Run]:
+        after: str | None = None
+        while True:
+            page = self.stores.runs.list(status=RunStatus.RUNNING, limit=page_size, after=after)
+            yield from page
+            if len(page) < page_size:
+                return
+            after = page[-1].id
 
     def _fail(self, run: Run, guard: BudgetGuard, message: str) -> Run:
-        run.status = RunStatus.FAILED
-        run.error = message
-        run.usage = guard.spent
-        return self.stores.runs.save(run)
+        spent = guard.spent
+
+        def change(stored: Run) -> bool:
+            if not _landable(stored):
+                raise _Superseded(stored.status)
+            stored.status = RunStatus.FAILED
+            stored.error = message
+            stored.usage = spent
+            return True
+
+        try:
+            return self.stores.runs.update(run.id, change)
+        except _Superseded:
+            return self.stores.runs.get(run.id)
 
     def _guard_for(self, agent: Agent) -> BudgetGuard:
         return BudgetGuard(
@@ -211,6 +378,78 @@ def _sources_for(run: Run) -> dict[str, str]:
     return sources
 
 
+def _landable(stored: Run) -> bool:
+    """Whether this worker's result may still be written onto the stored run."""
+    if stored.status == RunStatus.RUNNING:
+        return True
+    return (
+        stored.status == RunStatus.FAILED
+        and stored.metadata.get(RECOVERY, {}).get("outcome") == "failed"
+    )
+
+
+def _revive(run: Run) -> None:
+    note = run.metadata[RECOVERY]
+    note["superseded"] = (
+        "The run finished after it was marked abandoned. Its completed work was kept."
+    )
+    logger.warning(
+        "Run %s finished after recovery marked it abandoned; keeping its completed work",
+        run.id,
+    )
+    run.status = RunStatus.RUNNING
+    run.error = ""
+
+
+def _overdue(run: Run, now: datetime, cutoff: datetime) -> str | None:
+    """Why a running run counts as stranded, or None while it may still be alive."""
+    expiry = lease.expires_at(run)
+    if expiry is not None:
+        if expiry >= now:
+            return None
+        return f"worker {lease.holder(run)} stopped renewing its lease at {expiry.isoformat()}"
+    updated = run.updated_at
+    if updated.tzinfo is None:
+        updated = updated.replace(tzinfo=UTC)
+    if updated >= cutoff:
+        return None
+    return f"it was still marked running after {int((now - updated).total_seconds())}s"
+
+
+def _resolve(run: Run, now: datetime, cutoff: datetime, stamp: str) -> bool:
+    # Judged again on the stored copy: the run may have finished or renewed since it
+    # was listed.
+    reason = _overdue(run, now, cutoff) if run.status == RunStatus.RUNNING else None
+    if reason is None:
+        return False
+    if lease.phase(run) == lease.VERIFYING and run.artifacts:
+        _send_to_review(run, reason)
+        outcome = "review"
+    else:
+        run.status = RunStatus.FAILED
+        run.error = f"Abandoned. The process running it stopped before it finished: {reason}."
+        outcome = "failed"
+    run.metadata[RECOVERY] = {"at": stamp, "reason": reason, "outcome": outcome}
+    return True
+
+
+def _send_to_review(run: Run, reason: str) -> None:
+    """The agent had finished; only checking was cut off. A person gets the work.
+
+    Always review, even for an agent that opted out: nothing about this output was
+    checked, and auto-release exists only for output the harness found routine.
+    """
+    detail = f"the process running this run stopped during verification ({reason})"
+    for artifact in run.artifacts:
+        if artifact.claims and artifact.verification is None:
+            artifact.verification = _stopped_short(artifact.claims, detail)
+    hold_for_review(run)
+    run.error = (
+        "Recovered: the agent finished, but its process stopped before verification "
+        "completed. The work was sent to review with checking incomplete."
+    )
+
+
 def _stopped_short(claims: list[Claim], detail: str) -> VerificationReport:
     return VerificationReport(
         verdicts=[
@@ -224,4 +463,4 @@ def _stopped_short(claims: list[Claim], detail: str) -> VerificationReport:
     )
 
 
-__all__ = ["AgentRunner"]
+__all__ = ["RECOVERY", "AgentRunner", "RecoveryStats"]

@@ -101,15 +101,37 @@ URL.
 
 ## Known gaps to plan around
 
-**Runs execute in-process.** A run is started with FastAPI background tasks. If the
-instance is recycled mid-run, the replacement fails that run at startup once it has sat
-in `running` longer than `HARNESS_RUN_TIMEOUT_SECONDS`, so a poller gets an answer
-instead of waiting forever. Set that threshold above the longest run you expect: a run
-genuinely in progress on another instance is indistinguishable from an abandoned one.
+**Runs execute in-process.** A run is started with FastAPI background tasks. The
+worker running it holds a lease on it and renews it from a background thread. If the
+instance is recycled mid-run, the lease stops being renewed, and the next recovery pass
+on any instance resolves the run, so a poller gets an answer instead of waiting
+forever. Recovery runs at startup and every `HARNESS_REAP_INTERVAL_SECONDS` (default
+300). A run stranded before its agent finished is failed as abandoned; one stranded
+during verification goes to review with its work.
+
+Three settings work together:
+
+- `HARNESS_RUN_LEASE_SECONDS` (default 120): how long a worker's claim lasts without
+  renewal. It is renewed every third of that, so two missed renewals are tolerated. A
+  stranded run is resolved between one lease and one lease plus one interval after its
+  process stopped. Lower it for faster recovery. Raise it if instances are CPU-starved
+  enough to miss renewals; a lapsed lease on a live run does not lose work, but the run
+  shows `failed` until it finishes.
+- `HARNESS_REAP_INTERVAL_SECONDS` (default 300, `0` for startup only): how often each
+  instance looks. Every instance runs its own loop, and their passes do not conflict.
+- `HARNESS_RUN_TIMEOUT_SECONDS` (default 3600): the longest a run may take. Renewal
+  stops after it, so a hung run is reaped. It also judges runs written by a version
+  without leases.
+
+Cloud Run throttles the CPU of an instance with no request in flight, which delays
+both the renewals and the periodic pass. Background tasks count as in flight only
+while the request that started them is open, so for long asynchronous runs set the
+service to "CPU always allocated" or rely on the startup pass of the next instance.
 For high volumes, move execution to a queue.
 
 **Firestore indexes are created by Terraform.** Listing runs filters on one field and
-orders by another, which needs a composite index. The definitions are in `main.tf`. If
+orders by another, which needs a composite index. Recovery lists by status alone and
+needs `runs_by_status`. The definitions are in `main.tf`. If
 you provision Firestore by hand instead, the first listing raises a `StorageError`
 carrying the link Firestore supplies to create the index.
 

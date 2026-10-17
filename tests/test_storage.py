@@ -49,6 +49,21 @@ def test_listing_filters_by_org_and_status():
     assert len(stores.runs.list(status=RunStatus.COMPLETED)) == 2
 
 
+def test_listing_pages_with_a_cursor_that_survives_a_status_change():
+    """The reaper moves runs out of `running` while it pages through them."""
+    stores = memory_stores()
+    for _ in range(5):
+        stores.runs.save(Run(agent="note", org_id="org_1", status=RunStatus.RUNNING))
+
+    first = stores.runs.list(status=RunStatus.RUNNING, limit=2)
+    for run in first:
+        stores.runs.update(run.id, lambda r: setattr(r, "status", RunStatus.FAILED) or True)
+    rest = stores.runs.list(status=RunStatus.RUNNING, limit=10, after=first[-1].id)
+
+    assert len(rest) == 3
+    assert {r.id for r in first}.isdisjoint(r.id for r in rest)
+
+
 def test_a_missing_run_raises_not_found():
     with pytest.raises(NotFound):
         memory_stores().runs.get("run_nope")
@@ -165,12 +180,52 @@ class _Transaction:
         self.writes.append((ref.id, copy.deepcopy(data)))
 
 
+class _Query:
+    """Enough of a Firestore query to check how `list` pages, not Firestore itself."""
+
+    def __init__(self, docs):
+        self._docs, self._filters, self._after, self._limit = docs, [], None, None
+
+    def where(self, field, _op, value):
+        self._filters.append((field, value))
+        return self
+
+    def order_by(self, field, direction):
+        assert (field, direction) == ("created_at", "DESCENDING")
+        return self
+
+    def start_after(self, snapshot):
+        data = snapshot.to_dict()
+        self._after = (data["created_at"], data["id"])
+        return self
+
+    def limit(self, count):
+        self._limit = count
+        return self
+
+    def stream(self):
+        found = [
+            d
+            for d in self._docs.values()
+            if all(d.get(f) == v for f, v in self._filters)
+            and (self._after is None or (d["created_at"], d["id"]) < self._after)
+        ]
+        found.sort(key=lambda d: (d["created_at"], d["id"]), reverse=True)
+        return [_Snapshot(d) for d in found[: self._limit]]
+
+
 class _Client:
     def __init__(self):
         self.docs = {}
 
     def collection(self, _name):
         return self
+
+    def where(self, *args):
+        return _Query(self.docs).where(*args)
+
+    def order_by(self, *args, **kwargs):
+        return _Query(self.docs).order_by(*args, **kwargs)
 
     def document(self, doc_id):
         return _Ref(self.docs, doc_id)
@@ -221,3 +276,17 @@ def test_firestore_update_applies_the_change_and_bumps_the_version(firestore_run
     assert firestore_runs.get(run.id).summary == "decided"
     with pytest.raises(NotFound):
         firestore_runs.update("run_missing", change)
+
+
+def test_firestore_listing_resumes_after_the_cursor_run(firestore_runs):
+    for _ in range(5):
+        firestore_runs.save(Run(agent="note", org_id="org_1", status=RunStatus.RUNNING))
+
+    first = firestore_runs.list(status=RunStatus.RUNNING, limit=2)
+    rest = firestore_runs.list(status=RunStatus.RUNNING, limit=10, after=first[-1].id)
+
+    assert len(first) == 2
+    assert len(rest) == 3
+    assert {r.id for r in first}.isdisjoint(r.id for r in rest)
+    with pytest.raises(NotFound):
+        firestore_runs.list(status=RunStatus.RUNNING, after="run_missing")

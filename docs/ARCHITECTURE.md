@@ -49,17 +49,57 @@ laptop with nothing configured. That is not a demo mode. It is the same code pat
 
 ```
 create → QUEUED
-execute → RUNNING
+execute → RUNNING (this worker takes the lease)
    agent raises          → FAILED (error recorded, spend recorded)
    budget ceiling hit    → FAILED (partial spend recorded)
-   agent returns
+   agent returns         → work stored, still RUNNING, phase "verifying"
+      verification       (any failure marks unchecked claims inconclusive)
       requires_review    → AWAITING_REVIEW → (per-artifact decisions) → COMPLETED
-      not requires_review→ COMPLETED, with an automatic review record
+      not requires_review→ COMPLETED, with an automatic review record,
+                           except artifacts that failed verification → AWAITING_REVIEW
+lease lapses (worker gone)
+   while generating      → FAILED, "Abandoned. ..."
+   while verifying       → AWAITING_REVIEW, unchecked claims inconclusive
 ```
 
 A failed run is data, not an exception. By the time an agent can fail, the caller has
 usually already been handed a run id, so the failure surfaces on the next poll as a
 normal response with `status: failed`.
+
+**Finished work is stored before it is checked.** When the agent returns, the runner
+writes its artifacts (with any agent-supplied decision state discarded), summary and
+usage before verification starts. Verification can call a model, so it can fail or
+hang. Any exception there, not only the budget ceiling, marks the claims it did not
+reach as inconclusive with the reason, and an inconclusive claim holds its artifact
+for a person even when the agent opted out of review. A checking outage costs a
+reviewer some work. It never costs the run its output.
+
+**Execution ownership.** The worker that executes a run writes its id and a lease
+expiry into `metadata.execution`, and a background thread renews the lease every third
+of `HARNESS_RUN_LEASE_SECONDS`. A run whose lease has lapsed belongs to a process that
+is gone. A run whose lease is current belongs to a live worker, possibly on another
+instance, and recovery never touches it. Renewal stops after
+`HARNESS_RUN_TIMEOUT_SECONDS`, so a hung run is reaped too. Runs written before leases
+existed have none and are judged by the old rule: in `running` longer than the timeout.
+
+**Recovery.** The API checks for stranded runs at startup and then every
+`HARNESS_REAP_INTERVAL_SECONDS`. Each pass pages through every running run, so an old
+record is never hidden behind newer ones. Each stranded run is resolved in one atomic
+`RunStore.update` that judges it again on the stored copy, so a run that finished or
+renewed between the listing and the write is left alone, and a second pass finds
+nothing to do. A run that strands after its work was stored goes to review rather than
+to `failed`: the agent's work exists, only the checking was cut off. Every pass logs
+one line with its counts, and `GET /v1/admin/config` reports the totals under
+`recovery`.
+
+**Completed work wins over an abandonment mark.** The runner holds one copy of the run
+for the whole agent call while the heartbeat and the reaper write to the stored one,
+so it writes its result through `RunStore.update`, never a compare-and-set save. If
+recovery marked the run abandoned while the agent was in fact still working (a lease
+that lapsed under load, for example), the finished artifacts and usage still land,
+the run goes on to review, and the abandonment stays on record in
+`metadata.recovery`. The one exception: a run recovery already sent to review, or one
+that finished elsewhere, is not overwritten, because people may be deciding on it.
 
 ## Budget accounting
 

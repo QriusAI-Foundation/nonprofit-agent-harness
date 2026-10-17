@@ -92,14 +92,27 @@ class FirestoreRunStore:
         return transactional(attempt)(self._client.transaction())
 
     def list(
-        self, *, org_id: str | None = None, status: RunStatus | None = None, limit: int = 50
+        self,
+        *,
+        org_id: str | None = None,
+        status: RunStatus | None = None,
+        limit: int = 50,
+        after: str | None = None,
     ) -> list[Run]:
         query = self._client.collection(self._collection)
         if org_id:
             query = query.where("org_id", "==", org_id)
         if status:
             query = query.where("status", "==", str(status))
-        query = query.order_by("created_at", direction="DESCENDING").limit(limit)
+        query = query.order_by("created_at", direction="DESCENDING")
+        if after:
+            # A snapshot cursor resumes at that document's created_at and name, even
+            # when the document no longer matches the status filter.
+            cursor = self._ref(after).get()
+            if not cursor.exists:
+                raise NotFound(f"No run {after!r}")
+            query = query.start_after(cursor)
+        query = query.limit(limit)
 
         try:
             return [run_from_dict(doc.to_dict()) for doc in query.stream()]

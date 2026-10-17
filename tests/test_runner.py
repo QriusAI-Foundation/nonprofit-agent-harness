@@ -1,10 +1,20 @@
 from __future__ import annotations
 
+import time
+from datetime import UTC, datetime, timedelta
+
 import pytest
 
-from nonprofit_harness import Agent, AgentResult, RunContext
-from nonprofit_harness.core.types import ArtifactStatus, RunStatus
-from nonprofit_harness.review.gate import AUTO_REVIEWER
+from nonprofit_harness import Agent, AgentResult, Citation, Claim, RunContext
+from nonprofit_harness.api.schemas import RunOut
+from nonprofit_harness.config import HarnessConfig
+from nonprofit_harness.core import lease
+from nonprofit_harness.core.errors import ReviewRequired
+from nonprofit_harness.core.runner import AgentRunner
+from nonprofit_harness.core.types import ArtifactStatus, Document, Run, RunStatus
+from nonprofit_harness.providers.echo import EchoProvider
+from nonprofit_harness.review.gate import AUTO_REVIEWER, ReviewGate
+from nonprofit_harness.verification.types import Outcome
 
 
 def test_run_produces_artifacts_and_waits_for_review(runner, documents):
@@ -75,3 +85,228 @@ def test_concrete_agent_without_a_name_is_rejected_at_class_creation():
         class Nameless(Agent):
             def run(self, ctx: RunContext) -> AgentResult:
                 return AgentResult()
+
+
+# --- finished work survives verification failing ------------------------------------
+
+SOURCE = "The literacy programme reached twelve villages during the third quarter."
+
+
+class CitingNoteAgent(Agent):
+    name = "citing-note"
+    description = "Calls the model once, then makes one claim that cites the source."
+
+    def run(self, ctx: RunContext) -> AgentResult:
+        response = ctx.provider.generate("Summarise the report.")
+        claim = Claim(
+            statement="The programme reached twelve villages.",
+            citations=[Citation(text="reached twelve villages")],
+        )
+        return AgentResult(
+            artifacts=[self.artifact("brief", response.text, claims=[claim])],
+            summary="1 brief",
+        )
+
+
+class UnreviewedCitingNoteAgent(CitingNoteAgent):
+    name = "citing-note-unreviewed"
+    requires_review = False
+
+
+class OutageAfter(EchoProvider):
+    """Answers the agent, then fails, as a provider outage during checking would."""
+
+    def __init__(self, healthy_calls: int, on_outage=None) -> None:
+        super().__init__()
+        self._left = healthy_calls
+        self._on_outage = on_outage or (lambda: None)
+
+    def generate(self, prompt, **kwargs):
+        if self._left <= 0:
+            self._on_outage()
+            raise ConnectionError("provider unavailable")
+        self._left -= 1
+        return super().generate(prompt, **kwargs)
+
+
+@pytest.fixture
+def source() -> list[Document]:
+    return [Document(text=SOURCE, name="q3-report.txt")]
+
+
+def _checking_runner(registry, stores, provider, **config) -> AgentRunner:
+    """Cross-checking on, so verification calls the model and can meet an outage."""
+    registry.register(CitingNoteAgent())
+    registry.register(UnreviewedCitingNoteAgent())
+    return AgentRunner(
+        registry=registry,
+        stores=stores,
+        provider=provider,
+        config=HarnessConfig(max_tokens=None, max_calls=None, verify_passes=1, **config),
+        gate=ReviewGate(stores.runs),
+    )
+
+
+def test_a_provider_error_during_verification_keeps_the_artifacts_and_usage(
+    registry, stores, source
+):
+    runner = _checking_runner(registry, stores, OutageAfter(healthy_calls=1))
+
+    run = runner.start("citing-note", org_id="org_1", inputs=source)
+
+    stored = stores.runs.get(run.id)
+    assert len(stored.artifacts) == 1
+    assert stored.artifacts[0].content
+    assert stored.summary == "1 brief"
+    assert stored.usage.calls == 1
+
+
+def test_a_provider_error_during_verification_ends_in_review_not_running(registry, stores, source):
+    runner = _checking_runner(registry, stores, OutageAfter(healthy_calls=1))
+
+    run = runner.start("citing-note", org_id="org_1", inputs=source)
+
+    assert stores.runs.get(run.id).status == RunStatus.AWAITING_REVIEW
+    assert stores.runs.get(run.id).artifacts[0].status == ArtifactStatus.PENDING_REVIEW
+
+
+def test_the_reviewer_sees_why_checking_was_incomplete(registry, stores, source):
+    runner = _checking_runner(registry, stores, OutageAfter(healthy_calls=1))
+
+    run = runner.start("citing-note", org_id="org_1", inputs=source)
+
+    shown = RunOut.of(stores.runs.get(run.id))
+    verdict = shown.artifacts[0].verification["verdicts"][0]
+    assert verdict["outcome"] == str(Outcome.INCONCLUSIVE)
+    assert "verification stopped" in verdict["reason"]
+    assert "provider unavailable" in verdict["reason"]
+    assert shown.failed_verification == 1
+
+
+def test_auto_release_stays_blocked_after_a_verification_failure(registry, stores, source):
+    runner = _checking_runner(registry, stores, OutageAfter(healthy_calls=1))
+
+    run = runner.start("citing-note-unreviewed", org_id="org_1", inputs=source)
+
+    stored = stores.runs.get(run.id)
+    assert stored.status == RunStatus.AWAITING_REVIEW
+    assert stored.artifacts[0].review is None
+    with pytest.raises(ReviewRequired):
+        ReviewGate.release(stored)
+
+
+def test_the_work_is_stored_before_verification_can_fail(registry, stores, source):
+    seen = {}
+
+    def look_at_the_store():
+        (stored,) = stores.runs.list(status=RunStatus.RUNNING)
+        seen["artifacts"] = len(stored.artifacts)
+        seen["calls"] = stored.usage.calls
+
+    runner = _checking_runner(
+        registry, stores, OutageAfter(healthy_calls=1, on_outage=look_at_the_store)
+    )
+    runner.start("citing-note", org_id="org_1", inputs=source)
+
+    assert seen == {"artifacts": 1, "calls": 1}
+
+
+# --- completed work against the reaper ----------------------------------------------
+
+
+def _lapse_lease(run: Run) -> bool:
+    run.metadata[lease.EXECUTION]["lease_expires_at"] = (
+        datetime.now(UTC) - timedelta(seconds=1)
+    ).isoformat()
+    return True
+
+
+def test_a_run_marked_abandoned_while_the_agent_ran_keeps_its_completed_work(
+    runner, stores, documents
+):
+    class SlowAgent(Agent):
+        name = "slow"
+
+        def run(self, ctx: RunContext) -> AgentResult:
+            # Another instance's reaper judges this run dead while the agent works.
+            stores.runs.update(ctx.run_id, _lapse_lease)
+            assert [r.id for r in runner.reap_abandoned()] == [ctx.run_id]
+            assert stores.runs.get(ctx.run_id).status == RunStatus.FAILED
+            response = ctx.provider.generate("still working")
+            return AgentResult(artifacts=[self.artifact("note", response.text)], summary="ok")
+
+    runner.registry.register(SlowAgent())
+
+    run = runner.start("slow", org_id="org_1", inputs=documents)
+
+    stored = stores.runs.get(run.id)
+    assert stored.status == RunStatus.AWAITING_REVIEW
+    assert len(stored.artifacts) == 1
+    assert stored.usage.calls == 1
+    assert stored.error == ""
+    assert stored.metadata["recovery"]["outcome"] == "failed"
+    assert "completed work was kept" in stored.metadata["recovery"]["superseded"]
+
+
+def test_a_run_stranded_during_verification_goes_to_review_with_its_work(registry, stores, source):
+    holder = {}
+
+    def another_instance_reaps():
+        (stored,) = stores.runs.list(status=RunStatus.RUNNING)
+        stores.runs.update(stored.id, _lapse_lease)
+        holder["runner"].reap_abandoned()
+
+    runner = _checking_runner(
+        registry, stores, OutageAfter(healthy_calls=1, on_outage=another_instance_reaps)
+    )
+    holder["runner"] = runner
+
+    run = runner.start("citing-note-unreviewed", org_id="org_1", inputs=source)
+
+    stored = stores.runs.get(run.id)
+    assert run.status == stored.status == RunStatus.AWAITING_REVIEW
+    assert stored.artifacts[0].status == ArtifactStatus.PENDING_REVIEW
+    assert stored.usage.calls == 1
+    reason = stored.artifacts[0].verification.verdicts[0].reason
+    assert "stopped during verification" in reason
+    assert stored.error.startswith("Recovered")
+
+
+def test_the_heartbeat_renews_the_lease_while_the_agent_works(registry, stores, documents):
+    renewed = {}
+
+    class PatientAgent(Agent):
+        name = "patient"
+
+        def run(self, ctx: RunContext) -> AgentResult:
+            first = lease.expires_at(stores.runs.get(ctx.run_id))
+            deadline = time.monotonic() + 5
+            while time.monotonic() < deadline:
+                if lease.expires_at(stores.runs.get(ctx.run_id)) != first:
+                    renewed["yes"] = True
+                    break
+                time.sleep(0.05)
+            return AgentResult(artifacts=[self.artifact("note", "done")])
+
+    registry.register(PatientAgent())
+    runner = AgentRunner(
+        registry=registry,
+        stores=stores,
+        provider=EchoProvider(),
+        config=HarnessConfig(max_tokens=None, max_calls=None, run_lease_seconds=1),
+    )
+
+    runner.start("patient", org_id="org_1", inputs=documents)
+
+    assert renewed == {"yes": True}
+
+
+def test_a_hung_run_stops_renewing_its_lease_after_the_run_timeout(stores):
+    run = stores.runs.save(Run(agent="note", org_id="org_1", status=RunStatus.RUNNING))
+    run = stores.runs.update(run.id, lambda r: lease.claim(r, worker="me", lease_seconds=1) or True)
+    before = lease.expires_at(run)
+
+    with lease.Heartbeat(stores.runs, run.id, worker="me", lease_seconds=1, max_seconds=0):
+        time.sleep(0.6)
+
+    assert lease.expires_at(stores.runs.get(run.id)) == before
