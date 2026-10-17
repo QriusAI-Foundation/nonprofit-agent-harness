@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import uuid
+from collections.abc import Callable
 from typing import Any
 
-from nonprofit_harness.core.errors import NotFound, StorageError
+from nonprofit_harness.core.errors import NotFound, StaleRun, StorageError
 from nonprofit_harness.core.types import Run, RunStatus
-from nonprofit_harness.storage.base import Org, StoredBlob, Stores, User
+from nonprofit_harness.storage.base import Org, RunChange, StoredBlob, Stores, User
 from nonprofit_harness.storage.serde import run_from_dict, run_to_dict
 
 RUNS = "harness_runs"
@@ -16,20 +17,79 @@ SETTINGS_DOC = "singleton"
 
 
 class FirestoreRunStore:
-    def __init__(self, client: Any, collection: str = RUNS) -> None:
+    """Runs as Firestore documents, each write inside a transaction.
+
+    Several Cloud Run instances can serve reviews of the same run at once, so a
+    plain read-then-set lets the later writer erase the earlier one's decision. A
+    transaction makes Firestore abort and retry the later one against fresh data.
+
+    `transactional` is google.cloud.firestore.transactional unless a test passes a
+    stand-in; it is imported late so the module loads without the `gcp` extra.
+    """
+
+    def __init__(
+        self,
+        client: Any,
+        collection: str = RUNS,
+        *,
+        transactional: Callable[[Callable[..., Run]], Callable[..., Run]] | None = None,
+    ) -> None:
         self._client = client
         self._collection = collection
+        self._transactional = transactional
 
     def save(self, run: Run) -> Run:
-        run.touch()
-        self._client.collection(self._collection).document(run.id).set(run_to_dict(run))
+        ref = self._ref(run.id)
+
+        def attempt(transaction: Any) -> Run:
+            snapshot = ref.get(transaction=transaction)
+            found = (snapshot.to_dict().get("version", 0) or 0) if snapshot.exists else 0
+            if run.version != found:
+                raise StaleRun(run.id, run.version, found)
+            return self._write(transaction, ref, run)
+
+        written = self._in_transaction(attempt)
+        # Only after the commit: a retried attempt must see the version it was read at.
+        run.version = written.version
+        run.updated_at = written.updated_at
         return run
 
     def get(self, run_id: str) -> Run:
-        snapshot = self._client.collection(self._collection).document(run_id).get()
+        snapshot = self._ref(run_id).get()
         if not snapshot.exists:
             raise NotFound(f"No run {run_id!r}")
         return run_from_dict(snapshot.to_dict())
+
+    def update(self, run_id: str, change: RunChange) -> Run:
+        ref = self._ref(run_id)
+
+        def attempt(transaction: Any) -> Run:
+            snapshot = ref.get(transaction=transaction)
+            if not snapshot.exists:
+                raise NotFound(f"No run {run_id!r}")
+            run = run_from_dict(snapshot.to_dict())
+            if change(run) is False:
+                return run
+            return self._write(transaction, ref, run)
+
+        return self._in_transaction(attempt)
+
+    def _ref(self, run_id: str) -> Any:
+        return self._client.collection(self._collection).document(run_id)
+
+    @staticmethod
+    def _write(transaction: Any, ref: Any, run: Run) -> Run:
+        written = run_from_dict(run_to_dict(run))
+        written.version = run.version + 1
+        written.touch()
+        transaction.set(ref, run_to_dict(written))
+        return written
+
+    def _in_transaction(self, attempt: Callable[[Any], Run]) -> Run:
+        transactional = self._transactional
+        if transactional is None:  # pragma: no cover - needs the `gcp` extra
+            from google.cloud.firestore import transactional
+        return transactional(attempt)(self._client.transaction())
 
     def list(
         self, *, org_id: str | None = None, status: RunStatus | None = None, limit: int = 50

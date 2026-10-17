@@ -56,6 +56,18 @@ class Review:
     note: str = ""
     at: datetime = field(default_factory=_now)
 
+    @property
+    def is_attributed(self) -> bool:
+        return bool(self.reviewer.strip()) and self.at is not None
+
+
+# The record a decided status must carry. A status alone is a field that anything
+# holding the object can set; the record is what says who decided and when.
+_DECISION_FOR_STATUS = {
+    ArtifactStatus.APPROVED: ReviewDecision.APPROVE,
+    ArtifactStatus.REJECTED: ReviewDecision.REJECT,
+}
+
 
 @dataclass(slots=True)
 class Artifact:
@@ -73,7 +85,19 @@ class Artifact:
 
     @property
     def is_released(self) -> bool:
-        return self.status == ArtifactStatus.APPROVED
+        return self.status == ArtifactStatus.APPROVED and self.decision_is_coherent
+
+    @property
+    def decision_is_coherent(self) -> bool:
+        """Whether the status and the review record tell the same story."""
+        expected = _DECISION_FOR_STATUS.get(self.status)
+        if expected is None:
+            return self.review is None
+        return (
+            self.review is not None
+            and self.review.decision == expected
+            and self.review.is_attributed
+        )
 
     @property
     def failed_verification(self) -> bool:
@@ -101,6 +125,9 @@ class Run:
     created_at: datetime = field(default_factory=_now)
     updated_at: datetime = field(default_factory=_now)
     metadata: dict[str, Any] = field(default_factory=dict)
+    # Bumped by the store on every write. A save from a copy read at an older version
+    # is refused, so one writer cannot silently undo another's change.
+    version: int = 0
 
     def touch(self) -> None:
         self.updated_at = _now()
@@ -115,6 +142,10 @@ class Run:
     @property
     def released(self) -> list[Artifact]:
         return [a for a in self.artifacts if a.is_released]
+
+    @property
+    def incoherent(self) -> list[Artifact]:
+        return [a for a in self.artifacts if not a.decision_is_coherent]
 
     @property
     def unverified(self) -> list[Artifact]:

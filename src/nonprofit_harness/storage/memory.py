@@ -1,37 +1,63 @@
 from __future__ import annotations
 
 import copy
+import threading
 import uuid
 from typing import Any
 
-from nonprofit_harness.core.errors import NotFound
+from nonprofit_harness.core.errors import NotFound, StaleRun
 from nonprofit_harness.core.types import Run, RunStatus
-from nonprofit_harness.storage.base import Org, StoredBlob, Stores, User
+from nonprofit_harness.storage.base import Org, RunChange, StoredBlob, Stores, User
 
 
 class MemoryRunStore:
     def __init__(self) -> None:
         self._runs: dict[str, Run] = {}
+        # The API serves requests from a thread pool, so two reviews of one run can
+        # really interleave here. One lock is enough for a store that lives in one
+        # process and holds nothing slow.
+        self._lock = threading.Lock()
 
     def save(self, run: Run) -> Run:
-        run.touch()
-        self._runs[run.id] = copy.deepcopy(run)
+        with self._lock:
+            stored = self._runs.get(run.id)
+            found = stored.version if stored is not None else 0
+            if run.version != found:
+                raise StaleRun(run.id, run.version, found)
+            self._write(run)
         return run
 
     def get(self, run_id: str) -> Run:
+        with self._lock:
+            return copy.deepcopy(self._stored(run_id))
+
+    def update(self, run_id: str, change: RunChange) -> Run:
+        with self._lock:
+            run = copy.deepcopy(self._stored(run_id))
+            if change(run) is not False:
+                self._write(run)
+            return run
+
+    def _stored(self, run_id: str) -> Run:
         try:
-            return copy.deepcopy(self._runs[run_id])
+            return self._runs[run_id]
         except KeyError:
             raise NotFound(f"No run {run_id!r}") from None
+
+    def _write(self, run: Run) -> None:
+        run.version += 1
+        run.touch()
+        self._runs[run.id] = copy.deepcopy(run)
 
     def list(
         self, *, org_id: str | None = None, status: RunStatus | None = None, limit: int = 50
     ) -> list[Run]:
-        found = [
-            copy.deepcopy(r)
-            for r in self._runs.values()
-            if (org_id is None or r.org_id == org_id) and (status is None or r.status == status)
-        ]
+        with self._lock:
+            found = [
+                copy.deepcopy(r)
+                for r in self._runs.values()
+                if (org_id is None or r.org_id == org_id) and (status is None or r.status == status)
+            ]
         found.sort(key=lambda r: r.created_at, reverse=True)
         return found[:limit]
 

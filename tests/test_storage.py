@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import copy
+
 import pytest
 
-from nonprofit_harness.core.errors import NotFound
+from nonprofit_harness.core.errors import NotFound, StaleRun
 from nonprofit_harness.core.types import Artifact, ArtifactStatus, Document, Run, RunStatus, Usage
-from nonprofit_harness.storage.memory import memory_stores
+from nonprofit_harness.storage.gcp import FirestoreRunStore
+from nonprofit_harness.storage.memory import MemoryRunStore, memory_stores
 from nonprofit_harness.storage.serde import run_from_dict, run_to_dict
 
 
@@ -69,3 +72,152 @@ def test_users_are_found_by_email_case_insensitively():
 
     assert stores.users.get_by_email("asha@example.org") is not None
     assert stores.users.get_by_email("someone@else.org") is None
+
+
+# --- versioned writes (audit F06) -----------------------------------------------------
+
+
+def test_every_write_bumps_the_version():
+    runs = MemoryRunStore()
+    run = runs.save(Run(agent="note", org_id="org_1"))
+    assert run.version == 1
+
+    run.summary = "changed"
+    runs.save(run)
+
+    assert runs.get(run.id).version == 2
+
+
+def test_a_stale_copy_cannot_overwrite_a_newer_save():
+    runs = MemoryRunStore()
+    run = runs.save(Run(agent="note", org_id="org_1"))
+    first, second = runs.get(run.id), runs.get(run.id)
+    first.summary = "first writer"
+    runs.save(first)
+
+    second.summary = "second writer"
+    with pytest.raises(StaleRun) as raised:
+        runs.save(second)
+
+    assert raised.value.status_code == 409
+    assert runs.get(run.id).summary == "first writer"
+
+
+def test_an_update_that_changes_nothing_writes_nothing():
+    runs = MemoryRunStore()
+    run = runs.save(Run(agent="note", org_id="org_1"))
+
+    runs.update(run.id, lambda r: False)
+
+    assert runs.get(run.id).version == run.version
+
+
+def test_an_update_that_raises_writes_nothing():
+    runs = MemoryRunStore()
+    run = runs.save(Run(agent="note", org_id="org_1"))
+
+    def change(r):
+        r.summary = "half done"
+        raise ValueError("refused")
+
+    with pytest.raises(ValueError):
+        runs.update(run.id, change)
+
+    assert runs.get(run.id).summary == ""
+
+
+def test_the_version_survives_serialisation_and_old_records_start_at_zero():
+    run = Run(agent="note", org_id="org_1", version=7)
+    data = run_to_dict(run)
+
+    assert run_from_dict(data).version == 7
+    del data["version"]
+    assert run_from_dict(data).version == 0
+
+
+# A stand-in for Firestore. It shows the store's own logic (version check, commit only
+# on success, NotFound) but not Firestore's real contention handling, which needs a
+# live Firestore or its emulator.
+
+
+class _Snapshot:
+    def __init__(self, data):
+        self.exists = data is not None
+        self._data = data
+
+    def to_dict(self):
+        return copy.deepcopy(self._data)
+
+
+class _Ref:
+    def __init__(self, docs, doc_id):
+        self._docs, self.id = docs, doc_id
+
+    def get(self, transaction=None):
+        return _Snapshot(self._docs.get(self.id))
+
+
+class _Transaction:
+    def __init__(self, docs):
+        self.docs, self.writes = docs, []
+
+    def set(self, ref, data):
+        self.writes.append((ref.id, copy.deepcopy(data)))
+
+
+class _Client:
+    def __init__(self):
+        self.docs = {}
+
+    def collection(self, _name):
+        return self
+
+    def document(self, doc_id):
+        return _Ref(self.docs, doc_id)
+
+    def transaction(self):
+        return _Transaction(self.docs)
+
+
+def _transactional(attempt):
+    def run(transaction):
+        result = attempt(transaction)
+        for doc_id, data in transaction.writes:
+            transaction.docs[doc_id] = data
+        return result
+
+    return run
+
+
+@pytest.fixture
+def firestore_runs():
+    return FirestoreRunStore(_Client(), transactional=_transactional)
+
+
+def test_firestore_refuses_a_stale_save_and_keeps_the_newer_one(firestore_runs):
+    run = firestore_runs.save(Run(agent="note", org_id="org_1"))
+    first, second = firestore_runs.get(run.id), firestore_runs.get(run.id)
+    first.summary = "first writer"
+    firestore_runs.save(first)
+
+    second.summary = "second writer"
+    with pytest.raises(StaleRun):
+        firestore_runs.save(second)
+
+    assert firestore_runs.get(run.id).summary == "first writer"
+    assert firestore_runs.get(run.id).version == 2
+
+
+def test_firestore_update_applies_the_change_and_bumps_the_version(firestore_runs):
+    run = firestore_runs.save(Run(agent="note", org_id="org_1"))
+
+    def change(r):
+        r.summary = "decided"
+        return True
+
+    updated = firestore_runs.update(run.id, change)
+
+    assert updated.version == 2
+    assert firestore_runs.get(run.id).summary == "decided"
+    with pytest.raises(NotFound):
+        firestore_runs.update("run_missing", change)

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any, Protocol, runtime_checkable
@@ -38,10 +39,32 @@ class User:
     created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
 
 
+# Changes a run in place. Returns False when it decided nothing needs writing, so an
+# idempotent retry costs no write. It may run more than once (Firestore retries a
+# contended transaction), so it must not have effects outside the run it is given.
+RunChange = Callable[[Run], bool]
+
+
 @runtime_checkable
 class RunStore(Protocol):
-    def save(self, run: Run) -> Run: ...
+    def save(self, run: Run) -> Run:
+        """Write the whole run, bumping its version.
+
+        Raises StaleRun if the stored version is not the one this copy was read at.
+        """
+        ...
+
     def get(self, run_id: str) -> Run: ...
+
+    def update(self, run_id: str, change: RunChange) -> Run:
+        """Read, change and write one run as a single atomic step.
+
+        The change sees the latest stored state and no other write can land between
+        its read and its write. This is what makes a review decision and the check
+        that the artifact is still undecided one operation instead of two.
+        """
+        ...
+
     def list(
         self, *, org_id: str | None = None, status: RunStatus | None = None, limit: int = 50
     ) -> list[Run]: ...
@@ -93,6 +116,7 @@ __all__ = [
     "BlobStore",
     "Org",
     "OrgStore",
+    "RunChange",
     "RunStore",
     "SettingsStore",
     "StoredBlob",

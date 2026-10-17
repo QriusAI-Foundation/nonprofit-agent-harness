@@ -44,6 +44,7 @@ def run_to_dict(run: Run) -> dict[str, Any]:
         "created_at": run.created_at,
         "updated_at": run.updated_at,
         "metadata": run.metadata,
+        "version": run.version,
     }
 
 
@@ -92,6 +93,8 @@ def run_from_dict(data: dict[str, Any]) -> Run:
         summary=data.get("summary", ""),
         error=data.get("error", ""),
         metadata=data.get("metadata", {}) or {},
+        # Runs written before versioning have none; they start from zero.
+        version=data.get("version", 0) or 0,
     )
     run.inputs = [
         Document(

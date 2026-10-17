@@ -77,7 +77,21 @@ raises if anything is still pending rather than quietly returning a shorter list
 caller that forgot about review finds out at the boundary.
 
 Automatic releases still write a `Review` record, with `system:auto-release` as the
-reviewer. An audit can always answer who released a given artifact.
+reviewer. An audit can always answer who released a given artifact. Names that start
+with `system:` are reserved, so a person cannot sign as the harness.
+
+The gate owns decision state, not the agent. When a result comes in, `submit` and
+`auto_release` reset every artifact to `DRAFT` with no review, so a status or a
+`Review` an agent set on its own output has no effect. Release needs the status and the
+record to agree: an `APPROVED` artifact without a matching, signed, timestamped
+`Review` is refused.
+
+Each decision is one atomic store operation (`RunStore.update`): a lock in memory, a
+transaction in Firestore. Whole-run saves are compare-and-set on `Run.version`, so a
+copy read before someone else's write cannot overwrite it (`StaleRun`, HTTP 409). The
+same decision by the same reviewer again is a no-op that keeps the original time and
+note. Any other decision on an artifact that is already decided raises
+`ReviewConflict` (HTTP 409), which names who decided first.
 
 ## Verification
 
