@@ -13,7 +13,7 @@ key.
 | Models | `claude-haiku-5-5`, `claude-sonnet-5-5`, `claude-opus-5-5` (effort medium unless stated), `claude-fable-5-1` |
 | Prices | [`showcase/prices-2026-10-17.json`](../showcase/prices-2026-10-17.json), first-party list prices on that date. Deployer data for this showcase, not a package default |
 | Harness | the merged `main` after the audit fixes (523 tests), plus this branch's provider changes |
-| Spend | USD 85.36 over 182 harness runs, itemised in [`showcase/SPEND.md`](../showcase/SPEND.md) |
+| Spend | USD 85.36 over 183 harness runs, itemised in [`showcase/SPEND.md`](../showcase/SPEND.md) |
 
 **No model judged quality here.** The tables report tokens, cost, and what the free
 citation check found. Whether a brief is good is the human review gate's decision, and
@@ -28,6 +28,7 @@ every artifact in `showcase/runs/` is still `pending_review`, as the harness lef
 | Cross-model quorum, before and after the vote-cap fix | 4 | 0.99 | Three reviewers on three models agreeing per claim |
 | Budget ceilings tripped on purpose | 3 | 0.39 | The ceiling stops the run and records the overshoot |
 | Readiness answer sets for 50 fictional organisations | 1 | 0.08 | How the scorer handles messy answers |
+| One live check after a review fix to the adapter | 1 | 0.001 | Structured outputs still work |
 
 ## The example agents
 

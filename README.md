@@ -61,7 +61,7 @@ away.
 
 On 2026-10-17 the Foundation ran this harness against Claude Haiku 5.5, Sonnet 5.5,
 Opus 5.5 and Fable 5.1, on six openly licensed training and programme documents of up
-to 385,000 tokens and three published IATI activities: 182 harness runs, USD 85.36. Every
+to 385,000 tokens and three published IATI activities: 183 harness runs, USD 85.36. Every
 output is committed with the harness's own receipt (tokens, cost, review state, the
 verdict on every quote). [docs/showcase.md](docs/showcase.md) has the cost per model,
 what the citation check caught and got wrong, a 3,966-item quote-checking test set,
