@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, Response, UploadFile, status
+from starlette.concurrency import run_in_threadpool
 
 from nonprofit_harness.api.deps import (
     AppContext,
@@ -40,8 +41,11 @@ async def upload(
 
     media_type = file.content_type or "application/octet-stream"
     # Extract before storing, so a file that fails a limit or will not parse leaves
-    # no blob behind for a later run to trip over.
-    document = extract(data, media_type=media_type, name=file.filename or "upload", limits=limits)
+    # no blob behind for a later run to trip over. Parsing is synchronous and can
+    # take seconds, so it runs off the event loop instead of stalling every request.
+    document = await run_in_threadpool(
+        extract, data, media_type=media_type, name=file.filename or "upload", limits=limits
+    )
     blob = ctx.stores.blobs.put(
         org_id=principal.org_id,
         name=file.filename or "upload",

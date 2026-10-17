@@ -136,7 +136,7 @@ configuration implies otherwise.
 | `HARNESS_RUN_TIMEOUT_SECONDS` | `3600` | How long a run may sit in `running` before a restart treats it as abandoned |
 | `HARNESS_MAX_UPLOAD_BYTES` | `20971520` (20MB) | Largest file accepted, by upload or `harness run`. Refused with 413 as soon as the read passes it |
 | `HARNESS_MAX_PDF_PAGES` | `300` | Pages read from one PDF. Later pages are skipped and the document is marked `truncated_by: pages` |
-| `HARNESS_MAX_DOCX_EXPANDED_BYTES` | `104857600` (100MB) | Total unzipped size a DOCX may declare. Checked from the zip directory before any part is read; past it, refused with 413 |
+| `HARNESS_MAX_DOCX_EXPANDED_BYTES` | `52428800` (50MB) | Total unzipped size a DOCX may declare. Checked from the zip directory before any part is read; past it, refused with 413. This, not the character limit, bounds DOCX memory, because the parser reads each part whole |
 | `HARNESS_MAX_DOCUMENT_CHARS` | `2000000` | Characters of text kept from one file. Extraction stops here and marks the document `truncated_by: characters` |
 | `HARNESS_EXTRACT_TIMEOUT_SECONDS` | `120` | Wall-clock ceiling on reading one PDF, checked between pages. Past it, refused with 413 |
 

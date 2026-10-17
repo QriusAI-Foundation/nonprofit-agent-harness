@@ -3,7 +3,7 @@ from __future__ import annotations
 import io
 import time
 import zipfile
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import TYPE_CHECKING
 
 from nonprofit_harness.core.errors import HarnessError, InvalidRequest
@@ -46,7 +46,9 @@ class ExtractionLimits:
 
     max_bytes: int | None = 20 * 1024 * 1024
     max_pdf_pages: int | None = 300
-    max_docx_expanded_bytes: int | None = 100 * 1024 * 1024
+    #: python-docx parses every XML part whole, so this, not the character limit,
+    #: is what bounds DOCX memory.
+    max_docx_expanded_bytes: int | None = 50 * 1024 * 1024
     max_chars: int | None = 2_000_000
     timeout_seconds: float | None = 120.0
 
@@ -120,13 +122,7 @@ def extract(
 
 def _with_max_chars(limits: ExtractionLimits, max_chars: int) -> ExtractionLimits:
     ceiling = max_chars if limits.max_chars is None else min(max_chars, limits.max_chars)
-    return ExtractionLimits(
-        max_bytes=limits.max_bytes,
-        max_pdf_pages=limits.max_pdf_pages,
-        max_docx_expanded_bytes=limits.max_docx_expanded_bytes,
-        max_chars=ceiling,
-        timeout_seconds=limits.timeout_seconds,
-    )
+    return replace(limits, max_chars=ceiling)
 
 
 def _extract_raw(
@@ -182,12 +178,13 @@ def _extract_pdf(data: bytes, *, name: str, limits: ExtractionLimits) -> Extract
             "pip install 'nonprofit-agent-harness[documents]'"
         ) from exc
 
+    # Started before parsing, so a costly cross-reference table or page tree counts.
+    deadline = _Deadline(limits.timeout_seconds, name)
     reader = PdfReader(io.BytesIO(data))
     if reader.is_encrypted:
         raise DocumentError(f"{name!r} is an encrypted PDF. Remove the password and upload again")
 
     total = len(reader.pages)
-    deadline = _Deadline(limits.timeout_seconds, name)
     parts: list[str] = []
     length = 0
     truncated_by = ""

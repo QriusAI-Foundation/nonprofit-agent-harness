@@ -89,7 +89,7 @@ class ReadinessScore:
         if self.status == INCOMPLETE:
             return (
                 "Incomplete: no overall score or tier is issued until every dimension has "
-                "at least one scored answer. Dimensions with no scored answer: "
+                "at least one scored answer that carries weight. Missing: "
                 + ", ".join(self.missing_dimensions)
             )
         if self.status == PARTIAL:
