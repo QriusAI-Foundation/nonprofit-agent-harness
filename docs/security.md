@@ -112,9 +112,14 @@ processing personal data.
 
 ### Uploads
 
-Individual uploads are capped at 20MB. The number of uploads is not capped, and files
-are not scanned for malware. Extraction parses untrusted PDF and DOCX input with
-third-party libraries, so treat a public upload endpoint as a real attack surface.
+Individual uploads are capped at 20MB by default, and extraction has its own ceilings
+on PDF pages, unzipped DOCX size, extracted characters, and PDF reading time (see
+[Data handling](configuration.md#data-handling)). These bound the work one file can
+cause; they do not make the parsers safe. The number of uploads is not capped, and
+files are not scanned for malware. The web framework writes an upload to a temporary
+file before the size check runs, so a proxy or platform request limit is still needed.
+Extraction parses untrusted PDF and DOCX input with third-party libraries, so treat a
+public upload endpoint as a real attack surface.
 
 ### Multi-tenancy
 

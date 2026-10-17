@@ -1,5 +1,12 @@
 from __future__ import annotations
 
+import asyncio
+
+import pytest
+
+from nonprofit_harness.api.routes.runs import _read_capped
+from nonprofit_harness.documents import DocumentTooLarge, ExtractionLimits
+
 
 def test_healthz_reports_what_is_wired_up(client):
     body = client.get("/healthz").json()
@@ -140,3 +147,95 @@ def test_me_reports_an_anonymous_caller_when_auth_is_off(client):
 
     assert body["anonymous"] is True
     assert body["org_id"] == "org_default"
+
+
+def test_an_incomplete_readiness_submission_has_no_tier_over_http(client):
+    scored = client.post(
+        "/v1/readiness/score", json={"answers": {"d1": "integrated_system"}}
+    ).json()
+
+    assert scored["status"] == "incomplete"
+    assert scored["overall"] is None
+    assert scored["tier"] == ""
+    assert scored["missing_dimensions"] == ["People & Skills"]
+
+
+def test_an_oversized_upload_is_refused_and_leaves_no_blob_and_no_run(client, config, stores):
+    config.max_upload_bytes = 1024
+
+    response = client.post("/v1/uploads", files={"file": ("big.txt", b"x" * 4096, "text/plain")})
+
+    assert response.status_code == 413
+    assert response.json()["code"] == "document_too_large"
+    assert "upload limit" in response.json()["error"]
+    assert stores.blobs.list(org_id="org_default") == []
+    assert stores.runs.list() == []
+
+
+def test_an_oversized_upload_is_refused_before_it_is_retained():
+    class Stream:
+        """An upload whose size the client did not declare, read chunk by chunk."""
+
+        filename = "stream.bin"
+        size = None
+
+        def __init__(self, chunks: int, chunk_size: int) -> None:
+            self.remaining = chunks
+            self.chunk_size = chunk_size
+            self.reads = 0
+
+        async def read(self, size: int = -1) -> bytes:
+            if not self.remaining:
+                return b""
+            self.remaining -= 1
+            self.reads += 1
+            return b"x" * self.chunk_size
+
+    stream = Stream(chunks=100, chunk_size=1024)
+    with pytest.raises(DocumentTooLarge):
+        asyncio.run(_read_capped(stream, ExtractionLimits(max_bytes=4096)))
+
+    # Refused on the fifth chunk, not after reading all hundred.
+    assert stream.reads == 5
+
+
+def test_a_declared_size_over_the_limit_is_refused_without_reading():
+    class Declared:
+        filename = "declared.bin"
+        size = 10_000
+
+        async def read(self, size: int = -1) -> bytes:
+            raise AssertionError("read before the declared size was checked")
+
+    with pytest.raises(DocumentTooLarge):
+        asyncio.run(_read_capped(Declared(), ExtractionLimits(max_bytes=4096)))
+
+
+def test_a_corrupt_upload_is_a_controlled_error_and_leaves_no_blob(client, stores):
+    response = client.post(
+        "/v1/uploads",
+        files={"file": ("broken.pdf", b"%PDF-1.4\nnot a pdf", "application/pdf")},
+    )
+
+    assert response.status_code == 400
+    assert response.json()["code"] == "invalid_document"
+    assert stores.blobs.list(org_id="org_default") == []
+
+
+def test_a_stored_file_that_fails_extraction_starts_no_run(client, stores):
+    # A blob stored before a limit was lowered, or by another path, must still not
+    # leave a run behind when it cannot be read.
+    blob = stores.blobs.put(
+        org_id="org_default",
+        name="broken.pdf",
+        data=b"%PDF-1.4\nnot a pdf",
+        media_type="application/pdf",
+    )
+
+    response = client.post(
+        "/v1/runs", json={"agent": "note", "inputs": [{"blob_id": blob.id}], "sync": True}
+    )
+
+    assert response.status_code == 400
+    assert response.json()["code"] == "invalid_document"
+    assert stores.runs.list() == []

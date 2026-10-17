@@ -13,7 +13,11 @@ from nonprofit_harness.readiness.instrument import (
     example_instrument,
 )
 from nonprofit_harness.readiness.scoring import (
+    COMPLETE,
+    INCOMPLETE,
+    PARTIAL,
     ZERO_FLOOR,
+    DimensionCoverage,
     QuestionScore,
     ReadinessScore,
     score,
@@ -21,7 +25,11 @@ from nonprofit_harness.readiness.scoring import (
 )
 
 __all__ = [
+    "COMPLETE",
+    "INCOMPLETE",
+    "PARTIAL",
     "ZERO_FLOOR",
+    "DimensionCoverage",
     "Instrument",
     "Option",
     "Question",
