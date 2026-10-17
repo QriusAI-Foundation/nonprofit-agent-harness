@@ -158,7 +158,8 @@ Before a URL goes to anyone outside your team:
 - [ ] A request to `GET /v1/runs/{run_id}` with no token returns 401
 - [ ] A cost ceiling set, and pricing configured so it means something
 - [ ] Quota and rate limiting in front of the service
-- [ ] `GET /v1/admin/config` returns an empty `warnings` array
+- [ ] `GET /v1/admin/config` returns an empty `warnings` array, or only the open
+      default org warning, for a deployment that serves one organisation
 - [ ] Firestore composite index created
 - [ ] Billing alerts configured, understanding that they alert rather than stop
 - [ ] `.env` is not committed anywhere

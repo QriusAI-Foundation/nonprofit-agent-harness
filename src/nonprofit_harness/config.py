@@ -111,6 +111,11 @@ class HarnessConfig:
             problems.append("HARNESS_AUTH_REQUIRED is on but HARNESS_GOOGLE_CLIENT_ID is unset")
         if self.auth_required and not self.jwt_secret:
             problems.append("HARNESS_AUTH_REQUIRED is on but HARNESS_JWT_SECRET is unset")
+        if self.auth_required and self.default_org:
+            problems.append(
+                f"HARNESS_DEFAULT_ORG={self.default_org}: any verified Google account can sign "
+                "in and join it. Set HARNESS_DEFAULT_ORG= (empty) to allow only enrolled users"
+            )
         if self.storage in {"gcp", "firestore", "google"} and not self.documents_bucket:
             problems.append("HARNESS_STORAGE is gcp but HARNESS_DOCUMENTS_BUCKET is unset")
         if self.max_cost_usd is None and self.max_tokens is None and self.max_calls is None:

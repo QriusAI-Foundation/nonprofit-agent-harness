@@ -63,6 +63,15 @@ def test_validate_warns_about_half_configured_auth():
     assert any("JWT_SECRET" in p for p in problems)
 
 
+def test_validate_warns_that_an_open_default_org_admits_any_google_account():
+    def warned(config):
+        return any("HARNESS_DEFAULT_ORG=" in p for p in config.validate())
+
+    assert warned(HarnessConfig(auth_required=True)) is True
+    assert warned(HarnessConfig(auth_required=False)) is False
+    assert warned(HarnessConfig(auth_required=True, default_org="")) is False
+
+
 def test_validate_warns_when_gcp_storage_has_no_bucket():
     config = HarnessConfig(storage="gcp", documents_bucket=None)
 
