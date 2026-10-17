@@ -524,17 +524,30 @@ Honest about where this is:
 **Works and is tested.** The agent contract, review gate, claim verification, budget
 ceilings, the results and indicator arithmetic, the readiness engine, the IATI data
 source, eight model providers, document extraction, in-memory and GCP storage, auth,
-the HTTP API, and the CLI. **303 tests**, all offline, on Python 3.11 through 3.13.
+the HTTP API, and the CLI. **536 tests**, all offline, on Python 3.11 through 3.13.
+
+**Audited.** An independent source review of 0.3.0 (September 2026) reported thirteen
+findings: unauthenticated output routes, membership not enforced, agent-supplied
+approval state, non-atomic reviews, citation matching that accepted altered quotes,
+inflatable readiness scores, results arithmetic across scopes, startup-only recovery,
+unbounded extraction, and a budget ceiling that overstated its protection. All thirteen
+are closed in 0.4.0; the [changelog](CHANGELOG.md) names each fix. The reviewer's
+caution still stands: these are source-level guarantees with offline tests behind them,
+not a pilot with a partner organisation's data.
+
+**Seen running.** [docs/showcase.md](docs/showcase.md) records 183 real runs against
+Claude models on 2026-10-17, with every token, cost, and citation outcome written by the
+harness itself, and a 3,966-item test set for the citation check.
 
 **Known gaps.** Per-run ceilings bound a single run rather than a total, so a
 deployment open to the public needs quota and rate limiting on top. Runs still execute
-in-process, and although a stranded run is now failed at startup, high volumes want a
-real queue.
+in-process with a lease and a periodic recovery pass; high volumes want a real queue.
+Firestore transactions and pagination are tested against a fake client, not a real
+Firestore. A queued run that never started is not recovered. PDF line-break hyphens can
+make a correct quote look altered.
 
-**Not started.** Reading an activity's published XML, which is what would make IATI
-disaggregated values and result grouping recoverable at all. An evaluation harness.
-Logframe and theory of change structures, which are mostly narrative and so offer
-little for code to check.
+**Not started.** An evaluation harness beyond the citation corpus. Logframe and theory
+of change structures, which are mostly narrative and so offer little for code to check.
 
 ## Contributing
 

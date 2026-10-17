@@ -9,6 +9,124 @@ Pin an exact version if you depend on them.
 
 ## [Unreleased]
 
+## [0.4.0]
+
+An independent source audit of 0.3.0 (2026-09-30, commit f8c25de) reported thirteen
+findings. This release closes all thirteen, and adds the first recorded runs of the
+harness against real models: outputs, receipts, and a labelled test set, in `showcase/`.
+
+### Security
+
+- **Output routes require a login when auth is on.** `GET /v1/runs/{id}` and
+  `GET /v1/review/{id}/released` went without `get_principal`, so a known run id was
+  enough to read output. Every lookup by id now goes through one membership rule
+  (`can_access`), with `authorized_run` and `authorized_blob` dependencies. Another
+  organisation's run, blob, or review answers 404, the same as a missing one. (F01, F02)
+- **Membership is a server-side record.** Sign-in no longer takes an organisation from
+  the request body; a body `org_id` that differs from the record gets 403. A first
+  sign-in joins `HARNESS_DEFAULT_ORG` (default `org_default`; set it empty to admit only
+  enrolled users). Admins enrol people through `PUT /v1/admin/members/{email}`, and
+  admin status comes from `HARNESS_ADMIN_EMAILS` on every request, never from a token
+  claim. A membership change reaches a session at its next sign-in. (F02)
+- **The harness owns review state.** Decision state that arrives with an agent's
+  result is discarded on the way in; an artifact supplied as approved is not approved.
+  Release requires a coherent, attributed review record, and a failed verification
+  still blocks automatic release. Reviewer names starting with `system:` are
+  reserved. (F03)
+- **Uploads are bounded before they are read whole.** An upload is refused in flight
+  past `HARNESS_MAX_UPLOAD_BYTES` (20 MB, HTTP 413). Extraction stops at
+  `HARNESS_MAX_PDF_PAGES` (300, marked as truncated), `HARNESS_MAX_DOCX_EXPANDED_BYTES`
+  (50 MB, checked from the zip directory before any member is read),
+  `HARNESS_MAX_DOCUMENT_CHARS` (2,000,000) and `HARNESS_EXTRACT_TIMEOUT_SECONDS` (120).
+  A malformed document is a controlled error, and a refused upload leaves no blob. (F13)
+
+### Fixed
+
+- **Review decisions are atomic.** `Run` carries a `version`; `RunStore.save` is
+  compare-and-set and raises `StaleRun` (409) on a stale copy; `RunStore.update` applies
+  a change under a lock in memory and a transaction in Firestore. Two reviewers can no
+  longer overwrite each other. The same decision by the same reviewer again is a no-op
+  that keeps the original attribution; a different decision on a decided artifact is a
+  `ReviewConflict` (409) that names who decided first. (F06)
+- **Citation matching no longer accepts altered quotes.** Exact matches are on word
+  boundaries, so "reached 5" is not found inside "reached 50". Approximate matches
+  follow bounded rules (punctuation, a dropped or added article, a few interchangeable
+  function words) and are refused when a number, a negation, or the word order changes.
+  A quote that resembles the source but falls outside those rules is held for a person
+  as `citation_uncertain`. The cross-check allows 1,024 output tokens per vote and reads
+  the vote from prose. On a 3,966-item labelled corpus the share of altered quotes
+  rejected went from 35.8% to 100%. (F07)
+- **Completed work survives a verification failure.** Finished artifacts and usage are
+  stored before claim verification runs. Any failure during verification marks the
+  unreached artifacts as stopped short, with the reason, and holds the run for review;
+  a run no longer stays `running` with nothing saved. (F05)
+- **Interrupted runs are recovered on a schedule, with leases.** A worker records a
+  lease on the run it executes and renews it; recovery runs at startup and every
+  `HARNESS_REAP_INTERVAL_SECONDS`, pages through every running run, and resolves only
+  those whose lease lapsed, so another worker's live job is never failed. A run that
+  died during verification goes to review with its work; one that died while
+  generating is failed as abandoned. Completed work that lands after an abandonment mark
+  is kept. Counts are in the admin effective-config response. (F12)
+- **Results arithmetic respects scope.** A measurement's scope is its dimensions and its
+  location; a figure for one district is no longer the programme's total, totals are
+  chosen by scope and never by input order, and two disagreeing totals are refused. A
+  baseline for a different population is refused with the mismatch named. (F09, F10)
+- **Nominal, ordinal, and unknown measures permit no ratios.** `Measure.UNKNOWN` records
+  a code the parser does not know instead of assuming a count; nominal and ordinal values
+  get no achievement percentage and are never summed. New `NotCalculable` reasons:
+  `NO_TOTAL`, `CONFLICTING_TOTALS`, `BASELINE_SCOPE_MISMATCH`, `NOMINAL_LABELS`,
+  `ORDINAL_SCALE`, `UNKNOWN_MEASURE`, with `Achievement.detail` saying which figures
+  were involved. (F11)
+- **Readiness scores cannot be inflated.** Repeated multi-select values count once and
+  are reported as dropped. An overall score and tier are issued only when every
+  dimension has a scored answer; otherwise the result is `incomplete`, with `overall`
+  null and no tier. `partial` means every dimension is covered but some questions are
+  blank. Coverage per dimension, and the distinction between excluded and unanswered,
+  are in the result. (F08)
+- **Budget ceilings mean what they say.** `BudgetedProvider` runs three named steps:
+  `admit` (the call check), `reserve` (an estimate of the input, the output limit
+  lowered to the tokens and dollars left, refusal when nothing is left), and `record`
+  (add-then-check, unchanged). A response cut off at a budget-lowered limit stops the
+  run as incomplete. Unknown cost is not zero: `Usage` counts `unpriced_calls` and names
+  `unpriced_models`, the CLI prints `cost: unknown (no price for ...)`, and a dollar
+  ceiling refuses an unpriced model before dispatch. `HARNESS_PRICES=model=in/out,...`
+  supplies rates from the environment; there is still no built-in rate table. A failed
+  call banks the usage it was billed for. (F04)
+- **The Anthropic adapter works with the Claude 5.x models.** Default
+  `claude-haiku-5-5`; no sampling parameters are sent (the 5.x models reject them);
+  `HARNESS_MODEL` and `ANTHROPIC_EFFORT` are honoured; a refusal raises `ProviderError`
+  with its category and billed usage; JSON schemas go through structured outputs.
+
+### Added
+
+- **A showcase of real runs** (`showcase/`, `docs/showcase.md`): three example agents
+  (`board_brief`, `funder_report`, `results_narrative`) over six openly licensed
+  documents and three IATI activities on Haiku 5.5, Sonnet 5.5, Opus 5.5, and
+  Fable 5.1, with tokens, cost, and citation outcomes per run; a cross-model quorum; the
+  budget ceilings tripped on purpose; the audit's verification table; and a CC0
+  quotation-integrity corpus of 3,966 items with `scripts/quotation_eval.py`.
+- `RunOut.metadata`, `Run.version`, `RunStore.update`, `Verdict.label` and
+  `Verdict.support_checked`, `Usage.describe_cost()`, `Measure.UNKNOWN`, `Scope`,
+  readiness `status` and `coverage`, `ExtractionLimits`, `core/lease.py`.
+
+### Breaking changes
+
+- A sign-in body `org_id` that differs from the user's record gets 403; with auth on,
+  the two output routes need a token, and other organisations' objects answer 404.
+- A custom `RunStore` must implement `update()`; `save()` must honour `version`.
+- `PriceBook.cost()` returns `None` for an unknown model; `UsageOut.cost_usd` is
+  nullable, with `priced_cost_usd` beside it.
+- `Measure.from_code` maps unknown codes to `UNKNOWN`, not `UNIT`; nominal and ordinal
+  indicators get no percentage; a location-only figure is no longer a total.
+- Readiness results can have `overall` null and `tier` empty.
+- Verification: new outcome `citation_uncertain`; `verified` now carries
+  `support_checked=false` and the label "resolved (support not checked)" unless the
+  cross-check ran.
+- A `ReviewGate` subclass overriding `submit` or `auto_release` is bypassed for runner
+  results; the runner calls the module functions those methods use.
+- Oversized uploads answer 413, not 400.
+- The Anthropic adapter ignores `temperature`.
+
 ## [0.3.0]
 
 Everything the IATI thread was blocked on. Results now come back grouped under their
